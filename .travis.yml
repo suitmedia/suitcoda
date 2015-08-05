@@ -69,6 +69,9 @@ before_script:
   - if [[ $DB = 'mysql' ]]; then mysql -e 'CREATE DATABASE suitcoda_test;'; fi
   - if [[ $DB = 'pgsql' ]]; then psql -c 'CREATE DATABASE suitcoda_test;' -U postgres; fi
 
+  - if [[ $COVERALLS = '1' ]]; then composer require --dev satooshi/php-coveralls:dev-master; fi
+  - if [[ $COVERALLS = '1' ]]; then mkdir -p build/logs; fi
+
   - phpenv rehash
   - set +H
 
@@ -76,6 +79,8 @@ before_script:
 script:
   - if [[ $DEFAULT = '1' ]]; then vendor/bin/phpunit; fi
   - if [[ $PHPCS = '1' ]]; then vendor/bin/phpcs -p --extensions=php --standard=PSR2 ./app ./tests; fi
+
+  - if [[ $COVERALLS = '1' ]]; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml; fi
 
 
 after_script:
