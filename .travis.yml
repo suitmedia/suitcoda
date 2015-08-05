@@ -1,0 +1,87 @@
+language: php
+
+
+sudo: false
+
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+
+
+sudo: false
+
+
+env:
+  matrix:
+    - DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
+    - DB=pgsql db_dsn='postgres://postgres@127.0.0.1/suitcoda_test'
+  global:
+    - DEFAULT=1
+    - SETUP=BASIC
+
+
+matrix:
+  fast_finish: true
+
+  include:
+    - php: 5.5
+      env: SETUP=STABLE DEFAULT=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
+
+    - php: 5.5
+      env: SETUP=LOWEST DEFAULT=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
+
+    - php: 5.6
+      env: SETUP=STABLE DEFAULT=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
+
+    - php: 5.6
+      env: SETUP=LOWEST DEFAULT=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
+
+    - php: 5.5.9
+      env: COVERALLS=1
+
+    - php: 7.0
+      env: PHPCS=1
+
+    - php: hhvm
+      env: HHVM=1 DB=pgsql db_dsn='postgres://postgres@127.0.0.1/suitcoda_test'
+
+    - php: hhvm
+      env: HHVM=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
+
+  allow_failures:
+    - env: COVERALLS=1
+    - php: hhvm
+
+
+before_script:
+  - cp .env.example .env
+  - composer self-update
+
+  - if [[ $SETUP != 'BASIC' ]]; then git config --global core.filemode false; fi
+  - travis_retry composer install --no-interaction --prefer-source
+  - if [[ $SETUP = 'STABLE' ]]; then travis_retry composer update --prefer-source --no-interaction --prefer-stable; fi
+  - if [[ $SETUP = 'LOWEST' ]]; then travis_retry composer update --prefer-source --no-interaction --prefer-lowest --prefer-stable; fi
+
+  - php artisan key:generate
+
+  - if [[ $DB = 'mysql' ]]; then mysql -e 'CREATE DATABASE suitcoda_test;'; fi
+  - if [[ $DB = 'pgsql' ]]; then psql -c 'CREATE DATABASE suitcoda_test;' -U postgres; fi
+
+  - phpenv rehash
+  - set +H
+
+
+script:
+  - if [[ $DEFAULT = '1' ]]; then vendor/bin/phpunit; fi
+  - if [[ $PHPCS = '1' ]]; then vendor/bin/phpcs -p --extensions=php --standard=PSR2 ./app ./tests; fi
+
+
+after_script:
+  - if [[ $COVERALLS = '1' ]]; then bash <(curl -s https://codecov.io/bash); fi
+
+
+notifications:
+  email: false
+
