@@ -1,5 +1,5 @@
 suites:
     main:
-        namespace: App
-        psr4_prefix: App
+        namespace: Suitcoda
+        psr4_prefix: Suitcoda
         src_path: app

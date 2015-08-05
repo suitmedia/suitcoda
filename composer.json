@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "suitmedia/suitcoda",
+    "description": "An automated tool, which you to measure your website's quality.",
+    "keywords": ["application", "laravel"],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -12,20 +12,16 @@
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~4.0",
-        "phpspec/phpspec": "~2.1"
+        "squizlabs/php_codesniffer": "^2.3.1"
     },
     "autoload": {
         "classmap": [
             "database"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "Suitcoda\\": "app/",
+            "SuitTests\\": "tests/"
         }
-    },
-    "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
     },
     "scripts": {
         "post-install-cmd": [

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace Suitcoda\Jobs;
 
 use Illuminate\Bus\Queueable;
 

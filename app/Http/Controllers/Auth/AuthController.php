@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Suitcoda\Http\Controllers\Auth;
 
-use App\User;
+use Suitcoda\User;
 use Validator;
-use App\Http\Controllers\Controller;
+use Suitcoda\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 

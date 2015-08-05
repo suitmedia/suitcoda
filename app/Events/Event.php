@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace Suitcoda\Events;
 
 abstract class Event
 {
