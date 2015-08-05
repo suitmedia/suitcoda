@@ -1,0 +1,6 @@
+# Codeclimate settings
+languages:
+  PHP: true
+
+exclude_paths:
+  - "database/migrations/*.php"
