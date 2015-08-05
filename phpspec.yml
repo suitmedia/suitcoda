@@ -1,5 +1,0 @@
-suites:
-    main:
-        namespace: Suitcoda
-        psr4_prefix: Suitcoda
-        src_path: app

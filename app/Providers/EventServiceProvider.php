@@ -13,16 +13,12 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Suitcoda\Events\SomeEvent' => [
-            'Suitcoda\Listeners\EventListener',
-        ],
     ];
 
     /**
      * Register any other events for your application.
      *
      * @param  \Illuminate\Contracts\Events\Dispatcher  $events
-     * @return void
      */
     public function boot(DispatcherContract $events)
     {
