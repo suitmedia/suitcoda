@@ -15,6 +15,9 @@
             <li>
                 <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
+            <li>
+                <a href="{{ route('group.index') }}"><i class="fa fa-dashboard fa-fw"></i> Group</a>
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->
