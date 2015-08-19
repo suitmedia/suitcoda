@@ -26,19 +26,20 @@ class GroupRequest extends Request
     {
         $this->sanitize();
 
-        // dd($this->);
         return [
             'name' => 'required',
             'slug' => 'alpha_dash|unique:roles,slug,' . $this->id,
         ];
     }
 
-    public function sanitize()
+    protected function sanitize()
     {
         $input = $this->all();
 
-        $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
-        $input['slug'] = filter_var($input['slug'], FILTER_SANITIZE_STRING);
+        if (!empty($input)) {
+            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
+            $input['slug'] = filter_var($input['slug'], FILTER_SANITIZE_STRING);
+        }
 
         $this->replace($input);
     }

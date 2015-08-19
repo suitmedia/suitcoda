@@ -25,7 +25,6 @@ class GroupController extends Controller
     public function index()
     {
         $models = $this->models->all();
-        // dd(view('temp_layouts.group_index', compact('models')));
 
         return view('temp_layouts.group_index', compact('models'));
     }
@@ -49,12 +48,8 @@ class GroupController extends Controller
      */
     public function store(GroupRequest $request)
     {
-
-        // dd(redirect()->route('group.index'));
-
         $model = $this->models->newInstance();
         $model->fill($request->all());
-        // dd($request->all());
         $model->save();
 
         return redirect()->route('group.index');
@@ -69,7 +64,6 @@ class GroupController extends Controller
     public function edit($key)
     {
         $model = $this->find($key);
-        // dd($model);
 
         return view('temp_layouts.group_edit', compact('model'));
     }
@@ -84,7 +78,6 @@ class GroupController extends Controller
     public function update(GroupRequest $request, $key)
     {
         $model = $this->find($key);
-        // dd($model);
 
         $model->fill($request->all());
         $model->save();
