@@ -21,7 +21,9 @@
     <link href="{{ asset('assets/css/timeline.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
+    @section('custom-css')
+        <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
+    @show
 
     <!-- Custom Fonts -->
     <link href="{{ asset('assets/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
@@ -104,7 +106,9 @@
     <script src="{{ asset('assets/js/metisMenu.min.js') }}"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="{{ asset('assets/js/sb-admin-2.js') }}"></script>
+    @section('custom-js')
+        <script src="{{ asset('assets/js/sb-admin-2.js') }}"></script>
+    @show
 
 </body>
 
