@@ -83,16 +83,6 @@ class GroupControllerTest extends TestCase
         $this->assertInstanceOf('Illuminate\View\View', $result);
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     *
-     */
-    public function testEditExpectNotFoundHttpException()
-    {
-        $group = new GroupController($this->model);
-        $result =  $group->edit(1);
-    }
-
     public function testUpdateSuccessReturn()
     {
         $input = array('name' => '2', 'slug' => '2');
