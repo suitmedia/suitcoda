@@ -137,6 +137,9 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
+        Illuminate\Html\HtmlServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Wicochandra\Captcha\CaptchaServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -195,6 +198,9 @@ return [
         'Activation'=> Cartalyst\Sentinel\Laravel\Facades\Activation::class,
         'Reminder'  => Cartalyst\Sentinel\Laravel\Facades\Reminder::class,
         'Sentinel'  => Cartalyst\Sentinel\Laravel\Facades\Sentinel::class,
+        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+        'Form'      => Illuminate\Html\FormFacade::class,
+        'HTML'      => Illuminate\Html\HtmlFacade::class,
 
     ],
 
