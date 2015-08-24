@@ -3,7 +3,6 @@
 namespace Suitcoda\Http\Requests;
 
 use Suitcoda\Http\Requests\Request;
-use Suitcoda\Model\Group;
 
 class GroupRequest extends Request
 {
@@ -20,6 +19,7 @@ class GroupRequest extends Request
     /**
      * Get the validation rules that apply to the request.
      *
+     * @property int $id
      * @return array
      */
     public function rules()
@@ -32,13 +32,17 @@ class GroupRequest extends Request
         ];
     }
 
+    /**
+     * Get input that has been sanitize
+     * @return array
+     */
     protected function sanitize()
     {
         $input = $this->all();
 
         if (!empty($input)) {
-            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
-            $input['slug'] = filter_var($input['slug'], FILTER_SANITIZE_STRING);
+            $input[ 'name' ] = filter_var($input[ 'name' ], FILTER_SANITIZE_STRING);
+            $input[ 'slug' ] = filter_var($input[ 'slug' ], FILTER_SANITIZE_STRING);
         }
 
         $this->replace($input);

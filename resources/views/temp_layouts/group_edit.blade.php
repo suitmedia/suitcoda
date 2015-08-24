@@ -5,7 +5,7 @@
 @stop
 
 @section('form-heading')
-    Group Eddit @parent
+    Group Edit @parent
 @stop
 
 @section('form-body')

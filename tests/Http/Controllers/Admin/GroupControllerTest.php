@@ -7,14 +7,21 @@ use SuitTests\TestCase;
 use Suitcoda\Http\Controllers\Admin\GroupController;
 use Suitcoda\Model\Group as Model;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 class GroupControllerTest extends TestCase
 {
+    use DatabaseTransactions;
+
     protected $model;
+
+    protected $roles;
 
     public function setUp()
     {
         parent::setUp();
         $this->model = Mockery::mock('Suitcoda\Model\Group');
+        $this->roles = factory(Model::class)->create();
     }
 
     public function tearDown()
@@ -24,37 +31,41 @@ class GroupControllerTest extends TestCase
 
     public function testIndexGetSuccessResponse()
     {
-        $this->route('GET', 'group.index');
+        $this->visit('group')
+             ->see($this->roles->name);
         $this->assertResponseOk();
-    }
-
-    public function testIndexSuccessReturn()
-    {
+    
         $this->model->shouldReceive('all')->once();
-
         $group = new GroupController($this->model);
 
         $result = $group->index();
         $this->assertInstanceOf('Illuminate\View\View', $result);
+        $this->assertViewHas('models');
     }
 
     public function testCreateGetSuccessResponse()
     {
-        $this->route('GET', 'group.create');
+        $this->visit('group/create')
+             ->see('Group Create');
         $this->assertResponseOk();
-    }
-
-    public function testCreateGetSuccessReturn()
-    {
+    
         $group = new GroupController($this->model);
 
         $result = $group->create();
         $this->assertInstanceOf('Illuminate\View\View', $result);
+        $this->assertViewHas('model');
     }
 
-    public function testStoreSuccessReturn()
+    public function testStoreSuccessResponse()
     {
-        $input = array('name' => 'asd', 'slug' => 'asd');
+        $input = ['name' => 'foo', 'slug' => 'foo'];
+
+        $this->visit('group/create')
+             ->type('Foo bar', 'name')
+             ->press('Submit Button')
+             ->seePageIs('group');
+        $this->assertResponseOk();
+
         $request = Mockery::mock('Suitcoda\Http\Requests\GroupRequest');
         $request->shouldReceive('all')->once()->andReturn($input);
 
@@ -68,14 +79,12 @@ class GroupControllerTest extends TestCase
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $result);
     }
 
-    public function testStoreFailsResponse()
+    public function testEditSuccessResponse()
     {
-        $response = $this->route('POST', 'group.store');
-        $this->assertEquals(500, $response->getStatusCode());
-    }
+        $this->visit('group/'. $this->roles->slug . '/edit')
+             ->see('Group Edit');
+        $this->assertResponseOk();
 
-    public function testEditSuccessReturn()
-    {
         $group = new GroupController($this->model);
         \Sentinel::shouldReceive('findRoleBySlug')->with(1)->andReturn($this->model);
         $result =  $group->edit(1);
@@ -83,19 +92,14 @@ class GroupControllerTest extends TestCase
         $this->assertInstanceOf('Illuminate\View\View', $result);
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     *
-     */
-    public function testEditExpectNotFoundHttpException()
+    public function testUpdateSuccessResponse()
     {
-        $group = new GroupController($this->model);
-        $result =  $group->edit(1);
-    }
-
-    public function testUpdateSuccessReturn()
-    {
-        $input = array('name' => '2', 'slug' => '2');
+        $input = ['name' => 'Bar', 'slug' => 'bar'];
+        $this->visit('group/'. $this->roles->slug . '/edit')
+             ->type('Foo bar', 'name')
+             ->press('Submit Button')
+             ->seePageIs('group');
+        $this->assertResponseOk();
 
         $request = Mockery::mock('Suitcoda\Http\Requests\GroupRequest');
         $request->shouldReceive('all')->once()->andReturn($input);
@@ -112,8 +116,13 @@ class GroupControllerTest extends TestCase
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $result);
     }
 
-    public function testDeleteSuccessReturn()
+    public function testDeleteSuccessResponse()
     {
+        $this->visit('group')
+             ->press('Delete')
+             ->seePageIs('group');
+        $this->assertResponseOk();
+
         $group = new GroupController($this->model);
 
         \Sentinel::shouldReceive('findRoleBySlug')->with(1)->andReturn($this->model);
@@ -122,5 +131,16 @@ class GroupControllerTest extends TestCase
         $result =  $group->destroy(1);
 
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $result);
+    }
+
+    /**
+     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     */
+    public function testNotFoundSlug()
+    {
+        $group = new GroupController($this->model);
+        \Sentinel::shouldReceive('findRoleBySlug')->with(1)->andReturn(null);
+        $result =  $group->edit(1);
     }
 }

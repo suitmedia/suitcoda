@@ -3,14 +3,22 @@
 namespace Suitcoda\Model;
 
 use Cartalyst\Sentinel\Roles\EloquentRole as Model;
-use Suitcoda\Model\Extension\SluggableTrait;
+use Cviebrock\EloquentSluggable\SluggableInterface;
+use Cviebrock\EloquentSluggable\SluggableTrait;
 
-class Group extends Model
+class Group extends Model implements SluggableInterface
 {
     use SluggableTrait;
 
-    protected $slug_with = 'name';
+    protected $sluggable = [
+        'build_from' => 'name',
+        'save_to' => 'slug',
+    ];
 
+    /**
+     * Return wildcard in route with slug
+     * @return string
+     */
     public function getRouteKey()
     {
         return $this->slug;

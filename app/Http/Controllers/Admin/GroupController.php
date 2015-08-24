@@ -3,7 +3,6 @@
 namespace Suitcoda\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
 use Suitcoda\Http\Requests\GroupRequest;
 use Suitcoda\Model\Group as Model;
 use Suitcoda\Http\Controllers\Controller;
@@ -20,7 +19,7 @@ class GroupController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -32,7 +31,7 @@ class GroupController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -44,7 +43,7 @@ class GroupController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(GroupRequest $request)
     {
@@ -58,8 +57,8 @@ class GroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  string  $slug
-     * @return Response
+     * @param  string  $key
+     * @return \Illuminate\View\View
      */
     public function edit($key)
     {
@@ -72,8 +71,8 @@ class GroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param  string  $slug
-     * @return Response
+     * @param  string  $key
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(GroupRequest $request, $key)
     {
@@ -88,8 +87,8 @@ class GroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  string  $slug
-     * @return Response
+     * @param  string  $key
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($key)
     {
@@ -102,7 +101,9 @@ class GroupController extends Controller
     /**
      * Find operation
      * @param  string $key
-     * @return void
+     * @return Suitcoda\Model\Group
+     *
+     * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     protected function find($key)
     {
