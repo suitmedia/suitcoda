@@ -137,8 +137,9 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
         Illuminate\Html\HtmlServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Wicochandra\Captcha\CaptchaServiceProvider::class,
 
         /*
          * Application Service Providers...
