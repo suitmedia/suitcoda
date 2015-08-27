@@ -10,3 +10,10 @@
 | database. Just tell the factory how a default model should look.
 |
 */
+
+$factory->define(Suitcoda\Model\Group::class, function ($faker) {
+    return [
+        'name' => $faker->name,
+        'slug' => $faker->slug
+    ];
+});

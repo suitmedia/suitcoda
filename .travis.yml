@@ -15,11 +15,15 @@ sudo: false
 
 env:
   matrix:
-    - DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
-    - DB=pgsql db_dsn='postgres://postgres@127.0.0.1/suitcoda_test'
+    - DB_CONNECTION=mysql DB_DATABASE=suitcoda_test DB_HOST=127.0.0.1 DB_USERNAME=travis
+    - DB_CONNECTION=pgsql DB_DATABASE=suitcoda_test DB_HOST=127.0.0.1 DB_USERNAME=travis
   global:
     - DEFAULT=1
     - SETUP=BASIC
+    - DB_CONNECTION=mysql
+    - DB_DATABASE=suitcoda_test
+    - DB_HOST=127.0.0.1
+    - DB_USERNAME=travis
 
 
 matrix:
@@ -27,16 +31,16 @@ matrix:
 
   include:
     - php: 5.5
-      env: SETUP=STABLE DEFAULT=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
+      env: SETUP=STABLE
 
     - php: 5.5
-      env: SETUP=LOWEST DEFAULT=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
+      env: SETUP=LOWEST
 
     - php: 5.6
-      env: SETUP=STABLE DEFAULT=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
+      env: SETUP=STABLE
 
     - php: 5.6
-      env: SETUP=LOWEST DEFAULT=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
+      env: SETUP=LOWEST
 
     - php: 5.5.9
       env: COVERALLS=1
@@ -45,10 +49,10 @@ matrix:
       env: PHPCS=1
 
     - php: hhvm
-      env: HHVM=1 DB=pgsql db_dsn='postgres://postgres@127.0.0.1/suitcoda_test'
+      env: HHVM=1 DB_CONNECTION=pgsql DB_DATABASE=suitcoda_test DB_HOST=127.0.0.1 DB_USERNAME=travis
 
     - php: hhvm
-      env: HHVM=1 DB=mysql db_dsn='mysql://travis@0.0.0.0/suitcoda_test'
+      env: HHVM=1
 
   allow_failures:
     - env: COVERALLS=1
@@ -56,7 +60,7 @@ matrix:
 
 
 before_script:
-  - cp .env.example .env
+  - cp .env.travis .env
   - composer self-update
 
   - if [[ $SETUP != 'BASIC' ]]; then git config --global core.filemode false; fi
@@ -66,10 +70,12 @@ before_script:
 
   - php artisan key:generate
 
-  - if [[ $DB = 'mysql' ]]; then mysql -e 'CREATE DATABASE suitcoda_test;'; fi
-  - if [[ $DB = 'pgsql' ]]; then psql -c 'CREATE DATABASE suitcoda_test;' -U postgres; fi
+  - if [[ $DB_CONNECTION = 'mysql' ]]; then mysql -e 'CREATE DATABASE suitcoda_test;'; fi
+  - if [[ $DB_CONNECTION = 'pgsql' ]]; then psql -c 'CREATE DATABASE suitcoda_test;' -U postgres; fi
 
   - if [[ $COVERALLS = '1' ]]; then mkdir -p build/logs; fi
+
+  - php artisan migrate
 
   - phpenv rehash
   - set +H
