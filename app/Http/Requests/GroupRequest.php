@@ -24,12 +24,16 @@ class GroupRequest extends Request
      */
     public function rules()
     {
-        $this->sanitize();
 
-        return [
+        $rules = [
             'name' => 'required',
-            'slug' => 'alpha_dash|unique:roles,slug,' . $this->id,
+            'slug' => 'alpha_dash',
+            'permissions' => ''
         ];
+
+        $this->sanitize();
+        
+        return $rules;
     }
 
     /**

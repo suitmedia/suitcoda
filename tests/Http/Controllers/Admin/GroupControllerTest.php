@@ -20,7 +20,6 @@ class GroupControllerTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->model = Mockery::mock('Suitcoda\Model\Group');
         $this->roles = factory(Model::class)->create();
     }
 
@@ -34,12 +33,12 @@ class GroupControllerTest extends TestCase
         $this->visit('group')
              ->see($this->roles->name);
         $this->assertResponseOk();
-    
-        $this->model->shouldReceive('all')->once();
-        $group = new GroupController($this->model);
+        
+        $model = Mockery::mock('Suitcoda\Model\Group[all]');
+        $model->shouldReceive('all')->once();
+        $group = new GroupController($model);
 
-        $result = $group->index();
-        $this->assertInstanceOf('Illuminate\View\View', $result);
+        $this->assertInstanceOf('Illuminate\View\View', $group->index());
         $this->assertViewHas('models');
     }
 
@@ -48,17 +47,18 @@ class GroupControllerTest extends TestCase
         $this->visit('group/create')
              ->see('Group Create');
         $this->assertResponseOk();
-    
-        $group = new GroupController($this->model);
+        
+        $model = Mockery::mock('Suitcoda\Model\Group');
+        $group = new GroupController($model);
 
-        $result = $group->create();
-        $this->assertInstanceOf('Illuminate\View\View', $result);
+        $this->assertInstanceOf('Illuminate\View\View', $group->create());
         $this->assertViewHas('model');
     }
 
     public function testStoreSuccessResponse()
     {
         $input = ['name' => 'foo', 'slug' => 'foo'];
+        $permissions = ['test', 'test2'];
 
         $this->visit('group/create')
              ->type('Foo bar', 'name')
@@ -66,17 +66,17 @@ class GroupControllerTest extends TestCase
              ->seePageIs('group');
         $this->assertResponseOk();
 
-        $request = Mockery::mock('Suitcoda\Http\Requests\GroupRequest');
-        $request->shouldReceive('all')->once()->andReturn($input);
+        $request = Mockery::mock('Suitcoda\Http\Requests\GroupRequest[except, get]');
+        $request->shouldReceive('except')->once()->with('permissions')->andReturn($input);
+        $request->shouldReceive('get')->andReturn($permissions);
 
-        $this->model->shouldReceive('newInstance')->once()->andReturn($this->model);
-        $this->model->shouldReceive('fill')->once()->with($input);
-        $this->model->shouldReceive('save')->once()->andReturn(true);
-        $group = new GroupController($this->model);
+        $model = Mockery::mock('Suitcoda\Model\Group[newInstance, save]');
+        $model->shouldReceive('newInstance')->once()->andReturn($model);
+        $model->shouldReceive('save')->andReturn(true);
 
-        $result = $group->store($request);
+        $group = new GroupController($model);
         
-        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $result);
+        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $group->store($request));
     }
 
     public function testEditSuccessResponse()
@@ -85,35 +85,37 @@ class GroupControllerTest extends TestCase
              ->see('Group Edit');
         $this->assertResponseOk();
 
-        $group = new GroupController($this->model);
-        \Sentinel::shouldReceive('findRoleBySlug')->with(1)->andReturn($this->model);
-        $result =  $group->edit(1);
+        $model = Mockery::mock('Suitcoda\Model\Group');
+        \Sentinel::shouldReceive('findRoleBySlug')->with(1)->andReturn($model);
 
-        $this->assertInstanceOf('Illuminate\View\View', $result);
+        $group = new GroupController($model);
+
+        $this->assertInstanceOf('Illuminate\View\View', $group->edit(1));
     }
 
     public function testUpdateSuccessResponse()
     {
         $input = ['name' => 'Bar', 'slug' => 'bar'];
+        $permissions = ['test', 'test2'];
+
         $this->visit('group/'. $this->roles->slug . '/edit')
              ->type('Foo bar', 'name')
              ->press('Submit Button')
              ->seePageIs('group');
         $this->assertResponseOk();
 
-        $request = Mockery::mock('Suitcoda\Http\Requests\GroupRequest');
-        $request->shouldReceive('all')->once()->andReturn($input);
+        $request = Mockery::mock('Suitcoda\Http\Requests\GroupRequest[except, get]');
+        $request->shouldReceive('except')->once()->with('permissions')->andReturn($input);
+        $request->shouldReceive('get')->andReturn($permissions);
 
-        \Sentinel::shouldReceive('findRoleBySlug')->with(1)->andReturn($this->model);
-        
-        $this->model->shouldReceive('fill')->once()->with($input);
-        $this->model->shouldReceive('save');
-        
-        $group = new GroupController($this->model);
 
-        $result = $group->update($request, 1);
+        $model = Mockery::mock('Suitcoda\Model\Group[save]');
+        \Sentinel::shouldReceive('findRoleBySlug')->with(1)->andReturn($model);
+        $model->shouldReceive('save')->andReturn(true);
         
-        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $result);
+        $group = new GroupController($model);
+
+        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $group->update($request, 1));
     }
 
     public function testDeleteSuccessResponse()
@@ -123,10 +125,11 @@ class GroupControllerTest extends TestCase
              ->seePageIs('group');
         $this->assertResponseOk();
 
-        $group = new GroupController($this->model);
+        $model = Mockery::mock('Suitcoda\Model\Group');
+        $group = new GroupController($model);
 
-        \Sentinel::shouldReceive('findRoleBySlug')->with(1)->andReturn($this->model);
-        $this->model->shouldReceive('delete')->once()->andReturn(true);
+        \Sentinel::shouldReceive('findRoleBySlug')->with(1)->andReturn($model);
+        $model->shouldReceive('delete')->once()->andReturn(true);
 
         $result =  $group->destroy(1);
 
@@ -139,7 +142,8 @@ class GroupControllerTest extends TestCase
      */
     public function testNotFoundSlug()
     {
-        $group = new GroupController($this->model);
+        $model = Mockery::mock('Suitcoda\Model\Group');
+        $group = new GroupController($model);
         \Sentinel::shouldReceive('findRoleBySlug')->with(1)->andReturn(null);
         $result =  $group->edit(1);
     }

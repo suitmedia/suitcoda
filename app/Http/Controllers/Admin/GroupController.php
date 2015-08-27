@@ -36,7 +36,8 @@ class GroupController extends Controller
     public function create()
     {
         $model = $this->models;
-        return view('temp_layouts.group_create', compact('model'));
+        $permissions = config('permissions');
+        return view('temp_layouts.group_create', compact('model', 'permissions'));
     }
 
     /**
@@ -48,7 +49,12 @@ class GroupController extends Controller
     public function store(GroupRequest $request)
     {
         $model = $this->models->newInstance();
-        $model->fill($request->all());
+        $model->fill($request->except('permissions'));
+        if (is_array($request->get('permissions')) || is_object($request->get('permissions'))) {
+            foreach ($request->get('permissions') as $value) {
+                $model->addPermission($value);
+            }
+        }
         $model->save();
 
         return redirect()->route('group.index');
@@ -63,8 +69,9 @@ class GroupController extends Controller
     public function edit($key)
     {
         $model = $this->find($key);
+        $permissions = config('permissions');
 
-        return view('temp_layouts.group_edit', compact('model'));
+        return view('temp_layouts.group_edit', compact('model', 'permissions'));
     }
 
     /**
@@ -78,7 +85,13 @@ class GroupController extends Controller
     {
         $model = $this->find($key);
 
-        $model->fill($request->all());
+        $model->fill($request->except('permissions'));
+        if (is_array($request->get('permissions')) || is_object($request->get('permissions'))) {
+            $model->permissions = [];
+            foreach ($request->get('permissions') as $value) {
+                $model->addPermission($value);
+            }
+        }
         $model->save();
 
         return redirect()->route('group.index');

@@ -32,6 +32,14 @@
             <input type="text" name="slug" value="{{ $model->slug }}" class="form-control" placeholder="Enter text">
             {{-- <p class="help-block">Example block-level help text here.</p> --}}
         </div>
+        <div class="form-group">
+            <label>Permissions</label>
+            <select name="permissions[]" multiple="multiple" class="form-control">
+              @foreach ($permissions as $key => $permission)
+                  <option value="{{ $key }}">{{ $permission }}</option>
+              @endforeach
+            </select>
+        </div>
         <button type="submit" class="btn btn-default">Submit Button</button>
         <button type="reset" class="btn btn-default">Reset Button</button>
         <a class="btn btn-default">Back</a>
