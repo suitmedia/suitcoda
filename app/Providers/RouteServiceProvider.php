@@ -27,6 +27,7 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot($router);
+        $this->loadRoutePermission();
     }
 
     /**
@@ -40,5 +41,20 @@ class RouteServiceProvider extends ServiceProvider
         $router->group(['namespace' => $this->namespace], function ($router) {
             require app_path('Http/routes.php');
         });
+    }
+
+    public function loadRoutePermission()
+    {
+        $data = array();
+        foreach ($this->app['router']->getRoutes() as $key => $value) {
+            $data_key = $value->getName();
+            if ($data_key !== null) {
+                $data_value = str_replace('.', '-', $data_key);
+                $data_value = ucfirst($data_value);
+
+                $data[$data_key] = $data_value;
+            }
+        }
+        $this->app['config']->set('permissions', $data);
     }
 }
