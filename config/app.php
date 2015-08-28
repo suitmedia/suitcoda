@@ -138,6 +138,9 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Illuminate\Html\HtmlServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -196,6 +199,10 @@ return [
         'Activation'=> Cartalyst\Sentinel\Laravel\Facades\Activation::class,
         'Reminder'  => Cartalyst\Sentinel\Laravel\Facades\Reminder::class,
         'Sentinel'  => Cartalyst\Sentinel\Laravel\Facades\Sentinel::class,
+        'Captcha'   => Mews\Captcha\Facades\Captcha::class,
+        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+        'Form'      => Illuminate\Html\FormFacade::class,
+        'HTML'      => Illuminate\Html\HtmlFacade::class,
 
     ],
 
