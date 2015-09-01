@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::resource('group', 'Admin\GroupController');
+Route::resource('user', 'Admin\UserController');
