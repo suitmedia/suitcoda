@@ -16,7 +16,7 @@
                 <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
             <li>
-                <a href="{{ route('group.index') }}"><i class="fa fa-dashboard fa-fw"></i> Group</a>
+                <a href="{{ route('user.index') }}"><i class="fa fa-dashboard fa-fw"></i> User</a>
             </li>
         </ul>
     </div>

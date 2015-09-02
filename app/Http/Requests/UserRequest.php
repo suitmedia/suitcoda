@@ -4,7 +4,7 @@ namespace Suitcoda\Http\Requests;
 
 use Suitcoda\Http\Requests\Request;
 
-class GroupRequest extends Request
+class UserRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,18 +19,23 @@ class GroupRequest extends Request
     /**
      * Get the validation rules that apply to the request.
      *
-     * @property int $id
      * @return array
      */
     public function rules()
     {
-
         $rules = [
+            'username' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
             'name' => 'required',
             'slug' => 'alpha_dash',
-            'permissions' => ''
+            'date_of_birth' => '',
+            'is_admin' => 'boolean',
+            'is_active' => 'boolean',
         ];
 
+        $this->merge([ 'is_admin' => $this->input('is_admin', false) ]);
+        $this->merge([ 'is_active' => $this->input('is_active', false)]);
         $this->sanitize();
         
         return $rules;
@@ -45,8 +50,9 @@ class GroupRequest extends Request
         $input = $this->all();
 
         if (!empty($input)) {
-            $input[ 'name' ] = filter_var($input[ 'name' ], FILTER_SANITIZE_STRING);
-            $input[ 'slug' ] = filter_var($input[ 'slug' ], FILTER_SANITIZE_STRING);
+            $input[ 'username' ] = filter_var($input[ 'username' ], FILTER_SANITIZE_STRING);
+            $input[ 'email' ] = filter_var($input[ 'email' ], FILTER_SANITIZE_EMAIL);
+            $input[ 'password' ] = filter_var($input[ 'password' ], FILTER_SANITIZE_STRING);
         }
 
         $this->replace($input);

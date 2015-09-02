@@ -46,9 +46,12 @@ class RouteServiceProvider extends ServiceProvider
     public function loadRoutePermission()
     {
         $data = array();
+        $exlude = ['debugbar'];
         foreach ($this->app['router']->getRoutes() as $key => $value) {
             $data_key = $value->getName();
-            if ($data_key !== null) {
+            $temp = explode('.', $value->getName());
+            $data_key_first_word = $temp[0];
+            if ($data_key !== null && !in_array($data_key_first_word, $exlude)) {
                 $data_value = str_replace('.', '-', $data_key);
                 $data_value = ucfirst($data_value);
 
