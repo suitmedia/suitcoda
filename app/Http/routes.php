@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('group', 'Admin\GroupController');
+Route::resource('user', 'Admin\UserController');

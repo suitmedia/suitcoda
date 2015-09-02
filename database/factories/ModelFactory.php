@@ -11,9 +11,15 @@
 |
 */
 
-$factory->define(Suitcoda\Model\Group::class, function ($faker) {
+$factory->define(Suitcoda\Model\User::class, function ($faker) {
     return [
+        'username' => $faker->userName,
+        'email' => $faker->email,
+        'password' => bcrypt($faker->word),
         'name' => $faker->name,
-        'slug' => $faker->slug
+        'slug' => $faker->slug,
+        'is_admin' => $faker->boolean,
+        'is_active' => true,
+        'last_login_at' => \Carbon\Carbon::now()
     ];
 });
