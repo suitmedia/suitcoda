@@ -1,37 +1,37 @@
 // ------------------------- dependency -------------------------
-var Horseman 	= require('node-horseman'),
-	horseman 	= new Horseman(),
-    fs 			= require('fs'),
-    isUrl 		= require('is-url'),
+var horseman    = require('node-horseman'),
+    horseman    = new Horseman(),
+    fs          = require('fs'),
+    isUrl       = require('is-url'),
     jsonPretty  = require('json-pretty'),
-    program 	= require('commander');
+    program     = require('commander');
 
 // --------------------------- get url ---------------------------
 program
-  .version('0.0.1')
-  .option('-url, --url [url]', 'input url')
-  .parse(process.argv);
+.version('0.0.1')
+.option('-url, --url [url]', 'input url')
+.parse(process.argv);
 
 var url = program.url;
 
 if ( !isUrl(url) ){
-	console.log('ERROR: this is not an url');
-	horseman.close();
+    console.log('ERROR: this is not an url');
+    horseman.close();
 }
 
 // ---------------------- initialization ----------------------
 var resultHTMLLinter = {
-	name 	: 'HTML Linter',
-	url		: url,
-	checking: []
+    name    : 'HTML Linter',
+    url     : url,
+    checking: []
 };
 
 // ---------------------- w3 html validator ----------------------
 resultHTMLLinter.checking.push(
     {
-    	testname 	: 'HTML Validator by W3',
-    	class		: 'Code Quality',
-    	messages	: []
+        testname    : 'HTML Validator by W3',
+        class       : 'Code Quality',
+        messages    : []
     }
 );
 
@@ -52,9 +52,9 @@ if ( isHtml5 ){
             var $errors     = $results.find('.error');
             var $warnings   = $results.find('.info.warning');
 
-            var errors_msg       = [],
-                errors_line      = [],
-                errors_code      = [];
+            var errors_msg      = [],
+                errors_line     = [],
+                errors_code     = [];
 
             $.each($errors, function(index, elem) {
                 errors_msg.push( $(elem).find('p:first-child span').text() );
@@ -77,9 +77,9 @@ if ( isHtml5 ){
             var $errors     = $results.find('.error');
             var $warnings   = $results.find('.info.warning');
 
-            var warnings_msg     = [],
-                warnings_line    = [],
-                warnings_code    = [];
+            var warnings_msg    = [],
+                warnings_line   = [],
+                warnings_code   = [];
 
             $.each($warnings, function(index, elem) {
                 warnings_msg.push( $(elem).find('p:first-child span').text() );
@@ -627,8 +627,8 @@ var toJson = jsonPretty(resultHTMLLinter);
 
 function saveReport () {
     fs.writeFile('resultHTML.json', toJson, function (err) {
-		if (err) throw err;
-	});	
+        if (err) throw err;
+    });	
 };
 
 saveReport();

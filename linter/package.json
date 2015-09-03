@@ -23,6 +23,6 @@
     "url": "git+ssh://git@bitbucket.org/setiawanjeje/coba-linter.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "homepage": "https://bitbucket.org/setiawanjeje/coba-linter#readme"
 }

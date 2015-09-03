@@ -8,14 +8,14 @@ var casper  = require('casper').create({
 
 var url;
 if ( !casper.cli.has("url") ){
-	console.log('error');
-	casper.exit();
+    console.log('error');
+    casper.exit();
 } else {
-	url = casper.cli.get("url");
-	if ( !isUrl(url) ){
-		console.log('ERROR: this is not an url');
-		casper.exit();
-	}
+    url = casper.cli.get("url");
+    if ( !isUrl(url) ){
+        console.log('ERROR: this is not an url');
+        casper.exit();
+    }
 }
 
 casper.start(url);
