@@ -2,16 +2,22 @@
 
 namespace Suitcoda\Model;
 
-use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 use Carbon\Carbon;
 
-class User extends Model implements SluggableInterface
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
+class User extends BaseModel implements SluggableInterface, AuthenticatableContract, CanResetPasswordContract
 {
-    use SluggableTrait;
+    use SluggableTrait, Authenticatable, CanResetPassword;
 
     protected $table = 'users';
+
+    protected $url_key = 'slug';
 
     protected $fillable = [
         'username',
@@ -24,32 +30,13 @@ class User extends Model implements SluggableInterface
         'is_active',
     ];
 
+    protected $hidden = [
+        'password'
+    ];
+
     protected $sluggable = [
         'build_from' => 'name',
         'save_to' => 'slug'
-    ];
-
-    /**
-     * Return wildcard in route with slug
-     * @return string
-     */
-    public function getRouteKey()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Get the table qualified key name.
-     *
-     * @return string
-     */
-    public function getQualifiedKeyName()
-    {
-        return $this->getTable().'.'.'slug';
-    }
-
-    protected $hidden = [
-        'password', 'remember_token'
     ];
 
     public function setPasswordAttribute($value)

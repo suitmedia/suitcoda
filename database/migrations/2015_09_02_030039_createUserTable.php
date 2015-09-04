@@ -25,6 +25,8 @@ class CreateUserTable extends Migration
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_active')->default(false);
             $table->dateTime('last_login_at')->nullable();
+
+            $table->string('remember_token')->default('');
             $table->timestamps();
         });
     }

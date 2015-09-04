@@ -7,11 +7,12 @@ use SuitTests\TestCase;
 use Suitcoda\Http\Controllers\Admin\UserController;
 use Suitcoda\Model\User as Model;
 
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, WithoutMiddleware;
 
     public function setUp()
     {
@@ -110,7 +111,7 @@ class UserControllerTest extends TestCase
     public function testUnitEdit()
     {
         $model = Mockery::mock('Suitcoda\Model\User');
-        $model->shouldReceive('findOrFail')->andReturn($model);
+        $model->shouldReceive('findOrFailByUrlKey')->andReturn($model);
 
         $user = new UserController($model);
 
@@ -144,7 +145,7 @@ class UserControllerTest extends TestCase
         $request->shouldReceive('all')->andReturn($input);
 
         $model = Mockery::mock('Suitcoda\Model\User[update]');
-        $model->shouldReceive('findOrFail')->once()->andReturn($model);
+        $model->shouldReceive('findOrFailByUrlKey')->once()->andReturn($model);
         $model->shouldReceive('update')->once();
 
         $user = new UserController($model);
@@ -170,7 +171,7 @@ class UserControllerTest extends TestCase
         $model = Mockery::mock('Suitcoda\Model\User');
         $user = new UserController($model);
         
-        $model->shouldReceive('findOrFail')->andReturn($model);
+        $model->shouldReceive('findOrFailByUrlKey')->andReturn($model);
         $model->shouldReceive('delete')->once()->andReturn(true);
 
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $user->destroy(1));
@@ -184,7 +185,7 @@ class UserControllerTest extends TestCase
     {
         $model = Mockery::mock('Suitcoda\Model\user');
         $group = new UserController($model);
-        $model->shouldReceive('findOrFail')->once()->andReturn(null);
+        $model->shouldReceive('findOrFailByUrlKey')->once()->andReturn(null);
         $result =  $group->edit(1);
     }
 }

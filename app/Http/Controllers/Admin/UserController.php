@@ -106,7 +106,7 @@ class UserController extends Controller
      */
     protected function find($key)
     {
-        $result = $this->models->findOrFail($key);
+        $result = $this->models->findOrFailByUrlKey($key);
 
         if (empty($result)) {
             return abort(404);

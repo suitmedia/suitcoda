@@ -49,7 +49,7 @@ class AuthenticateTest extends TestCase
         });
 
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $result);
-        $this->assertEquals(url('auth/login'), $result->headers->get('Location'));
+        $this->assertEquals(url('login'), $result->headers->get('Location'));
 
         $result = $authenticate->handle($request, function ($request) {
             //

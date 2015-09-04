@@ -9,15 +9,6 @@
 @stop
 
 @section('form-body')
-@if (count($errors) > 0)
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
     {!! Form::model($model, ['route' => ['user.update', $model], 'method' => 'PUT']) !!}
         <div class="form-group">
             {!! Form::label('username', 'Username') !!}
