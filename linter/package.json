@@ -1,0 +1,28 @@
+{
+  "name": "cobabuatskripsi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "commander": "^2.8.1",
+    "css": "^2.2.1",
+    "csslint": "^0.10.0",
+    "fs-extra": "^0.23.1",
+    "is-url": "^1.2.1",
+    "jshint": "^2.8.0",
+    "json-pretty": "^0.0.1",
+    "node-horseman": "^1.5.6",
+    "shelljs": "^0.5.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/setiawanjeje/coba-linter.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/setiawanjeje/coba-linter#readme"
+}
