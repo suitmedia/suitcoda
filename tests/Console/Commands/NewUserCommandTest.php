@@ -3,16 +3,16 @@
 namespace SuitTests\Console\Commands;
 
 use Mockery;
-use Suitcoda\Console\Commands\AdminCommand;
+use Suitcoda\Console\Commands\NewUserCommand;
 use Illuminate\Console\Command;
 use SuitTests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
- * Test Suitcoda\Console\Commands\AdminCommand
+ * Test Suitcoda\Console\Commands\NewUserCommand
  */
 
-class AdminCommandTest extends TestCase
+class NewUserCommandTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -21,7 +21,7 @@ class AdminCommandTest extends TestCase
      */
     public function testCommandHasBeenSaveInDatabase()
     {
-        $this->artisan('user:new-admin', [
+        $this->artisan('user:new-superuser', [
             'username' => 'foo',
             'name' => 'Foo bar',
             'email' => 'foo@bar.com',

@@ -59,6 +59,7 @@
                             </div>
                         @endif
                             <fieldset>
+                                <input type="hidden" name="token" value="{{ $token }}">
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Email" name="email" type="email" autofocus>
                                 </div>

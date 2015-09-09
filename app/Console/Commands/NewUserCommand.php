@@ -4,21 +4,21 @@ namespace Suitcoda\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class AdminCommand extends Command
+class NewUserCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'user:new-admin {username} {name} {email} {password}';
+    protected $signature = 'user:new-superuser {username} {name} {email} {password}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create New Admin.';
+    protected $description = 'Create New User.';
 
     /**
      * Create a new command instance.

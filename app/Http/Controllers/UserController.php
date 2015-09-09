@@ -1,6 +1,6 @@
 <?php
 
-namespace Suitcoda\Http\Controllers\Admin;
+namespace Suitcoda\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Suitcoda\Http\Requests\UserRequest;

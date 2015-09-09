@@ -1,10 +1,10 @@
 <?php
 
-namespace SuitTests\Http\Controllers\Admin;
+namespace SuitTests\Http\Controllers;
 
 use Mockery;
 use SuitTests\TestCase;
-use Suitcoda\Http\Controllers\Admin\UserController;
+use Suitcoda\Http\Controllers\UserController;
 use Suitcoda\Model\User as Model;
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
