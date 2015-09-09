@@ -42,3 +42,4 @@
 *.phar binary
 *.svg binary
 *.webp binary
+*.ttf binary
