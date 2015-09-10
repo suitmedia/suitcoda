@@ -12,10 +12,12 @@ class AuthController extends Controller
 
     protected $username = 'username';
 
+    protected $redirectAfterLogout = '/';
+
     /**
      * Show the application login form.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function getLogin()
     {
@@ -25,8 +27,8 @@ class AuthController extends Controller
     /**
      * Handle a login request to the application.
      *
-     * @param  Suitcoda\Http\Requests\AuthRequest  $request
-     * @return Illuminate\Http\RedirectResponse
+     * @param  AuthRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postLogin(AuthRequest $request)
     {
@@ -67,7 +69,7 @@ class AuthController extends Controller
     /**
      * Log the user out of the application.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function getLogout()
     {

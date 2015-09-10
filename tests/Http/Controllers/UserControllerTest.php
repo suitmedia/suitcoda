@@ -26,13 +26,13 @@ class UserControllerTest extends TestCase
 
     public function testIntegrationIndex()
     {
-        $user_faker = factory(Model::class)->create();
+        $userFaker = factory(Model::class)->create();
         $this->visit('user')
-             ->see($user_faker->username);
+             ->see($userFaker->username);
         $this->assertResponseOk();
         $this->seeInDatabase('users', [
-            'username' => $user_faker->username,
-            'email' => $user_faker->email,
+            'username' => $userFaker->username,
+            'email' => $userFaker->email,
         ]);
         $this->assertViewHas('models');
     }
@@ -98,13 +98,13 @@ class UserControllerTest extends TestCase
 
     public function testIntegrationEdit()
     {
-        $user_faker = factory(Model::class)->create();
-        $this->visit('user/'. $user_faker->slug . '/edit')
+        $userFaker = factory(Model::class)->create();
+        $this->visit('user/'. $userFaker->slug . '/edit')
              ->see('User Edit');
         $this->assertResponseOk();
         $this->seeInDatabase('users', [
-            'username' => $user_faker->username,
-            'email' => $user_faker->email
+            'username' => $userFaker->username,
+            'email' => $userFaker->email
         ]);
         $this->assertViewHas('model');
     }
@@ -121,9 +121,9 @@ class UserControllerTest extends TestCase
 
     public function testIntegrationUpdate()
     {
-        $user_faker = factory(Model::class)->create();
+        $userFaker = factory(Model::class)->create();
 
-        $this->visit('user/'. $user_faker->slug . '/edit')
+        $this->visit('user/'. $userFaker->slug . '/edit')
              ->type('Foo.bar', 'username')
              ->type('foo@bar.com', 'email')
              ->type('foobar123', 'password')
@@ -133,7 +133,7 @@ class UserControllerTest extends TestCase
              ->seePageIs('user');
         $this->assertResponseOk();
         $this->seeInDatabase('users', [
-            'id' => $user_faker->id,
+            'id' => $userFaker->id,
             'username' => 'Foo.bar',
             'email' => 'foo@bar.com'
         ]);
@@ -157,14 +157,14 @@ class UserControllerTest extends TestCase
 
     public function testIntegrationDelete()
     {
-        $user_faker = factory(Model::class)->create();
+        $userFaker = factory(Model::class)->create();
         $this->visit('user')
              ->press('Delete')
              ->seePageIs('user');
         $this->assertResponseOk();
         $this->notSeeInDatabase('users', [
-            'username' => $user_faker->username,
-            'email' => $user_faker->email,
+            'username' => $userFaker->username,
+            'email' => $userFaker->email,
         ]);
     }
 

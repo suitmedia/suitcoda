@@ -22,8 +22,6 @@ class NewUserCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -42,8 +40,8 @@ class NewUserCommand extends Command
         $email = $this->argument('email');
         $password = $this->argument('password');
 
-        $admin_class = \Config::get('auth.model');
-        $admin = new $admin_class();
+        $adminClass = \Config::get('auth.model');
+        $admin = new $adminClass();
         $admin->username = $username;
         $admin->name = $name;
         $admin->email = $email;

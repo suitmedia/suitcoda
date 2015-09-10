@@ -34,7 +34,7 @@ class UserRequest extends Request
         ];
 
         $this->merge([ 'is_admin' => $this->input('is_admin', false) ]);
-        $this->merge([ 'is_active' => $this->input('is_active', false)]);
+        $this->merge([ 'is_active' => $this->input('is_active', false) ]);
         $this->sanitize();
         
         return $rules;

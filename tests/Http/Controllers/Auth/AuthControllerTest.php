@@ -30,7 +30,7 @@ class AuthControllerTest extends TestCase
     public function testPostLoginSuccess()
     {
         $input = ['username' => 'foo.bar', 'password' => 'asdfg', 'captcha' => 'asdf'];
-        $user_faker = factory(Model::class)->create();
+        $userFaker = factory(Model::class)->create();
         $request = Mockery::mock('Suitcoda\Http\Requests\AuthRequest');
         $user = Mockery::mock(Model::class);
         
@@ -50,7 +50,7 @@ class AuthControllerTest extends TestCase
     public function testPostLoginFailed()
     {
         $input = ['username' => 'foo.bar', 'password' => 'asdfg', 'captcha' => 'asdf'];
-        $user_faker = factory(Model::class)->create();
+        $userFaker = factory(Model::class)->create();
         $request = Mockery::mock('Suitcoda\Http\Requests\AuthRequest');
         $request->shouldReceive('only');
         $request->shouldReceive('has');
@@ -66,8 +66,8 @@ class AuthControllerTest extends TestCase
 
     public function testGetSuccessLogout()
     {
-        $user_faker = factory(Model::class)->create();
-        $this->be($user_faker);
+        $userFaker = factory(Model::class)->create();
+        $this->be($userFaker);
         $this->visit('logout')
              ->seePageIs('/');
     }
