@@ -31,12 +31,13 @@ class AuthController extends Controller
     public function postLogin(AuthRequest $request)
     {
         $credentials = $this->getCredentials($request);
-        if (\Auth::attempt($credentials)) {
+        if (\Auth::attempt($credentials, $request->has('remember'))) {
+            \Auth::user()->login();
             return redirect()->route('user.index');
         }
 
         return redirect($this->loginPath())
-            ->withInput($request->only($this->loginUsername()))
+            ->withInput($request->only($this->loginUsername(), 'remember'))
             ->withErrors([
                 $this->loginUsername() => $this->getFailedLoginMessage(),
             ]);

@@ -32,8 +32,13 @@ class AuthControllerTest extends TestCase
         $input = ['username' => 'foo.bar', 'password' => 'asdfg', 'captcha' => 'asdf'];
         $user_faker = factory(Model::class)->create();
         $request = Mockery::mock('Suitcoda\Http\Requests\AuthRequest');
+        $user = Mockery::mock(Model::class);
+        
         $request->shouldReceive('only');
+        $request->shouldReceive('has');
+        $user->shouldReceive('login');
         \Auth::shouldReceive('attempt')->andReturn(true);
+        \Auth::shouldReceive('user')->andReturn($user);
 
         $auth = new AuthController;
         $result = $auth->postLogin($request);
@@ -48,6 +53,7 @@ class AuthControllerTest extends TestCase
         $user_faker = factory(Model::class)->create();
         $request = Mockery::mock('Suitcoda\Http\Requests\AuthRequest');
         $request->shouldReceive('only');
+        $request->shouldReceive('has');
         \Auth::shouldReceive('attempt')->andReturn(false);
 
         $auth = new AuthController;

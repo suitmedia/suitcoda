@@ -62,12 +62,21 @@
                                 <input type="hidden" name="token" value="{{ $token }}">
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Email" name="email" type="email" autofocus>
+                                    @if (\Session::has('error'))
+                                        <span style="font-size:13px; color:red;">{{ \Session::get('error')->first('email') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    @if (\Session::has('error'))
+                                        <span style="font-size:13px; color:red;">{{ \Session::get('error')->first('password') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Confirm Password" name="password_confirmation" type="password" value="">
+                                    @if (\Session::has('error'))
+                                        <span style="font-size:13px; color:red;">{{ \Session::get('error')->first('password_confirmation') }}</span>
+                                    @endif
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
                                 <button type="submit" class="btn btn-lg btn-success btn-block">Reset Password</button>

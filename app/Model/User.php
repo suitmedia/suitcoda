@@ -31,7 +31,7 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
     ];
 
     protected $hidden = [
-        'password'
+        'password', 'remember_token'
     ];
 
     protected $sluggable = [

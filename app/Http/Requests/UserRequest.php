@@ -26,9 +26,8 @@ class UserRequest extends Request
         $rules = [
             'username' => 'required',
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|confirmed',
             'name' => 'required',
-            'slug' => 'alpha_dash',
             'date_of_birth' => '',
             'is_admin' => 'boolean',
             'is_active' => 'boolean',

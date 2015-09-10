@@ -49,34 +49,35 @@
                     <div class="panel-body">
                         <form role="form" method="POST" action="{{ action('Auth\AuthController@postLogin') }}">
                         {!! csrf_field() !!}
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Username" name="username" type="text" autofocus>
+                                    @if (\Session::has('error'))
+                                        <span style="font-size:13px; color:red;">{{ \Session::get('error')->first('username') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    @if (\Session::has('error'))
+                                        <span style="font-size:13px; color:red;">{{ \Session::get('error')->first('password') }}</span>
+                                    @endif
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label visible-ie8 visible-ie9">Captcha</label>
                                     <img src="{{ Captcha::url() }}" width="100%" alt="Captcha">
                                     <input type="text" class="form-control form-control-solid placeholder-no-fix" name="captcha" placeholder="Enter Captcha"value="">
+                                    @if (\Session::has('error'))
+                                        <span style="font-size:13px; color:red;">{{ \Session::get('error')->first('captcha') }}</span>
+                                    @endif
                                 </div>
-                                {{-- <div class="checkbox">
+                                <div class="checkbox">
                                     <label>
                                         <input name="remember" type="checkbox">Remember Me
                                     </label>
-                                </div> --}}
+                                </div>
                                 <!-- Change this to a button or input when using this as a form -->
                                 <button type="submit" class="btn btn-lg btn-success btn-block">Login</button>
+                                <a class="pull-right" href="{{ action('Auth\PasswordController@getEmail') }}">Forgot Password?</a>
                             </fieldset>
                         </form>
                     </div>

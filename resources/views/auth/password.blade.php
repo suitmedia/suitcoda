@@ -49,21 +49,15 @@
                     <div class="panel-body">
                         <form role="form" method="POST" action="{{ action('Auth\PasswordController@postEmail') }}">
                         {!! csrf_field() !!}
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Email" name="email" type="email" autofocus>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
                                 <button type="submit" class="btn btn-lg btn-success btn-block">Send Password Reset Link</button>
+                                @if (\Session::has('error'))
+                                    <span style="font-size:13px; color:red;">{{ \Session::get('error')->first('email') }}</span>
+                                @endif
                             </fieldset>
                         </form>
                     </div>

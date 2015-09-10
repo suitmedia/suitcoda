@@ -67,7 +67,8 @@ class UserControllerTest extends TestCase
         $this->visit('user/create')
              ->type('Foobar', 'username')
              ->type('foo@bar.com', 'email')
-             ->type(bcrypt(str_random(5)), 'password')
+             ->type('foobar123', 'password')
+             ->type('foobar123', 'password_confirmation')
              ->type('Foo bar', 'name')
              ->press('Submit Button')
              ->seePageIs('user');
@@ -125,7 +126,8 @@ class UserControllerTest extends TestCase
         $this->visit('user/'. $user_faker->slug . '/edit')
              ->type('Foo.bar', 'username')
              ->type('foo@bar.com', 'email')
-             ->type(bcrypt('asdfg'), 'password')
+             ->type('foobar123', 'password')
+             ->type('foobar123', 'password_confirmation')
              ->type('Foo bar', 'name')
              ->press('Submit Button')
              ->seePageIs('user');
