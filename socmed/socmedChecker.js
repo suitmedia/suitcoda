@@ -41,9 +41,9 @@ var openPage = horseman
 var socmedName      = ['Opengraph', 'Twitter Cards', 'Facebook Insight'];
 var socmedSelector  = ['meta[property*="og"]', 'meta[name*="twitter"]', 'meta[property*="fb"]'];
 
-for (var i = 0; i < socmedSelector.length; i++) {
+socmedSelector.forEach(function (value, index) {
     var isExist = horseman
-        .exists(socmedSelector[i]);
+        .exists(value);
     
     var getCode;
 
@@ -58,17 +58,17 @@ for (var i = 0; i < socmedSelector.length; i++) {
                 };
 
                 return tempp;
-            }, socmedSelector[i] );
+            }, value );
     } else {
         getCode = 'This meta tag does not exist';
     }
 
     resultSocmed.checking.push({
-        socmedName : socmedName[i],
+        socmedName : socmedName[index],
         isExist    : isExist,
         code       : getCode
     });
-};
+});
 
 // ------------------------ save to json file ------------------------
 var toJson = jsonPretty(resultSocmed);
