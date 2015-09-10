@@ -10,9 +10,16 @@ var Horseman    = require('node-horseman'),
 program
 .version('0.0.1')
 .option('-url, --url [url]', 'input url')
+.option('-d, --destination [path]', 'input path to store the output')
 .parse(process.argv);
 
-var url = program.url;
+var url     = program.url;
+var dest    = '';
+    dest    = program.destination;
+
+if ( ! dest ){
+    dest = '';
+}
 
 // validation url
 if ( !isUrl(url) ){
@@ -67,7 +74,7 @@ for (var i = 0; i < socmedSelector.length; i++) {
 var toJson = jsonPretty(resultSocmed);
 
 function saveReport () {
-    fs.writeFile('resultSocmed.json', toJson, function (err) {
+    fs.writeFile(dest + 'resultSocmed.json', toJson, function (err) {
         if (err) throw err;
     }); 
 };

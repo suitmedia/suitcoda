@@ -12,9 +12,16 @@ var Horseman    = require('node-horseman'),
 program
 .version('0.0.1')
 .option('-url, --url [url]', 'input url')
+.option('-d, --destination [path]', 'input path to store the output')
 .parse(process.argv);
 
-var url = program.url;
+var url     = program.url;
+var dest    = '';
+    dest    = program.destination;
+
+if ( ! dest ){
+    dest = '';
+}
 
 if ( !isUrl(url) ){
     console.log('ERROR: this is not an url');
@@ -55,7 +62,7 @@ for (var i = 0; i < filename.length; i++) {
 var toJson = jsonPretty(resultJSLinter);
 
 function saveReport () {
-    fs.writeFile('resultJS.json', toJson, function (err) {
+    fs.writeFile(dest + 'resultJS.json', toJson, function (err) {
         if (err) throw err;
     });	
 };

@@ -11,7 +11,10 @@ Includes :
 Usage :
 
 ```
-node socmedChecker.js --url [URL]
+node socmedChecker.js --url [URL] --destination [path]
 ```
+
+* -url / --url : input the url to do the test (required)
+* -d / --destination : input the path to store the JSON output
 
 output : resultSocmed.json
