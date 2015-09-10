@@ -1,5 +1,5 @@
 // ------------------------- dependency -------------------------
-var Horseman    = require('node-horseman'),
+var horseman    = require('node-horseman'),
     horseman    = new Horseman(),
     fs          = require('fs'),
     isUrl       = require('is-url'),
