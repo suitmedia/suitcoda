@@ -4,9 +4,9 @@ namespace SuitTests\Http\Requests;
 
 use Mockery;
 use SuitTests\TestCase;
-use Suitcoda\Http\Requests\GroupRequest as Request;
+use Suitcoda\Http\Requests\AuthRequest as Request;
 
-class GroupRequestTest extends TestCase
+class AuthRequestTest extends TestCase
 {
     public function testAuthorize()
     {
@@ -17,7 +17,8 @@ class GroupRequestTest extends TestCase
     public function testRulesKey()
     {
         $request = new Request;
-        $this->assertArrayHasKey('name', $request->rules());
-        $this->assertArrayHasKey('slug', $request->rules());
+        $this->assertArrayHasKey('username', $request->rules());
+        $this->assertArrayHasKey('password', $request->rules());
+        $this->assertArrayHasKey('captcha', $request->rules());
     }
 }

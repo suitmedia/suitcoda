@@ -1,19 +1,19 @@
 <?php
 
-namespace Suitcoda\Http\Controllers\Admin;
+namespace Suitcoda\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Suitcoda\Http\Requests\GroupRequest;
-use Suitcoda\Model\Group as Model;
+use Suitcoda\Http\Requests\UserRequest;
+use Suitcoda\Model\User as Model;
 use Suitcoda\Http\Controllers\Controller;
 
-class GroupController extends Controller
+class UserController extends Controller
 {
     protected $models;
 
-    public function __construct(Model $models)
+    public function __construct(Model $model)
     {
-        $this->models = $models;
+        $this->models = $model;
     }
 
     /**
@@ -25,7 +25,7 @@ class GroupController extends Controller
     {
         $models = $this->models->all();
 
-        return view('temp_layouts.group_index', compact('models'));
+        return view('temp_layouts.user_index', compact('models'));
     }
 
     /**
@@ -36,8 +36,8 @@ class GroupController extends Controller
     public function create()
     {
         $model = $this->models;
-        $permissions = config('permissions');
-        return view('temp_layouts.group_create', compact('model', 'permissions'));
+
+        return view('temp_layouts.user_create', compact('model'));
     }
 
     /**
@@ -46,18 +46,13 @@ class GroupController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(GroupRequest $request)
+    public function store(UserRequest $request)
     {
         $model = $this->models->newInstance();
-        $model->fill($request->except('permissions'));
-        if (is_array($request->get('permissions')) || is_object($request->get('permissions'))) {
-            foreach ($request->get('permissions') as $value) {
-                $model->addPermission($value);
-            }
-        }
+        $model->fill($request->all());
         $model->save();
 
-        return redirect()->route('group.index');
+        return redirect()->route('user.index');
     }
 
     /**
@@ -69,9 +64,8 @@ class GroupController extends Controller
     public function edit($key)
     {
         $model = $this->find($key);
-        $permissions = config('permissions');
 
-        return view('temp_layouts.group_edit', compact('model', 'permissions'));
+        return view('temp_layouts.user_edit', compact('model'));
     }
 
     /**
@@ -81,20 +75,12 @@ class GroupController extends Controller
      * @param  string  $key
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(GroupRequest $request, $key)
+    public function update(UserRequest $request, $key)
     {
         $model = $this->find($key);
+        $model->update($request->all());
 
-        $model->fill($request->except('permissions'));
-        if (is_array($request->get('permissions')) || is_object($request->get('permissions'))) {
-            $model->permissions = [];
-            foreach ($request->get('permissions') as $value) {
-                $model->addPermission($value);
-            }
-        }
-        $model->save();
-
-        return redirect()->route('group.index');
+        return redirect()->route('user.index');
     }
 
     /**
@@ -106,21 +92,21 @@ class GroupController extends Controller
     public function destroy($key)
     {
         $model = $this->find($key);
-
         $model->delete();
-        return redirect()->route('group.index');
+
+        return redirect()->route('user.index');
     }
 
     /**
      * Find operation
      * @param  string $key
-     * @return Suitcoda\Model\Group
+     * @return Suitcoda\Model\User
      *
      * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     protected function find($key)
     {
-        $result = \Sentinel::findRoleBySlug($key);
+        $result = $this->models->findOrFailByUrlKey($key);
 
         if (empty($result)) {
             return abort(404);

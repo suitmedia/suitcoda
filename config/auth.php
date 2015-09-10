@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'model' => Suitcoda\User::class,
+    'model' => Suitcoda\Model\User::class,
 
     /*
     |--------------------------------------------------------------------------
