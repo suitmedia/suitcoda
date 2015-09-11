@@ -20,8 +20,11 @@ Includes :
 Usage :
 
 ```
-node htmlHorseman.js --url [URL]
+node htmlHorseman.js --url [URL] --destination [path]
 ```
+
+* -url / --url : input the url to do the test (required)
+* -d / --destination : input the path to store the JSON output
 
 output : resultHTML.json
 
@@ -34,8 +37,11 @@ by : [csslint](https://github.com/CSSLint/csslint)
 Usage :
 
 ```
-node cssHorseman.js --url [URL]
+node cssHorseman.js --url [URL] --destination [path]
 ```
+
+* -url / --url : input the url to do the test (required)
+* -d / --destination : input the path to store the JSON output
 
 output : resultCSS.json
 
@@ -48,7 +54,10 @@ by : [jshint](http://jshint.com/)
 Usage :
 
 ```
-node jsHorseman.js --url [URL]
+node jsHorseman.js --url [URL] --destination [path]
 ```
+
+* -url / --url : input the url to do the test (required)
+* -d / --destination : input the path to store the JSON output
 
 output : resultJS.json

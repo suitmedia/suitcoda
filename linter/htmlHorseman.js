@@ -1,5 +1,5 @@
 // ------------------------- dependency -------------------------
-var horseman    = require('node-horseman'),
+var Horseman    = require('node-horseman'),
     horseman    = new Horseman(),
     fs          = require('fs'),
     isUrl       = require('is-url'),
@@ -10,9 +10,16 @@ var horseman    = require('node-horseman'),
 program
 .version('0.0.1')
 .option('-url, --url [url]', 'input url')
+.option('-d, --destination [path]', 'input path to store the output')
 .parse(process.argv);
 
-var url = program.url;
+var url     = program.url;
+var dest    = '';
+    dest    = program.destination;
+
+if ( ! dest ){
+    dest = '';
+}
 
 if ( !isUrl(url) ){
     console.log('ERROR: this is not an url');
@@ -626,7 +633,7 @@ if ( isVp ) {
 var toJson = jsonPretty(resultHTMLLinter);
 
 function saveReport () {
-    fs.writeFile('resultHTML.json', toJson, function (err) {
+    fs.writeFile(dest + 'resultHTML.json', toJson, function (err) {
         if (err) throw err;
     });	
 };

@@ -1,0 +1,17 @@
+{
+  "name": "socmed",
+  "version": "1.0.0",
+  "description": "checking social media meta tag",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.8.1",
+    "is-url": "^1.2.1",
+    "json-pretty": "0.0.1",
+    "node-horseman": "^1.5.7"
+  }
+}
