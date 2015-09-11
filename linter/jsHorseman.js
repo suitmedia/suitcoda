@@ -26,6 +26,7 @@ if ( ! dest ){
 if ( !isUrl(url) ){
     console.log('ERROR: this is not an url');
     horseman.close();
+    process.exit(1);
 }
 
 // ----------------------- download css asset -----------------------
