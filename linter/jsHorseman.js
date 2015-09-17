@@ -4,22 +4,22 @@ var Horseman    = require('node-horseman'),
     fs          = require('fs-extra'),
     isUrl       = require('is-url'),
     jsonPretty  = require('json-pretty'),
-    shell       = require('shelljs'),
     program     = require('commander'),
-    jshintt     = require('jshint');
+    http        = require('http'),
+    jshintt     = require('jshint'),
+    rte         = require('readtoend');
 
 // --------------------------- get url ---------------------------
 program
-.version('0.0.1')
-.option('-url, --url [url]', 'input url')
-.option('-d, --destination [path]', 'input path to store the output')
-.parse(process.argv);
+    .version('0.0.1')
+    .option('-url, --url [url]', 'input url')
+    .option('-d, --destination [path]', 'input path to store the output')
+    .parse(process.argv);
 
-var url     = program.url;
-var dest    = '';
+var url     = program.url,
     dest    = program.destination;
 
-if ( ! dest ){
+if ( !dest ){
     dest = '';
 }
 
@@ -29,48 +29,47 @@ if ( !isUrl(url) ){
     process.exit(1);
 }
 
-// ----------------------- download css asset -----------------------
-if (shell.exec('casperjs downloadJS.js --url=' + url).code !== 0) {
-    echo('Download Failed.');
-    exit(1);
-}
-
-// ---------------------------- JS Hint ----------------------------
+// initialization
 var resultJSLinter = {
     name    : 'JS Linter',
     url     : url,
     checking: []
 };
 
-var filename = fs.readdirSync('js/');
+// download JS asset
+var filenameJS = url.substring( url.lastIndexOf('/') + 1 , url.length );
 
-for (var i = 0; i < filename.length; i++) {
-    resultJSLinter.checking.push({
-        fileName    : filename[i],
-        messages    : [] 
+fs.mkdirSync('js/');
+var file = fs.createWriteStream('js/' + filenameJS);
+
+var request = http.get(url , function(response) {
+    response.pipe(file);
+
+    // read the file
+    rte.readToEnd(response, function(err, body) {
+        var source = body;
+        var options = { undef: true };
+        var predef = { jQuery: false };
+
+        // js hint run
+        jshintt.JSHINT(source, options, predef);
+
+        resultJSLinter.checking = jshintt.JSHINT.errors;
+        
+        // json prettify
+        var toJson = jsonPretty(resultJSLinter);
+        
+        // save result
+        fs.writeFile(dest + 'resultJS.json', toJson, function (err) {
+            if (err) throw err;
+        }); 
+
+        // remove asset file
+        fs.remove('./js/', function (err) {
+            if (err) return console.log(err);
+        });
     });
+});
 
-    var source = fs.readFileSync('./js/'+ filename[i] , 'utf-8');
-    var options = { undef: true };
-    var predef = { jQuery: false };
-
-    jshintt.JSHINT(source, options, predef);
-
-    resultJSLinter.checking[i].messages = jshintt.JSHINT.errors;
-};
-
-// ------------------------ save result ------------------------
-var toJson = jsonPretty(resultJSLinter);
-
-function saveReport () {
-    fs.writeFile(dest + 'resultJS.json', toJson, function (err) {
-        if (err) throw err;
-    });	
-};
-
-saveReport();
-
-// --------------------- remove asset file ---------------------
-fs.removeSync('./js/');
-
+// end of horseman
 horseman.close();

@@ -40,7 +40,7 @@ Usage :
 node cssHorseman.js --url [URL] --destination [path]
 ```
 
-* -url / --url : input the url to do the test (required)
+* -url / --url : input the url of the file (required, end with .css)
 * -d / --destination : input the path to store the JSON output
 
 output : resultCSS.json
@@ -57,7 +57,7 @@ Usage :
 node jsHorseman.js --url [URL] --destination [path]
 ```
 
-* -url / --url : input the url to do the test (required)
+* -url / --url : input the url of the file (required, end with .js)
 * -d / --destination : input the path to store the JSON output
 
 output : resultJS.json
