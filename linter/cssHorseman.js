@@ -4,23 +4,23 @@ var Horseman   = require('node-horseman'),
     fs         = require('fs-extra'),
     isUrl      = require('is-url'),
     jsonPretty = require('json-pretty'),
-    shell      = require('shelljs'),
     program    = require('commander'),
+    http       = require('http'),
     cssLint    = require('csslint').CSSLint,
-    css        = require('css');
+    css        = require('css'),
+    rte        = require('readtoend');
 
 // --------------------------- get url ---------------------------
 program
-.version('0.0.1')
-.option('-url, --url [url]', 'input url')
-.option('-d, --destination [path]', 'input path to store the output')
-.parse(process.argv);
+    .version('0.0.1')
+    .option('-url, --url [url]', 'input url')
+    .option('-d, --destination [path]', 'input path to store the output')
+    .parse(process.argv);
 
-var url     = program.url;
-var dest    = '';
+var url     = program.url,
     dest    = program.destination;
 
-if ( ! dest ){
+if ( !dest ){
     dest = '';
 }
 
@@ -30,65 +30,63 @@ if ( !isUrl(url) ){
     process.exit(1);
 }
 
-// ----------------------- download css asset -----------------------
-if (shell.exec('casperjs downloadCSS.js --url=' + url).code !== 0) {
-    echo('Download Failed.');
-    exit(1);
-}
-
-// ---------------------------- css lint ----------------------------
+// initialization
 var resultCSSLinter = {
     name    : 'CSS Linter',
     url     : url,
     checking: []
 };
 
-var filename = fs.readdirSync('css/');
+// download css asset
+var filenameCSS = url.substring( url.lastIndexOf('/') + 1 , url.length );
 
-for (var i = 0; i < filename.length; i++) {
-    var source = fs.readFileSync( './css/' + filename[i] , 'utf-8');
+fs.mkdirSync('css/');
+var file = fs.createWriteStream('css/' + filenameCSS);
 
-    var parseSource = css.parse( source );
-    var beautified	= css.stringify( parseSource );
+var request = http.get(url , function(response) {
+    response.pipe(file);
 
-    resultCSSLinter.checking.push(
-        {
-            fileName    : filename[i],
-            messages    : []
+    // read the file
+    rte.readToEnd(response, function(err, body) {
+
+        // beautify css
+        var parseSource = css.parse( body );
+        var beautified  = css.stringify( parseSource );
+
+        // css lint
+        var result = cssLint.verify( beautified );
+
+        if (result.messages.length === 0) {
+            // Success
+        } else {
+            // Errors or warnings
+            for ( i = 0 ; i < result.messages.length ; i++) {
+                var message = result.messages[i];
+                resultCSSLinter.checking.push(
+                    {
+                        messageType     : message.type,
+                        messageLine     : message.line,
+                        messageCol      : message.col,
+                        messageMsg      : message.message
+                    }
+                );
+            }
         }
-    );
 
-    var result = cssLint.verify( beautified );
-    if (result.messages.length === 0) {
-        //Success
-    } else {
-        //Errors or warnings
-        for ( j = 0 ; j < result.messages.length ; j++) {
-            var message = result.messages[j];
-            resultCSSLinter.checking[i].messages.push(
-                {
-                    messageType     : message.type,
-                    messageLine     : message.line,
-                    messageCol      : message.col,
-                    messageMsg      : message.message
-                }
-            );
-        }
-    }
-};
+        //beautify json
+        var toJson = jsonPretty(resultCSSLinter);
 
-// ------------------------ save to json file ------------------------
-var toJson = jsonPretty(resultCSSLinter);
+        //save file
+        fs.writeFile(dest + 'resultCSS.json', toJson, function (err) {
+            if (err) throw err;
+        }); 
+        
+        // remove asset file
+        fs.remove('./css/', function (err) {
+            if (err) return console.log(err);
+        });
+    });
+});
 
-function saveReport () {
-    fs.writeFile(dest + 'resultCSS.json', toJson, function (err) {
-        if (err) throw err;
-    });	
-};
-
-saveReport();
-
-// --------------------- remove asset file ---------------------
-fs.removeSync('./css/');
-
+// end of horseman
 horseman.close();
