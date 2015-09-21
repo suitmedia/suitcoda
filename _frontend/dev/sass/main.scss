@@ -31,6 +31,7 @@ html {
 
 body {
     color: $black90;
+    background: $grey;
 }
 
 a {
@@ -40,6 +41,7 @@ a {
     &:hover,
     &:focus {
         color: $link_hover;
+        text-decoration: underline;
     }
 }
 
