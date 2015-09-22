@@ -760,7 +760,7 @@ input[type="number"] {
   border: solid 1px #bbbbbb;
   font-family: inherit;
   background: #fff;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); }
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.3); }
   .form-input:focus {
     border-color: #2669d3;
     outline: none; }
@@ -779,6 +779,12 @@ input[type="number"] {
 
 .form-input--block {
   width: 100%; }
+
+#login-user {
+  border-bottom: 0; }
+
+#login-pass {
+  border-top: 0; }
 
 /*ul*/
 .breadcrumb {
@@ -2915,7 +2921,22 @@ a {
 .block {
   margin-bottom: 1.6em; }
 
+.block-up {
+  margin-top: 1.6em; }
+
 .container {
   width: 95%;
   max-width: 960px;
   margin: 0 auto; }
+
+.title {
+  font-size: 1.5em; }
+  @media screen and (min-width: 40em) {
+    .title {
+      font-size: 2.3em; } }
+
+.subtitle {
+  font-size: 1.3em; }
+  @media screen and (min-width: 40em) {
+    .subtitle {
+      font-size: 1.7em; } }
