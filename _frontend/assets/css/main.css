@@ -531,9 +531,9 @@ table {
 .btn--regular {
   width: 120px; }
 
-.btn--orange {
+.btn--primary {
   color: white;
-  background: #f3702f; }
+  background: #f28900; }
 
 /*! Baze Grid v2.0.2 | (c) 2014 @_bobbylie | https://github.com/ImBobby/Baze-Grid */
 .bzg:after {
