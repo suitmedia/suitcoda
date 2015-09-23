@@ -280,6 +280,15 @@ input[type="search"] {
   white-space: nowrap;
   overflow: hidden; }
 
+.text-orange {
+  color: #f28900; }
+
+.text-red {
+  color: #c60000; }
+
+.text-green {
+  color: #9bce2a; }
+
 .clearfix:after,
 .table--responsive:after,
 .cf:after {
@@ -534,6 +543,14 @@ table {
 .btn--primary {
   color: white;
   background: #f28900; }
+
+.btn--secondary {
+  color: white;
+  background: #949699; }
+
+.btn--purple {
+  color: white;
+  background: #a75fcc; }
 
 /*! Baze Grid v2.0.2 | (c) 2014 @_bobbylie | https://github.com/ImBobby/Baze-Grid */
 .bzg:after {
@@ -2944,7 +2961,7 @@ a {
 
 .container {
   width: 95%;
-  max-width: 960px;
+  max-width: 1024px;
   margin: 0 auto; }
 
 .title {
