@@ -31,7 +31,6 @@ html {
 
 body {
     color: $black90;
-    background: $grey;
 }
 
 a {
@@ -65,6 +64,11 @@ a {
 
 // 4 Page styles
 // ------------------------------------------------------------------------ //
+.bg-grey {
+    background: $grey;
+    overflow: auto;
+}
+
 .title {
     font-size: 1.5em;
 

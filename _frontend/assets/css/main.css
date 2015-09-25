@@ -2942,8 +2942,7 @@ html {
   line-height: 1.6em; }
 
 body {
-  color: #3c3c3c;
-  background: #ececec; }
+  color: #3c3c3c; }
 
 a {
   color: #222;
@@ -2963,6 +2962,10 @@ a {
   width: 95%;
   max-width: 1024px;
   margin: 0 auto; }
+
+.bg-grey {
+  background: #ececec;
+  overflow: auto; }
 
 .title {
   font-size: 1.5em; }
