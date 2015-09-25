@@ -2,7 +2,7 @@
 // Setup
 // ------------------------------------------------------------------------ //
 
-$BTN_PADDING: $space/4 $space;
+$BTN_PADDING: $space/3 $space;
 
 @mixin btnStyle( $bg, $color: #fff ) {
     color: $color;
@@ -22,7 +22,6 @@ $BTN_PADDING: $space/4 $space;
     display: inline-block;
     padding: $BTN_PADDING;
     border: 0;
-    border-radius: 7px;
     font-family: inherit;
     line-height: $base_line_height;
     text-align: center;
@@ -54,19 +53,47 @@ $BTN_PADDING: $space/4 $space;
 
 .btn--regular {
     width: 120px;
+    padding: 5px 0;
 }
 
 .btn--primary {
     color: white;
     background: $primary;
+
+    &:focus,
+    &:hover {
+        background: darken($primary, 20%)
+    }
 }
 
 .btn--secondary {
     color: white;
     background: $secondary;
+
+    &:focus,
+    &:hover {
+        background: darken($secondary, 20%)
+    }
 }
 
 .btn--purple {
     color: white;
     background: $purple;
+
+    &:focus,
+    &:hover {
+        background: darken($purple, 20%)
+    }
+}
+
+.btn--grey {
+    color: white;
+    background: $grey_dark;
+
+    &:focus,
+    &:hover {
+        color: white;
+        text-decoration: none;
+        background: darken($grey_dark, 20%)
+    }
 }
