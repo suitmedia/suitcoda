@@ -29,6 +29,8 @@
                     </form>
                 </div>
 
+                <br>
+
                 <a href="#">
                     Forgot password?
                 </a>

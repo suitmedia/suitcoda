@@ -2,7 +2,6 @@
     position: relative;
     min-height: 130px;
     border: 1px solid $grey;
-    padding: 15px;
     background: white;
     display: inline-block;
 }
@@ -24,6 +23,7 @@ a.box {
 
 .box--login {
     width: 100%;
+    padding: 20px;
     margin: 0 auto;
 
     @media #{$medium} {
@@ -31,12 +31,11 @@ a.box {
     }
 }
 
-.box__score {
-    position: absolute;
-    top: 0;
-    left: 0;
+.box__thumbnail {
+    float: left;    
     width: 115px;
     height: 130px;
+    padding: 5px;
     text-align: center;
     color: white;
     background: $primary;
@@ -45,12 +44,26 @@ a.box {
         display: block;
         margin-top: 30px;
     }
+
+    @media #{$medium} {
+        float: right;
+    }
 }
 
 .box__desc {
     position: absolute;
-    top: 50%;
-    left: 125px;
+    top: 0;
+    left: 115px;
+    padding: 5px;
     font-size: 14px;
-    transform: translate(0,-50%);
+
+    @media #{$medium} {
+        left: 0;
+        right: 115px;
+    }
+}
+
+a.box:focus,
+a.box:hover {
+    text-decoration: none;
 }

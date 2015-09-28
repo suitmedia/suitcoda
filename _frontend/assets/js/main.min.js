@@ -19,6 +19,7 @@
             Site.fastClick();
             Site.enableActiveStateMobile();
             Site.WPViewportFix();
+            Site.dropdownMenu();
 
             window.Site = Site;
         },
@@ -46,6 +47,20 @@
                 style.appendChild(fix);
                 document.getElementsByTagName('head')[0].appendChild(style);
             }
+        },
+
+        dropdownMenu: function () {
+            var $trigger = $('.header-list>li>a');
+
+            $trigger.on('click', function () {
+                var $menu = $(this).siblings();
+                
+                if( $menu.css('display') === 'none') {
+                    $menu.css('display','block');
+                } else {
+                    $menu.css('display','none');
+                }
+            });
         }
 
     };
