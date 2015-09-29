@@ -16,7 +16,7 @@
             <div class="bzg">
                 <?php for ($i=0; $i < 10; $i++) { ?>
                     <div class="bzg_c block" data-col="s12,m6">
-                        <a class="box box--block cf" href="#">
+                        <a class="box box--block cf" href="project.php">
                             <div class="box__thumbnail">
                                 <span>Testing #12</span> <br>
                                 <b class="text-big">80%</b>

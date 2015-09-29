@@ -1,6 +1,8 @@
     <header class="header">
         <div class="container cf">
-            <img class="header-logo" src="assets/img/logo-header.png" alt="">
+            <a href="home.php">
+                <img class="header-logo" src="assets/img/logo-header.png" alt="">
+            </a>
             
             <ul class="header-list cf">
                 <li>
