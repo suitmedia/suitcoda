@@ -62,7 +62,7 @@ class CrawlerUrl
         }
 
         $stop_links = array(
-            '@^javascript\:void\(0\);?$@',
+            '@^javascript\:@',
             '@^#.*@',
             '@^void\(0\);$@'
         );
@@ -218,47 +218,38 @@ class CrawlerUrl
 
     protected function crawl($url)
     {
-        // echo $url . ' : ' . count($this->siteUrl) . "\n";
         $responseUrl = $this->doRequest($url);
         if (!is_null($responseUrl)) {
             $listCss = $responseUrl->filterXPath('//*[@rel="stylesheet"]')->extract('href');
-            $this->getAllOtherLink($listCss, $this->siteCss);
+            $this->getAllLink($listCss, $this->siteCss);
 
             $listJs = $responseUrl->filter('script')->extract('src');
-            $this->getAllOtherLink($listJs, $this->siteJs);
+            $this->getAllLink($listJs, $this->siteJs);
 
             $listUrl = $responseUrl->filter('a')->extract('href');
-            $this->getAllUrlRecursive($listUrl);
+            $this->getAllLink($listUrl, $this->siteUrl, true);
         }
     }
 
-    protected function getAllUrlRecursive($lists)
+    protected function getAllLink($lists, &$siteLink, $recursive = false)
     {
         foreach ($lists as $list) {
             if ($this->checkIfCrawlable($list)) {
                 $list = $this->normalizeLink($list);
-                if ($this->checkNotInList($list, $this->siteUrl) && !$this->checkIfExternal($list)) {
-                    $this->crawl($list);
+                if ($this->checkNotInList($list, $siteLink) && !$this->checkIfExternal($list)) {
+                    if (!$recursive) {
+                        array_push($siteLink, $list);
+                    } else {
+                        $this->crawl($list);
+                    }
                 }
             }
         }
     }
 
-    protected function getAllOtherLink($lists, &$siteLink)
+    public function checkNotInList($url, &$siteLink)
     {
-        foreach ($lists as $list) {
-            if ($this->checkIfCrawlable($list)) {
-                $list = $this->normalizeLink($list);
-                if (!empty($list) && !in_array($list, $siteLink) && !$this->checkIfExternal($list)) {
-                    array_push($siteLink, $list);
-                }
-            }
-        }
-    }
-
-    public function checkNotInList($url)
-    {
-        if (!in_array($url, $this->siteUrl) && !in_array($url, $this->siteBrokenLink)) {
+        if (!in_array($url, $siteLink) && !in_array($url, $this->siteBrokenLink)) {
             return true;
         }
         return false;
