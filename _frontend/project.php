@@ -8,7 +8,7 @@
             <nav>
                 <ul class="project-nav">
                     <li class="project-nav__tab"> 
-                        <a class="" href="#overview">
+                        <a class="active" href="#overview">
                             <b>
                                 <span class="fa fa-bar-chart"></span>
                                 <span class="hide-on-mobile">Overview</span>
@@ -16,7 +16,7 @@
                         </a>
                     </li>
                     <li class="project-nav__tab"> 
-                        <a class="active" href="#activity">
+                        <a class="" href="#activity">
                             <b>
                                 <span class="fa fa-code"></span>
                                 <span class="hide-on-mobile">Activity</span>

@@ -56,7 +56,7 @@
             var $tab = $('.project-nav__tab a');
 
             //default 
-            $('#activity').css('display','block');
+            $('#overview').css('display','block');
 
             $tab.on('click',function () {
                 var target = $(this).attr('href');
