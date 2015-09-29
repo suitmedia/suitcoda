@@ -1051,10 +1051,10 @@ a.box {
   position: absolute;
   top: -7px;
   right: 0px;
-  width: 15px;
   height: 15px;
   padding-left: 4px;
-  border-radius: 50%;
+  padding-right: 4px;
+  border-radius: 10px;
   display: inline-block;
   font-size: 10px;
   line-height: 1.5;
