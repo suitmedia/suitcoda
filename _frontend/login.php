@@ -7,7 +7,7 @@
                 <h1 class="title">An automated tool to measure website's quality</h1>
                 <h2 class="subtitle">Sign in to Suitcoda</h2>
 
-                <div class="box box--login">
+                <div class="box box-login">
                     <form class="cf" action="">
                         <label class="sr-only" for="login-user">Username</label>
                         <input id="login-user" class="form-input form-input--block" placeholder="username" type="text"> <br>
