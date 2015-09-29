@@ -14,23 +14,44 @@ a.box {
     &:focus {
         box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.6);
         transition: box-shadow 200ms ease;
+        text-decoration: none;
     }
 }
 
-.box--block {
+.box-testing {
+    position: relative;
     width: 100%;
 }
 
-.box--login {
-    width: 100%;
-    padding: 20px;
-    margin: 0 auto;
+.box-testing__detail {
+    padding: 15px;
+    font-size: 12px;
 
-    @media #{$medium} {
-        width: 320px;
+    @media #{$large} {
+        font-size: 16px;
     }
 }
 
+.box-testing__percent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-height: 30px;
+    padding: 5px 15px;
+    font-size: 10px;
+    background: $grey;
+
+    span {
+        margin-right: 20px;
+    }
+
+    @media #{$large} {
+        font-size: 13px;
+    }
+}
+
+// element
 .box__thumbnail {
     float: left;    
     width: 115px;
@@ -63,7 +84,21 @@ a.box {
     }
 }
 
-a.box:focus,
-a.box:hover {
-    text-decoration: none;
+// modifier
+.box--block {
+    width: 100%;
+}
+
+.box--grey {
+    background: $grey;
+}
+
+.box--login {
+    width: 100%;
+    padding: 20px;
+    margin: 0 auto;
+
+    @media #{$medium} {
+        width: 320px;
+    }
 }

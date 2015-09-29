@@ -110,6 +110,14 @@ a {
     display: inline-block;
 }
 
+.hide-on-mobile {
+    display: none;
+
+    @media #{$medium} {
+        display: inline-block;
+    }
+}
+
 // 5 Footer
 // ------------------------------------------------------------------------ //
 
