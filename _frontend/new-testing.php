@@ -7,21 +7,13 @@
             <h1 class="title">Create New Testing</h1>
 
             <form action="">
-                <div class="bzg">
-                    <div class="bzg_c" data-col="s12,m2">
-                        <label for="project-name">Project Name :</label>
-                    </div>
-                    <div class="bzg_c" data-col="s12,m10">
-                        <input id="project-name" class="form-input form-input--block block" type="text">            
-                    </div>
-                </div>
 
                 <div class="bzg">
                     <div class="bzg_c" data-col="s12,m2">
-                        <label for="project-url">URL :</label>
+                        <label for="testing-url">URL :</label>
                     </div>
                     <div class="bzg_c" data-col="s12,m10">
-                        <input id="project-url" class="form-input form-input--block block" type="text">
+                        <input id="testing-url" class="form-input form-input--block block" type="text">
                     </div>
                 </div>
                 
