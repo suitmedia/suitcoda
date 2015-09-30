@@ -18,13 +18,19 @@ a.box {
     }
 }
 
-.box-login {
+.box-form {
     width: 100%;
     padding: 20px;
     margin: 0 auto;
 
     @media #{$medium} {
         width: 320px;
+    }
+}
+
+.box-form--wide {
+    @media #{$medium} {
+        width: 60%;
     }
 }
 
