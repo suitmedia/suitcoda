@@ -75,10 +75,6 @@ a.box {
         display: block;
         margin-top: 30px;
     }
-
-    @media #{$medium} {
-        float: right;
-    }
 }
 
 .box__desc {
@@ -87,11 +83,6 @@ a.box {
     left: 115px;
     padding: 5px;
     font-size: 14px;
-
-    @media #{$medium} {
-        left: 0;
-        right: 115px;
-    }
 }
 
 // modifier

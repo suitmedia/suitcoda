@@ -942,9 +942,6 @@ a.box {
   .box__thumbnail .text-big {
     display: block;
     margin-top: 30px; }
-  @media screen and (min-width: 40em) {
-    .box__thumbnail {
-      float: right; } }
 
 .box__desc {
   position: absolute;
@@ -952,10 +949,6 @@ a.box {
   left: 115px;
   padding: 5px;
   font-size: 14px; }
-  @media screen and (min-width: 40em) {
-    .box__desc {
-      left: 0;
-      right: 115px; } }
 
 .box--block {
   width: 100%; }
