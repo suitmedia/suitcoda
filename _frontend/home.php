@@ -31,6 +31,10 @@
                 <?php } ?>
             </div>                        
         </div>
+
+        <a class="btn-newproject" href="#">
+            <span class="fa fa-plus"></span>
+        </a>
     </main>
 
     <?php include '_include/footer.php'; ?>
