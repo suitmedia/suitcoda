@@ -69,19 +69,46 @@ a.box {
     }
 }
 
+.box-newuser {
+    width: 100%;
+    height: 130px;
+    padding: 45px 0;
+    border: 3px dashed $primary;
+    text-align: center;
+
+    .fa-plus {
+        width: 30px;
+        height: 30px;
+        padding-top: 8px;
+        border-radius: 50%;
+        color: white;
+        text-align: center;
+        background: $primary;
+    }
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+}
+
 // element
 .box__thumbnail {
-    float: left;    
+    position: relative;
     width: 115px;
     height: 130px;
     padding: 5px;
     text-align: center;
     color: white;
     background: $primary;
+    float: left;    
 
     .text-big {
+        position: absolute;
+        top: 50%;
+        left: 50%;
         display: block;
-        margin-top: 30px;
+        transform: translate(-50%,-50%);
     }
 }
 
@@ -91,6 +118,22 @@ a.box {
     left: 115px;
     padding: 5px;
     font-size: 14px;
+    width: calc( 100% - 115px );
+}
+
+.box__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 7px;
+    color: white;
+    background: $grey_dark;
+
+    &:hover,
+    &:focus {
+        background: darken($grey_dark, 10%);
+        color: white;
+    }
 }
 
 // modifier

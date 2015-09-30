@@ -958,24 +958,59 @@ a.box {
     .box-testing__percent {
       font-size: 13px; } }
 
+.box-newuser {
+  width: 100%;
+  height: 130px;
+  padding: 45px 0;
+  border: 3px dashed #f28900;
+  text-align: center; }
+  .box-newuser .fa-plus {
+    width: 30px;
+    height: 30px;
+    padding-top: 8px;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    background: #f28900; }
+  .box-newuser:hover,
+  .box-newuser:focus {
+    text-decoration: none; }
+
 .box__thumbnail {
-  float: left;
+  position: relative;
   width: 115px;
   height: 130px;
   padding: 5px;
   text-align: center;
   color: white;
-  background: #f28900; }
+  background: #f28900;
+  float: left; }
   .box__thumbnail .text-big {
+    position: absolute;
+    top: 50%;
+    left: 50%;
     display: block;
-    margin-top: 30px; }
+    transform: translate(-50%, -50%); }
 
 .box__desc {
   position: absolute;
   top: 0;
   left: 115px;
   padding: 5px;
-  font-size: 14px; }
+  font-size: 14px;
+  width: calc( 100% - 115px); }
+
+.box__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 7px;
+  color: white;
+  background: #949699; }
+  .box__close:hover,
+  .box__close:focus {
+    background: #7a7c80;
+    color: white; }
 
 .box--block {
   width: 100%; }
@@ -3187,8 +3222,7 @@ a {
   text-decoration: none; }
   a:hover,
   a:focus {
-    color: #090909;
-    text-decoration: underline; }
+    color: #090909; }
 
 .block {
   margin-bottom: 1.6em; }
