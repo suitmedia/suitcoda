@@ -28,6 +28,14 @@ a.box {
     }
 }
 
+.box-fieldset {
+    padding: 15px;
+
+    legend {
+        margin: 0;
+    }
+}
+
 .box-testing {
     position: relative;
     width: 100%;

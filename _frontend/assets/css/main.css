@@ -927,6 +927,11 @@ a.box {
     .box-login {
       width: 320px; } }
 
+.box-fieldset {
+  padding: 15px; }
+  .box-fieldset legend {
+    margin: 0; }
+
 .box-testing {
   position: relative;
   width: 100%; }

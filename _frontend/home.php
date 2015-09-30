@@ -32,7 +32,7 @@
             </div>                        
         </div>
 
-        <a class="btn-newproject" href="#">
+        <a class="btn-newproject" href="new-project.php">
             <span class="fa fa-plus"></span>
         </a>
     </main>
