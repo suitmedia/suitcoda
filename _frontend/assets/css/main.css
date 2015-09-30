@@ -821,10 +821,10 @@ input[type="number"] {
 
 .form-input {
   padding: 0.53333em;
-  border: solid 1px #bbbbbb;
+  border: solid 1px #949699;
+  border-radius: 5px;
   font-family: inherit;
-  background: #fff;
-  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.3); }
+  background: #fff; }
   .form-input:focus {
     border-color: #2669d3;
     outline: none; }
@@ -843,12 +843,6 @@ input[type="number"] {
 
 .form-input--block {
   width: 100%; }
-
-#login-user {
-  border-bottom: 0; }
-
-#login-pass {
-  border-top: 0; }
 
 /*ul*/
 .breadcrumb {

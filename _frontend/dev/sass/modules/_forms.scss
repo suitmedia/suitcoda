@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------ //
 
 $input_border_size      : 1 * 1px;
-$input_border_color     : $black40;
+$input_border_color     : $grey_dark;
 $input_padding          : $space/3;
 $input_bg               : #fff;
 
@@ -46,9 +46,9 @@ input[type="number"] {
 .form-input {
     padding: $input_padding;
     border: solid $input_border_size $input_border_color;
+    border-radius: 5px;
     font-family: inherit;
     background: $input_bg;
-    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.3);
 
     &:focus {
         border-color: #2669d3;
@@ -82,12 +82,4 @@ input[type="number"] {
 
 .form-input--block {
     width: 100%;
-}
-
-#login-user {
-    border-bottom: 0;
-}
-
-#login-pass {
-    border-top: 0;
 }
