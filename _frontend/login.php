@@ -5,12 +5,12 @@
             <div class="container">
                 <img class="block" src="assets/img/logo.png" alt="">
                 <h1 class="title">An automated tool to measure website's quality</h1>
-                <h2 class="subtitle">Sign in to Suitcoda</h2>
+                <h2 class="subtitle block">Sign in to Suitcoda</h2>
 
-                <div class="box box-login">
+                <div class="box box-form">
                     <form class="cf" action="">
                         <label class="sr-only" for="login-user">Username</label>
-                        <input id="login-user" class="form-input form-input--block" placeholder="username" type="text"> <br>
+                        <input id="login-user" class="form-input form-input--block block-half" placeholder="username" type="text"> <br>
 
                         <label class="sr-only" for="login-pass">Password</label>
                         <input id="login-pass" class="form-input form-input--block block" placeholder="password" type="password"> <br>

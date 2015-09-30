@@ -3226,6 +3226,9 @@ a {
 .block {
   margin-bottom: 1.6em; }
 
+.block-half {
+  margin-bottom: 0.8em; }
+
 .block-up {
   margin-top: 1.6em; }
 

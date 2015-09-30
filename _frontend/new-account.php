@@ -12,19 +12,19 @@
                     <div class="box box-form box-form--wide block">
                         <form action="">
                             <label for="acc-name" class="sr-only">Name :</label>
-                            <input id="acc-name" class="form-input form-input--block block" placeholder="Name" type="text">
+                            <input id="acc-name" class="form-input form-input--block block-half" placeholder="Name" type="text">
                             
                             <label for="acc-username" class="sr-only">Username :</label>
-                            <input id="acc-username" class="form-input form-input--block block" placeholder="Username" type="text">
+                            <input id="acc-username" class="form-input form-input--block block-half" placeholder="Username" type="text">
                             
                             <label for="acc-email" class="sr-only">Email :</label>
-                            <input id="acc-email" class="form-input form-input--block block" placeholder="Email" type="text">
+                            <input id="acc-email" class="form-input form-input--block block-half" placeholder="Email" type="text">
                             
                             <label for="acc-pass" class="sr-only">Password :</label>
-                            <input id="acc-pass" class="form-input form-input--block block" placeholder="Password" type="text">
+                            <input id="acc-pass" class="form-input form-input--block block-half" placeholder="Password" type="text">
                             
                             <label for="acc-confpass" class="sr-only">Confirm Password :</label>
-                            <input id="acc-confpass" class="form-input form-input--block block" placeholder="Confirm Password" type="text">
+                            <input id="acc-confpass" class="form-input form-input--block block-half" placeholder="Confirm Password" type="text">
                             
                             <label for="acc-role" class="sr-only">Role :</label>
                             <select id="acc-role" class="form-input form-input--block block" name="" id="">
