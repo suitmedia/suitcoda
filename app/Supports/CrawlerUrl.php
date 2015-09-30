@@ -101,13 +101,13 @@ class CrawlerUrl
                 return $url;
             } elseif (empty($parse['host'])) {
                 if (!empty($parse['path'])) {
+                    if (substr($parse['path'], -1) === '/') {
+                        $parse['path'] = rtrim($parse['path'], '/');
+                    }
                     if ($parse['path'][0] !== '/') {
                         return $this->baseUrl . '/' . $parse['path'];
-                    } elseif (substr($parse['path'], -1) === '/') {
-                        return rtrim($url, '/');
-                    } else {
-                        return $this->baseUrl . $parse['path'];
                     }
+                    return $this->baseUrl . $parse['path'];
                 }
             }
         }
@@ -216,6 +216,10 @@ class CrawlerUrl
         $this->crawl($baseUrl);
     }
 
+    /**
+     * Function to filter a url base on html tag
+     * @param  string $url
+     */
     protected function crawl($url)
     {
         $responseUrl = $this->doRequest($url);
@@ -231,6 +235,12 @@ class CrawlerUrl
         }
     }
 
+    /**
+     * Function to get all link url, css and js from a url
+     * @param  array  $lists
+     * @param  array  &$siteLink
+     * @param  boolean $recursive
+     */
     protected function getAllLink($lists, &$siteLink, $recursive = false)
     {
         foreach ($lists as $list) {
@@ -247,6 +257,12 @@ class CrawlerUrl
         }
     }
 
+    /**
+     * Checking a url in the array of site that crawl or not
+     * @param  string $url
+     * @param  array &$siteLink
+     * @return boolean
+     */
     public function checkNotInList($url, &$siteLink)
     {
         if (!in_array($url, $siteLink) && !in_array($url, $this->siteBrokenLink)) {
@@ -255,6 +271,10 @@ class CrawlerUrl
         return false;
     }
 
+    /**
+     * Checking status code of a url
+     * @return boolean
+     */
     protected function checkStatusCode()
     {
         if ($this->client->getResponse()->getStatus() === 200) {
@@ -264,6 +284,11 @@ class CrawlerUrl
         }
     }
 
+    /**
+     * Function to checking and retrying a url
+     * @param  string $url
+     * @param  int $try
+     */
     public function doRequest($url, $try = null)
     {
         if (is_null($try)) {

@@ -35,6 +35,9 @@ class CrawlerUrlTest extends TestCase
 
         $this->assertEquals($uri, $crawl->normalizeLink('http://foobar.com/'));
         $this->assertEquals($uri . '/en', $crawl->normalizeLink('en'));
+        $this->assertEquals($uri . '/en', $crawl->normalizeLink('/en'));
+        $this->assertEquals($uri . '/en/test', $crawl->normalizeLink('en/test/'));
+        $this->assertEquals($uri . '/en/test', $crawl->normalizeLink('/en/test/'));
         $this->assertEquals($uri . '/en', $crawl->normalizeLink($uri . '/en'));
         $this->assertEquals($uri . '/en/test', $crawl->normalizeLink($uri . '/en/test/'));
         $this->assertEquals($uri . '/en/test?q=123', $crawl->normalizeLink($uri . '/en/test?q=123'));
@@ -151,7 +154,8 @@ class CrawlerUrlTest extends TestCase
         $client = $this->getMockClient()->makePartial();
 
         $crawling = new CrawlerUrl($client);
-        $result = $crawling->checkNotInList('http://foobar.com');
+        $tempArraySiteList = $crawling->getSiteUrl();
+        $result = $crawling->checkNotInList('http://foobar.com', $tempArraySiteList);
 
         $this->assertEquals(true, $result);
     }
