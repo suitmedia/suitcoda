@@ -47,10 +47,16 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals('http://baz.com', $crawl->normalizeLink('http://baz.com'));
         $this->assertEquals('http://baz.com/test', $crawl->normalizeLink('http://baz.com/test'));
         $this->assertEquals('http://baz.com/test?q=123', $crawl->normalizeLink('http://baz.com/test?q=123'));
-        $this->assertEquals('http://baz.com/test?q=123&r=456', $crawl->normalizeLink('http://baz.com/test?q=123&r=456'));
+        $this->assertEquals(
+            'http://baz.com/test?q=123&r=456',
+            $crawl->normalizeLink('http://baz.com/test?q=123&r=456')
+        );
         $this->assertEquals('http://baz.com/test', $crawl->normalizeLink('http://baz.com/test/'));
         $this->assertEquals('http://baz.com/test/?q=123', $crawl->normalizeLink('http://baz.com/test/?q=123'));
-        $this->assertEquals('http://baz.com/test/?q=123&r=456', $crawl->normalizeLink('http://baz.com/test/?q=123&r=456'));
+        $this->assertEquals(
+            'http://baz.com/test/?q=123&r=456',
+            $crawl->normalizeLink('http://baz.com/test/?q=123&r=456')
+        );
         $this->assertEquals('http://baz.com', $crawl->normalizeLink('//baz.com'));
     }
 
