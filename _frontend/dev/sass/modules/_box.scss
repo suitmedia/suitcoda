@@ -1,6 +1,5 @@
 .box {
     position: relative;
-    min-height: 130px;
     border: 1px solid $grey;
     background: white;
     display: inline-block;
@@ -49,7 +48,7 @@ a.box {
 
 .box-testing__detail {
     padding: 15px;
-    font-size: 12px;
+    font-size: 14px;
 
     @media #{$large} {
         font-size: 16px;
@@ -57,13 +56,10 @@ a.box {
 }
 
 .box-testing__percent {
-    position: absolute;
-    bottom: 0;
-    left: 0;
     width: 100%;
     min-height: 30px;
     padding: 5px 15px;
-    font-size: 10px;
+    font-size: 12px;
     background: $grey;
 
     span {
@@ -71,7 +67,7 @@ a.box {
     }
 
     @media #{$large} {
-        font-size: 13px;
+        font-size: 14px;
     }
 }
 

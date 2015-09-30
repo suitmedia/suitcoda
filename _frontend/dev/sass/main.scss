@@ -61,6 +61,27 @@ a {
     margin: 0 auto;
 }
 
+b,
+strong {
+    font-family: 'open_sansbold';
+}
+
+i,
+em {
+    font-family: 'open_sansitalic';
+}
+
+b i,
+b em,
+strong i,
+strong em,
+i b,
+i strong,
+em b,
+em strong {
+    font-family: 'open_sansbold_italic';
+}
+
 // 3 Header
 // ------------------------------------------------------------------------ //
 
@@ -119,6 +140,10 @@ a {
     @media #{$medium} {
         display: inline-block;
     }
+}
+
+.progressbar-wrapper {
+    display: block;
 }
 
 // 5 Footer

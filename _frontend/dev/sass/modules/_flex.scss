@@ -1,0 +1,28 @@
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -20px;
+}
+
+.item {
+    padding-left: 20px;
+    width: 100%;
+}
+
+.item-main {
+    order: 2;
+
+    @media #{$large} {
+        width: 70%;
+        order: 1;
+    }
+}
+
+.item-side {
+    order: 1;
+
+    @media #{$large} {
+        width: 30%;
+        order: 2;
+    }
+}

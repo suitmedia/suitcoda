@@ -41,60 +41,102 @@
             
             <!-- activity, testing list, status -->
             <section id="activity" class="project-content">
-                <h2 class="subtitle">Testing List</h2>
-                <a class="btn btn--grey btn--regular" href="#">New Testing</a>
-
-                <div class="bzg">
-                    <ul class="bzg_c list-nostyle" data-col="s12,m8">
-                        <li>
-                            <a class="box box-testing" href="#">
-                                <div class="box-testing__detail">
-                                    <div class="bzg">
-                                        <div class="bzg_c" data-col="s4">
-                                            <b>Testing #16</b>
-                                        </div>
-                                        <div class="bzg_c" data-col="s4">
-                                            <div class="text-red">
-                                                <span class="fa fa-exclamation-triangle"></span>
-                                                <span>250 Issues</span>
+                <div class="flex">
+                    <div class="item item-main block cf">
+                        <h2 class="subtitle float-left">Testing List</h2>
+                        <a class="btn btn--grey btn--regular float-right" href="new-testing.php">New Testing</a> <br>
+                        <ul class="list-nostyle">
+                            <?php for ($i=0; $i < 10; $i++) { ?>
+                                <li>
+                                    <a class="box box-testing block" href="#">
+                                        <div class="box-testing__detail">
+                                            <div class="bzg">
+                                                <div class="bzg_c" data-col="s12,m4">
+                                                    <b>Testing #16</b>
+                                                </div>
+                                                <div class="bzg_c" data-col="s12,m4">
+                                                    <div class="text-red">
+                                                        <span class="fa fa-exclamation-triangle"></span>
+                                                        <span>250 Issues</span>
+                                                    </div>
+                                                </div>
+                                                <div class="bzg_c" data-col="s12,m4">
+                                                    <div class="text-grey">
+                                                        <span class="fa fa-clock-o"></span>
+                                                        <span>5 minutes ago</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="bzg_c" data-col="s4">
-                                            <div class="text-grey">
-                                                <span class="fa fa-clock-o"></span>
-                                                <span>5 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <span class="label label--orange">Performance</span>
-                                    <span class="label label--red">Code Quality</span>
-                                    <span class="label label--blue">SEO</span>
-                                    <span class="label label--green">Security</span>
-                                </div>
+                                            <span class="label label--orange">Performance</span>
+                                            <span class="label label--red">Code Quality</span>
+                                            <span class="label label--blue">SEO</span>
+                                            <span class="label label--green">Security</span>
+                                        </div>
 
-                                <div class="box-testing__percent">
-                                    <span>
-                                        <b>Overall : </b> 80%
-                                    </span>
-                                    <span>
-                                        <b>Performance : </b> 80%
-                                    </span>
-                                    <span>
-                                        <b>Code Quality : </b> 80%
-                                    </span>
-                                    <span>
-                                        <b>SEO : </b> 80%
-                                    </span>
-                                    <span>
-                                        <b>Security : </b> 80%
-                                    </span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="bzg_c" data-col="s12,m4"></div>
+                                        <div class="box-testing__percent">
+                                            <span>
+                                                <b>Overall : </b> 80%
+                                            </span>
+                                            <span>
+                                                <b>Performance : </b> 80%
+                                            </span>
+                                            <span>
+                                                <b>Code Quality : </b> 80%
+                                            </span>
+                                            <span>
+                                                <b>SEO : </b> 80%
+                                            </span>
+                                            <span>
+                                                <b>Security : </b> 80%
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+
+                    <div class="item item-side block">
+                        <h3>Lastest Testing Status</h3>
+                        <div class="progressbar-wrapper block-half">
+                            <b>
+                                Overall 
+                                <span class="text-red">(10)</span> 
+                            </b> 
+                            <div class="progressbar">80</div>
+                        </div>
+                        <div class="progressbar-wrapper block-half">
+                            <b>
+                                Performance 
+                                <span class="text-red">(4)</span> 
+                            </b> 
+                            <div class="progressbar">70</div>
+                        </div>
+                        <div class="progressbar-wrapper block-half">
+                            <b>
+                                Code Quality 
+                                <span class="text-red">(2)</span> 
+                            </b> 
+                            <div class="progressbar">15</div>
+                        </div>
+                        <div class="progressbar-wrapper block-half">
+                            <b>
+                                SEO 
+                                <span class="text-red">(3)</span> 
+                            </b> 
+                            <div class="progressbar">63</div>
+                        </div>
+                        <div class="progressbar-wrapper block-half">
+                            <b>
+                                Social Media 
+                                <span class="text-red">(1)</span> 
+                            </b> 
+                            <div class="progressbar">17</div>
+                        </div>
+                    </div>
                 </div>
+
             </section>
             
             <!-- issues details -->

@@ -11,7 +11,8 @@
         _jquery_cdn     : 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',
         _jquery_local   : path.js + 'jquery.min.js',
         _fastclick      : path.js + 'fastclick.min.js',
-        _highcharts     : path.js + 'highcharts.min.js'
+        _highcharts     : path.js + 'highcharts.min.js',
+        _barindicator   : path.js + 'jquery-barIndicator.min.js'
     };
 
     var Site = {
@@ -23,6 +24,7 @@
             Site.dropdownMenu();
             Site.projectTabNav();
             Site.projectChart();
+            Site.progressBar();
 
             window.Site = Site;
         },
@@ -144,6 +146,14 @@
                     data: [1.2, 2.3, 2.5, 5.4, 5.7, 5.9, 6.2, 7.1, 7.9, 9.1, 10.5, 12.3]
                 }]
             });
+        },
+
+        progressBar: function () {
+            var opt = {
+                animation : false
+            }
+
+            $('.progressbar').barIndicator(opt);
         }
 
     };
@@ -160,7 +170,11 @@
 
     Modernizr.load([{
         load    : assets._jquery_cdn
-    },{
+    },
+    {
+        load    : assets._barindicator
+    },
+    {
         load    : assets._highcharts,
         complete: checkJquery
     }]);
