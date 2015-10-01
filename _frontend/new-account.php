@@ -11,26 +11,38 @@
 
                     <div class="box box-form box-form--wide block">
                         <form action="" data-validate="yes">
-                            <label for="acc-name" class="sr-only">Name :</label>
-                            <input id="acc-name" class="form-input form-input--block block-half" placeholder="Name" type="text" required>
+                            <div class="block-half">
+                                <label for="acc-name" class="sr-only">Name :</label>
+                                <input id="acc-name" class="form-input form-input--block" placeholder="Name" type="text" required>
+                            </div>
                             
-                            <label for="acc-username" class="sr-only">Username :</label>
-                            <input id="acc-username" class="form-input form-input--block block-half" placeholder="Username" type="text" required>
+                            <div class="block-half">
+                                <label for="acc-username" class="sr-only">Username :</label>
+                                <input id="acc-username" class="form-input form-input--block" placeholder="Username" type="text" required>
+                            </div>
                             
-                            <label for="acc-email" class="sr-only">Email :</label>
-                            <input id="acc-email" class="form-input form-input--block block-half" placeholder="Email" type="text" required>
+                            <div class="block-half">
+                                <label for="acc-email" class="sr-only">Email :</label>
+                                <input id="acc-email" class="form-input form-input--block" placeholder="Email" type="text" required>
+                            </div>
                             
-                            <label for="acc-pass" class="sr-only">Password :</label>
-                            <input id="acc-pass" class="form-input form-input--block block-half" placeholder="Password" type="password" required>
+                            <div class="block-half">
+                                <label for="acc-pass" class="sr-only">Password :</label>
+                                <input id="acc-pass" class="form-input form-input--block" placeholder="Password" type="password" required>
+                            </div>
                             
-                            <label for="acc-confpass" class="sr-only">Confirm Password :</label>
-                            <input id="acc-confpass" class="form-input form-input--block block-half" placeholder="Confirm Password" type="password" required>
+                            <div class="block-half">
+                                <label for="acc-confpass" class="sr-only">Confirm Password :</label>
+                                <input id="acc-confpass" class="form-input form-input--block" placeholder="Confirm Password" type="password" required>
+                            </div>
                             
-                            <label for="acc-role" class="sr-only">Role :</label>
-                            <select id="acc-role" class="form-input form-input--block block" name="" id="" required>
-                                <option value="user">User</option>
-                                <option value="admin">Admin</option>
-                            </select>
+                            <div class="block-half">
+                                <label for="acc-role" class="sr-only">Role :</label>
+                                <select id="acc-role" class="form-input form-input--block" name="" id="" required>
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
 
                             <button class="btn btn--primary btn--regular">
                                 Save

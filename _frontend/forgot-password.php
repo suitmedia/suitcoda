@@ -11,8 +11,10 @@
 
                     <div class="box box-form box-form--wide block-quad">
                         <form action="" data-validate="yes">
-                            <label for="forgot-email" class="sr-only">Email :</label>
-                            <input id="forgot-email" class="form-input form-input--block block" placeholder="Input your email here ...." type="text" required>
+                            <div class="block">
+                                <label for="forgot-email" class="sr-only">Email :</label>
+                                <input id="forgot-email" class="form-input form-input--block" placeholder="Input your email here ...." type="text" required>
+                            </div>
                             
                             <button class="btn btn--primary btn--regular">
                                 Submit

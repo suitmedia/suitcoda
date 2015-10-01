@@ -11,10 +11,15 @@
 
                     <div class="box box-form box-form--wide block-quad">
                         <form action="" data-validate="yes">
-                            <label for="new-pass" class="sr-only">New Password :</label>
-                            <input id="new-pass" class="form-input form-input--block block" placeholder="New password" type="password" required>
-                            <label for="new-pass-conf" class="sr-only">Confirm New Password :</label>
-                            <input id="new-pass-conf" class="form-input form-input--block block" placeholder="Confirm new password" type="password" required>
+                            <div class="block">
+                                <label for="new-pass" class="sr-only">New Password :</label>
+                                <input id="new-pass" class="form-input form-input--block" placeholder="New password" type="password" required>
+                            </div>
+
+                            <div class="block">
+                                <label for="new-pass-conf" class="sr-only">Confirm New Password :</label>
+                                <input id="new-pass-conf" class="form-input form-input--block" placeholder="Confirm new password" type="password" required>
+                            </div>
                             
                             <button class="btn btn--primary btn--regular">
                                 Submit

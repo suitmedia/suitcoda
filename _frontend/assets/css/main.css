@@ -851,8 +851,7 @@ input[type="number"] {
 
 .msg-error {
   font-size: 12px;
-  color: #c60000;
-  display: block; }
+  color: #c60000; }
 
 /*ul*/
 .breadcrumb {

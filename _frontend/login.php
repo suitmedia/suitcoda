@@ -9,16 +9,22 @@
 
                 <div class="box box-form">
                     <form class="cf" action="" data-validate="yes">
-                        <label class="sr-only" for="login-user">Username</label>
-                        <input id="login-user" class="form-input form-input--block block-half" placeholder="username" type="text" required> <br>
-
-                        <label class="sr-only" for="login-pass">Password</label>
-                        <input id="login-pass" class="form-input form-input--block block" placeholder="password" type="password" required> <br>
+                        <div class="block-half">
+                            <label class="sr-only" for="login-user">Username</label>
+                            <input id="login-user" class="form-input form-input--block" placeholder="username" type="text" required> <br>
+                        </div>
+                        
+                        <div class="block-half">
+                            <label class="sr-only" for="login-pass">Password</label>
+                            <input id="login-pass" class="form-input form-input--block" placeholder="password" type="password" required> <br>
+                        </div>
                         
                         <img src="assets/img/captcha.png" alt=""> <br>
 
-                        <label class="sr-only" for="login-captcha">Captcha</label>
-                        <input id="login-captcha" class="form-input form-input--block block" placeholder="input the text above" type="text" required> <br>
+                        <div class="block-half">
+                            <label class="sr-only" for="login-captcha">Captcha</label>
+                            <input id="login-captcha" class="form-input form-input--block" placeholder="input the text above" type="text" required> <br>
+                        </div>
                         
                         <label class="float-left" for="login-remember">
                             <input id="login-remember" type="checkbox">

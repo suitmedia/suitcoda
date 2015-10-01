@@ -11,12 +11,20 @@
 
                     <div class="box box-form box-form--wide block">
                         <form action="" data-validate="yes">
-                            <label for="project-name" class="sr-only">Project Name :</label>
-                            <input id="project-name" class="form-input form-input--block block" placeholder="Input Project Name Here ...." type="text" required>
-                            <label for="project-url" class="sr-only">Project URL :</label>
-                            <input id="project-url" class="form-input form-input--block block" placeholder="Input Project URL Here ...." type="text" required>
-                            <label for="project-desc" class="sr-only">Project Description :</label>
-                            <textarea id="project-desc" class="form-input form-input--block block" placeholder="Input Project Description Here ...." rows="7" required></textarea>
+                            <div class="block">
+                                <label for="project-name" class="sr-only">Project Name :</label>
+                                <input id="project-name" class="form-input form-input--block" placeholder="Input Project Name Here ...." type="text" required>
+                            </div>
+
+                            <div class="block">
+                                <label for="project-url" class="sr-only">Project URL :</label>
+                                <input id="project-url" class="form-input form-input--block" placeholder="Input Project URL Here ...." type="text" required>
+                            </div>
+
+                            <div class="block">
+                                <label for="project-desc" class="sr-only">Project Description :</label>
+                                <textarea id="project-desc" class="form-input form-input--block" placeholder="Input Project Description Here ...." rows="7" required></textarea>
+                            </div>
 
                             <button class="btn btn--primary btn--regular">
                                 Save
