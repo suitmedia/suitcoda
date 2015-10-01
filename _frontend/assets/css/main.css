@@ -3620,6 +3620,12 @@ a {
 .block {
   margin-bottom: 1.6em; }
 
+.block-double {
+  margin-bottom: 3.2em; }
+
+.block-quad {
+  margin-bottom: 6.4em; }
+
 .block-half {
   margin-bottom: 0.8em; }
 

@@ -47,6 +47,14 @@ a {
     margin-bottom: $space;
 }
 
+.block-double {
+    margin-bottom: $space*2;
+}
+
+.block-quad {
+    margin-bottom: $space*4;
+}
+
 .block-half {
     margin-bottom: $space/2;
 }
