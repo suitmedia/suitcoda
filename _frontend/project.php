@@ -164,19 +164,11 @@
                     </div>
                 </div>
             </section>
-
+            
+            <!-- create new testing -->
             <section id="newtesting" class="project-content">
                 <h2 class="subtitle">Create New Testing</h2>
-                <form action="">
-                    <div class="bzg">
-                        <div class="bzg_c" data-col="s12,m2">
-                            <label for="testing-url">URL :</label>
-                        </div>
-                        <div class="bzg_c" data-col="s12,m10">
-                            <input id="testing-url" class="form-input form-input--block block" type="text">
-                        </div>
-                    </div>
-                    
+                <form action="">                    
                     <div class="bzg">
                         <div class="bzg_c" data-col="s12,m6">
                             <fieldset class="box box-fieldset box--block block">

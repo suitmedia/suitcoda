@@ -13,6 +13,8 @@
                         <form action="">
                             <label for="project-name" class="sr-only">Project Name :</label>
                             <input id="project-name" class="form-input form-input--block block" placeholder="Input Project Name Here ...." type="text">
+                            <label for="project-url" class="sr-only">Project URL :</label>
+                            <input id="project-url" class="form-input form-input--block block" placeholder="Input Project URL Here ...." type="text">
                             <label for="project-desc" class="sr-only">Project Description :</label>
                             <textarea id="project-desc" class="form-input form-input--block block" placeholder="Input Project Description Here ...." rows="7"></textarea>
 
