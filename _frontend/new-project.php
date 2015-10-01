@@ -10,13 +10,13 @@
                     <h1 class="title block block-up">Create New Project</h1>
 
                     <div class="box box-form box-form--wide block">
-                        <form action="">
+                        <form action="" data-validate="yes">
                             <label for="project-name" class="sr-only">Project Name :</label>
-                            <input id="project-name" class="form-input form-input--block block" placeholder="Input Project Name Here ...." type="text">
+                            <input id="project-name" class="form-input form-input--block block" placeholder="Input Project Name Here ...." type="text" required>
                             <label for="project-url" class="sr-only">Project URL :</label>
-                            <input id="project-url" class="form-input form-input--block block" placeholder="Input Project URL Here ...." type="text">
+                            <input id="project-url" class="form-input form-input--block block" placeholder="Input Project URL Here ...." type="text" required>
                             <label for="project-desc" class="sr-only">Project Description :</label>
-                            <textarea id="project-desc" class="form-input form-input--block block" placeholder="Input Project Description Here ...." rows="7"></textarea>
+                            <textarea id="project-desc" class="form-input form-input--block block" placeholder="Input Project Description Here ...." rows="7" required></textarea>
 
                             <button class="btn btn--primary btn--regular">
                                 Save

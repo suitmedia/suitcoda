@@ -10,11 +10,11 @@
                     <h1 class="title block-double block-up">Change your password</h1>
 
                     <div class="box box-form box-form--wide block-quad">
-                        <form action="">
+                        <form action="" data-validate="yes">
                             <label for="new-pass" class="sr-only">New Password :</label>
-                            <input id="new-pass" class="form-input form-input--block block" placeholder="New password" type="password">
+                            <input id="new-pass" class="form-input form-input--block block" placeholder="New password" type="password" required>
                             <label for="new-pass-conf" class="sr-only">Confirm New Password :</label>
-                            <input id="new-pass-conf" class="form-input form-input--block block" placeholder="Confirm new password" type="password">
+                            <input id="new-pass-conf" class="form-input form-input--block block" placeholder="Confirm new password" type="password" required>
                             
                             <button class="btn btn--primary btn--regular">
                                 Submit

@@ -10,9 +10,9 @@
                     <h1 class="title block-double block-up">Forgot Password?</h1>
 
                     <div class="box box-form box-form--wide block-quad">
-                        <form action="">
+                        <form action="" data-validate="yes">
                             <label for="forgot-email" class="sr-only">Email :</label>
-                            <input id="forgot-email" class="form-input form-input--block block" placeholder="Input your email here ...." type="text">
+                            <input id="forgot-email" class="form-input form-input--block block" placeholder="Input your email here ...." type="text" required>
                             
                             <button class="btn btn--primary btn--regular">
                                 Submit

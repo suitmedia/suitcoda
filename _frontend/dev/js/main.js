@@ -15,7 +15,9 @@
         _sh             : path.js + 'shCore.min.js',
         _shCSS          : path.js + 'shBrushCss.min.js',
         _shJS           : path.js + 'shBrushJScript.min.js',
-        _shPHP          : path.js + 'shBrushPhp.min.js'
+        _shPHP          : path.js + 'shBrushPhp.min.js',
+        _sprintf        : path.js + 'sprintf.min.js',
+        _bazeValidate   : path.js + 'baze.validate.min.js'
     };
 
     var Site = {
@@ -30,6 +32,7 @@
             Site.progressBar();
             Site.syntaxHighlighter();
             Site.showIssueCode();
+            Site.validateForm();
 
             window.Site = Site;
         },
@@ -193,6 +196,14 @@
                     $issueCode.addClass('issue__code--show');
                 }
             });
+        },
+
+        validateForm: function () {
+            var $formToValidate = $( "form[data-validate*='yes']" );
+
+            if ( !$formToValidate.length ) return;
+
+            $formToValidate.bazeValidate();
         }
 
     };
@@ -221,6 +232,12 @@
     },
     {
         load    : assets._shPHP
+    },
+    {
+        load    : assets._sprintf
+    },
+    {
+        load    : assets._bazeValidate
     },
     {
         load    : assets._highcharts,

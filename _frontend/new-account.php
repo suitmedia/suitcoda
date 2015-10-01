@@ -10,24 +10,24 @@
                     <h1 class="title block block-up">Create New Account</h1>
 
                     <div class="box box-form box-form--wide block">
-                        <form action="">
+                        <form action="" data-validate="yes">
                             <label for="acc-name" class="sr-only">Name :</label>
-                            <input id="acc-name" class="form-input form-input--block block-half" placeholder="Name" type="text">
+                            <input id="acc-name" class="form-input form-input--block block-half" placeholder="Name" type="text" required>
                             
                             <label for="acc-username" class="sr-only">Username :</label>
-                            <input id="acc-username" class="form-input form-input--block block-half" placeholder="Username" type="text">
+                            <input id="acc-username" class="form-input form-input--block block-half" placeholder="Username" type="text" required>
                             
                             <label for="acc-email" class="sr-only">Email :</label>
-                            <input id="acc-email" class="form-input form-input--block block-half" placeholder="Email" type="text">
+                            <input id="acc-email" class="form-input form-input--block block-half" placeholder="Email" type="text" required>
                             
                             <label for="acc-pass" class="sr-only">Password :</label>
-                            <input id="acc-pass" class="form-input form-input--block block-half" placeholder="Password" type="text">
+                            <input id="acc-pass" class="form-input form-input--block block-half" placeholder="Password" type="password" required>
                             
                             <label for="acc-confpass" class="sr-only">Confirm Password :</label>
-                            <input id="acc-confpass" class="form-input form-input--block block-half" placeholder="Confirm Password" type="text">
+                            <input id="acc-confpass" class="form-input form-input--block block-half" placeholder="Confirm Password" type="password" required>
                             
                             <label for="acc-role" class="sr-only">Role :</label>
-                            <select id="acc-role" class="form-input form-input--block block" name="" id="">
+                            <select id="acc-role" class="form-input form-input--block block" name="" id="" required>
                                 <option value="user">User</option>
                                 <option value="admin">Admin</option>
                             </select>
