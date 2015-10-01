@@ -62,6 +62,13 @@
         projectTabNav: function () {
             var $tab = $('.project-nav__tab a');
 
+            var $btnNewTesting = $('.btn-new-testing');
+
+            $btnNewTesting.on('click', function() {
+                closeAllTab();
+                $('#newtesting').addClass('project-content--show');
+            });
+
             $tab.on('click',function () {
                 var target = $(this).attr('href');
                 var $target = $(target);

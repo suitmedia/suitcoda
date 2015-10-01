@@ -36,15 +36,17 @@
             
             <!-- overview project, chart -->
             <section id="overview" class="project-content project-content--show">
+                <h2 class="sr-only">Project Overview</h2>
                 <div class="project-chart"></div>
             </section>
             
             <!-- activity, testing list, status -->
             <section id="activity" class="project-content">
+                <h2 class="sr-only">Project Activity</h2>
                 <div class="flex-project">
                     <div class="item item-main block cf">
                         <h2 class="subtitle float-left">Testing List</h2>
-                        <a class="btn btn--grey btn--regular float-right" href="new-testing.php">New Testing</a> <br>
+                        <button class="btn-new-testing btn btn--grey btn--regular float-right">New Testing</button> <br>
                         <ul class="list-nostyle">
                             <?php for ($i=0; $i < 10; $i++) { ?>
                                 <li>
@@ -161,12 +163,133 @@
                         </div>
                     </div>
                 </div>
+            </section>
 
+            <section id="newtesting" class="project-content">
+                <h2 class="subtitle">Create New Testing</h2>
+                <form action="">
+                    <div class="bzg">
+                        <div class="bzg_c" data-col="s12,m2">
+                            <label for="testing-url">URL :</label>
+                        </div>
+                        <div class="bzg_c" data-col="s12,m10">
+                            <input id="testing-url" class="form-input form-input--block block" type="text">
+                        </div>
+                    </div>
+                    
+                    <div class="bzg">
+                        <div class="bzg_c" data-col="s12,m6">
+                            <fieldset class="box box-fieldset box--block block">
+                                <legend>
+                                    <b>Performance</b>
+                                </legend>
+                                <label>
+                                <input type="checkbox" name="performance" value="pagespeed">
+                                    Google Page Speed
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="performance" value="yslow">
+                                    Yahoo YSlow
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="performance" value="httpheader">
+                                    Optimize HTTP Header
+                                </label> <br>
+                            </fieldset>
+                        </div>
+                        <div class="bzg_c" data-col="s12,m6">
+                            <fieldset class="box box-fieldset box--block block">
+                                <legend>
+                                    <b>Code Quality</b>
+                                </legend>
+                                <label>
+                                    <input type="checkbox" name="codequality" value="html">
+                                    HTML Validation
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="codequality" value="css">
+                                    CSS Validation
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="codequality" value="js">
+                                    JS Validation
+                                </label> <br>
+                            </fieldset>
+                        </div>
+                        <div class="bzg_c" data-col="s12,m6">
+                            <fieldset class="box box-fieldset box--block block">
+                                <legend>
+                                    <b>SEO</b>
+                                </legend>
+                                <label>
+                                    <input type="checkbox" name="seo" value="title">
+                                    Title Tag Checking
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="seo" value="header">
+                                    Header Tag Checking
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="seo" value="footer">
+                                    Footer Tag Checking
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="seo" value="script">
+                                    Script Tag Checking
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="seo" value="favicon">
+                                    Favicon Checking
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="seo" value="aria">
+                                    ARIA Landmark Checking
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="seo" value="alt">
+                                    Alt Text on Image
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="seo" value="i18n">
+                                    Internationalization - i18n
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="seo" value="meta">
+                                    Necessary Meta Tag Checking
+                                </label> <br>
+                            </fieldset>
+                        </div>
+                        <div class="bzg_c" data-col="s12,m6">
+                            <fieldset class="box box-fieldset box--block block">
+                                <legend>
+                                    <b>Social Media</b>
+                                </legend>
+                                <label>
+                                    <input type="checkbox" name="socmed" value="og">
+                                    Open Graph Protocol
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="socmed" value="twitter">
+                                    Twitter Cards
+                                </label> <br>
+                                <label>
+                                    <input type="checkbox" name="socmed" value="fb">
+                                    Facebook Insights
+                                </label> <br>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <button class="btn btn--primary btn--regular">
+                        Test
+                    </button>
+                </form>
             </section>
             
             <!-- issues details -->
             <section id="issues" class="project-content">
-                <h2 class="subtitle">Testing #20</h2>
+                <h2 class="sr-only">Testing Issues</h2>
+                <h3 class="subtitle">Testing #20</h3>
                 <select name="" id="" class="form-input block">
                     <option value="performance">Performance</option>
                     <option value="codequality">Code Quality</option>
@@ -215,9 +338,9 @@ progressBar: function () {
                     <?php } ?>
 
                 </ul>
-
-
             </section>
+
+
         </div>
     </main>
 
