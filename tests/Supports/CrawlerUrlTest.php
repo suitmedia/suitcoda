@@ -23,7 +23,41 @@ class CrawlerUrlTest extends TestCase
         parent::tearDown();
     }
 
-    public function testNormalizeLink()
+    public function normalizeLinkProvider()
+    {
+        return [
+            ['http://foobar.com', 'http://foobar.com/', 'http://foobar.com/'],
+            ['http://foobar.com', '//foobar.com/', 'http://foobar.com/'],
+            ['http://foobar.com?search=test', 'http://foobar.com/', 'http://foobar.com/'],
+            ['http://foobar.com?search=test', 'http://foobar.com/en/test', 'http://foobar.com/en/test'],
+            ['http://foobar.com/en?q=123', 'http://foobar.com/baz', 'http://foobar.com/baz'],
+            ['http://foobar.com/en?q=123', 'baz', 'http://foobar.com/baz'],
+            ['http://foobar.com/en?q=123', '/baz', 'http://foobar.com/baz'],
+            ['http://foobar.com', 'http://foobar.com/test', 'http://foobar.com/test'],
+            ['http://foobar.com', '/', 'http://foobar.com/'],
+            ['http://foobar.com', 'en', 'http://foobar.com/en'],
+            ['http://foobar.com', 'en/', 'http://foobar.com/en/'],
+            ['http://foobar.com?search=test', 'en', 'http://foobar.com/en'],
+            ['http://foobar.com', '/en', 'http://foobar.com/en'],
+            ['http://foobar.com', 'en/test', 'http://foobar.com/en/test'],
+            ['http://foobar.com', '/en/test', 'http://foobar.com/en/test'],
+            ['http://foobar.com?search=test', '/en/test/', 'http://foobar.com/en/test/'],
+            ['http://foobar.com', 'http://foobar.com/en/test?q=123', 'http://foobar.com/en/test?q=123'],
+            ['http://foobar.com', 'http://foobar.com/en/test?q=123&r=456', 'http://foobar.com/en/test?q=123&r=456'],
+            ['http://foobar.com', 'http://foobar.com/en/test/?q=123', 'http://foobar.com/en/test/?q=123'],
+            ['http://foobar.com', 'http://foobar.com/en/test/?q=123&r=456', 'http://foobar.com/en/test/?q=123&r=456'],
+            ['http://foobar.com/test.html', 'test.html', 'http://foobar.com/test.html'],
+            ['http://foobar.com/test.html', 'baz.html', 'http://foobar.com/baz.html'],
+            ['http://foobar.com/test', '?q=123', 'http://foobar.com/test?q=123'],
+            ['http://foobar.com/test?q=123', '?r=456', 'http://foobar.com/test?r=456'],
+            ['http://foobar.com/test/baz', 'foo/bar', 'http://foobar.com/test/foo/bar'],
+        ];
+    }
+
+    /**
+     * @dataProvider normalizeLinkProvider
+     */
+    public function testNormalizeLink($currentUrl, $url, $expectedUrl)
     {
         $uri = 'http://foobar.com';
         $guzzle = Mockery::mock(Guzzle::class);
@@ -33,31 +67,7 @@ class CrawlerUrlTest extends TestCase
         $crawl = new CrawlerUrl($client);
         $crawl->setBaseUrl($uri);
 
-        $this->assertEquals($uri, $crawl->normalizeLink('http://foobar.com/'));
-        $this->assertEquals($uri . '/en', $crawl->normalizeLink('en'));
-        $this->assertEquals($uri . '/en', $crawl->normalizeLink('/en'));
-        $this->assertEquals($uri . '/en/test', $crawl->normalizeLink('en/test/'));
-        $this->assertEquals($uri . '/en/test', $crawl->normalizeLink('/en/test/'));
-        $this->assertEquals($uri . '/en', $crawl->normalizeLink($uri . '/en'));
-        $this->assertEquals($uri . '/en/test', $crawl->normalizeLink($uri . '/en/test/'));
-        $this->assertEquals($uri . '/en/test?q=123', $crawl->normalizeLink($uri . '/en/test?q=123'));
-        $this->assertEquals($uri . '/en/test?q=123&r=456', $crawl->normalizeLink($uri . '/en/test?q=123&r=456'));
-        $this->assertEquals($uri . '/en/test/?q=123', $crawl->normalizeLink($uri . '/en/test/?q=123'));
-        $this->assertEquals($uri . '/en/test/?q=123&r=456', $crawl->normalizeLink($uri . '/en/test/?q=123&r=456'));
-        $this->assertEquals('http://baz.com', $crawl->normalizeLink('http://baz.com'));
-        $this->assertEquals('http://baz.com/test', $crawl->normalizeLink('http://baz.com/test'));
-        $this->assertEquals('http://baz.com/test?q=123', $crawl->normalizeLink('http://baz.com/test?q=123'));
-        $this->assertEquals(
-            'http://baz.com/test?q=123&r=456',
-            $crawl->normalizeLink('http://baz.com/test?q=123&r=456')
-        );
-        $this->assertEquals('http://baz.com/test', $crawl->normalizeLink('http://baz.com/test/'));
-        $this->assertEquals('http://baz.com/test/?q=123', $crawl->normalizeLink('http://baz.com/test/?q=123'));
-        $this->assertEquals(
-            'http://baz.com/test/?q=123&r=456',
-            $crawl->normalizeLink('http://baz.com/test/?q=123&r=456')
-        );
-        $this->assertEquals('http://baz.com', $crawl->normalizeLink('//baz.com'));
+        $this->assertEquals($expectedUrl, $crawl->normalizeLink($url, $currentUrl));
     }
 
     public function testUrlCrawlable()
