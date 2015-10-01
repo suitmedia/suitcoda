@@ -166,7 +166,57 @@
             
             <!-- issues details -->
             <section id="issues" class="project-content">
-                <h2 class="subtitle">Issue List</h2>
+                <h2 class="subtitle">Testing #20</h2>
+                <select name="" id="" class="form-input block">
+                    <option value="performance">Performance</option>
+                    <option value="codequality">Code Quality</option>
+                    <option value="seo">SEO</option>
+                    <option value="socialmedia">Social Media</option>
+                </select>
+                
+                <ul class="list-nostyle">
+                    <?php for ($i=0; $i < 10; $i++) { ?>
+                        <li class="block">
+                            <div class="box issue cf">
+                                <span class="label label--orange block-half">type of error</span>
+                                <div class="text-grey float-right">
+                                    <span class="fa fa-clock-o"></span>                    
+                                    <time>5 minutes ago</time>
+                                </div>
+                                <a class="issue__url block-half" href="#">http://blablabla.blebleble</a>
+                                <span class="issue__message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis sint, deserunt magni facilis quis vitae possimus ipsa sapiente doloribus quae.</span>
+                                <button class="btn-show-code float-right">
+                                    <span class="fa fa-chevron-down"></span>
+                                </button>
+                                <div class="issue__code">
+                                    <pre class="brush: js; ruler: true">
+},
+progressBar: function () {
+    var opt = {
+        animation : false
+    }
+    var $progress = $('.progress');
+    var $progressBar = $('.progress__bar');
+
+    $('.progressbar').barIndicator(opt);
+    for (var i = 0; i < $progress.length; i++) {
+        var $progressValue = $progress.eq(i).attr('data-percent');
+        $progressBar.eq(i).css('width', $progressValue+'%');
+    }
+}
+
+};
+                                    </pre>
+                                </div>
+                            </div>
+                                
+                        </li>
+                    
+                    <?php } ?>
+
+                </ul>
+
+
             </section>
         </div>
     </main>

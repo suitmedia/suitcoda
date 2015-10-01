@@ -11,7 +11,11 @@
         _jquery_cdn     : 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',
         _jquery_local   : path.js + 'jquery.min.js',
         _fastclick      : path.js + 'fastclick.min.js',
-        _highcharts     : path.js + 'highcharts.min.js'
+        _highcharts     : path.js + 'highcharts.min.js',
+        _sh             : path.js + 'shCore.min.js',
+        _shCSS          : path.js + 'shBrushCss.min.js',
+        _shJS           : path.js + 'shBrushJScript.min.js',
+        _shPHP          : path.js + 'shBrushPhp.min.js'
     };
 
     var Site = {
@@ -24,6 +28,8 @@
             Site.projectTabNav();
             Site.projectChart();
             Site.progressBar();
+            Site.syntaxHighlighter();
+            Site.showIssueCode();
 
             window.Site = Site;
         },
@@ -152,6 +158,29 @@
                 var $progressValue = $progress.eq(i).attr('data-percent');
                 $progressBar.eq(i).css('width', $progressValue+'%');
             }
+        },
+
+        syntaxHighlighter: function () {
+            SyntaxHighlighter.all();
+        },
+
+        showIssueCode: function () {
+            var $trigger = $('.btn-show-code');
+
+            $trigger.on('click', function() {
+                var $issueCode = $(this).next();
+                var $chevron   = $(this).find('span');
+                
+                if ($issueCode.hasClass('issue__code--show')) {
+                    $chevron.removeClass('fa-chevron-up');
+                    $chevron.addClass('fa-chevron-down');
+                    $issueCode.removeClass('issue__code--show');
+                } else {
+                    $chevron.removeClass('fa-chevron-down');
+                    $chevron.addClass('fa-chevron-up');
+                    $issueCode.addClass('issue__code--show');
+                }
+            });
         }
 
     };
@@ -168,6 +197,18 @@
 
     Modernizr.load([{
         load    : assets._jquery_cdn
+    },
+    {
+        load    : assets._sh
+    },
+    {
+        load    : assets._shCSS
+    },
+    {
+        load    : assets._shJS
+    },
+    {
+        load    : assets._shPHP
     },
     {
         load    : assets._highcharts,
