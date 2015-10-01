@@ -101,13 +101,18 @@
 
             $trigger.on('click', function () {
                 var $menu = $(this).siblings();
-                
-                if( $menu.css('display') === 'none') {
-                    $menu.css('display','block');
+
+                if ( $menu.css('display') === 'block' ) {
+                    closeAllDropdown();
                 } else {
-                    $menu.css('display','none');
+                    closeAllDropdown();
+                    $menu.css('display','block');
                 }
             });
+
+            function closeAllDropdown () {
+                $('.header-list ul').css('display','none');
+            }
         },
 
         projectChart: function () {
