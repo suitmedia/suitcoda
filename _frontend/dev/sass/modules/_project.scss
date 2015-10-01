@@ -37,8 +37,14 @@
 }
 
 .project-content {
+    height: 0;
+    overflow: hidden;
+}
+
+.project-content--show {
     padding-top: 60px;
-    display: none;
+    height: auto;
+    overflow: visible;
 }
 
 .project-chart {

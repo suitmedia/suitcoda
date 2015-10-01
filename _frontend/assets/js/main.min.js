@@ -11,8 +11,7 @@
         _jquery_cdn     : 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',
         _jquery_local   : path.js + 'jquery.min.js',
         _fastclick      : path.js + 'fastclick.min.js',
-        _highcharts     : path.js + 'highcharts.min.js',
-        _barindicator   : path.js + 'jquery-barIndicator.min.js'
+        _highcharts     : path.js + 'highcharts.min.js'
     };
 
     var Site = {
@@ -57,9 +56,6 @@
         projectTabNav: function () {
             var $tab = $('.project-nav__tab a');
 
-            //default 
-            $('#overview').css('display','block');
-
             $tab.on('click',function () {
                 var target = $(this).attr('href');
                 var $target = $(target);
@@ -67,14 +63,14 @@
                 removeAllActive();
                 $(this).addClass('active');
                 closeAllTab();
-                $target.css('display','block');
+                $target.addClass('project-content--show');
             });
 
             function closeAllTab () {
                 var $contentTab = $('.project-content');
 
                 for (var i = 0; i < $contentTab.length; i++) {
-                    $contentTab.eq(i).css('display','none');  
+                    $contentTab.eq(i).removeClass('project-content--show');  
                 }
             }
 
@@ -149,11 +145,13 @@
         },
 
         progressBar: function () {
-            var opt = {
-                animation : false
-            }
+            var $progress = $('.progress');
+            var $progressBar = $('.progress__bar');
 
-            $('.progressbar').barIndicator(opt);
+            for (var i = 0; i < $progress.length; i++) {
+                var $progressValue = $progress.eq(i).attr('data-percent');
+                $progressBar.eq(i).css('width', $progressValue+'%');
+            }
         }
 
     };
@@ -170,9 +168,6 @@
 
     Modernizr.load([{
         load    : assets._jquery_cdn
-    },
-    {
-        load    : assets._barindicator
     },
     {
         load    : assets._highcharts,

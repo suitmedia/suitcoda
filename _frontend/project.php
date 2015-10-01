@@ -35,13 +35,13 @@
             </nav>
             
             <!-- overview project, chart -->
-            <section id="overview" class="project-content">
+            <section id="overview" class="project-content project-content--show">
                 <div class="project-chart"></div>
             </section>
             
             <!-- activity, testing list, status -->
             <section id="activity" class="project-content">
-                <div class="flex">
+                <div class="flex-project">
                     <div class="item item-main block cf">
                         <h2 class="subtitle float-left">Testing List</h2>
                         <a class="btn btn--grey btn--regular float-right" href="new-testing.php">New Testing</a> <br>
@@ -99,40 +99,65 @@
 
                     <div class="item item-side block">
                         <h3>Lastest Testing Status</h3>
-                        <div class="progressbar-wrapper block-half">
-                            <b>
-                                Overall 
-                                <span class="text-red">(10)</span> 
-                            </b> 
-                            <div class="progressbar">80</div>
+                        <div class="block cf">
+                            <div class="progress-title">
+                                <b>
+                                    Overall 
+                                    <span class="text-red">(10)</span> 
+                                </b> 
+                            </div>
+                            <div class="progress" data-percent="80">
+                                <div class="progress__bar"></div>
+                            </div>
+                            <span class="float-right">80%</span>
                         </div>
-                        <div class="progressbar-wrapper block-half">
-                            <b>
-                                Performance 
-                                <span class="text-red">(4)</span> 
-                            </b> 
-                            <div class="progressbar">70</div>
+                        <div class="block cf">
+                            <div class="progress-title">
+                                <b>
+                                    Performance 
+                                    <span class="text-red">(4)</span> 
+                                </b> 
+                            </div>
+                            <div class="progress" data-percent="70">
+                                <div class="progress__bar"></div>
+                            </div>
+                            <span class="float-right">70%</span>
                         </div>
-                        <div class="progressbar-wrapper block-half">
-                            <b>
-                                Code Quality 
-                                <span class="text-red">(2)</span> 
-                            </b> 
-                            <div class="progressbar">15</div>
+                        <div class="block cf">
+                            <div class="progress-title">
+                                <b>
+                                    Code Quality 
+                                    <span class="text-red">(2)</span> 
+                                </b> 
+                            </div>
+                            <div class="progress" data-percent="15">
+                                <div class="progress__bar"></div>
+                            </div>
+                            <span class="float-right">15%</span>
                         </div>
-                        <div class="progressbar-wrapper block-half">
-                            <b>
-                                SEO 
-                                <span class="text-red">(3)</span> 
-                            </b> 
-                            <div class="progressbar">63</div>
+                        <div class="block cf">
+                            <div class="progress-title">
+                                <b>
+                                    SEO 
+                                    <span class="text-red">(3)</span> 
+                                </b> 
+                            </div>
+                            <div class="progress" data-percent="63">
+                                <div class="progress__bar"></div>
+                            </div>
+                            <span class="float-right">63%</span>
                         </div>
-                        <div class="progressbar-wrapper block-half">
-                            <b>
-                                Social Media 
-                                <span class="text-red">(1)</span> 
-                            </b> 
-                            <div class="progressbar">17</div>
+                        <div class="block cf">
+                            <div class="progress-title">
+                                <b>
+                                    Social Media 
+                                    <span class="text-red">(1)</span> 
+                                </b> 
+                            </div>
+                            <div class="progress" data-percent="30">
+                                <div class="progress__bar"></div>
+                            </div>
+                            <span class="float-right">30%</span>
                         </div>
                     </div>
                 </div>
