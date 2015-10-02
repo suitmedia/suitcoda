@@ -5,12 +5,12 @@
     margin-left: -20px;
 }
 
-.item {
+.flex-project__item {
     padding-left: 20px;
     width: 100%;
 }
 
-.item-main {
+.flex-project__item-main {
     order: 2;
 
     @media #{$large} {
@@ -19,7 +19,7 @@
     }
 }
 
-.item-side {
+.flex-project__item-side {
     order: 1;
 
     @media #{$large} {

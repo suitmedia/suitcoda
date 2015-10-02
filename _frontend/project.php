@@ -44,7 +44,7 @@
             <section id="activity" class="project-content">
                 <h2 class="sr-only">Project Activity</h2>
                 <div class="flex-project">
-                    <div class="item item-main block cf">
+                    <div class="flex-project__item flex-project__item-main block cf">
                         <h2 class="subtitle float-left fix-margin">Testing List</h2>
                         <button class="btn-new-testing btn btn--grey btn--regular float-right">New Testing</button> <br>
                         
@@ -103,7 +103,7 @@
                         </ul>
                     </div>
 
-                    <div class="item item-side block">
+                    <div class="flex-project__item flex-project__item-side block">
                         <h3>Lastest Testing Status</h3>
                         <div class="block cf">
                             <div class="progress-title">
