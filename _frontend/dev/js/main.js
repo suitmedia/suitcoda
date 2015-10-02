@@ -189,8 +189,8 @@
             if ( !$progress.length ) return;
 
             for (var i = 0; i < $progress.length; i++) {
-                var $progressValue = $progress.eq(i).attr('data-percent');
-                $progressBar.eq(i).css('width', $progressValue+'%');
+                var progressValue = $progress.eq(i).attr('data-percent');
+                $progressBar.eq(i).css('width', progressValue+'%');
             }
         },
 
