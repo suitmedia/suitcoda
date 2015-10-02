@@ -12,7 +12,7 @@
                         </div>
                         <span class="notif__count">2</span>
                     </a>
-                    <ul class="notif-list">
+                    <ul class="dropdown-menu notif-list">
                         <li>
                             <a href="#">
                                 Testing #20 on Suitcoda Project has done tested.
@@ -34,7 +34,7 @@
                     <a class="user-avatar" href="#">
                         <img src="assets/img/pp.png" alt="">
                     </a>
-                    <ul class="user-menu">
+                    <ul class="dropdown-menu user-menu">
                         <li>
                             <a href="#">
                                 Logout

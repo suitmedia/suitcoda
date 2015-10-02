@@ -1062,7 +1062,7 @@ a.box {
     margin: 10px;
     float: left;
     position: relative; }
-  .header-list ul {
+  .header-list .dropdown-menu {
     position: absolute;
     top: 124%;
     right: 0;
@@ -1073,6 +1073,8 @@ a.box {
     display: none;
     background: white;
     list-style: none; }
+  .header-list .dropdown-menu--show {
+    display: block; }
   .header-list ul:before {
     position: absolute;
     bottom: 100%;

@@ -21,7 +21,7 @@
         position: relative;
     }
 
-    ul {
+    .dropdown-menu {
         position: absolute;
         top: 124%;
         right: 0;
@@ -32,6 +32,10 @@
         display: none;
         background: white;
         list-style: none;
+    }
+
+    .dropdown-menu--show {
+        display: block;
     }
 
     ul:before {

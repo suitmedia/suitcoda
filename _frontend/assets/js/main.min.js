@@ -104,20 +104,21 @@
 
         dropdownMenu: function () {
             var $trigger = $('.header-list>li>a');
+            var $allDropdownMenu = $('.dropdown-menu');
 
             $trigger.on('click', function () {
                 var $menu = $(this).siblings();
 
-                if ( $menu.css('display') === 'block' ) {
+                if ( $menu.hasClass('dropdown-menu--show') ) {
                     closeAllDropdown();
                 } else {
                     closeAllDropdown();
-                    $menu.css('display','block');
+                    $menu.addClass('dropdown-menu--show');
                 }
             });
 
             function closeAllDropdown () {
-                $('.header-list ul').css('display','none');
+                $allDropdownMenu.removeClass('dropdown-menu--show');
             }
         },
 
