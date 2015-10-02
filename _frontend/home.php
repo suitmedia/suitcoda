@@ -26,7 +26,9 @@
                                 <b class="text-big">80%</b>
                             </div>
                             <div class="box__desc">
-                                <b>Project Name</b> <br>
+                                <div class="text-ellipsis">
+                                    <b>Project Name</b>
+                                </div>
                                 <span>Lastest update : </span> <time>23/09/2015 12.34</time> <br>
                                 <span>Status : </span> <b class="text-green">Completed</b>
                             </div>
@@ -39,7 +41,9 @@
                                 <b class="text-big">80%</b>
                             </div>
                             <div class="box__desc">
-                                <b>Project Name</b> <br>
+                                <div class="text-ellipsis">
+                                    <b>Project Name Lorem ipsum dolor sit amet.</b>
+                                </div>
                                 <span>Lastest update : </span> <time>23/09/2015 12.34</time> <br>
                                 <span>Status : </span> <b class="text-orange">On Progress</b>
                             </div>
@@ -52,7 +56,9 @@
                                 <b class="text-big">80%</b>
                             </div>
                             <div class="box__desc">
-                                <b>Project Name</b> <br>
+                                <div class="text-ellipsis">
+                                    <b>Project Name</b>
+                                </div>
                                 <span>Lastest update : </span> <time>23/09/2015 12.34</time> <br>
                                 <span>Status : </span> <b class="text-red">Stopped</b>
                             </div>
