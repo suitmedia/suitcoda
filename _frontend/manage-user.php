@@ -8,7 +8,7 @@
             <h1 class="title">Manage User</h1>
             <div class="bzg">
                 <div class="bzg_c" data-col="s12,m6,l4">
-                    <a href="#">
+                    <a href="new-account.php">
                         <div class="box-newuser block">
                             <span class="fa fa-plus"></span>
                             <span>Create New Account</span>
