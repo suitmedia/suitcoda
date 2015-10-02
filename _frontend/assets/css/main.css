@@ -1211,8 +1211,7 @@ a.box {
   display: block; }
 
 .issue__url {
-  color: blue;
-  display: block; }
+  color: blue; }
 
 .issue__code {
   width: 100%;

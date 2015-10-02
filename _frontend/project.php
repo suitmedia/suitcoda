@@ -309,7 +309,9 @@
                                     <span class="fa fa-clock-o"></span>                    
                                     <time>5 minutes ago</time>
                                 </div>
+                                <br>
                                 <a class="issue__url block-half" href="#">http://blablabla.blebleble</a>
+                                <br>
                                 <span class="issue__message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis sint, deserunt magni facilis quis vitae possimus ipsa sapiente doloribus quae.</span>
                                 <button class="btn-show-code float-right">
                                     <span class="fa"></span>
