@@ -101,6 +101,16 @@ em strong {
     z-index: 1;
 }
 
+.site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.site-content {
+    flex: 1;
+}
+
 .bg-grey {
     background: $grey;
     overflow: auto;
