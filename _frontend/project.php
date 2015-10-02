@@ -2,7 +2,7 @@
 
     <?php include '_include/header.php'; ?>
 
-    <main>
+    <main class="main">
         <h1 class="sr-only">Project Detail</h1>
         <div class="container">
             <nav>

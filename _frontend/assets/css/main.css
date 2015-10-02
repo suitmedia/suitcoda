@@ -1093,7 +1093,7 @@ a.box {
 
 .header {
   position: relative;
-  z-index: 10; }
+  z-index: 2; }
 
 .header-logo {
   margin-top: 4px; }
@@ -3621,6 +3621,10 @@ i strong,
 em b,
 em strong {
   font-family: 'open_sansbold_italic'; }
+
+.main {
+  position: relative;
+  z-index: 1; }
 
 .bg-grey {
   background: #ececec;

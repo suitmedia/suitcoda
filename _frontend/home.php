@@ -2,17 +2,17 @@
 
     <?php include '_include/header.php'; ?>
 
-    <div class="bg-grey">
-        <div class="container">
-            <form class="search" action="">
-                <label for="search-project" class="search__label"><span class="fa fa-search"></span></label>
-                <input id="search-project" class="search__input form-input" type="text" placeholder="search...">
-            </form>
+    <main class="main">
+        <div class="bg-grey">
+            <div class="container">
+                <form class="search" action="">
+                    <label for="search-project" class="search__label"><span class="fa fa-search"></span></label>
+                    <input id="search-project" class="search__input form-input" type="text" placeholder="search...">
+                </form>
+            </div>
         </div>
-    </div>
 
-    <main class="block-up">
-        <div class="container">
+        <div class="container block-up">
 
             <!-- if there's no project -->
             <span class="empty-state">There is no project yet.</span>

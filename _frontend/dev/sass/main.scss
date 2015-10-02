@@ -96,6 +96,11 @@ em strong {
 
 // 4 Page styles
 // ------------------------------------------------------------------------ //
+.main {
+    position: relative;
+    z-index: 1;
+}
+
 .bg-grey {
     background: $grey;
     overflow: auto;

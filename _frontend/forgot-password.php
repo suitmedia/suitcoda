@@ -2,7 +2,7 @@
 
     <?php include '_include/header.php'; ?>
 
-    <main>
+    <main class="main">
         <div class="bg-grey">
             <div class="text-center block-up block-double">
                 <div class="container">

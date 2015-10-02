@@ -3,7 +3,7 @@
     <?php include '_include/header.php'; ?>
 
 
-    <main class="block-up">
+    <main class="main block-up">
         <div class="container">
             <h1 class="title">Manage User</h1>
             <div class="bzg">
