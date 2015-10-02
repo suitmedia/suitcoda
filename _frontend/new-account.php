@@ -10,7 +10,7 @@
                     <h1 class="title block block-up">Create New Account</h1>
 
                     <div class="box box-form box-form--wide block">
-                        <form action="" data-validate="yes">
+                        <form action="" data-validate>
                             <div class="block-half">
                                 <label for="acc-name" class="sr-only">Name :</label>
                                 <input id="acc-name" class="form-input form-input--block" placeholder="Name" type="text" required>

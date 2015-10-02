@@ -80,8 +80,8 @@
                 var $target = $(target);
 
                 removeAllActive();
-                $(this).addClass('active');
                 closeAllTab();
+                $(this).addClass('active');
                 $target.addClass('project-content--show');
             });
 
@@ -234,7 +234,7 @@
         },
 
         validateForm: function () {
-            var $formToValidate = $( "form[data-validate*='yes']" );
+            var $formToValidate = $( "form[data-validate]" );
 
             if ( !$formToValidate.length ) return;
 

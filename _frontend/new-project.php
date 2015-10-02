@@ -10,7 +10,7 @@
                     <h1 class="title block block-up">Create New Project</h1>
 
                     <div class="box box-form box-form--wide block">
-                        <form action="" data-validate="yes">
+                        <form action="" data-validate>
                             <div class="block">
                                 <label for="project-name" class="sr-only">Project Name :</label>
                                 <input id="project-name" class="form-input form-input--block" placeholder="Input Project Name Here ...." type="text" required>

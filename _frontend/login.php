@@ -8,7 +8,7 @@
                 <h2 class="subtitle block">Sign in to Suitcoda</h2>
 
                 <div class="box box-form">
-                    <form class="cf" action="" data-validate="yes">
+                    <form class="cf" action="" data-validate>
                         <div class="block-half">
                             <label class="sr-only" for="login-user">Username</label>
                             <input id="login-user" class="form-input form-input--block" placeholder="username" type="text" required> <br>

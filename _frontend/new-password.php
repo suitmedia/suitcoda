@@ -10,7 +10,7 @@
                     <h1 class="title block-double block-up">Change your password</h1>
 
                     <div class="box box-form box-form--wide block-quad">
-                        <form action="" data-validate="yes">
+                        <form action="" data-validate>
                             <div class="block">
                                 <label for="new-pass" class="sr-only">New Password :</label>
                                 <input id="new-pass" class="form-input form-input--block" placeholder="New password" type="password" required>
