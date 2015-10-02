@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
     
-    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="assets/img/favicon.png">
+    <link rel="apple-touch-icon" href="assets/img/coda-icon-apple.png">
+    <link rel="icon" type="image/png" href="assets/img/coda-icon.png">
 
     <title>Suitcoda</title>
     
