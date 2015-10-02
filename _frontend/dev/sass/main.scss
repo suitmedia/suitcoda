@@ -117,59 +117,11 @@ em strong {
     }
 }
 
-.search {
-    position: relative;
-}
-
-.search__input {
-    padding-left: 20px;
-    width: 100%;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-}
-
-.search__label {
-    position: absolute;
-    top: 7px;
-    left: 0;
-}
-
 .user-avatar {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     display: inline-block;
-}
-
-.hide-on-mobile {
-    display: none;
-
-    @media #{$medium} {
-        display: inline-block;
-    }
-}
-
-.progress {
-    width: 85%;
-    height: 5px;
-    margin-top: 10px;
-    background: $grey;
-    display: inline-block;
-}
-
-.progress-title {
-    display: block;
-}
-
-.progress__bar {
-    height: 5px;
-    background: $blue;
-}
-
-.empty-state {
-    padding: 30px 0;
-    display: block;
 }
 
 // 5 Footer

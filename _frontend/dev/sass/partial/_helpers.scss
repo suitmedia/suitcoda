@@ -59,6 +59,11 @@
     margin: 0;
 }
 
+.empty-state {
+    padding: 30px 0;
+    display: block;
+}
+
 
 // Visual helper
 // ------------------------------------------------------------------------ //
@@ -106,4 +111,12 @@
 
 .float-left {
     float: left;
+}
+
+.hide-on-mobile {
+    display: none;
+
+    @media #{$medium} {
+        display: inline-block;
+    }
 }

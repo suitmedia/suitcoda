@@ -1,0 +1,16 @@
+.progress {
+    width: 85%;
+    height: 5px;
+    margin-top: 10px;
+    background: $grey;
+    display: inline-block;
+}
+
+.progress-title {
+    display: block;
+}
+
+.progress__bar {
+    height: 5px;
+    background: $blue;
+}
