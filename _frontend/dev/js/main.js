@@ -68,7 +68,8 @@
 
             if ( !$tab.length ) return;
 
-            var $btnNewTesting = $('.btn-new-testing');
+            var $btnNewTesting  = $('.btn-new-testing'),
+                $contentTab     = $('.project-content');
 
             $btnNewTesting.on('click', function() {
                 closeAllTab();
@@ -86,19 +87,11 @@
             });
 
             function closeAllTab () {
-                var $contentTab = $('.project-content');
-
-                for (var i = 0; i < $contentTab.length; i++) {
-                    $contentTab.eq(i).removeClass('project-content--show');  
-                }
+                $contentTab.removeClass('project-content--show');  
             }
 
             function removeAllActive () {
-                var $tabs = $('.project-nav__tab a');
-
-                for (var i = 0; i < $tabs.length; i++) {
-                    $tabs.eq(i).removeClass('active');
-                }
+                $tab.removeClass('active');
             }
         },
 
