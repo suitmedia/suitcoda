@@ -565,6 +565,11 @@ table {
   background: white;
   border: 1px solid #ececec;
   padding: 1px 7px; }
+  .btn-show-code span:before {
+    content: "\f078"; }
+
+.btn-show-code--show span:before {
+  content: "\f077"; }
 
 .btn--block {
   width: 100%; }

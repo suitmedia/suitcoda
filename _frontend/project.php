@@ -312,7 +312,7 @@
                                 <a class="issue__url block-half" href="#">http://blablabla.blebleble</a>
                                 <span class="issue__message">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis sint, deserunt magni facilis quis vitae possimus ipsa sapiente doloribus quae.</span>
                                 <button class="btn-show-code float-right">
-                                    <span class="fa fa-chevron-down"></span>
+                                    <span class="fa"></span>
                                 </button>
                                 <div class="issue__code">
 <pre class="line-numbers" data-line="30-35">

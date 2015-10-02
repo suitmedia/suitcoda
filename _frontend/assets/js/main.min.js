@@ -219,17 +219,9 @@
 
             $trigger.on('click', function() {
                 var $issueCode = $(this).next();
-                var $chevron   = $(this).find('span');
-                
-                if ($issueCode.hasClass('issue__code--show')) {
-                    $chevron.removeClass('fa-chevron-up');
-                    $chevron.addClass('fa-chevron-down');
-                    $issueCode.removeClass('issue__code--show');
-                } else {
-                    $chevron.removeClass('fa-chevron-down');
-                    $chevron.addClass('fa-chevron-up');
-                    $issueCode.addClass('issue__code--show');
-                }
+
+                $(this).toggleClass('btn-show-code--show');
+                $issueCode.toggleClass('issue__code--show');
             });
         },
 
