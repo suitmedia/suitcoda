@@ -295,6 +295,9 @@ input[type="search"] {
 .text-grey {
   color: #949699; }
 
+.fix-margin {
+  margin: 0; }
+
 .clearfix:after,
 .table--responsive:after,
 .cf:after {
@@ -3571,6 +3574,10 @@ em strong {
 .progress__bar {
   height: 5px;
   background: #0000ff; }
+
+.empty-state {
+  padding: 30px 0;
+  display: block; }
 
 .footer {
   padding: 1em 0;

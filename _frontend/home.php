@@ -13,6 +13,10 @@
 
     <main class="block-up">
         <div class="container">
+
+            <!-- if there's no project -->
+            <span class="empty-state">There is no project yet.</span>
+
             <div class="bzg">
                 <?php for ($i=0; $i < 10; $i++) { ?>
                     <div class="bzg_c block" data-col="s12,m6">

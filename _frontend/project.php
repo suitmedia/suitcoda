@@ -45,8 +45,12 @@
                 <h2 class="sr-only">Project Activity</h2>
                 <div class="flex-project">
                     <div class="item item-main block cf">
-                        <h2 class="subtitle float-left">Testing List</h2>
+                        <h2 class="subtitle float-left fix-margin">Testing List</h2>
                         <button class="btn-new-testing btn btn--grey btn--regular float-right">New Testing</button> <br>
+                        
+                        <!-- if no testing yet -->
+                        <span class="empty-state">There is no testing yet.</span>
+
                         <ul class="list-nostyle">
                             <?php for ($i=0; $i < 10; $i++) { ?>
                                 <li>
@@ -281,6 +285,10 @@
             <!-- issues details -->
             <section id="issues" class="project-content">
                 <h2 class="sr-only">Testing Issues</h2>
+
+                <!-- if there's no testing yet -->
+                <span class="empty-state">There is no testing yet.</span>
+
                 <h3 class="subtitle">Testing #20</h3>
                 <select name="" id="" class="form-input block">
                     <option value="performance">Performance</option>
@@ -288,6 +296,9 @@
                     <option value="seo">SEO</option>
                     <option value="socialmedia">Social Media</option>
                 </select>
+
+                <!-- if there's no issue -->
+                <span class="empty-state">There is no issue found.</span>
                 
                 <ul class="list-nostyle">
                     <?php for ($i=0; $i < 10; $i++) { ?>
