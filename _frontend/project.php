@@ -304,24 +304,7 @@
                                     <span class="fa fa-chevron-down"></span>
                                 </button>
                                 <div class="issue__code">
-                                    <pre class="brush: js; ruler: true">
-},
-progressBar: function () {
-    var opt = {
-        animation : false
-    }
-    var $progress = $('.progress');
-    var $progressBar = $('.progress__bar');
-
-    $('.progressbar').barIndicator(opt);
-    for (var i = 0; i < $progress.length; i++) {
-        var $progressValue = $progress.eq(i).attr('data-percent');
-        $progressBar.eq(i).css('width', $progressValue+'%');
-    }
-}
-
-};
-                                    </pre>
+                                    <pre class="line-numbers"><code class="language-css">p { color: red }</code></pre>
                                 </div>
                             </div>
                                 

@@ -17,7 +17,8 @@
         _shJS           : path.js + 'shBrushJScript.min.js',
         _shPHP          : path.js + 'shBrushPhp.min.js',
         _sprintf        : path.js + 'sprintf.min.js',
-        _bazeValidate   : path.js + 'baze.validate.min.js'
+        _bazeValidate   : path.js + 'baze.validate.min.js',
+        _prism          : path.js + 'prism.min.js'
     };
 
     var Site = {
@@ -193,29 +194,20 @@
         },
 
         syntaxHighlighter: function () {
-            var $issue = $('.issue__code');
+            var $issue = $('pre');
 
             if ( !$issue.length ) return;
 
             var init = function () {
-                SyntaxHighlighter.all();
+                Prism.highlightAll();
             };
 
-            Modernizr.load([
+            Modernizr.load(
                 {
-                    load    : assets._sh
-                },
-                {
-                    load    : assets._shCSS
-                },
-                {
-                    load    : assets._shJS
-                },
-                {
-                    load    : assets._shPHP,
+                    load    : assets._prism,
                     complete: init
                 }
-            ]);
+            );
 
         },
 
@@ -273,7 +265,8 @@
         ]);
     };
 
-    Modernizr.load({
+    Modernizr.load(
+    {
         load    : assets._jquery_cdn,
         complete: checkJquery
     });
