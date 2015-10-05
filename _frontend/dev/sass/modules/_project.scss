@@ -49,4 +49,11 @@
 
 .project-chart {
     width: 100%;
+    height: 400px;
+    background: url(../../assets/img/loading.gif) no-repeat;
+    background-position: center;
+}
+
+.project-chart--done {
+    background: none;
 }

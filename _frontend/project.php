@@ -38,7 +38,7 @@
                 <!-- overview project, chart -->
                 <section id="overview" class="project-content project-content--show">
                     <h2 class="sr-only">Project Overview</h2>
-                    <div class="project-chart"></div>
+                    <div class="project-chart" data-graph="graph-data.json"></div>
                 </section>
                 
                 <!-- activity, testing list, status -->
