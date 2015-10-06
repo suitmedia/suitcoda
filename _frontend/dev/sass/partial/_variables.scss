@@ -23,6 +23,12 @@ $black30            : lighten($black, 70%);
 $black20            : lighten($black, 80%);
 $black10            : lighten($black, 90%);
 
+$link               : $black;
+$link_hover         : darken($link, 10%);
+
+$selection_bg       : #b3d4fc;
+$selection_color    : $black;
+
 $grey               : #ececec;
 $grey_dark          : #949699;
 $orange             : #f28900;
@@ -34,13 +40,6 @@ $blue               : #0000ff;
 
 $primary            : $orange;
 $secondary          : $grey_dark;
-
-$link               : $grey_dark;
-$link_hover         : darken($link, 10%);
-
-$selection_bg       : #b3d4fc;
-$selection_color    : $black;
-
 
 
 // Break Points

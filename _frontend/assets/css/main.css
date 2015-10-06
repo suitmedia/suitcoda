@@ -3615,11 +3615,11 @@ body {
   color: #3c3c3c; }
 
 a {
-  color: #949699;
+  color: #222;
   text-decoration: none; }
   a:hover,
   a:focus {
-    color: #7a7c80; }
+    color: #090909; }
 
 .block {
   margin-bottom: 1.6em; }
