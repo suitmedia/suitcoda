@@ -1131,6 +1131,9 @@ a.box {
         min-width: 300px; } }
   .header-list .dropdown-menu--show {
     display: block; }
+  .header-list .dropdown-menu .empty-state {
+    width: 100%;
+    padding: 8px 16px; }
   .header-list ul:before {
     position: absolute;
     bottom: 100%;

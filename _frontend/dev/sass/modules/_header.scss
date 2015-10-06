@@ -44,6 +44,11 @@
         display: block;
     }
 
+    .dropdown-menu .empty-state {
+        width: 100%;
+        padding: 8px 16px;
+    }
+
     ul:before {
         position: absolute;
         bottom: 100%;

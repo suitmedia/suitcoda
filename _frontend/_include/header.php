@@ -13,6 +13,10 @@
                         <span class="notif__count">2</span>
                     </a>
                     <ul class="dropdown-menu notif-list">
+                        <!-- empty state -->
+                        <!-- <li>
+                            <span class="empty-state">You have no notification.</span>
+                        </li> -->
                         <li>
                             <a href="#">
                                 Testing #20 on Suitcoda Project has done tested.
