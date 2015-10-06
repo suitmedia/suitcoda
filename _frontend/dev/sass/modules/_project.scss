@@ -52,6 +52,11 @@
     height: 400px;
     background: url(../../assets/img/loading.gif) no-repeat;
     background-position: center;
+    background-size: 70px;
+
+    @media #{$medium} {
+        background-size: 150px;
+    }
 }
 
 .project-chart--done {
