@@ -100,7 +100,8 @@ $BTN_PADDING: $space/3 $space;
 
     &:focus,
     &:hover {
-        background: darken($primary, 20%)
+        background: darken($primary, 20%);
+        color: white;
     }
 }
 
@@ -110,7 +111,8 @@ $BTN_PADDING: $space/3 $space;
 
     &:focus,
     &:hover {
-        background: darken($secondary, 20%)
+        background: darken($secondary, 20%);
+        color: white;
     }
 }
 

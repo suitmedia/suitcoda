@@ -613,14 +613,16 @@ table {
   background: #f28900; }
   .btn--primary:focus,
   .btn--primary:hover {
-    background: #8c4f00; }
+    background: #8c4f00;
+    color: white; }
 
 .btn--secondary {
   color: white;
   background: #949699; }
   .btn--secondary:focus,
   .btn--secondary:hover {
-    background: #616366; }
+    background: #616366;
+    color: white; }
 
 .btn--circle {
   -webkit-border-radius: 50%;
