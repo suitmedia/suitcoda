@@ -98,8 +98,10 @@
         dropdownMenu: function () {
             var $trigger = $('.header-list>li>a');
             var $allDropdownMenu = $('.dropdown-menu');
+            var $body = $('body');
 
-            $trigger.on('click', function () {
+            $trigger.on('click', function (e) {
+                e.preventDefault();
                 var $menu = $(this).siblings();
 
                 if ( $menu.hasClass('dropdown-menu--show') ) {
@@ -109,6 +111,15 @@
                     $menu.addClass('dropdown-menu--show');
                 }
             });
+
+            $body.on('click', function(e) {
+                var $target = $(e.target);
+
+                if ( !$target.parents().hasClass('notif') && !$target.parents().hasClass('user-avatar') ) {
+                    closeAllDropdown();
+                } 
+            });
+
 
             function closeAllDropdown () {
                 $allDropdownMenu.removeClass('dropdown-menu--show');
@@ -152,7 +163,7 @@
                     };
 
                     $chart.highcharts( option );
-                };
+                }
 
                 var getGraphData = function () {
                     var dataSource = $chart.attr('data-graph');
@@ -170,7 +181,7 @@
                         dataSeries = data.series;
                         dataXAxis = data.xAxis;
 
-                        $chart.addClass('project-chart--done')
+                        $chart.addClass('project-chart--done');
                         drawGraph(dataTitle, dataSeries, dataXAxis);
                     })
                     .fail(function() {})
