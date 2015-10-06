@@ -1111,13 +1111,13 @@ a.box {
     position: relative; }
   .header-list .dropdown-menu {
     position: absolute;
-    top: 124%;
+    top: 100%;
     right: 0;
     padding: 0;
     border: 2px solid #949699;
     -webkit-border-radius: 5px;
             border-radius: 5px;
-    margin: 0;
+    margin-top: 10px;
     display: none;
     background: white;
     list-style: none; }
