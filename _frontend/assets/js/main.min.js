@@ -133,7 +133,7 @@
 
             var init = function () {
 
-                function drawGraph ( dataTitle, dataSeries, dataXAxis) {
+                function drawGraph ( graph, dataTitle, dataSeries, dataXAxis) {
                     var option = {
                         title: {
                             text: dataTitle,
@@ -162,30 +162,34 @@
                         series: dataSeries
                     };
 
-                    $chart.highcharts( option );
+                    graph.highcharts( option );
                 }
 
                 var getGraphData = function () {
-                    var dataSource = $chart.attr('data-graph');
-                    var dataTitle,
-                        dataSeries,
-                        dataXAxis;
 
-                    $.ajax({
-                        url: dataSource,
-                        type: 'GET',
-                        dataType: 'json'
-                    })
-                    .done(function(data) {
-                        dataTitle = data.title;
-                        dataSeries = data.series;
-                        dataXAxis = data.xAxis;
+                    $.each($chart, function(index, val) {
+                        var $this = $(this),
+                            dataSource = $this.attr('data-graph'),
+                            dataTitle,
+                            dataSeries,
+                            dataXAxis;
 
-                        $chart.addClass('project-chart--done');
-                        drawGraph(dataTitle, dataSeries, dataXAxis);
-                    })
-                    .fail(function() {})
-                    .always(function() {});
+                        $.ajax({
+                            url: dataSource,
+                            type: 'GET',
+                            dataType: 'json'
+                        })
+                        .done(function(data) {
+                            dataTitle = data.title;
+                            dataSeries = data.series;
+                            dataXAxis = data.xAxis;
+
+                            $chart.addClass('project-chart--done');
+                            drawGraph($this, dataTitle, dataSeries, dataXAxis);
+                        })
+                        .fail(function() {})
+                        .always(function() {});
+                    });
                 };
 
                 getGraphData();
