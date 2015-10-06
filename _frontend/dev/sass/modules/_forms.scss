@@ -34,6 +34,10 @@ input[type="number"] {
     -moz-appearance:textfield;
 }
 
+select.form-input {
+    height: 40px;
+}
+
 .form__row {
     margin-bottom: $space/2;
 }

@@ -857,6 +857,9 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield; }
 
+select.form-input {
+  height: 40px; }
+
 .form__row {
   margin-bottom: 0.8em; }
 

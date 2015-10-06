@@ -31,9 +31,9 @@
                                     Save
                                 </button>
 
-                                <button class="btn btn--secondary btn--regular">
-                                    Discard
-                                </button>
+                                <a class="btn btn--secondary btn--regular" href="home.php">
+                                    Cancel
+                                </a>
                             </form>
                         </div>
                     </div>
