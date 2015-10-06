@@ -1193,9 +1193,16 @@ a.box {
 .user-avatar {
   width: 30px;
   height: 30px;
+  padding: 3px 5px;
   -webkit-border-radius: 50%;
           border-radius: 50%;
+  background: #949699;
+  color: white;
   display: inline-block; }
+  .user-avatar:hover,
+  .user-avatar:focus {
+    background: #7a7c80;
+    color: white; }
 
 .user-avatar + ul:before {
   right: 15px; }
@@ -3608,11 +3615,11 @@ body {
   color: #3c3c3c; }
 
 a {
-  color: #222;
+  color: #949699;
   text-decoration: none; }
   a:hover,
   a:focus {
-    color: #090909; }
+    color: #7a7c80; }
 
 .block {
   margin-bottom: 1.6em; }

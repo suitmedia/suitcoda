@@ -36,7 +36,7 @@
                 </li>
                 <li>
                     <a class="user-avatar" href="#">
-                        <img src="assets/img/pp.png" alt="">
+                        <span>CT</span>
                     </a>
                     <ul class="dropdown-menu user-menu">
                         <li>
