@@ -16,22 +16,28 @@
     float: right;
 
     & > li {
-        margin: 10px;
+        padding: 10px;
         float: left;
-        position: relative;
     }
 
     .dropdown-menu {
         position: absolute;
         top: 100%;
         right: 0;
+        width: 95vw;
         padding: 0;
         border: 2px solid $grey_dark;
         border-radius: 5px;
         margin-top: 10px;
+        font-size: 13px;
         display: none;
         background: white;
         list-style: none;
+
+        @media #{$medium} {
+            width: auto;
+            min-width: 300px;
+        }
     }
 
     .dropdown-menu--show {
@@ -41,7 +47,6 @@
     ul:before {
         position: absolute;
         bottom: 100%;
-        right: 5px;
         width: 0; 
         height: 0; 
         border-left: 8px solid transparent;
@@ -53,13 +58,17 @@
     ul > li > a {
         display: inline-block;
         border-bottom: 1px solid $grey_dark;
-        padding: 5px 10px;
+        padding: 8px 16px;
 
         &:hover,
         &:focus {
             text-decoration: none;
             background: darken(white, 10%);
         }
+    }
+
+    ul > li:last-child > a {
+        border-bottom: 0;
     }
 }
 
@@ -76,6 +85,10 @@
     &:focus .notif__count {
         background: darken($red, 10%);
     }
+}
+
+.notif + ul:before {
+    right: 65px;
 }
 
 .notif__icon {
@@ -103,10 +116,13 @@
 
 }
 
-.notif-list {
-    width: 200px;
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+}
 
-    @media #{$medium} {
-        width: 300px;
-    }
+.user-avatar + ul:before {
+    right: 15px;
 }
