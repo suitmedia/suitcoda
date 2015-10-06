@@ -1028,11 +1028,12 @@ a.box {
 
 .box__thumbnail {
   position: relative;
-  width: 115px;
-  height: 130px;
+  width: 100px;
+  height: 110px;
   padding: 5px;
   text-align: center;
   color: white;
+  font-size: 14px;
   background: #f28900;
   float: left; }
   .box__thumbnail .text-big {
@@ -1043,15 +1044,17 @@ a.box {
     -webkit-transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%); }
+  @media screen and (min-width: 40em) {
+    .box__thumbnail {
+      width: 115px;
+      height: 130px;
+      font-size: 16px; } }
 
 .box__desc {
-  position: absolute;
-  top: 0;
-  left: 115px;
+  width: auto;
   padding: 5px;
   font-size: 14px;
-  width: -webkit-calc( 100% - 115px);
-  width: calc( 100% - 115px); }
+  overflow: hidden; }
 
 .box__close {
   position: absolute;
