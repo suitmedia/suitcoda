@@ -1,5 +1,5 @@
     <footer class="footer">
         <div class="container">
-            <span>Copyright &copy; blablabla</span>
+            <span>2015 &copy; Suitmedia</span>
         </div>
     </footer>
