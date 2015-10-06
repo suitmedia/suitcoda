@@ -115,7 +115,7 @@
             $body.on('click', function(e) {
                 var $target = $(e.target);
 
-                if ( !$target.parents().hasClass('notif') && !$target.parents().hasClass('user-avatar') ) {
+                if ( !$target.parents().hasClass('notif') && !$target.parents().hasClass('user-avatar') && !$target.parents().hasClass('dropdown-menu')  ) {
                     closeAllDropdown();
                 } 
             });
