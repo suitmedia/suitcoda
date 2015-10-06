@@ -56,9 +56,10 @@
     }
 
     ul > li > a {
+        width: 100%;
+        padding: 8px 16px;
         display: inline-block;
         border-bottom: 1px solid $grey_dark;
-        padding: 8px 16px;
 
         &:hover,
         &:focus {

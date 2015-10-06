@@ -1141,9 +1141,10 @@ a.box {
     border-bottom: 8px solid #949699;
     content: ''; }
   .header-list ul > li > a {
+    width: 100%;
+    padding: 8px 16px;
     display: inline-block;
-    border-bottom: 1px solid #949699;
-    padding: 8px 16px; }
+    border-bottom: 1px solid #949699; }
     .header-list ul > li > a:hover,
     .header-list ul > li > a:focus {
       text-decoration: none;
