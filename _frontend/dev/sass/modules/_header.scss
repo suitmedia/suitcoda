@@ -91,6 +91,11 @@
     &:focus .notif__count {
         background: darken($red, 10%);
     }
+
+    &:hover .notif__icon,
+    &:focus .notif__icon {
+        color: darken($grey_dark, 10%);
+    }
 }
 
 .notif + ul:before {

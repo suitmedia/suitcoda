@@ -1164,6 +1164,9 @@ a.box {
   .notif:hover .notif__count,
   .notif:focus .notif__count {
     background: #930000; }
+  .notif:hover .notif__icon,
+  .notif:focus .notif__icon {
+    color: #7a7c80; }
 
 .notif + ul:before {
   right: 65px; }
