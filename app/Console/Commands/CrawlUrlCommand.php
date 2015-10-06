@@ -4,7 +4,9 @@ namespace Suitcoda\Console\Commands;
 
 use Illuminate\Console\Command;
 use Suitcoda\Supports\CrawlerUrl;
-use Goutte\Client;
+// use Goutte\Client;
+use GuzzleHttp\Client;
+use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlUrlCommand extends Command
 {
@@ -37,10 +39,10 @@ class CrawlUrlCommand extends Command
      *
      * @return mixed
      */
-    public function handle(Client $client)
+    public function handle(Client $client, Crawler $crawler)
     {
         $url = $this->argument('url');
-        $crawlCommand = new CrawlerUrl($client);
+        $crawlCommand = new CrawlerUrl($client, $crawler);
         $crawlCommand->setBaseUrl($url);
         $crawlCommand->start();
 
@@ -49,5 +51,6 @@ class CrawlUrlCommand extends Command
         print_r($crawlCommand->getSiteJs());
         print_r($crawlCommand->getSiteBrokenLink());
         print_r($crawlCommand->getSiteFile());
+        print_r($crawlCommand->getSiteRedirectLink());
     }
 }

@@ -5,11 +5,10 @@ namespace SuitTests\Supports;
 use Mockery;
 use SuitTests\TestCase;
 use Suitcoda\Supports\CrawlerUrl;
-use Goutte\Client;
-use GuzzleHttp\Client as Guzzle;
+use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use GuzzleHttp\HandlerStack;
+use Suitcoda\Supports\EffectiveUrlMiddleware;
 
 class CrawlerUrlTest extends TestCase
 {
@@ -23,72 +22,22 @@ class CrawlerUrlTest extends TestCase
         parent::tearDown();
     }
 
-    public function normalizeLinkProvider()
-    {
-        return [
-            ['http://foobar.com', 'http://foobar.com/', 'http://foobar.com/'],
-            ['http://foobar.com', '//foobar.com/', 'http://foobar.com/'],
-            ['http://foobar.com?search=test', 'http://foobar.com/', 'http://foobar.com/'],
-            ['http://foobar.com?search=test', 'http://foobar.com/en/test', 'http://foobar.com/en/test'],
-            ['http://foobar.com/en?q=123', 'http://foobar.com/baz', 'http://foobar.com/baz'],
-            ['http://foobar.com/en?q=123', 'baz', 'http://foobar.com/baz'],
-            ['http://foobar.com/en?q=123', '/baz', 'http://foobar.com/baz'],
-            ['http://foobar.com', 'http://foobar.com/test', 'http://foobar.com/test'],
-            ['http://foobar.com', '/', 'http://foobar.com/'],
-            ['http://foobar.com', 'en', 'http://foobar.com/en'],
-            ['http://foobar.com', 'en/', 'http://foobar.com/en/'],
-            ['http://foobar.com?search=test', 'en', 'http://foobar.com/en'],
-            ['http://foobar.com', '/en', 'http://foobar.com/en'],
-            ['http://foobar.com', 'en/test', 'http://foobar.com/en/test'],
-            ['http://foobar.com', '/en/test', 'http://foobar.com/en/test'],
-            ['http://foobar.com?search=test', '/en/test/', 'http://foobar.com/en/test/'],
-            ['http://foobar.com', 'http://foobar.com/en/test?q=123', 'http://foobar.com/en/test?q=123'],
-            ['http://foobar.com', 'http://foobar.com/en/test?q=123&r=456', 'http://foobar.com/en/test?q=123&r=456'],
-            ['http://foobar.com', 'http://foobar.com/en/test/?q=123', 'http://foobar.com/en/test/?q=123'],
-            ['http://foobar.com', 'http://foobar.com/en/test/?q=123&r=456', 'http://foobar.com/en/test/?q=123&r=456'],
-            ['http://foobar.com/test.html', 'test.html', 'http://foobar.com/test.html'],
-            ['http://foobar.com/test.html', 'baz.html', 'http://foobar.com/baz.html'],
-            ['http://foobar.com/test', '?q=123', 'http://foobar.com/test?q=123'],
-            ['http://foobar.com/test?q=123', '?r=456', 'http://foobar.com/test?r=456'],
-            ['http://foobar.com/test/baz', 'foo/bar', 'http://foobar.com/test/foo/bar'],
-        ];
-    }
-
-    /**
-     * @dataProvider normalizeLinkProvider
-     */
-    public function testNormalizeLink($currentUrl, $url, $expectedUrl)
-    {
-        $uri = 'http://foobar.com';
-        $guzzle = Mockery::mock(Guzzle::class);
-        $client = Mockery::mock(Client::class);
-        $client->shouldReceive('setClient')->andReturn($guzzle);
-
-        $crawl = new CrawlerUrl($client);
-        $crawl->setBaseUrl($uri);
-
-        $this->assertEquals($expectedUrl, $crawl->normalizeLink($url, $currentUrl));
-    }
-
     public function testUrlCrawlable()
     {
-        $guzzle = Mockery::mock(Guzzle::class);
-        $client = Mockery::mock(Client::class);
-        $client->shouldReceive('setClient')->andReturn($guzzle);
+        $client = $this->getMockClient()->makePartial();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
         
-
-        $crawl = new CrawlerUrl($client);
+        $crawl = new CrawlerUrl($client, $domCrawler);
 
         $this->assertEquals(true, $crawl->checkIfCrawlable('foobar.com'));
     }
 
     public function testUrlNotCrawlable()
     {
-        $guzzle = Mockery::mock(Guzzle::class);
-        $client = Mockery::mock(Client::class);
-        $client->shouldReceive('setClient')->andReturn($guzzle);
+        $client = $this->getMockClient()->makePartial();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
         
-        $crawl = new CrawlerUrl($client);
+        $crawl = new CrawlerUrl($client, $domCrawler);
 
         $this->assertEquals(false, $crawl->checkIfCrawlable('#'));
         $this->assertEquals(false, $crawl->checkIfCrawlable('#foobar'));
@@ -99,101 +48,134 @@ class CrawlerUrlTest extends TestCase
 
     public function testUrlIsExternalUrl()
     {
-        $guzzle = Mockery::mock(Guzzle::class);
-        $client = Mockery::mock(Client::class);
-        $client->shouldReceive('setClient')->andReturn($guzzle);
-
-        $crawl = new CrawlerUrl($client);
+        $client = $this->getMockClient()->makePartial();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+        
+        $crawl = new CrawlerUrl($client, $domCrawler);
 
         $crawl->setBaseUrl('http://foobar.com');
+        $this->assertEquals('http://foobar.com/', $crawl->getBaseUrl());
         $this->assertEquals(true, $crawl->checkIfExternal('http://test.com'));
         $this->assertEquals(true, $crawl->checkIfExternal('https://test.com'));
     }
 
     public function testUrlIsNotExternalUrl()
     {
-        $guzzle = Mockery::mock(Guzzle::class);
-        $client = Mockery::mock(Client::class);
-        $client->shouldReceive('setClient')->andReturn($guzzle);
+        $client = $this->getMockClient()->makePartial();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
         
-        $crawl = new CrawlerUrl($client);
+        $crawl = new CrawlerUrl($client, $domCrawler);
 
         $crawl->setBaseUrl('foobar.com');
         $this->assertEquals(false, $crawl->checkIfExternal('http://foobar.com/test'));
         $this->assertEquals(false, $crawl->checkIfExternal('https://foobar.com/test'));
     }
 
-    public function testDoRequestHtml()
+    public function testGetEffectiveUrl()
     {
         $client = $this->getMockClient()->makePartial();
-        $response = $this->getMockStatusCodeSuccess()->makePartial();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+        $response = Mockery::mock('GuzzleHttp\Psr7\Response');
 
-        $client->shouldReceive('getResponse')->andReturn($response);
+        $client->shouldReceive('get')->andReturn($response);
+        
+        $crawl = new CrawlerUrl($client, $domCrawler);
 
-        $crawling = new CrawlerUrl($client);
-        $crawling->doRequest('http://foobar.com');
+        $crawl->getEffectiveUrl('http://foobar.com');
+    }
 
-        $this->assertEquals(['http://foobar.com'], $crawling->getSiteUrl());
+    public function testDoRequestHtml()
+    {
+        $client = $this->getMockClient();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+        $response = Mockery::mock('GuzzleHttp\Psr7\Response');
+
+        $client->shouldReceive('get')->andReturn($response);
+        $response->shouldReceive('getHeaderLine')->andReturn('http://foobar.com');
+        $response->shouldReceive('getStatusCode')->andReturn(200);
+        
+        $crawl = new CrawlerUrl($client, $domCrawler);
+        $crawl->doRequest('http://foobar.com');
+
+        $this->assertEquals(['http://foobar.com'], $crawl->getSiteUrl());
     }
 
     public function testDoRequestBrokenLink()
     {
-        $client = $this->getMockClient()->makePartial();
-        $response = $this->getMockStatusCodeFailed()->makePartial();
+        $client = $this->getMockClient();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+        $response = Mockery::mock('GuzzleHttp\Psr7\Response');
 
-        $client->shouldReceive('getResponse')->andReturn($response);
+        $client->shouldReceive('get')->andReturn($response);
+        $response->shouldReceive('getHeaderLine')->andReturn('http://foobar.com/test');
+        $response->shouldReceive('getStatusCode')->andReturn(404);
 
-        $crawling = new CrawlerUrl($client);
-        $result = $crawling->doRequest('http://foobar.com/test');
+        $crawl = new CrawlerUrl($client, $domCrawler);
+        $result = $crawl->doRequest('http://foobar.com/test');
 
         $this->assertEquals(null, $result);
-        $this->assertEquals(['http://foobar.com/test'], $crawling->getSiteBrokenLink());
+        $this->assertEquals(['http://foobar.com/test'], $crawl->getSiteBrokenLink());
     }
 
     public function testDoRequestFile()
     {
-        $client = $this->getMockClient()->makePartial();
-        $response = $this->getMockStatusCodeFailed()->makePartial();
+        $client = $this->getMockClient();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+        $response = Mockery::mock('GuzzleHttp\Psr7\Response');
 
-        $client->shouldReceive('getResponse')->andReturn($response);
+        $client->shouldReceive('get')->andReturn($response);
+        $response->shouldReceive('getHeaderLine')->andReturn('http://foobar.com/test.pdf');
+        $response->shouldReceive('getStatusCode')->andReturn(404);
 
-        $crawling = new CrawlerUrl($client);
-        $crawling->setContentType(false);
-        $result = $crawling->doRequest('http://foobar.com/test.pdf');
+        $crawl = new CrawlerUrl($client, $domCrawler);
+        $crawl->setContentType(false);
+        $result = $crawl->doRequest('http://foobar.com/test.pdf');
 
         $this->assertEquals(null, $result);
-        $this->assertEquals(['http://foobar.com/test.pdf'], $crawling->getSiteFile());
-    }
-
-    public function testCheckNotInList()
-    {
-        $client = $this->getMockClient()->makePartial();
-
-        $crawling = new CrawlerUrl($client);
-        $tempArraySiteList = $crawling->getSiteUrl();
-        $result = $crawling->checkNotInList('http://foobar.com', $tempArraySiteList);
-
-        $this->assertEquals(true, $result);
+        $this->assertEquals(['http://foobar.com/test.pdf'], $crawl->getSiteFile());
     }
 
     public function testDoRequestCatchException()
     {
         $client = $this->getMockClientException();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
 
-        $crawling = new CrawlerUrl($client);
-        $result = $crawling->doRequest('http://foobar.com/unknown');
+        $crawl = new CrawlerUrl($client, $domCrawler);
+        $result = $crawl->doRequest('http://foobar.com/unknown');
 
         $this->assertEquals(null, $result);
     }
 
-    public function testCrawler()
+    public function testCheckNotInList()
     {
         $client = $this->getMockClient();
-        $response = $this->getMockStatusCodeSuccess()->makePartial();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
 
-        $client->shouldReceive('getResponse')->andReturn($response);
+        $crawl = new CrawlerUrl($client, $domCrawler);
+        $tempArraySiteList = $crawl->getSiteUrl();
+        $result = $crawl->checkNotInList('http://foobar.com', $tempArraySiteList);
 
-        $crawling = new CrawlerUrl($client);
+        $this->assertEquals(true, $result);
+    }
+
+    public function testCrawler()
+    {
+        $html = '<a href="http:foobar.com"></a>';
+
+        $client = $this->getMockClient();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+        $response = Mockery::mock('GuzzleHttp\Psr7\Response')->makePartial();
+
+        $client->shouldReceive('get')->andReturn($response);
+        $response->shouldReceive('getHeaderLine')->andReturn(
+            'http://foobar.com',
+            'http://foobar.com/test',
+            'http://foobar.com/baz'
+        );
+        $response->shouldReceive('getStatusCode')->andReturn(200);
+        $domCrawler->shouldReceive('addHtmlContent')->andReturn($html);
+
+        $crawling = new CrawlerUrl($client, $domCrawler);
         $crawling->setBaseUrl('http://foobar.com');
         $crawling->start();
 
@@ -207,43 +189,30 @@ class CrawlerUrlTest extends TestCase
     public function testDumpGet()
     {
         $client = $this->getMockClient();
-
-        $crawling = new CrawlerUrl($client);
-
-        $this->assertEquals([], $crawling->getSiteCss());
-        $this->assertEquals([], $crawling->getSiteJs());
-        $this->assertEquals([], $crawling->getSiteFile());
-        $this->assertEquals([], $crawling->getSiteBrokenLink());
-    }
-
-    protected function getMockClient()
-    {
-        $guzzle = $this->getMockGuzzle()->makePartial();
         $domCrawler = $this->getMockDomCrawler()->makePartial();
-        $client = Mockery::mock(Client::class);
 
-        $client->shouldReceive('setClient')->andReturn($guzzle);
-        $client->shouldReceive('request')->andReturn($domCrawler);
+        $crawl = new CrawlerUrl($client, $domCrawler);
 
-        return $client;
+        $this->assertEquals([], $crawl->getSiteCss());
+        $this->assertEquals([], $crawl->getSiteJs());
+        $this->assertEquals([], $crawl->getSiteFile());
+        $this->assertEquals([], $crawl->getSiteBrokenLink());
     }
 
     protected function getMockClientException()
     {
-        $guzzle = $this->getMockGuzzle()->makePartial();
-        $client = Mockery::mock(Client::class);
+        $client = $this->getMockClient()->makePartial();
 
-        $client->shouldReceive('setClient')->andReturn($guzzle);
-        $client->shouldReceive('request')->times(4)->andThrow(new \RuntimeException);
+        $client->shouldReceive('get')->times(4)->andThrow(new \RuntimeException);
 
         return $client;
     }
 
-    protected function getMockGuzzle()
+    protected function getMockClient()
     {
-        $guzzle = Mockery::mock(Guzzle::class);
+        $client = Mockery::mock(Client::class);
 
-        return $guzzle;
+        return $client;
     }
 
     protected function getMockStatusCodeSuccess()

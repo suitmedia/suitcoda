@@ -2,9 +2,12 @@
 
 namespace Suitcoda\Supports;
 
-use Goutte\Client;
-use GuzzleHttp\Client as Guzzle;
+// use Goutte\Client;
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
 use Symfony\Component\DomCrawler\Crawler;
+use Suitcoda\Supports\EffectiveUrlMiddleware;
+use Sabre\Uri;
 
 class CrawlerUrl
 {
@@ -22,11 +25,13 @@ class CrawlerUrl
 
     protected $siteFile;
 
-    protected $client;
+    protected $siteRedirectLink;
 
     protected $contentType;
 
-    public function __construct(Client $client)
+    protected $crawler;
+
+    public function __construct(Client $client, Crawler $crawler)
     {
         $this->siteUrl = array();
         $this->siteJs = array();
@@ -34,149 +39,11 @@ class CrawlerUrl
         $this->linkToCrawl = array();
         $this->siteBrokenLink = array();
         $this->siteFile = array();
+        $this->siteRedirectLink = array();
         $this->contentType = true;
-        
-        $guzzle = new Guzzle([
-            'on_headers' => function (\Psr\Http\Message\ResponseInterface $response) {
-                if (strpos($response->getHeaderLine('Content-Type'), 'text/html') === false) {
-                    $this->contentType = false;
-                    throw new \Exception;
-                } else {
-                    $this->contentType = true;
-                }
-            }
-        ]);
-        $client->setClient($guzzle);
+
         $this->client = $client;
-    }
-
-    /**
-     * Check url is crawlable or not
-     * @param  string $url
-     * @return boolean
-     */
-    public function checkIfCrawlable($url)
-    {
-        if (empty($url)) {
-            return false;
-        }
-
-        $patterns = array(
-            '@^javascript\:@',
-            '@^#.*@',
-            '@^void\(0\);$@'
-        );
-
-        foreach ($patterns as $pattern) {
-            if (preg_match($pattern, $url)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Change url to absolute path if currently relative
-     * @param  string $url
-     * @return string
-     */
-    public function normalizeLink($url, $currentUrl = null)
-    {
-        if (is_null($currentUrl)) {
-            $currentUrl = $this->baseUrl;
-        }
-
-        $url = preg_replace('@#.*$@', '', $url); // Remove any HTML element ID from the url
-        $url = preg_replace('/(\.\.\/)+/', '/', $url);  // Remove any relative path from the url
-        $url = $this->normalizeLinkWithoutScheme($url);
-        $url = $this->normalizeLinkFromPath($currentUrl, $url);
-
-        return $url;
-    }
-
-    /**
-     * Add url scheme if currently empty
-     * @param  string $url
-     * @return string
-     */
-    public function normalizeLinkWithoutScheme($url)
-    {
-        $parseUrl = parse_url($url);
-        // Case ex: //foobar.com
-        if (empty($parseUrl['scheme']) && !empty($parseUrl['host'])) {
-            return 'http:' . $url;
-        }
-        return $url;
-    }
-
-    /**
-     * Change url to absolute path if currently only relative path and add trailing slash
-     * @param  string $url
-     * @return string
-     */
-    public function normalizeLinkFromPath($currentUrl, $url)
-    {
-        $parseUrl = parse_url($url);
-        if (empty($parseUrl['host'])) {
-            // Case ex: /test, /test/
-            if (!empty($parseUrl['path']) && $parseUrl['path'][0] === '/') {
-                return $this->baseUrl . $url;
-            }
-            // Case ex: test, test/
-            $currentUrl = $this->removeQueryStringFromUrl($currentUrl);
-            // Case ex: $currentUrl = http://foobar.com/test | $url = ?q=123
-            if (!empty($parseUrl['query'])) {
-                return $currentUrl . $url;
-            }
-            if (strcmp($this->baseUrl, $this->removeQueryStringFromUrl($currentUrl)) !== 0) {
-                $currentUrl = pathinfo($currentUrl)['dirname'];
-            }
-            return $this->addTrailingSlash($currentUrl) . $url;
-        }
-        return $url;
-    }
-
-    /**
-     * Add trailing slash if not found query string
-     * @param  string $url
-     * @return string
-     */
-    public function addTrailingSlash($url)
-    {
-        if (strpos($url, '?') !== false) {
-            return $url;
-        }
-        return rtrim($url, '/') . '/';
-    }
-
-    /**
-     * Remove query string from a url if found
-     * @param  string $url
-     * @return string
-     */
-    public function removeQueryStringFromUrl($url)
-    {
-        if (strpos($url, '?') !== false) {
-            list($trimUrl, $queryString) = explode('?', $url);
-            return $trimUrl;
-        }
-        return $url;
-    }
-
-    /**
-     * Check url is external url or not
-     * @param  string $url
-     * @return boolean
-     */
-    public function checkIfExternal($url)
-    {
-        $baseUrlTrimmed = str_replace(array('http://', 'https://'), '', $this->baseUrl);
-        if (preg_match("@http(s)?\://$baseUrlTrimmed@", $url)) {
-            return false;
-        } else {
-            return true;
-        }
+        $this->crawler = $crawler;
     }
 
     /**
@@ -207,7 +74,7 @@ class CrawlerUrl
     }
 
     /**
-     * Get number of broken links
+     * Get list of broken links
      * @return int
      */
     public function getSiteBrokenLink()
@@ -216,12 +83,21 @@ class CrawlerUrl
     }
 
     /**
-     * Get number of file links
+     * Get list of file links
      * @return int
      */
     public function getSiteFile()
     {
         return $this->siteFile;
+    }
+
+    /**
+     * Get list of file links
+     * @return int
+     */
+    public function getSiteRedirectLink()
+    {
+        return $this->siteRedirectLink;
     }
 
     /**
@@ -231,9 +107,9 @@ class CrawlerUrl
     public function setBaseUrl($baseUrl)
     {
         if (strpos($baseUrl, 'http') === false) {
-            $this->baseUrl = 'http://' . $baseUrl;
+            $this->baseUrl = Uri\normalize('http://' . $baseUrl);
         } else {
-            $this->baseUrl = $baseUrl;
+            $this->baseUrl = Uri\normalize($baseUrl);
         }
     }
 
@@ -254,6 +130,63 @@ class CrawlerUrl
     {
         return $this->baseUrl;
     }
+
+    /**
+     * Check url is crawlable or not
+     * @param  string $url
+     * @return boolean
+     */
+    public function checkIfCrawlable($url)
+    {
+        if (empty($url)) {
+            return false;
+        }
+
+        $patterns = array(
+            '@^javascript\:@',
+            '@^#.*@',
+            '@^void\(0\);$@'
+        );
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $url)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Check url is external url or not
+     * @param  string $url
+     * @return boolean
+     */
+    public function checkIfExternal($url)
+    {
+        $baseUrlTrimmed = str_replace(array('http://', 'https://'), '', $this->baseUrl);
+        if (preg_match("@http(s)?\://$baseUrlTrimmed@", $url)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+        /**
+     * Checking a url in the array of site that crawl or not
+     * @param  string $url
+     * @param  array &$siteLink
+     * @return boolean
+     */
+    public function checkNotInList($url, &$siteLink)
+    {
+        if (!in_array($url, $siteLink) &&
+            !in_array($url, $this->siteBrokenLink) &&
+            !in_array($url, $this->siteRedirectLink)) {
+            return true;
+        }
+        return false;
+    }
     
     /**
      * Function to trigger start crawling a website
@@ -261,9 +194,7 @@ class CrawlerUrl
      */
     public function start()
     {
-        $baseUrl = $this->normalizeLink($this->getBaseUrl());
-
-        $this->crawl($baseUrl);
+        $this->crawl($this->baseUrl);
     }
 
     /**
@@ -272,16 +203,18 @@ class CrawlerUrl
      */
     protected function crawl($url)
     {
-        echo $url . " : " . count($this->siteUrl) . "\n";
         $responseUrl = $this->doRequest($url);
         if (!is_null($responseUrl)) {
-            $listCss = $responseUrl->filterXPath('//*[@rel="stylesheet"]')->extract('href');
+            $domCrawler = $this->crawler;
+            $domCrawler->addHtmlContent($responseUrl->getBody()->getContents());
+            
+            $listCss = $domCrawler->filterXPath('//*[@rel="stylesheet"]')->extract('href');
             $this->getAllLink($url, $listCss, $this->siteCss);
 
-            $listJs = $responseUrl->filter('script')->extract('src');
+            $listJs = $domCrawler->filter('script')->extract('src');
             $this->getAllLink($url, $listJs, $this->siteJs);
 
-            $listUrl = $responseUrl->filter('a')->extract('href');
+            $listUrl = $domCrawler->filter('a')->extract('href');
             $this->getAllLink($url, $listUrl, $this->siteUrl, 1);
         }
     }
@@ -295,43 +228,17 @@ class CrawlerUrl
     protected function getAllLink($currentUrl, $lists, &$siteLink, $recursive = 0)
     {
         foreach ($lists as $list) {
-            if ($this->checkIfCrawlable($list)) {
-                $list = $this->normalizeLink($list, $currentUrl);
+            if (!is_null($list) && $this->checkIfCrawlable($list)) {
+                // $list = $this->normalizeLink($list, $currentUrl);
+                $list = Uri\resolve($currentUrl, $list);
                 if ($this->checkNotInList($list, $siteLink) && !$this->checkIfExternal($list)) {
                     if (!$recursive) {
-                        array_push($siteLink, $list);
+                            array_push($siteLink, $list);
                     } else {
                         $this->crawl($list);
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * Checking a url in the array of site that crawl or not
-     * @param  string $url
-     * @param  array &$siteLink
-     * @return boolean
-     */
-    public function checkNotInList($url, &$siteLink)
-    {
-        if (!in_array($url, $siteLink) && !in_array($url, $this->siteBrokenLink)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Checking status code of a url
-     * @return boolean
-     */
-    protected function checkStatusCode()
-    {
-        if ($this->client->getResponse()->getStatus() === 200) {
-            return true;
-        } elseif ($this->client->getResponse()->getStatus() >= 400) {
-            return false;
         }
     }
 
@@ -351,22 +258,53 @@ class CrawlerUrl
         }
 
         try {
-            $responseUrl = $this->client->request('GET', $url);
-            if ($this->checkStatusCode() && $this->contentType) {
-                array_push($this->siteUrl, $url);
+            // echo "\n" . $url . "\n";
+            $responseUrl = $this->getEffectiveUrl($url);
+            $effectiveUrl = $responseUrl->getHeaderLine('X-GUZZLE-EFFECTIVE-URL');
+            if ($responseUrl->getStatusCode() === 200 && $this->contentType &&
+                $this->checkNotInList($effectiveUrl, $this->siteUrl)) {
+                array_push($this->siteUrl, $effectiveUrl);
+                echo $effectiveUrl . " : " . count($this->siteUrl) . "\n";
                 return $responseUrl;
             }
             if (!$this->contentType) {
-                array_push($this->siteFile, $url);
+                array_push($this->siteFile, $effectiveUrl);
                 return null;
             }
-            if (!$this->checkStatusCode()) {
-                array_push($this->siteBrokenLink, $url);
+            if ($responseUrl->getStatusCode() >= 400) {
+                array_push($this->siteBrokenLink, $effectiveUrl);
                 return null;
             }
+            array_push($this->siteRedirectLink, $url);
+            return null;
         } catch (\Exception $e) {
             $try--;
             return $this->doRequest($url, $try);
         }
+    }
+
+    /**
+     * Get the last redirect from a url
+     * @param  string $url
+     * @return string
+     */
+    public function getEffectiveUrl($url)
+    {
+        $stack = HandlerStack::create();
+        $stack->push(EffectiveUrlMiddleware::middleware());
+
+        $response = $this->client->get($url, [
+            'handler' => $stack,
+            'http_errors' => false,
+            'on_headers' => function (\Psr\Http\Message\ResponseInterface $response) {
+                if (strpos($response->getHeaderLine('Content-Type'), 'text/html') === false) {
+                    $this->contentType = false;
+                    throw new \Exception;
+                } else {
+                    $this->contentType = true;
+                }
+            }
+        ]);
+        return $response;
     }
 }
