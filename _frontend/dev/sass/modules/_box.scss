@@ -1,0 +1,152 @@
+.box {
+    position: relative;
+    border: 1px solid $grey;
+    background: white;
+    display: inline-block;
+}
+
+a.box {
+    transition: all 1s ease;
+
+    &:hover,
+    &:focus {
+        border: 1px solid $black;
+        transition: all 200ms ease;
+        text-decoration: none;
+    }
+}
+
+.box-form {
+    width: 100%;
+    padding: 20px;
+    margin: 0 auto;
+
+    @media #{$medium} {
+        width: 320px;
+    }
+}
+
+.box-form--wide {
+    @media #{$medium} {
+        width: 60%;
+    }
+}
+
+.box-fieldset {
+    padding: 15px;
+
+    legend {
+        margin: 0;
+    }
+}
+
+.box-testing {
+    position: relative;
+    width: 100%;
+}
+
+.box-testing__detail {
+    padding: 15px;
+    font-size: 14px;
+
+    @media #{$large} {
+        font-size: 16px;
+    }
+}
+
+.box-testing__percent {
+    width: 100%;
+    min-height: 30px;
+    padding: 5px 15px;
+    font-size: 12px;
+    background: $grey;
+
+    span {
+        margin-right: 20px;
+    }
+
+    @media #{$large} {
+        font-size: 14px;
+    }
+}
+
+.box-newuser {
+    width: 100%;
+    height: 130px;
+    padding: 45px 0;
+    border: 3px dashed $primary;
+    text-align: center;
+
+    .fa-plus {
+        width: 30px;
+        height: 30px;
+        padding-top: 8px;
+        border-radius: 50%;
+        color: white;
+        text-align: center;
+        background: $primary;
+    }
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+}
+
+// element
+.box__thumbnail {
+    position: relative;
+    width: 100px;
+    height: 110px;
+    padding: 5px;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    background: $primary;
+    float: left;    
+
+    .text-big {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: block;
+        transform: translate(-50%,-50%);
+    }
+
+    @media #{$medium} {
+        width: 115px;
+        height: 130px;
+        font-size: 16px;
+    }
+}
+
+.box__desc {
+    width: auto;
+    padding: 5px;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+.box__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 7px;
+    color: white;
+    background: $grey_dark;
+
+    &:hover,
+    &:focus {
+        background: darken($grey_dark, 10%);
+        color: white;
+    }
+}
+
+// modifier
+.box--block {
+    width: 100%;
+}
+
+.box--grey {
+    background: $grey;
+}

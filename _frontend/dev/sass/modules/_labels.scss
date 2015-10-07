@@ -1,0 +1,23 @@
+/*span*/.label {
+    display: inline-block;
+    min-width: 100px;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+}
+
+.label--red {
+    background: $red;
+}
+
+.label--orange {
+    background: $orange;
+}
+
+.label--green {
+    background: $green;
+}
+
+.label--blue {
+    background: $blue;
+}

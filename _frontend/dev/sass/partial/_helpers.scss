@@ -35,6 +35,35 @@
     overflow: hidden;
 }
 
+.text-big {
+    font-size: 2.5em;
+}
+
+.text-orange {
+    color: $orange;
+}
+
+.text-red {
+    color: $red;
+}
+
+.text-green {
+    color: $green_lime;
+}
+
+.text-grey {
+    color: $grey_dark;
+}
+
+.fix-margin {
+    margin: 0;
+}
+
+.empty-state {
+    padding: 30px 0;
+    display: block;
+}
+
 
 // Visual helper
 // ------------------------------------------------------------------------ //
@@ -74,4 +103,20 @@
 
 .invisible {
     visibility: hidden;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-left {
+    float: left;
+}
+
+.hide-on-mobile {
+    display: none;
+
+    @media #{$medium} {
+        display: inline-block;
+    }
 }

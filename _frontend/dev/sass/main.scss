@@ -47,10 +47,47 @@ a {
     margin-bottom: $space;
 }
 
+.block-double {
+    margin-bottom: $space*2;
+}
+
+.block-quad {
+    margin-bottom: $space*4;
+}
+
+.block-half {
+    margin-bottom: $space/2;
+}
+
+.block-up {
+    margin-top: $space;
+}
+
 .container {
     width: 95%;
-    max-width: 960px;
+    max-width: 1024px;
     margin: 0 auto;
+}
+
+b,
+strong {
+    font-family: 'open_sansbold';
+}
+
+i,
+em {
+    font-family: 'open_sansitalic';
+}
+
+b i,
+b em,
+strong i,
+strong em,
+i b,
+i strong,
+em b,
+em strong {
+    font-family: 'open_sansbold_italic';
 }
 
 // 3 Header
@@ -59,7 +96,46 @@ a {
 
 // 4 Page styles
 // ------------------------------------------------------------------------ //
+.main {
+    position: relative;
+    z-index: 1;
+}
 
+.site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.site-content {
+    flex: 1;
+}
+
+.bg-grey {
+    background: $grey;
+    overflow: auto;
+}
+
+.title {
+    font-size: 1.5em;
+
+    @media #{$medium} {
+        font-size: 2.3em;
+    }
+}
+
+.subtitle {
+    font-size: 1.3em;
+
+    @media #{$medium} {
+        font-size: 1.7em;
+    }
+}
 
 // 5 Footer
 // ------------------------------------------------------------------------ //
+
+.footer {
+    padding: 1em 0;
+    text-align: center;
+}

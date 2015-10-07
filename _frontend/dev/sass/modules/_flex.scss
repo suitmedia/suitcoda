@@ -1,0 +1,29 @@
+.flex-project {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -20px;
+}
+
+.flex-project__item {
+    padding-left: 20px;
+    width: 100%;
+}
+
+.flex-project__item-main {
+    order: 2;
+
+    @media #{$large} {
+        width: 70%;
+        order: 1;
+    }
+}
+
+.flex-project__item-side {
+    order: 1;
+
+    @media #{$large} {
+        width: 30%;
+        order: 2;
+    }
+}
