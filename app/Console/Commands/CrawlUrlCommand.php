@@ -50,7 +50,5 @@ class CrawlUrlCommand extends Command
         print_r($crawlCommand->getSiteCss());
         print_r($crawlCommand->getSiteJs());
         print_r($crawlCommand->getSiteBrokenLink());
-        print_r($crawlCommand->getSiteFile());
-        print_r($crawlCommand->getSiteRedirectLink());
     }
 }

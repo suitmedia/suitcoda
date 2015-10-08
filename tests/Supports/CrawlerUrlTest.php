@@ -117,24 +117,6 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals(['http://foobar.com/test'], $crawl->getSiteBrokenLink());
     }
 
-    public function testDoRequestFile()
-    {
-        $client = $this->getMockClient();
-        $domCrawler = $this->getMockDomCrawler()->makePartial();
-        $response = Mockery::mock('GuzzleHttp\Psr7\Response');
-
-        $client->shouldReceive('get')->andReturn($response);
-        $response->shouldReceive('getHeaderLine')->andReturn('http://foobar.com/test.pdf');
-        $response->shouldReceive('getStatusCode')->andReturn(404);
-
-        $crawl = new CrawlerUrl($client, $domCrawler);
-        $crawl->setContentType(false);
-        $result = $crawl->doRequest('http://foobar.com/test.pdf');
-
-        $this->assertEquals(null, $result);
-        $this->assertEquals(['http://foobar.com/test.pdf'], $crawl->getSiteFile());
-    }
-
     public function testDoRequestCatchException()
     {
         $client = $this->getMockClientException();
@@ -195,7 +177,6 @@ class CrawlerUrlTest extends TestCase
 
         $this->assertEquals([], $crawl->getSiteCss());
         $this->assertEquals([], $crawl->getSiteJs());
-        $this->assertEquals([], $crawl->getSiteFile());
         $this->assertEquals([], $crawl->getSiteBrokenLink());
     }
 

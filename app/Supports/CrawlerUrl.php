@@ -23,8 +23,6 @@ class CrawlerUrl
 
     protected $siteBrokenLink;
 
-    protected $siteFile;
-
     protected $siteRedirectLink;
 
     protected $contentType;
@@ -38,9 +36,7 @@ class CrawlerUrl
         $this->siteCss = array();
         $this->linkToCrawl = array();
         $this->siteBrokenLink = array();
-        $this->siteFile = array();
         $this->siteRedirectLink = array();
-        $this->contentType = true;
 
         $this->client = $client;
         $this->crawler = $crawler;
@@ -83,24 +79,6 @@ class CrawlerUrl
     }
 
     /**
-     * Get list of file links
-     * @return int
-     */
-    public function getSiteFile()
-    {
-        return $this->siteFile;
-    }
-
-    /**
-     * Get list of file links
-     * @return int
-     */
-    public function getSiteRedirectLink()
-    {
-        return $this->siteRedirectLink;
-    }
-
-    /**
      * Set website url for crawling
      * @param string $baseUrl
      */
@@ -111,15 +89,6 @@ class CrawlerUrl
         } else {
             $this->baseUrl = Uri\normalize($baseUrl);
         }
-    }
-
-    /**
-     * Set content-type headers manually
-     * @param boolean $value
-     */
-    public function setContentType($value)
-    {
-        $this->contentType = $value;
     }
 
     /**
@@ -229,7 +198,6 @@ class CrawlerUrl
     {
         foreach ($lists as $list) {
             if (!is_null($list) && $this->checkIfCrawlable($list)) {
-                // $list = $this->normalizeLink($list, $currentUrl);
                 $list = Uri\resolve($currentUrl, $list);
                 if ($this->checkNotInList($list, $siteLink) && !$this->checkIfExternal($list)) {
                     if (!$recursive) {
@@ -258,18 +226,13 @@ class CrawlerUrl
         }
 
         try {
-            // echo "\n" . $url . "\n";
             $responseUrl = $this->getEffectiveUrl($url);
             $effectiveUrl = $responseUrl->getHeaderLine('X-GUZZLE-EFFECTIVE-URL');
-            if ($responseUrl->getStatusCode() === 200 && $this->contentType &&
+            if ($responseUrl->getStatusCode() === 200 &&
                 $this->checkNotInList($effectiveUrl, $this->siteUrl)) {
                 array_push($this->siteUrl, $effectiveUrl);
                 echo $effectiveUrl . " : " . count($this->siteUrl) . "\n";
                 return $responseUrl;
-            }
-            if (!$this->contentType) {
-                array_push($this->siteFile, $effectiveUrl);
-                return null;
             }
             if ($responseUrl->getStatusCode() >= 400) {
                 array_push($this->siteBrokenLink, $effectiveUrl);
@@ -298,10 +261,7 @@ class CrawlerUrl
             'http_errors' => false,
             'on_headers' => function (\Psr\Http\Message\ResponseInterface $response) {
                 if (strpos($response->getHeaderLine('Content-Type'), 'text/html') === false) {
-                    $this->contentType = false;
                     throw new \Exception;
-                } else {
-                    $this->contentType = true;
                 }
             }
         ]);
