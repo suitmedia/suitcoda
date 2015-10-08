@@ -32,9 +32,11 @@
                                         <option value="admin">Admin</option>
                                     </select>
                                 </div>
-                                <a class="box__close" href="">
-                                    <span class="fa fa-times"></span>
-                                </a>
+                                <form action="">
+                                    <button class="btn box__close">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     <?php } ?>
