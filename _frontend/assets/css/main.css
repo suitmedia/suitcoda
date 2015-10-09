@@ -1079,6 +1079,9 @@ a.box {
 .box--grey {
   background: #ececec; }
 
+.box--tall {
+  height: 135px; }
+
 /*span*/
 .label {
   display: inline-block;
