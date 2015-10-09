@@ -568,27 +568,6 @@ table {
   .btn[disabled] {
     cursor: not-allowed; }
 
-.btn-newproject {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  width: 50px;
-  height: 50px;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
-  padding-top: 12px;
-  font-size: 20px;
-  color: white;
-  text-align: center;
-  background: #f28900;
-  display: inline-block;
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-          box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75); }
-  .btn-newproject:hover,
-  .btn-newproject:focus {
-    background: #bf6c00;
-    color: white; }
-
 .btn-show-code {
   background: white;
   border: 1px solid #ececec;
