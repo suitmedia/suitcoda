@@ -128,18 +128,26 @@
 }
 
 .user-avatar {
+    position: relative;
+    display: inline-block;
     width: 30px;
     height: 30px;
-    padding: 3px 5px;
     border-radius: 50%;
     background: $grey_dark;
     color: white;
-    display: inline-block;
 
     &:hover,
     &:focus {
         background: darken($grey_dark, 10%);
         color: white;
+    }
+
+    span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 13px;
+        transform: translate(-50%,-50%);
     }
 }
 
