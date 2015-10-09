@@ -1,0 +1,48 @@
+.notif {
+    position: relative;
+    width: 30px;
+    height: 30px;
+
+    .fa {
+        font-size: 30px;
+    }
+    
+    &:hover .notif__count,
+    &:focus .notif__count {
+        background: darken($red, 10%);
+    }
+
+    &:hover .notif__icon,
+    &:focus .notif__icon {
+        color: darken($grey_dark, 10%);
+    }
+}
+
+.notif + .dropdown-menu:before {
+    right: 65px;
+}
+
+.notif__icon {
+    margin-top: 2px;
+    display: inline-block;
+
+    @media #{$medium} {
+        margin-top: 0;
+    }
+}
+
+.notif__count {
+    position: absolute;
+    top: -7px;
+    right: 0px;
+    height: 15px;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-radius: 10px;
+    display: inline-block;
+    font-size: 10px;
+    line-height: 1.5;
+    color: white;
+    background: $red;
+
+}
