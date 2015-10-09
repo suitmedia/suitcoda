@@ -1,7 +1,6 @@
 <?php include '_include/head.php'; ?>
     
     <div class="site">
-        <?php include '_include/header.php'; ?>
 
         <main class="main bg-grey site-content">
             <div class="text-center block-up block-double">
