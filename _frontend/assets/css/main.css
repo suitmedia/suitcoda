@@ -1199,18 +1199,26 @@ a.box {
   background: #c60000; }
 
 .user-avatar {
+  position: relative;
+  display: inline-block;
   width: 30px;
   height: 30px;
-  padding: 3px 5px;
   -webkit-border-radius: 50%;
           border-radius: 50%;
   background: #949699;
-  color: white;
-  display: inline-block; }
+  color: white; }
   .user-avatar:hover,
   .user-avatar:focus {
     background: #7a7c80;
     color: white; }
+  .user-avatar span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 13px;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%); }
 
 .user-avatar + ul:before {
   right: 15px; }
