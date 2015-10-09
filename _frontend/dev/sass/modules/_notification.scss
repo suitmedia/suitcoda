@@ -46,3 +46,38 @@
     background: $red;
 
 }
+
+.all-notif {
+    li {
+        border-bottom: 2px solid $grey;
+    }
+
+    li:last-child {
+        border-bottom: 0;
+    }
+
+    a {
+        display: inline-block;
+        width: 100%;
+        padding: 3px 5px;
+        font-size: 14px;
+
+        &:hover,
+        &:focus {
+            background: $grey;
+        }
+
+        @media #{$medium} {
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+    }
+
+    time {
+        font-size: 0.9em;
+    }
+
+    .empty-state {
+        padding: 10px 0;
+    }
+}
