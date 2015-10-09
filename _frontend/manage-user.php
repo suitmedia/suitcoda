@@ -29,10 +29,9 @@
                                     <span>christine.teoriman@gmail.com</span> <br>
                                     <span>Username : cteoriman</span> <br>
                                     <span>Last Login : </span> <time>23/09/2015 12.34</time> <br>
-                                    <select name="" id="">
-                                        <option value="user">User</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
+                                    <a class="btn btn--primary btn--small" href="edit-account.php">
+                                        Edit
+                                    </a>
                                 </div>
                                 <form action="">
                                     <button class="btn box__close">
