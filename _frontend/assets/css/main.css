@@ -1116,30 +1116,21 @@ a.box {
   .header-list > li {
     padding: 10px;
     float: left; }
-  .header-list .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 95vw;
-    padding: 0;
-    border: 2px solid #949699;
-    -webkit-border-radius: 5px;
-            border-radius: 5px;
-    margin-top: 10px;
-    font-size: 13px;
-    display: none;
-    background: white;
-    list-style: none; }
-    @media screen and (min-width: 40em) {
-      .header-list .dropdown-menu {
-        width: auto;
-        min-width: 300px; } }
-  .header-list .dropdown-menu--show {
-    display: block; }
-  .header-list .dropdown-menu .empty-state {
-    width: 100%;
-    padding: 8px 16px; }
-  .header-list ul:before {
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 95vw;
+  padding: 0;
+  border: 2px solid #949699;
+  -webkit-border-radius: 5px;
+          border-radius: 5px;
+  margin-top: 10px;
+  font-size: 13px;
+  display: none;
+  background: white; }
+  .dropdown-menu:before {
     position: absolute;
     bottom: 100%;
     width: 0;
@@ -1148,17 +1139,37 @@ a.box {
     border-right: 8px solid transparent;
     border-bottom: 8px solid #949699;
     content: ''; }
-  .header-list ul > li > a {
+  .dropdown-menu a {
     width: 100%;
     padding: 8px 16px;
     display: inline-block;
     border-bottom: 1px solid #949699; }
-    .header-list ul > li > a:hover,
-    .header-list ul > li > a:focus {
+    .dropdown-menu a:hover,
+    .dropdown-menu a:focus {
       text-decoration: none;
       background: #e6e6e6; }
-  .header-list ul > li:last-child > a {
+  .dropdown-menu a:last-child {
     border-bottom: 0; }
+  @media screen and (min-width: 40em) {
+    .dropdown-menu {
+      width: auto;
+      min-width: 300px; } }
+  .dropdown-menu .more {
+    width: 100%;
+    padding: 0;
+    color: #222;
+    text-align: center;
+    background: #ececec; }
+    .dropdown-menu .more:hover,
+    .dropdown-menu .more:focus {
+      background: lightgray; }
+
+.dropdown-menu--show {
+  display: block; }
+
+.dropdown-menu .empty-state {
+  width: 100%;
+  padding: 8px 16px; }
 
 .notif {
   position: relative;
@@ -1173,7 +1184,7 @@ a.box {
   .notif:focus .notif__icon {
     color: #7a7c80; }
 
-.notif + ul:before {
+.notif + .dropdown-menu:before {
   right: 65px; }
 
 .notif__icon {
@@ -1220,7 +1231,7 @@ a.box {
         -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%); }
 
-.user-avatar + ul:before {
+.user-avatar + .dropdown-menu:before {
   right: 15px; }
 
 .project-nav {
