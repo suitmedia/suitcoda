@@ -120,6 +120,10 @@ a.box {
     }
 }
 
+.box__thumbnail--fixed-height {
+    height: 135px;
+}
+
 .box__desc {
     width: auto;
     padding: 5px;
@@ -142,6 +146,8 @@ a.box {
     }
 }
 
+
+
 // modifier
 .box--block {
     width: 100%;
@@ -149,8 +155,4 @@ a.box {
 
 .box--grey {
     background: $grey;
-}
-
-.box--tall {
-    height: 135px;
 }

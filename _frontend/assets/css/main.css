@@ -1060,6 +1060,9 @@ a.box {
       height: 130px;
       font-size: 16px; } }
 
+.box__thumbnail--fixed-height {
+  height: 135px; }
+
 .box__desc {
   width: auto;
   padding: 5px;
@@ -1083,9 +1086,6 @@ a.box {
 
 .box--grey {
   background: #ececec; }
-
-.box--tall {
-  height: 135px; }
 
 /*span*/
 .label {
