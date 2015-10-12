@@ -94,6 +94,11 @@ $BTN_PADDING: $space/3 $space;
     border-radius: 5px;
 }
 
+.btn--small {
+    padding: 2px 10px;
+    border-radius: 3px;
+}
+
 .btn--primary {
     color: white;
     background: $primary;

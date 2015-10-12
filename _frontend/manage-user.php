@@ -7,9 +7,9 @@
             <div class="container">
                 <h1 class="title">Manage User</h1>
                 <div class="bzg">
-                    <div class="bzg_c" data-col="s12,m6,l4">
+                    <div class="bzg_c" data-col="s12,m6">
                         <a href="new-account.php">
-                            <div class="box-newuser block">
+                            <div class="box-dashed box--tall block">
                                 <span class="fa fa-plus"></span>
                                 <span>Create New Account</span>
                             </div>
@@ -17,9 +17,9 @@
                     </div>
 
                     <?php for ($i=0; $i < 10; $i++) { ?>
-                        <div class="bzg_c block" data-col="s12,m6,l4">
+                        <div class="bzg_c block" data-col="s12,m6">
                             <div class="box box--block cf" href="project.php">
-                                <div class="box__thumbnail">
+                                <div class="box__thumbnail box__thumbnail--fixed-height">
                                     <span class="text-big">
                                         CT
                                     </span>
@@ -27,10 +27,11 @@
                                 <div class="box__desc text-ellipsis">
                                     <b>Christine Teoriman</b> <br>
                                     <span>christine.teoriman@gmail.com</span> <br>
-                                    <select name="" id="">
-                                        <option value="user">User</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
+                                    <span>Username : cteoriman</span> <br>
+                                    <span>Last Login : </span> <time>23/09/2015 12.34</time> <br>
+                                    <a class="btn btn--primary btn--small" href="edit-account.php">
+                                        Edit
+                                    </a>
                                 </div>
                                 <form action="">
                                     <button class="btn box__close">
