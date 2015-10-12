@@ -24,7 +24,7 @@
                         <a href="#">
                             Testing #20 on Suitcoda Project has done tested.
                         </a>
-                        <a class="more" href="#">
+                        <a class="more" href="notification.php">
                             <b>See More</b>
                         </a>
                     </div>
