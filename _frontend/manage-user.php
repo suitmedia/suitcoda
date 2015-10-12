@@ -9,7 +9,7 @@
                 <div class="bzg">
                     <div class="bzg_c" data-col="s12,m6">
                         <a href="new-account.php">
-                            <div class="box-newuser box--tall block">
+                            <div class="box-dashed box--tall block">
                                 <span class="fa fa-plus"></span>
                                 <span>Create New Account</span>
                             </div>
