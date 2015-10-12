@@ -26,8 +26,6 @@ class CrawlUrlCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -41,14 +39,11 @@ class CrawlUrlCommand extends Command
      */
     public function handle(Client $client, Crawler $crawler)
     {
-        $url = $this->argument('url');
-        $crawlCommand = new CrawlerUrl($client, $crawler);
-        $crawlCommand->setBaseUrl($url);
-        $crawlCommand->start();
-
-        print_r($crawlCommand->getSiteUrl());
-        print_r($crawlCommand->getSiteCss());
-        print_r($crawlCommand->getSiteJs());
-        print_r($crawlCommand->getSiteBrokenLink());
+        if (is_string($this->argument('url'))) {
+            $url = $this->argument('url');
+            $crawlCommand = new CrawlerUrl($client, $crawler);
+            $crawlCommand->setBaseUrl($url);
+            $crawlCommand->start();
+        }
     }
 }
