@@ -102,6 +102,7 @@
 
             $trigger.on('click', function (e) {
                 e.preventDefault();
+                e.stopPropagation();
                 var $menu = $(this).siblings();
 
                 if ( $menu.hasClass('dropdown-menu--show') ) {
