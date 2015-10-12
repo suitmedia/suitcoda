@@ -4,7 +4,7 @@
         <?php include '_include/header.php'; ?>
 
         <main class="main site-content">
-            <div class="bg-grey">
+            <div class="bg-grey block">
                 <div class="container">
                     <form class="search" action="">
                         <label for="search-project" class="search__label"><span class="fa fa-search"></span></label>
@@ -14,11 +14,16 @@
             </div>
 
             <div class="container block-up">
-
-                <!-- if there's no project -->
-                <span class="empty-state">There is no project yet.</span>
-
+                <h1>Project List</h1>
                 <div class="bzg">
+                    <div class="bzg_c" data-col="s12,m6">
+                        <a href="new-project.php">
+                            <div class="box-dashed block">
+                                <span class="fa fa-plus"></span>
+                                <span>Create New Project</span>
+                            </div>
+                        </a>
+                    </div>
                     <?php for ($i=0; $i < 3; $i++) { ?>
                         <div class="bzg_c block" data-col="s12,m6">
                             <a class="box box--block cf" href="project.php">
@@ -68,10 +73,6 @@
                     <?php } ?>
                 </div>                        
             </div>
-
-            <a class="btn-newproject" href="new-project.php">
-                <span class="fa fa-plus"></span>
-            </a>
         </main>
 
         <?php include '_include/footer.php'; ?>
