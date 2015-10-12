@@ -996,13 +996,13 @@ a.box {
     .box-testing__percent {
       font-size: 14px; } }
 
-.box-newuser {
+.box-dashed {
   width: 100%;
   height: 130px;
   padding: 45px 0;
   border: 3px dashed #f28900;
   text-align: center; }
-  .box-newuser .fa-plus {
+  .box-dashed .fa-plus {
     width: 30px;
     height: 30px;
     padding-top: 8px;
@@ -1011,8 +1011,8 @@ a.box {
     color: white;
     text-align: center;
     background: #f28900; }
-  .box-newuser:hover,
-  .box-newuser:focus {
+  .box-dashed:hover,
+  .box-dashed:focus {
     text-decoration: none; }
 
 .box__thumbnail {
