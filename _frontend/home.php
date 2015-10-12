@@ -18,7 +18,7 @@
                 <div class="bzg">
                     <div class="bzg_c" data-col="s12,m6">
                         <a href="new-project.php">
-                            <div class="box-newuser block">
+                            <div class="box-dashed block">
                                 <span class="fa fa-plus"></span>
                                 <span>Create New Project</span>
                             </div>
