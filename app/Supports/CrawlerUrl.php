@@ -2,84 +2,132 @@
 
 namespace Suitcoda\Supports;
 
-// use Goutte\Client;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
-use Symfony\Component\DomCrawler\Crawler;
-use Suitcoda\Supports\EffectiveUrlMiddleware;
 use Sabre\Uri;
+use Suitcoda\Supports\EffectiveUrlMiddleware;
+use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlerUrl
 {
-    protected $retry = 3;
-
+    /**
+     * Stores the base url of current crawling session
+     *
+     * @var string
+     */
     protected $baseUrl;
-
-    protected $siteUrl;
-
-    protected $siteJs;
-
-    protected $siteCss;
-
-    protected $siteBrokenLink;
-
-    protected $siteRedirectLink;
-
-    protected $contentType;
-
+    /**
+     * Guzzle Http Client
+     *
+     * @var Object
+     */
+    protected $client;
+    /**
+     * Symfony DOM Crawler
+     *
+     * @var Object
+     */
     protected $crawler;
-
+    /**
+     * Maximum attempt to retry on any unsuccessful request
+     *
+     * @var integer
+     */
+    protected $retry = 3;
+    /**
+     * List of Broken links
+     *
+     * @var array
+     */
+    protected $siteBrokenLink;
+    /**
+     * List of Css
+     *
+     * @var array
+     */
+    protected $siteCss;
+    /**
+     * List of Javascript
+     *
+     * @var array
+     */
+    protected $siteJs;
+    /**
+     * List of redirected url
+     *
+     * @var array
+     */
+    public $siteRedirectLink;
+    /**
+     * List of html url
+     *
+     * @var array
+     */
+    protected $siteUrl;
+    /**
+     * List of unvisited url
+     *
+     * @var array
+     */
+    public $unvisitedUrl;
+    /**
+     * Class constructor
+     *
+     * @param Client  $client  [Guzzle HTTP Client]
+     * @param Crawler $crawler [Symfony DOM Crawler]
+     */
     public function __construct(Client $client, Crawler $crawler)
     {
-        $this->siteUrl = array();
-        $this->siteJs = array();
-        $this->siteCss = array();
-        $this->linkToCrawl = array();
-        $this->siteBrokenLink = array();
-        $this->siteRedirectLink = array();
-
         $this->client = $client;
         $this->crawler = $crawler;
+        
+        $this->siteBrokenLink = [];
+        $this->siteCss = [];
+        $this->siteJs = [];
+        $this->siteRedirectLink = [];
+        $this->siteUrl = [];
+        $this->unvisitedUrl = [];
     }
-
     /**
      * Get list of url from the web
+     *
      * @return array
      */
     public function getSiteUrl()
     {
+        sort($this->siteUrl);
         return $this->siteUrl;
     }
-
     /**
      * Get list of css from the web
+     *
      * @return array
      */
     public function getSiteCss()
     {
         return $this->siteCss;
     }
-
     /**
      * Get list of js from the web
+     *
      * @return array
      */
     public function getSiteJs()
     {
         return $this->siteJs;
     }
-
     /**
      * Get list of broken links
+     *
      * @return int
      */
     public function getSiteBrokenLink()
     {
         return $this->siteBrokenLink;
     }
-
     /**
      * Set website url for crawling
+     *
      * @param string $baseUrl
      */
     public function setBaseUrl($baseUrl)
@@ -90,18 +138,18 @@ class CrawlerUrl
             $this->baseUrl = Uri\normalize($baseUrl);
         }
     }
-
     /**
      * Get main url of website
+     *
      * @return string
      */
     public function getBaseUrl()
     {
         return $this->baseUrl;
     }
-
     /**
      * Check url is crawlable or not
+     *
      * @param  string $url
      * @return boolean
      */
@@ -110,24 +158,21 @@ class CrawlerUrl
         if (empty($url)) {
             return false;
         }
-
         $patterns = array(
             '@^javascript\:@',
             '@^#.*@',
             '@^void\(0\);$@'
         );
-
         foreach ($patterns as $pattern) {
             if (preg_match($pattern, $url)) {
                 return false;
             }
         }
-
         return true;
     }
-
     /**
      * Check url is external url or not
+     *
      * @param  string $url
      * @return boolean
      */
@@ -140,9 +185,9 @@ class CrawlerUrl
             return true;
         }
     }
-
-        /**
+    /**
      * Checking a url in the array of site that crawl or not
+     *
      * @param  string $url
      * @param  array &$siteLink
      * @return boolean
@@ -159,37 +204,40 @@ class CrawlerUrl
     
     /**
      * Function to trigger start crawling a website
+     *
      * @return void
      */
     public function start()
     {
-        $this->crawl($this->baseUrl);
+        $this->unvisitedUrl[] = $this->baseUrl;
+        while ((count($this->unvisitedUrl) > 0) && ($url = array_shift($this->unvisitedUrl))) {
+            $this->crawl($url);
+        }
     }
-
     /**
      * Function to filter a url base on html tag
+     *
      * @param  string $url
      */
     protected function crawl($url)
     {
         $responseUrl = $this->doRequest($url);
         if (!is_null($responseUrl)) {
-            $domCrawler = $this->crawler;
-            $domCrawler->addHtmlContent($responseUrl->getBody()->getContents());
+            $this->crawler->addHtmlContent($responseUrl->getBody()->getContents());
             
-            $listCss = $domCrawler->filterXPath('//*[@rel="stylesheet"]')->extract('href');
+            $listCss = $this->crawler->filterXPath('//*[@rel="stylesheet"]')->extract('href');
             $this->getAllLink($url, $listCss, $this->siteCss);
-
-            $listJs = $domCrawler->filter('script')->extract('src');
+            $listJs = $this->crawler->filter('script')->extract('src');
             $this->getAllLink($url, $listJs, $this->siteJs);
-
-            $listUrl = $domCrawler->filter('a')->extract('href');
+            $listUrl = $this->crawler->filter('a')->extract('href');
             $this->getAllLink($url, $listUrl, $this->siteUrl, 1);
         }
+        $this->crawler->clear();
+        unset($responseUrl);
     }
-
     /**
      * Function to get all link url, css and js from a url
+     *
      * @param  array  $lists
      * @param  array  &$siteLink
      * @param  integer $recursive
@@ -197,21 +245,25 @@ class CrawlerUrl
     protected function getAllLink($currentUrl, $lists, &$siteLink, $recursive = 0)
     {
         foreach ($lists as $list) {
-            if (!is_null($list) && $this->checkIfCrawlable($list)) {
-                $list = Uri\resolve($currentUrl, $list);
-                if ($this->checkNotInList($list, $siteLink) && !$this->checkIfExternal($list)) {
-                    if (!$recursive) {
-                            array_push($siteLink, $list);
-                    } else {
-                        $this->crawl($list);
-                    }
-                }
+            if (!$list || !$this->checkIfCrawlable($list)) {
+                continue;
+            }
+            
+            $list = preg_replace('/(\.\.\/)+/', '/', $list);
+            $list = Uri\resolve($currentUrl, $list);
+            if ($this->checkIfExternal($list) || !$this->checkNotInList($list, $siteLink)) {
+                continue;
+            }
+            if (!$recursive) {
+                array_push($siteLink, $list);
+            } elseif (!in_array($list, $this->unvisitedUrl)) {
+                $this->unvisitedUrl[] = $list;
             }
         }
     }
-
     /**
      * Function to checking and retrying a url
+     *
      * @param  string $url
      * @param  int $try
      */
@@ -220,18 +272,15 @@ class CrawlerUrl
         if (is_null($try)) {
             $try = $this->retry;
         }
-
         if ($try < 0) {
             return null;
         }
-
         try {
             $responseUrl = $this->getEffectiveUrl($url);
             $effectiveUrl = $responseUrl->getHeaderLine('X-GUZZLE-EFFECTIVE-URL');
             if ($responseUrl->getStatusCode() === 200 &&
                 $this->checkNotInList($effectiveUrl, $this->siteUrl)) {
                 array_push($this->siteUrl, $effectiveUrl);
-                echo $effectiveUrl . " : " . count($this->siteUrl) . "\n";
                 return $responseUrl;
             }
             if ($responseUrl->getStatusCode() >= 400) {
@@ -245,9 +294,9 @@ class CrawlerUrl
             return $this->doRequest($url, $try);
         }
     }
-
     /**
      * Get the last redirect from a url
+     *
      * @param  string $url
      * @return string
      */
@@ -255,7 +304,6 @@ class CrawlerUrl
     {
         $stack = HandlerStack::create();
         $stack->push(EffectiveUrlMiddleware::middleware());
-
         $response = $this->client->get($url, [
             'handler' => $stack,
             'http_errors' => false,

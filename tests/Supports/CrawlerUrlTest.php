@@ -163,8 +163,8 @@ class CrawlerUrlTest extends TestCase
 
         $this->assertEquals([
             'http://foobar.com',
-            'http://foobar.com/test',
-            'http://foobar.com/baz'
+            'http://foobar.com/baz',
+            'http://foobar.com/test'
         ], $crawling->getSiteUrl());
     }
 
