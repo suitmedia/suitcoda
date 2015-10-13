@@ -45,6 +45,7 @@ $pagination_active_bg       : $primary;
 
         &.active {
             cursor: default;
+            pointer-events: none;
         }
     }
 }

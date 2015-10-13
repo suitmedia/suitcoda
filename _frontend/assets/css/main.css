@@ -944,7 +944,8 @@ select.form-input {
       color: #f8f8f8;
       background: #f28900; }
     .pagination a.active {
-      cursor: default; }
+      cursor: default;
+      pointer-events: none; }
 
 .media:after {
   display: table;
