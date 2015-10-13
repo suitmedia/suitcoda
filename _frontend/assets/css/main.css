@@ -960,14 +960,22 @@ a.box {
     text-decoration: none; }
 
 .box-form {
+  display: block;
   width: 100%;
   padding: 20px;
   margin: 0 auto; }
   @media screen and (min-width: 40em) {
     .box-form {
-      width: 320px; } }
+      width: 55%; } }
+  @media screen and (min-width: 60em) {
+    .box-form {
+      width: 45%; } }
 
 @media screen and (min-width: 40em) {
+  .box-form--wide {
+    width: 75%; } }
+
+@media screen and (min-width: 60em) {
   .box-form--wide {
     width: 60%; } }
 

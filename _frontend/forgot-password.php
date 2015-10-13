@@ -3,21 +3,27 @@
     <div class="site">
 
         <main class="main bg-grey site-content">
-            <div class="text-center block-up block-double">
+            <div class="block-up block-double">
                 <div class="container">
                     
-                    <h1 class="title block-double block-up">Forgot Password?</h1>
+                    <h1 class="title text-center block-double block-up">Forgot Password?</h1>
 
                     <div class="box box-form box-form--wide">
                         <form action="" data-validate>
-                            <div class="block">
-                                <label for="forgot-email" class="sr-only">Email :</label>
-                                <input id="forgot-email" class="form-input form-input--block" placeholder="Input your email here ...." type="text" required>
+                            <div class="bzg block">
+                                <div class="bzg_c" data-col="s12,m4">
+                                    <label for="forgot-email" class="form-label">Email :</label>
+                                </div>
+                                <div class="bzg_c" data-col="s12,m8">
+                                    <input id="forgot-email" class="form-input form-input--block" placeholder="Input your email here ...." type="text" required>
+                                </div>
                             </div>
                             
-                            <button class="btn btn--primary btn--regular">
-                                Submit
-                            </button>
+                            <div class="text-center">
+                                <button class="btn btn--primary btn--regular">
+                                    Submit
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

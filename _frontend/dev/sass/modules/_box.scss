@@ -17,17 +17,25 @@ a.box {
 }
 
 .box-form {
+    display: block;
     width: 100%;
     padding: 20px;
     margin: 0 auto;
 
     @media #{$medium} {
-        width: 320px;
+        width: 55%;
+    }
+
+    @media #{$large} {
+        width: 45%;
     }
 }
 
 .box-form--wide {
     @media #{$medium} {
+        width: 75%;
+    }
+    @media #{$large} {
         width: 60%;
     }
 }
