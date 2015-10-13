@@ -166,6 +166,8 @@ class CrawlerUrlTest extends TestCase
             'http://foobar.com/baz',
             'http://foobar.com/test'
         ], $crawling->getSiteUrl());
+
+        $this->assertEquals([], $crawling->getUnvisitedUrl());
     }
 
     public function testDumpGet()

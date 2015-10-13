@@ -151,6 +151,15 @@ class CrawlerUrl
     }
 
     /**
+     * Get list of unvisited url
+     * @return array
+     */
+    public function getUnvisitedUrl()
+    {
+        return $this->unvisitedUrl;
+    }
+
+    /**
      * Set website url for crawling
      *
      * @param string $baseUrl
