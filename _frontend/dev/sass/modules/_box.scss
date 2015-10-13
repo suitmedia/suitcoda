@@ -23,12 +23,19 @@ a.box {
     margin: 0 auto;
 
     @media #{$medium} {
+        width: 55%;
+    }
+
+    @media #{$large} {
         width: 45%;
     }
 }
 
 .box-form--wide {
     @media #{$medium} {
+        width: 75%;
+    }
+    @media #{$large} {
         width: 60%;
     }
 }
