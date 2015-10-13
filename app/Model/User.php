@@ -45,6 +45,50 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
         }
     }
 
+    public function getNameAttribute($value)
+    {
+        return ucwords($value);
+    }
+
+    public function getLastLoginAtAttribute($value)
+    {
+        if ($value) {
+            $time = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('H:i M j, Y');
+            return $time;
+        }
+        return '-';
+    }
+
+    public function isAdmin()
+    {
+        if ($this->is_admin === '1') {
+            return true;
+        }
+        return false;
+    }
+
+    public function getAdminName()
+    {
+        if ($this->is_admin === '1') {
+            return 'Admin';
+        }
+        return 'User';
+    }
+
+    public function getInitials()
+    {
+        $words = explode(' ', $this->name);
+        $initial = '';
+        $count = 2;
+        foreach ($words as $word) {
+            if ($count > 0) {
+                $initial .= $word[0];
+                $count--;
+            }
+        }
+        return strtoupper($initial);
+    }
+
     public function login()
     {
         $this->last_login_at = Carbon::now();

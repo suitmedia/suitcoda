@@ -28,10 +28,10 @@ class UserControllerTest extends TestCase
     {
         $userFaker = factory(Model::class)->create();
         $this->visit('user')
-             ->see($userFaker->username);
+             ->see($userFaker->name);
         $this->assertResponseOk();
         $this->seeInDatabase('users', [
-            'username' => $userFaker->username,
+            'name' => $userFaker->name,
             'email' => $userFaker->email,
         ]);
         $this->assertViewHas('models');
@@ -49,7 +49,7 @@ class UserControllerTest extends TestCase
     public function testIntegrationCreate()
     {
         $this->visit('user/create')
-             ->see('User Create');
+             ->see('Create New Account');
         $this->assertResponseOk();
         $this->assertViewHas('model');
     }
@@ -65,12 +65,12 @@ class UserControllerTest extends TestCase
     public function testIntegrationStore()
     {
         $this->visit('user/create')
+             ->type('Foo bar', 'name')
              ->type('Foobar', 'username')
              ->type('foo@bar.com', 'email')
              ->type('foobar123', 'password')
              ->type('foobar123', 'password_confirmation')
-             ->type('Foo bar', 'name')
-             ->press('Submit Button')
+             ->press('Save')
              ->seePageIs('user');
         $this->assertResponseOk();
         $this->seeInDatabase('users', [
@@ -84,7 +84,7 @@ class UserControllerTest extends TestCase
     {
         $input = ['username' => 'foo.bar', 'email' => 'foo@bar.com', 'password' => 'asdfg', 'name' => 'foo bar'];
 
-        $request = Mockery::mock('Suitcoda\Http\Requests\userRequest[all]');
+        $request = Mockery::mock('Suitcoda\Http\Requests\UserCreateRequest[all]');
         $request->shouldReceive('all')->once()->andReturn($input);
 
         $model = Mockery::mock('Suitcoda\Model\user[newInstance, save]');
@@ -100,7 +100,7 @@ class UserControllerTest extends TestCase
     {
         $userFaker = factory(Model::class)->create();
         $this->visit('user/'. $userFaker->slug . '/edit')
-             ->see('User Edit');
+             ->see('Edit Account');
         $this->assertResponseOk();
         $this->seeInDatabase('users', [
             'username' => $userFaker->username,
@@ -113,28 +113,24 @@ class UserControllerTest extends TestCase
     {
         $model = Mockery::mock('Suitcoda\Model\User');
         $model->shouldReceive('findOrFailByUrlKey')->andReturn($model);
-
         $user = new UserController($model);
-
         $this->assertInstanceOf('Illuminate\View\View', $user->edit(1));
     }
 
     public function testIntegrationUpdate()
     {
         $userFaker = factory(Model::class)->create();
-
         $this->visit('user/'. $userFaker->slug . '/edit')
-             ->type('Foo.bar', 'username')
+             ->type('Foo bar', 'name')
+             ->type('Foobar', 'username')
              ->type('foo@bar.com', 'email')
              ->type('foobar123', 'password')
              ->type('foobar123', 'password_confirmation')
-             ->type('Foo bar', 'name')
-             ->press('Submit Button')
+             ->press('Save')
              ->seePageIs('user');
         $this->assertResponseOk();
         $this->seeInDatabase('users', [
-            'id' => $userFaker->id,
-            'username' => 'Foo.bar',
+            'username' => 'Foobar',
             'email' => 'foo@bar.com'
         ]);
         $this->assertViewHas('models');
@@ -142,9 +138,15 @@ class UserControllerTest extends TestCase
 
     public function testUnitUpdate()
     {
-        $input = ['username' => 'foo.bar', 'email' => 'foo@bar.com', 'password' => 'asdfg', 'roles' => 'admin'];
-        $request = Mockery::mock('Suitcoda\Http\Requests\UserRequest[all]');
-        $request->shouldReceive('all')->andReturn($input);
+        $input = [
+            'username' => 'foo.bar',
+            'email' => 'foo@bar.com',
+            'password' => 'asdfg',
+            'password_confirmation' => 'asdfg',
+            'name' => 'foo bar'
+        ];
+        $request = Mockery::mock('Suitcoda\Http\Requests\UserEditRequest[all]');
+        $request->shouldReceive('all')->once()->andReturn($input);
 
         $model = Mockery::mock('Suitcoda\Model\User[update]');
         $model->shouldReceive('findOrFailByUrlKey')->once()->andReturn($model);
@@ -153,19 +155,6 @@ class UserControllerTest extends TestCase
         $user = new UserController($model);
 
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $user->update($request, 1));
-    }
-
-    public function testIntegrationDelete()
-    {
-        $userFaker = factory(Model::class)->create();
-        $this->visit('user')
-             ->press('Delete')
-             ->seePageIs('user');
-        $this->assertResponseOk();
-        $this->notSeeInDatabase('users', [
-            'username' => $userFaker->username,
-            'email' => $userFaker->email,
-        ]);
     }
 
     public function testUnitDelete()
@@ -188,6 +177,6 @@ class UserControllerTest extends TestCase
         $model = Mockery::mock('Suitcoda\Model\user');
         $group = new UserController($model);
         $model->shouldReceive('findOrFailByUrlKey')->once()->andReturn(null);
-        $result =  $group->edit(1);
+        $result =  $group->destroy(1);
     }
 }

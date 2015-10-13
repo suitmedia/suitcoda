@@ -12,7 +12,7 @@ class AuthController extends Controller
 
     protected $username = 'username';
 
-    protected $redirectAfterLogout = '/';
+    protected $redirectAfterLogout = '/login';
 
     /**
      * Show the application login form.
@@ -35,7 +35,7 @@ class AuthController extends Controller
         $credentials = $this->getCredentials($request);
         if (\Auth::attempt($credentials, $request->has('remember'))) {
             \Auth::user()->login();
-            return redirect()->route('user.index');
+            return redirect()->route('home');
         }
 
         return redirect($this->loginPath())
