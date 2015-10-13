@@ -19,7 +19,7 @@
                     <?php for ($i=0; $i < 10; $i++) { ?>
                         <div class="bzg_c block" data-col="s12,m6">
                             <div class="box box--block cf" href="project.php">
-                                <div class="box__thumbnail box__thumbnail--fixed-height">
+                                <div class="box__thumbnail">
                                     <span class="text-big">
                                         CT
                                     </span>
