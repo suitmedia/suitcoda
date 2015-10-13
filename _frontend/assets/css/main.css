@@ -963,7 +963,7 @@ a.box {
   margin: 0 auto; }
   @media screen and (min-width: 40em) {
     .box-form {
-      width: 320px; } }
+      width: 45%; } }
 
 @media screen and (min-width: 40em) {
   .box-form--wide {
