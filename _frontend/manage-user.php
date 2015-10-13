@@ -19,15 +19,14 @@
                     <?php for ($i=0; $i < 10; $i++) { ?>
                         <div class="bzg_c block" data-col="s12,m6">
                             <div class="box box--block cf" href="project.php">
-                                <div class="box__thumbnail box__thumbnail--fixed-height">
+                                <div class="box__thumbnail">
                                     <span class="text-big">
                                         CT
                                     </span>
                                 </div>
                                 <div class="box__desc text-ellipsis">
                                     <b>Christine Teoriman</b> <br>
-                                    <span>christine.teoriman@gmail.com</span> <br>
-                                    <span>Username : cteoriman</span> <br>
+                                    <span>Role : User</span> <br>
                                     <span>Last Login : </span> <time>23/09/2015 12.34</time> <br>
                                     <a class="btn btn--primary btn--small" href="edit-account.php">
                                         Edit
