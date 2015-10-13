@@ -13,7 +13,7 @@
 
 $factory->define(Suitcoda\Model\User::class, function ($faker) {
     return [
-        'username' => $faker->userName,
+        'username' => $faker->word,
         'email' => $faker->email,
         'password' => bcrypt($faker->word),
         'name' => $faker->name,
