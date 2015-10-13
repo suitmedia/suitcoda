@@ -12,39 +12,32 @@
                         </div>
                         <span class="notif__count">2</span>
                     </a>
-                    <ul class="dropdown-menu notif-list">
+                    <div class="dropdown-menu notif-list">
                         <!-- empty state -->
-                        <!-- <li>
-                            <span class="empty-state">You have no notification.</span>
-                        </li> -->
-                        <li>
-                            <a href="#">
-                                Testing #20 on Suitcoda Project has done tested.
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Testing #20 on Suitcoda Project has done tested.
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Testing #20 on Suitcoda Project has done tested.
-                            </a>
-                        </li>
-                    </ul>
+                        <!-- <span class="empty-state">You have no notification.</span> -->
+                        <a href="#">
+                            Testing #20 on Suitcoda Project has done tested.
+                        </a>
+                        <a href="#">
+                            Testing #20 on Suitcoda Project has done tested.
+                        </a>
+                        <a href="#">
+                            Testing #20 on Suitcoda Project has done tested.
+                        </a>
+                        <a class="more" href="notification.php">
+                            <b>See More</b>
+                        </a>
+                    </div>
                 </li>
                 <li>
                     <a class="user-avatar" href="#">
                         <span>CT</span>
                     </a>
-                    <ul class="dropdown-menu user-menu">
-                        <li>
-                            <a href="#">
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="dropdown-menu user-menu">
+                        <a href="#">
+                            Logout
+                        </a>
+                    </div>
                 </li>
             </ul>
         </div>

@@ -8,9 +8,9 @@ $pagination_border          : #ddd;
 $pagination_color           : #666;
 $pagination_bg              : #eee;
 
-$pagination_active_border   : #555;
+$pagination_active_border   : $primary;
 $pagination_active_color    : #f8f8f8;
-$pagination_active_bg       : #888;
+$pagination_active_bg       : $primary;
 
 
 // Style
@@ -31,6 +31,7 @@ $pagination_active_bg       : #888;
         display: block;
         padding: $pagination_padding;
         border: solid 1px $pagination_border;
+        border-radius: 3px;
         color: $pagination_color;
         background: $pagination_bg;
 
@@ -44,6 +45,7 @@ $pagination_active_bg       : #888;
 
         &.active {
             cursor: default;
+            pointer-events: none;
         }
     }
 }

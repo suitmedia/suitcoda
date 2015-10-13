@@ -917,16 +917,19 @@ select.form-input {
     display: block;
     padding: 0.4em 0.8em;
     border: solid 1px #ddd;
+    -webkit-border-radius: 3px;
+            border-radius: 3px;
     color: #666;
     background: #eee; }
     .pagination a:hover,
     .pagination a:focus,
     .pagination a.active {
-      border-color: #555;
+      border-color: #f28900;
       color: #f8f8f8;
-      background: #888; }
+      background: #f28900; }
     .pagination a.active {
-      cursor: default; }
+      cursor: default;
+      pointer-events: none; }
 
 .media:after {
   display: table;
@@ -1103,30 +1106,21 @@ a.box {
   .header-list > li {
     padding: 10px;
     float: left; }
-  .header-list .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 95vw;
-    padding: 0;
-    border: 2px solid #949699;
-    -webkit-border-radius: 5px;
-            border-radius: 5px;
-    margin-top: 10px;
-    font-size: 13px;
-    display: none;
-    background: white;
-    list-style: none; }
-    @media screen and (min-width: 40em) {
-      .header-list .dropdown-menu {
-        width: auto;
-        min-width: 300px; } }
-  .header-list .dropdown-menu--show {
-    display: block; }
-  .header-list .dropdown-menu .empty-state {
-    width: 100%;
-    padding: 8px 16px; }
-  .header-list ul:before {
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 95vw;
+  padding: 0;
+  border: 2px solid #949699;
+  -webkit-border-radius: 5px;
+          border-radius: 5px;
+  margin-top: 10px;
+  font-size: 13px;
+  display: none;
+  background: white; }
+  .dropdown-menu:before {
     position: absolute;
     bottom: 100%;
     width: 0;
@@ -1135,55 +1129,37 @@ a.box {
     border-right: 8px solid transparent;
     border-bottom: 8px solid #949699;
     content: ''; }
-  .header-list ul > li > a {
+  .dropdown-menu a {
     width: 100%;
     padding: 8px 16px;
     display: inline-block;
     border-bottom: 1px solid #949699; }
-    .header-list ul > li > a:hover,
-    .header-list ul > li > a:focus {
+    .dropdown-menu a:hover,
+    .dropdown-menu a:focus {
       text-decoration: none;
       background: #e6e6e6; }
-  .header-list ul > li:last-child > a {
+  .dropdown-menu a:last-child {
     border-bottom: 0; }
-
-.notif {
-  position: relative;
-  width: 30px;
-  height: 30px; }
-  .notif .fa {
-    font-size: 30px; }
-  .notif:hover .notif__count,
-  .notif:focus .notif__count {
-    background: #930000; }
-  .notif:hover .notif__icon,
-  .notif:focus .notif__icon {
-    color: #7a7c80; }
-
-.notif + ul:before {
-  right: 65px; }
-
-.notif__icon {
-  margin-top: 2px;
-  display: inline-block; }
   @media screen and (min-width: 40em) {
-    .notif__icon {
-      margin-top: 0; } }
+    .dropdown-menu {
+      width: auto;
+      min-width: 300px; } }
+  .dropdown-menu .more {
+    width: 100%;
+    padding: 0;
+    color: #222;
+    text-align: center;
+    background: #ececec; }
+    .dropdown-menu .more:hover,
+    .dropdown-menu .more:focus {
+      background: lightgray; }
 
-.notif__count {
-  position: absolute;
-  top: -7px;
-  right: 0px;
-  height: 15px;
-  padding-left: 4px;
-  padding-right: 4px;
-  -webkit-border-radius: 10px;
-          border-radius: 10px;
-  display: inline-block;
-  font-size: 10px;
-  line-height: 1.5;
-  color: white;
-  background: #c60000; }
+.dropdown-menu--show {
+  display: block; }
+
+.dropdown-menu .empty-state {
+  width: 100%;
+  padding: 8px 16px; }
 
 .user-avatar {
   position: relative;
@@ -1207,7 +1183,7 @@ a.box {
         -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%); }
 
-.user-avatar + ul:before {
+.user-avatar + .dropdown-menu:before {
   right: 15px; }
 
 .project-nav {
@@ -1360,6 +1336,69 @@ a.box {
 .progress__bar {
   height: 5px;
   background: #0000ff; }
+
+.notif {
+  position: relative;
+  width: 30px;
+  height: 30px; }
+  .notif .fa {
+    font-size: 30px; }
+  .notif:hover .notif__count,
+  .notif:focus .notif__count {
+    background: #930000; }
+  .notif:hover .notif__icon,
+  .notif:focus .notif__icon {
+    color: #7a7c80; }
+
+.notif + .dropdown-menu:before {
+  right: 65px; }
+
+.notif__icon {
+  margin-top: 2px;
+  display: inline-block; }
+  @media screen and (min-width: 40em) {
+    .notif__icon {
+      margin-top: 0; } }
+
+.notif__count {
+  position: absolute;
+  top: -7px;
+  right: 0px;
+  height: 15px;
+  padding-left: 4px;
+  padding-right: 4px;
+  -webkit-border-radius: 10px;
+          border-radius: 10px;
+  display: inline-block;
+  font-size: 10px;
+  line-height: 1.5;
+  color: white;
+  background: #c60000; }
+
+.all-notif li {
+  border-bottom: 2px solid #ececec; }
+
+.all-notif li:last-child {
+  border-bottom: 0; }
+
+.all-notif a {
+  display: inline-block;
+  width: 100%;
+  padding: 3px 5px;
+  font-size: 14px; }
+  .all-notif a:hover,
+  .all-notif a:focus {
+    background: #ececec; }
+  @media screen and (min-width: 40em) {
+    .all-notif a {
+      padding: 5px 10px;
+      font-size: 16px; } }
+
+.all-notif time {
+  font-size: 0.9em; }
+
+.all-notif .empty-state {
+  padding: 10px 0; }
 
 /* Generated by Font Squirrel (http://www.fontsquirrel.com) on September 21, 2015 */
 @font-face {
