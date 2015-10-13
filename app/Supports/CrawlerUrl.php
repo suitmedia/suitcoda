@@ -64,7 +64,7 @@ class CrawlerUrl
      *
      * @var array
      */
-    public $siteRedirectLink;
+    protected $siteRedirectLink;
 
     /**
      * List of html url
@@ -78,7 +78,7 @@ class CrawlerUrl
      *
      * @var array
      */
-    public $unvisitedUrl;
+    protected $unvisitedUrl;
 
     /**
      * Class constructor
@@ -133,11 +133,21 @@ class CrawlerUrl
     /**
      * Get list of broken links
      *
-     * @return int
+     * @return array
      */
     public function getSiteBrokenLink()
     {
         return $this->siteBrokenLink;
+    }
+
+    /**
+     * Get list of redirected url
+     *
+     * @return array
+     */
+    public function getSiteRedirectUrl()
+    {
+        return $this->siteRedirectLink;
     }
 
     /**

@@ -178,6 +178,7 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals([], $crawl->getSiteCss());
         $this->assertEquals([], $crawl->getSiteJs());
         $this->assertEquals([], $crawl->getSiteBrokenLink());
+        $this->assertEquals([], $crawl->getSiteRedirectUrl());
     }
 
     protected function getMockClientException()
