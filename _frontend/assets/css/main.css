@@ -957,6 +957,7 @@ a.box {
     text-decoration: none; }
 
 .box-form {
+  display: block;
   width: 100%;
   padding: 20px;
   margin: 0 auto; }
