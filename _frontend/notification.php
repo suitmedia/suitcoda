@@ -23,10 +23,10 @@
 
                 <ul class="pagination">
                     <li>
-                        <a class="active" href="#">Prev</a>
+                        <a href="#">Prev</a>
                     </li>
                     <li>
-                        <a href="#">1</a>
+                        <a class="active" href="#">1</a>
                     </li>
                     <li>
                         <a href="#">2</a>
