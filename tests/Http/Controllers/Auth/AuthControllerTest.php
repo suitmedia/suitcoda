@@ -44,7 +44,7 @@ class AuthControllerTest extends TestCase
         $result = $auth->postLogin($request);
 
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $result);
-        $this->assertEquals($this->app['url']->to('user'), $result->headers->get('Location'));
+        $this->assertEquals($this->app['url']->to('/'), $result->headers->get('Location'));
     }
 
     public function testPostLoginFailed()
@@ -69,6 +69,6 @@ class AuthControllerTest extends TestCase
         $userFaker = factory(Model::class)->create();
         $this->be($userFaker);
         $this->visit('logout')
-             ->seePageIs('/');
+             ->seePageIs('/login');
     }
 }

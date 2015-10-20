@@ -4,9 +4,9 @@ namespace SuitTests\Http\Requests;
 
 use Mockery;
 use SuitTests\TestCase;
-use Suitcoda\Http\Requests\UserRequest as Request;
+use Suitcoda\Http\Requests\UserCreateRequest as Request;
 
-class UserRequestTest extends TestCase
+class UserCreateRequestTest extends TestCase
 {
     public function testAuthorize()
     {

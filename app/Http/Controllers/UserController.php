@@ -2,17 +2,18 @@
 
 namespace Suitcoda\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Suitcoda\Http\Requests\UserRequest;
+use Suitcoda\Http\Requests\UserCreateRequest;
+use Suitcoda\Http\Requests\UserEditRequest;
 use Suitcoda\Model\User as Model;
-use Suitcoda\Http\Controllers\Controller;
+use Suitcoda\Http\Controllers\BaseController;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     protected $models;
 
     public function __construct(Model $model)
     {
+        parent::__construct();
         $this->models = $model;
     }
 
@@ -25,7 +26,7 @@ class UserController extends Controller
     {
         $models = $this->models->all();
 
-        return view('temp_layouts.user_index', compact('models'));
+        return view('account_index', compact('models'));
     }
 
     /**
@@ -37,7 +38,7 @@ class UserController extends Controller
     {
         $model = $this->models;
 
-        return view('temp_layouts.user_create', compact('model'));
+        return view('account_create', compact('model'));
     }
 
     /**
@@ -46,7 +47,7 @@ class UserController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(UserRequest $request)
+    public function store(UserCreateRequest $request)
     {
         $model = $this->models->newInstance();
         $model->fill($request->all());
@@ -65,7 +66,7 @@ class UserController extends Controller
     {
         $model = $this->find($key);
 
-        return view('temp_layouts.user_edit', compact('model'));
+        return view('account_edit', compact('model'));
     }
 
     /**
@@ -75,7 +76,7 @@ class UserController extends Controller
      * @param  string  $key
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UserRequest $request, $key)
+    public function update(UserEditRequest $request, $key)
     {
         $model = $this->find($key);
         $model->update($request->all());
