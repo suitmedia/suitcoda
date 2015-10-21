@@ -16,7 +16,7 @@ $factory->define(Suitcoda\Model\User::class, function ($faker) {
         'username' => $faker->word,
         'email' => $faker->email,
         'password' => bcrypt($faker->word),
-        'name' => $faker->name,
+        'name' => $faker->word,
         'slug' => $faker->slug,
         'is_admin' => $faker->boolean,
         'is_active' => true,
