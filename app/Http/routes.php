@@ -33,5 +33,7 @@ Route::group([ 'middleware' => 'auth' ], function () {
         'uses' => 'HomeController@index'
     ]);
     Route::get('logout', 'Auth\AuthController@getLogout');
-    Route::resource('user', 'UserController');
+    Route::group([ 'middleware' => 'role' ], function () {
+        Route::resource('user', 'UserController');
+    });
 });

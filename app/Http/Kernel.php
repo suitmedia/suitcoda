@@ -29,5 +29,6 @@ class Kernel extends HttpKernel
         'auth' => \Suitcoda\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \Suitcoda\Http\Middleware\RedirectIfAuthenticated::class,
+        'role' => \Suitcoda\Http\Middleware\AuthenticatedRole::class,
     ];
 }
