@@ -23,14 +23,18 @@ Route::group([ 'middleware' => 'guest' ], function () {
     Route::post('password/reset', 'Auth\PasswordController@postReset');
 });
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::group([ 'middleware' => 'auth' ], function () {
     Route::get('/', [
         'as' => 'home',
-        'uses' => 'HomeController@index'
+        'uses' => 'ProjectController@index'
+    ]);
+    Route::get('/project/create', [
+        'as' => 'project.create',
+        'uses' => 'ProjectController@create'
+    ]);
+    Route::post('/project/create', [
+        'as' => 'project.store',
+        'uses' => 'ProjectController@store'
     ]);
     Route::get('logout', 'Auth\AuthController@getLogout');
     Route::resource('user', 'UserController');

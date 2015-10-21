@@ -9,6 +9,7 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Suitcoda\Model\Project;
 
 class User extends BaseModel implements SluggableInterface, AuthenticatableContract, CanResetPasswordContract
 {
@@ -93,5 +94,10 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
     {
         $this->last_login_at = Carbon::now();
         $this->save();
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
     }
 }
