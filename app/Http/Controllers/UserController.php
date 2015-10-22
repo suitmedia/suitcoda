@@ -24,7 +24,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $models = $this->models->all();
+        $models = $this->models->allAccount();
 
         return view('account_index', compact('models'));
     }
