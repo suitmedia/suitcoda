@@ -272,7 +272,9 @@
             var $trigger = $('.box__close');
 
             $trigger.on('click', function(e) {
-                if ( !window.confirm('Do you want to delete this account?') ) {
+                var confirmDelete = window.confirm('Do you want to delete this account?');
+
+                if ( !confirmDelete ) {
                     e.preventDefault();
                 }
             });
