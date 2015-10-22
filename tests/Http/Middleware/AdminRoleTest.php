@@ -3,14 +3,14 @@
 namespace SuitTests\Http\Middleware;
 
 use Mockery;
-use Suitcoda\Http\Middleware\AuthenticatedRole;
+use Suitcoda\Http\Middleware\AdminRole;
 use Suitcoda\Model\User;
 use SuitTests\TestCase;
 
 /**
  * Test Suitcoda\Http\Middleware\RedirectIfAuthenticated
  */
-class AuthenticatedRoleTest extends TestCase
+class AdminRoleTest extends TestCase
 {
 
     /**
@@ -25,7 +25,7 @@ class AuthenticatedRoleTest extends TestCase
 
         $request = Mockery::mock('Illuminate\Http\Request');
 
-        $authenticate = new AuthenticatedRole($guard);
+        $authenticate = new AdminRole($guard);
 
         $result = $authenticate->handle($request, function ($localRequest) {
         });
@@ -46,7 +46,7 @@ class AuthenticatedRoleTest extends TestCase
 
         $request = Mockery::mock('Illuminate\Http\Request');
 
-        $authenticate = new AuthenticatedRole($guard);
+        $authenticate = new AdminRole($guard);
 
         $result = $authenticate->handle($request, function ($localRequest) {
             return 'success';

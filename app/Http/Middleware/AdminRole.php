@@ -5,7 +5,7 @@ namespace Suitcoda\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class AuthenticatedRole
+class AdminRole
 {
     /**
      * The Guard implementation.
