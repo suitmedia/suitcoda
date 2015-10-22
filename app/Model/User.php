@@ -100,4 +100,9 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
     {
         return $this->hasMany(Project::class);
     }
+    
+    public function scopeAllAccount($query)
+    {
+        return $query->orderBy('name')->get();
+    }
 }

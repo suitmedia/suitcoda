@@ -14,9 +14,9 @@ return array(
     /** Dictionary word file (empty for random text) */
     'wordsFile' => 'en.php',
 
-    'width' => 200,
+    'width' => 300,
 
-    'height' => 70,
+    'height' => 120,
 
     /** Min word length (for non-dictionary random text generation) */
     'minWordLength' => 5,
@@ -55,15 +55,15 @@ return array(
      * - maxSize: max font size
      */
     'fonts' => array(
-        'Antykwa'  => array('spacing' => -3, 'minSize' => 27, 'maxSize' => 30, 'font' => 'AntykwaBold.ttf'),
-        'Candice'  => array('spacing' =>-1.5,'minSize' => 28, 'maxSize' => 31, 'font' => 'Candice.ttf'),
-        'DingDong' => array('spacing' => -2, 'minSize' => 24, 'maxSize' => 30, 'font' => 'Ding-DongDaddyO.ttf'),
-        'Duality'  => array('spacing' => -2, 'minSize' => 30, 'maxSize' => 38, 'font' => 'Duality.ttf'),
-        'Heineken' => array('spacing' => -2, 'minSize' => 24, 'maxSize' => 34, 'font' => 'Heineken.ttf'),
-        'Jura'     => array('spacing' => -2, 'minSize' => 28, 'maxSize' => 32, 'font' => 'Jura.ttf'),
-        'StayPuft' => array('spacing' =>-1.5,'minSize' => 28, 'maxSize' => 32, 'font' => 'StayPuft.ttf'),
-        'Times'    => array('spacing' => -2, 'minSize' => 28, 'maxSize' => 34, 'font' => 'TimesNewRomanBold.ttf'),
-        'VeraSans' => array('spacing' => -1, 'minSize' => 20, 'maxSize' => 28, 'font' => 'VeraSansBold.ttf'),
+        'Antykwa'  => array('spacing' => -3, 'minSize' => 35, 'maxSize' => 38, 'font' => 'AntykwaBold.ttf'),
+        'Candice'  => array('spacing' =>-1.5,'minSize' => 36, 'maxSize' => 39, 'font' => 'Candice.ttf'),
+        'DingDong' => array('spacing' => -2, 'minSize' => 32, 'maxSize' => 38, 'font' => 'Ding-DongDaddyO.ttf'),
+        'Duality'  => array('spacing' => -2, 'minSize' => 38, 'maxSize' => 46, 'font' => 'Duality.ttf'),
+        'Heineken' => array('spacing' => -2, 'minSize' => 32, 'maxSize' => 42, 'font' => 'Heineken.ttf'),
+        'Jura'     => array('spacing' => -2, 'minSize' => 36, 'maxSize' => 40, 'font' => 'Jura.ttf'),
+        'StayPuft' => array('spacing' =>-1.5,'minSize' => 36, 'maxSize' => 40, 'font' => 'StayPuft.ttf'),
+        'Times'    => array('spacing' => -2, 'minSize' => 36, 'maxSize' => 42, 'font' => 'TimesNewRomanBold.ttf'),
+        'VeraSans' => array('spacing' => -1, 'minSize' => 28, 'maxSize' => 36, 'font' => 'VeraSansBold.ttf'),
     ),
 
     /** Wave configuracion in X and Y axes */
@@ -79,7 +79,7 @@ return array(
      * Internal image size factor (for better image quality)
      * 1: low, 2: medium, 3: high
      */
-    'scale' => 2,
+    'scale' => 3,
 
     /**
      * Blur effect for better image quality (but slower image processing).

@@ -40,7 +40,7 @@ class UserControllerTest extends TestCase
     public function testUnitIndex()
     {
         $model = Mockery::mock('Suitcoda\Model\User[all]');
-        $model->shouldReceive('all')->once();
+        $model->shouldReceive('allAccount')->once();
         $user = new UserController($model);
 
         $this->assertInstanceOf('Illuminate\View\View', $user->index());
