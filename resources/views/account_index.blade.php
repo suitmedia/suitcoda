@@ -34,11 +34,13 @@
                                     Edit
                                 </a>
                             </div>
-                            {!! Form::model($model, ['route' => ['user.destroy', $model], 'method' => 'DELETE']) !!}
-                                <button class="btn box__close">
-                                    <span class="fa fa-times"></span>
-                                </button>
-                            {!! Form::close() !!}
+                            @if (!$model->isAdmin())
+                                {!! Form::model($model, ['route' => ['user.destroy', $model], 'method' => 'DELETE']) !!}
+                                    <button class="btn box__close">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                {!! Form::close() !!}
+                            @endif
                         </div>
                     </div>
                 @endforeach                

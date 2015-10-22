@@ -94,4 +94,9 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
         $this->last_login_at = Carbon::now();
         $this->save();
     }
+
+    public function scopeAllAccount($query)
+    {
+        return $query->orderBy('name')->get();
+    }
 }
