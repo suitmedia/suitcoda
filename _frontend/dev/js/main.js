@@ -34,6 +34,7 @@
             Site.syntaxHighlighter();
             Site.showIssueCode();
             Site.validateForm();
+            Site.deleteWarn();
 
             window.Site = Site;
         },
@@ -265,6 +266,16 @@
                 }
             ]);
 
+        },
+
+        deleteWarn: function () {
+            var $trigger = $('.box__close');
+
+            $trigger.on('click', function(e) {
+                if ( !window.confirm('Do you want to delete this account?') ) {
+                    e.preventDefault();
+                }
+            });
         }
 
     };
