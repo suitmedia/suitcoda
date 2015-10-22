@@ -26,7 +26,9 @@ class UserControllerTest extends TestCase
 
     public function testIntegrationIndex()
     {
-        $userFaker = factory(Model::class)->create();
+        $userFaker = factory(Model::class)->create([
+            'name' => 'Foo Bar'
+        ]);
         $this->visit('user')
              ->see($userFaker->name);
         $this->assertResponseOk();
