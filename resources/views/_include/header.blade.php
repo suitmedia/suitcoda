@@ -34,16 +34,12 @@
                 <a class="user-avatar" href="#">
                     <span>{{ $user->getInitials() }}</span>
                 </a>
+                <div class="dropdown-menu user-menu">
                 @if ($user->isAdmin())
-                <div class="dropdown-menu user-menu">
                     <a href="{{ route('user.index') }}">Manage User</a>
-                    <a href="{{ action('Auth\AuthController@getLogout') }}">Logout</a>
-                </div>
-                @else
-                <div class="dropdown-menu user-menu">
-                    <a href="{{ action('Auth\AuthController@getLogout') }}">Logout</a>
-                </div>
                 @endif
+                    <a href="{{ action('Auth\AuthController@getLogout') }}">Logout</a>
+                </div>
             </li>
             @endif
         </ul>
