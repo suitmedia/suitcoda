@@ -61,7 +61,7 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
 
     public function isAdmin()
     {
-        if ($this->is_admin === '1') {
+        if ($this->is_admin) {
             return true;
         }
         return false;
@@ -69,7 +69,7 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
 
     public function getAdminName()
     {
-        if ($this->is_admin === '1') {
+        if ($this->is_admin) {
             return 'Admin';
         }
         return 'User';
