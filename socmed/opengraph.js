@@ -8,7 +8,7 @@ module.exports = function (url) {
     var resultOpengraph = {
         socmedName  : 'Open Graph',
         message     : []
-    }
+    };
 
     var ogElem = 'meta[property*="og:"]';
 
@@ -168,4 +168,4 @@ module.exports = function (url) {
 
     horseman.close();
     return resultOpengraph;
-}
+};
