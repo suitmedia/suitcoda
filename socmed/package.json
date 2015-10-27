@@ -12,6 +12,6 @@
     "commander": "^2.8.1",
     "is-url": "^1.2.1",
     "json-pretty": "0.0.1",
-    "node-horseman": "^1.5.7"
+    "node-horseman": "^1.5.6"
   }
 }
