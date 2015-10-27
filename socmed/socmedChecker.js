@@ -201,14 +201,13 @@ if ( isOpengraph ){
 
 // ------------------------ save to json file ------------------------
 var toJson = jsonPretty(resultSocmed);
-console.log(toJson);
 
-// function saveReport () {
-//     fs.writeFile(dest + 'resultSocmed.json', toJson, function (err) {
-//         if (err) throw err;
-//     }); 
-// }
+function saveReport () {
+    fs.writeFile(dest + 'resultSocmed.json', toJson, function (err) {
+        if (err) throw err;
+    }); 
+}
 
-// saveReport();
+saveReport();
 
 horseman.close();
