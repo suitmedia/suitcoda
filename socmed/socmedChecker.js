@@ -35,6 +35,9 @@ var resultSocmed = {
 var opengraph = require('./opengraph.js');
 resultSocmed.checking.push(opengraph(url));
 
+// -------------------- Facebook Insight --------------------
+var fbinsight = require('./fbinsight.js');
+resultSocmed.checking.push(fbinsight(url));
 
 // ------------------------ save to json file ------------------------
 var toJson = jsonPretty(resultSocmed);
