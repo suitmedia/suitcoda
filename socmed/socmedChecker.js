@@ -36,6 +36,11 @@ var opengraph = require('./opengraph.js');
 resultSocmed.checking.push(opengraph(url));
 
 
+// ----------------------- Open Graph -----------------------
+var twittercard = require('./twittercard.js');
+resultSocmed.checking.push(twittercard(url));
+
+
 // ------------------------ save to json file ------------------------
 var toJson = jsonPretty(resultSocmed);
 
