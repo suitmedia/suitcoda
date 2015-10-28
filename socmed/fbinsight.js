@@ -3,23 +3,26 @@ module.exports = function (url) {
     var Horseman    = require('node-horseman'),
         horseman    = new Horseman();
 
-    var fbElem = [
-        'meta[property="fb:admins"]',
-        'meta[property="fb:page_id"]',
-        'meta[property="fb:app_id"]'
-    ];
+    function getElem (value) {
+        return 'meta[name="' + value + '"]';
+    }
+
+    function getTag (value) {
+        return '<meta name="' + value + '" content="" />';
+    }
 
     var fbName = [
         'fb:admins',
         'fb:page_id',
         'fb:app_id'
     ];
+    var fbElem  = [];
+    var fbTag   = [];
 
-    var fbTag = [
-        '<meta property="fb:admins" content="" />',
-        '<meta property="fb:page_id" content="" />',
-        '<meta property="fb:app_id" content="" />'
-    ];
+    fbName.forEach(function (value,index) {
+        fbElem.push(getElem(value));
+        fbTag.push(getTag(value));
+    });
 
     var fbDesc;
 
