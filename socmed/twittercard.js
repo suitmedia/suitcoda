@@ -93,6 +93,8 @@ module.exports = function (url) {
 
     if ( getTc === "player" ) {
         tcPlayerElem.forEach(function (value, index) {
+            var isExist = horseman.exists( value );
+
             if ( !isExist ) {
                 tcDesc = 'Twitter Card Player type with name property ' + tcPlayerName[index] + ' is not found. Please add this meta tag ' + tcPlayerTag[index] + ' to kept the standarization';
                 
