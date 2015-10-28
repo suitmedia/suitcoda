@@ -39,6 +39,11 @@ resultSocmed.checking.push(opengraph(url));
 var fbinsight = require('./fbinsight.js');
 resultSocmed.checking.push(fbinsight(url));
 
+// ----------------------- Open Graph -----------------------
+var twittercard = require('./twittercard.js');
+resultSocmed.checking.push(twittercard(url));
+
+
 // ------------------------ save to json file ------------------------
 var toJson = jsonPretty(resultSocmed);
 
