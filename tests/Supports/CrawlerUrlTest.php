@@ -29,7 +29,7 @@ class CrawlerUrlTest extends TestCase
         
         $crawl = new CrawlerUrl($client, $domCrawler);
 
-        $this->assertEquals(true, $crawl->checkIfCrawlable('foobar.com'));
+        $this->assertEquals(true, $crawl->checkIfCrawlable('example.com'));
     }
 
     public function testUrlNotCrawlable()
@@ -40,7 +40,7 @@ class CrawlerUrlTest extends TestCase
         $crawl = new CrawlerUrl($client, $domCrawler);
 
         $this->assertEquals(false, $crawl->checkIfCrawlable('#'));
-        $this->assertEquals(false, $crawl->checkIfCrawlable('#foobar'));
+        $this->assertEquals(false, $crawl->checkIfCrawlable('#example'));
         $this->assertEquals(false, $crawl->checkIfCrawlable('javascript:void(0);'));
         $this->assertEquals(false, $crawl->checkIfCrawlable('javascript:executeSomeScripts();'));
         $this->assertEquals(false, $crawl->checkIfCrawlable(''));
@@ -53,8 +53,8 @@ class CrawlerUrlTest extends TestCase
         
         $crawl = new CrawlerUrl($client, $domCrawler);
 
-        $crawl->setBaseUrl('http://foobar.com');
-        $this->assertEquals('http://foobar.com/', $crawl->getBaseUrl());
+        $crawl->setBaseUrl('http://example.com');
+        $this->assertEquals('http://example.com/', $crawl->getBaseUrl());
         $this->assertEquals(true, $crawl->checkIfExternal('http://test.com'));
         $this->assertEquals(true, $crawl->checkIfExternal('https://test.com'));
     }
@@ -66,9 +66,9 @@ class CrawlerUrlTest extends TestCase
         
         $crawl = new CrawlerUrl($client, $domCrawler);
 
-        $crawl->setBaseUrl('foobar.com');
-        $this->assertEquals(false, $crawl->checkIfExternal('http://foobar.com/test'));
-        $this->assertEquals(false, $crawl->checkIfExternal('https://foobar.com/test'));
+        $crawl->setBaseUrl('example.com');
+        $this->assertEquals(false, $crawl->checkIfExternal('http://example.com/test'));
+        $this->assertEquals(false, $crawl->checkIfExternal('https://example.com/test'));
     }
 
     public function testGetEffectiveUrl()
@@ -81,23 +81,81 @@ class CrawlerUrlTest extends TestCase
         
         $crawl = new CrawlerUrl($client, $domCrawler);
 
-        $crawl->getEffectiveUrl('http://foobar.com');
+        $crawl->getEffectiveUrl('http://example.com');
     }
 
-    public function testDoRequestHtml()
+    public function testDoRequestHtmlWithoutTag()
     {
+        $html = '<!DOCTYPE html>
+            <html>
+                <body>
+                    <p class="message">Hello World!</p>
+                    <p>Hello Crawler!</p>
+                </body>
+            </html>';
+
         $client = $this->getMockClient();
         $domCrawler = $this->getMockDomCrawler()->makePartial();
         $response = Mockery::mock('GuzzleHttp\Psr7\Response');
+        $stream = Mockery::mock('GuzzleHttp\Psr7\Stream');
 
         $client->shouldReceive('get')->andReturn($response);
-        $response->shouldReceive('getHeaderLine')->andReturn('http://foobar.com');
+        $domCrawler->shouldReceive('addHtmlContent')->with($html);
+        $response->shouldReceive('getHeaderLine')->andReturn('http://example.com');
         $response->shouldReceive('getStatusCode')->andReturn(200);
+        $response->shouldReceive('getBody')->andReturn($stream);
+        $stream->shouldReceive('getContents')->andReturn($html);
+        $stream->shouldReceive('close');
         
         $crawl = new CrawlerUrl($client, $domCrawler);
-        $crawl->doRequest('http://foobar.com');
+        $crawl->doRequest('http://example.com');
+        $this->assertEquals([[
+            'url' => 'http://example.com',
+            'title' => '',
+            'titleTag' => '',
+            'desc' => '',
+            'descTag' => ''
+        ]], $crawl->getSiteUrl());
+    }
 
-        $this->assertEquals(['http://foobar.com'], $crawl->getSiteUrl());
+    public function testDoRequestHtmlWithTag()
+    {
+        $html = '<!DOCTYPE html>
+            <html>
+                <head>
+                    <title>Example Domain</title>
+
+                    <meta charset="utf-8" />
+                    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
+                    <meta name="description" content="example description" />
+                </head>
+            </html>';
+
+        $client = $this->getMockClient();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+        $response = Mockery::mock('GuzzleHttp\Psr7\Response');
+        $stream = Mockery::mock('GuzzleHttp\Psr7\Stream');
+
+        $client->shouldReceive('get')->andReturn($response);
+        $domCrawler->shouldReceive('addHtmlContent')->with($html);
+        $domCrawler->shouldReceive('count')->andReturn(1);
+        $domCrawler->shouldReceive('html')->andReturn($html);
+        $response->shouldReceive('getHeaderLine')->andReturn('http://example.com');
+        $response->shouldReceive('getStatusCode')->andReturn(200);
+        $response->shouldReceive('getBody')->andReturn($stream);
+        $stream->shouldReceive('getContents')->andReturn($html);
+        $stream->shouldReceive('close');
+        
+        $crawl = new CrawlerUrl($client, $domCrawler);
+        $crawl->doRequest('http://example.com');
+        $this->assertEquals([[
+            'url' => 'http://example.com',
+            'title' => 'Example Domain',
+            'titleTag' => '<title>Example Domain</title>',
+            'desc' => 'example description',
+            'descTag' => '<meta name="description" content="example description" />'
+        ]], $crawl->getSiteUrl());
     }
 
     public function testDoRequestBrokenLink()
@@ -107,14 +165,14 @@ class CrawlerUrlTest extends TestCase
         $response = Mockery::mock('GuzzleHttp\Psr7\Response');
 
         $client->shouldReceive('get')->andReturn($response);
-        $response->shouldReceive('getHeaderLine')->andReturn('http://foobar.com/test');
+        $response->shouldReceive('getHeaderLine')->andReturn('http://example.com/test');
         $response->shouldReceive('getStatusCode')->andReturn(404);
 
         $crawl = new CrawlerUrl($client, $domCrawler);
-        $result = $crawl->doRequest('http://foobar.com/test');
+        $result = $crawl->doRequest('http://example.com/test');
 
         $this->assertEquals(null, $result);
-        $this->assertEquals(['http://foobar.com/test'], $crawl->getSiteBrokenLink());
+        $this->assertEquals(['http://example.com/test'], $crawl->getSiteBrokenLink());
     }
 
     public function testDoRequestCatchException()
@@ -123,7 +181,7 @@ class CrawlerUrlTest extends TestCase
         $domCrawler = $this->getMockDomCrawler()->makePartial();
 
         $crawl = new CrawlerUrl($client, $domCrawler);
-        $result = $crawl->doRequest('http://foobar.com/unknown');
+        $result = $crawl->doRequest('http://example.com/unknown');
 
         $this->assertEquals(null, $result);
     }
@@ -135,14 +193,38 @@ class CrawlerUrlTest extends TestCase
 
         $crawl = new CrawlerUrl($client, $domCrawler);
         $tempArraySiteList = $crawl->getSiteUrl();
-        $result = $crawl->checkNotInList('http://foobar.com', $tempArraySiteList);
+        $result = $crawl->checkNotInList('http://example.com', $tempArraySiteList);
 
         $this->assertEquals(true, $result);
     }
 
     public function testCrawler()
     {
-        $html = '<a href="http:foobar.com"></a>';
+        $html = '<a href="http:example.com"></a>';
+
+        $expectedResult = [
+            [
+                'url' => 'http://example.com',
+                'title' => '',
+                'titleTag' => '',
+                'desc' => '',
+                'descTag' => ''
+            ],
+            [
+                'url' => 'http://example.com/test',
+                'title' => '',
+                'titleTag' => '',
+                'desc' => '',
+                'descTag' => ''
+            ],
+            [
+                'url' => 'http://example.com/baz',
+                'title' => '',
+                'titleTag' => '',
+                'desc' => '',
+                'descTag' => ''
+            ],
+        ];
 
         $client = $this->getMockClient();
         $domCrawler = $this->getMockDomCrawler()->makePartial();
@@ -150,24 +232,47 @@ class CrawlerUrlTest extends TestCase
 
         $client->shouldReceive('get')->andReturn($response);
         $response->shouldReceive('getHeaderLine')->andReturn(
-            'http://foobar.com',
-            'http://foobar.com/test',
-            'http://foobar.com/baz'
+            'http://example.com',
+            'http://example.com/test',
+            'http://example.com/baz'
         );
         $response->shouldReceive('getStatusCode')->andReturn(200);
         $domCrawler->shouldReceive('addHtmlContent')->andReturn($html);
 
         $crawling = new CrawlerUrl($client, $domCrawler);
-        $crawling->setBaseUrl('http://foobar.com');
+        $crawling->setBaseUrl('http://example.com');
         $crawling->start();
 
-        $this->assertEquals([
-            'http://foobar.com',
-            'http://foobar.com/baz',
-            'http://foobar.com/test'
-        ], $crawling->getSiteUrl());
+        $this->assertEquals($expectedResult, $crawling->getSiteUrl());
 
         $this->assertEquals([], $crawling->getUnvisitedUrl());
+    }
+
+    public function testGetTitleAndDescTag()
+    {
+        $html = '<!DOCTYPE html>
+            <html>
+                <head>
+                    <title>Example Domain</title>
+
+                    <meta charset="utf-8" />
+                    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
+                    <meta name="description" content="example description" />
+                </head>
+            </html>';
+        $client = $this->getMockClient();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+
+        $crawl = new CrawlerUrl($client, $domCrawler);
+
+        $this->assertEquals(['', ''], $crawl->getTitleTag(''));
+        $this->assertEquals(['<title>Example Domain</title>', 'Example Domain'], $crawl->getTitleTag($html));
+
+        $this->assertEquals(['', ''], $crawl->getDescTag(''));
+        $this->assertEquals([
+            '<meta name="description" content="example description" />',
+            'example description'], $crawl->getDescTag($html));
     }
 
     public function testDumpGet()
@@ -218,9 +323,9 @@ class CrawlerUrlTest extends TestCase
     protected function getMockDomCrawler()
     {
         $links = [
-            'http://foobar.com',
-            'http://foobar.com/test',
-            'http://foobar.com/baz'
+            'http://example.com',
+            'http://example.com/test',
+            'http://example.com/baz'
         ];
 
         $domCrawler = Mockery::mock(Crawler::class);

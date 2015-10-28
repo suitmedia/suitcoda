@@ -106,7 +106,6 @@ class CrawlerUrl
      */
     public function getSiteUrl()
     {
-        sort($this->siteUrl);
         return $this->siteUrl;
     }
 
@@ -232,7 +231,7 @@ class CrawlerUrl
      */
     public function checkNotInList($url, &$siteLink)
     {
-        if (!in_array($url, $siteLink) &&
+        if (!in_array($url, array_pluck($siteLink, 'url')) &&
             !in_array($url, $this->siteBrokenLink) &&
             !in_array($url, $this->siteRedirectLink)) {
             return true;
@@ -262,8 +261,6 @@ class CrawlerUrl
     {
         $responseUrl = $this->doRequest($url);
         if (!is_null($responseUrl)) {
-            $this->crawler->addHtmlContent($responseUrl->getBody()->getContents());
-            
             $listCss = $this->crawler->filterXPath('//*[@rel="stylesheet"]')->extract('href');
             $this->getAllLink($url, $listCss, $this->siteCss);
             $listJs = $this->crawler->filter('script')->extract('src');
@@ -295,7 +292,7 @@ class CrawlerUrl
                 continue;
             }
             if (!$recursive) {
-                array_push($siteLink, $list);
+                array_push($siteLink, ['url' => $list]);
             } elseif (!in_array($list, $this->unvisitedUrl)) {
                 $this->unvisitedUrl[] = $list;
             }
@@ -321,7 +318,30 @@ class CrawlerUrl
             $effectiveUrl = $responseUrl->getHeaderLine('X-GUZZLE-EFFECTIVE-URL');
             if ($responseUrl->getStatusCode() === 200 &&
                 $this->checkNotInList($effectiveUrl, $this->siteUrl)) {
-                array_push($this->siteUrl, $effectiveUrl);
+                $this->crawler->addHtmlContent($responseUrl->getBody()->getContents());
+                if ($this->crawler->filterXPath('//head')->count() &&
+                    !empty($this->crawler->filterXPath('//head')->html())) {
+                    $headTag = $this->crawler->filterXPath('//head')->html();
+                    
+                    $titleTag = $this->getTitleTag($headTag);
+                    $descTag = $this->getDescTag($headTag);
+
+                    array_push($this->siteUrl, [
+                        'url' => $effectiveUrl,
+                        'title' => $titleTag[1],
+                        'titleTag' => $titleTag[0],
+                        'desc' => $descTag[1],
+                        'descTag' => $descTag[0]
+                    ]);
+                } else {
+                    array_push($this->siteUrl, [
+                        'url' => $effectiveUrl,
+                        'title' => '',
+                        'titleTag' => '',
+                        'desc' => '',
+                        'descTag' => ''
+                    ]);
+                }
                 return $responseUrl;
             }
             if ($responseUrl->getStatusCode() >= 400) {
@@ -356,5 +376,46 @@ class CrawlerUrl
             }
         ]);
         return $response;
+    }
+
+    /**
+     * Get the title tag and content of tag
+     *
+     * @param  string $html
+     * @return array
+     */
+    public function getTitleTag($html)
+    {
+        $titleTag = preg_match(
+            '/<title[^>]*>([\s\S]*?)<\/title>/',
+            $html,
+            $titleTagMatches
+        );
+        if (empty($titleTagMatches)) {
+            $titleTagMatches = ['', ''];
+        }
+        return $titleTagMatches;
+    }
+
+    /**
+     * Get the meta tag description and content of tag
+     *
+     * @param  string $html
+     * @return array
+     */
+    public function getDescTag($html)
+    {
+        $descTag = preg_match(
+            '/<meta name="description"(.*?)content="(.*?)"(.*?\/*)>/',
+            $html,
+            $descTagMatches
+        );
+        if (empty($descTagMatches)) {
+            $finalDescTagMatches = ['', ''];
+        } else {
+            $finalDescTagMatches[] = $descTagMatches[0];
+            $finalDescTagMatches[] = $descTagMatches[2];
+        }
+        return $finalDescTagMatches;
     }
 }
