@@ -1,7 +1,5 @@
 // ---------------------- dependency ----------------------
-var Horseman    = require('node-horseman'),
-    horseman    = new Horseman(),
-    isUrl       = require('is-url'),
+var isUrl       = require('is-url'),
     fs          = require('fs'),
     jsonPretty  = require('json-pretty'),
     program     = require('commander');
@@ -23,7 +21,6 @@ if ( !dest ){
 // validation url
 if ( !isUrl(url) ){
     console.log('ERROR: this is not an url');
-    horseman.close();
     process.exit(1);
 }
 
@@ -44,10 +41,12 @@ var toJson = jsonPretty(resultSocmed);
 
 function saveReport () {
     fs.writeFile(dest + 'resultSocmed.json', toJson, function (err) {
-        if (err) throw err;
+        if (err) {
+            throw err;
+        } else {
+            console.log('resultSocmed.json has saved!');
+        }
     }); 
 }
 
 saveReport();
-
-horseman.close();
