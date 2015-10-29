@@ -3,17 +3,16 @@ module.exports = function (url) {
     var Horseman    = require('node-horseman'),
         horseman    = new Horseman();
 
-    var ogElem      = 'meta[property*="og:"]';
+    function getElem (value) {
+        return 'meta[property="' + value + '"]';
+    }
+
+    function getTag (value) {
+        return '<meta property="' + value + '" content="" />';
+    }
+
     var ogDesc;
 
-    var ogNecessaryElem = [
-        'meta[property="og:title"]',
-        'meta[property="og:type"]',
-        'meta[property="og:site_name"]',
-        'meta[property="og:url"]',
-        'meta[property="og:description"]',
-        'meta[property="og:locale"]'
-    ];
 
     var ogNecessaryName = [
         'og:title',
@@ -23,26 +22,17 @@ module.exports = function (url) {
         'og:description',
         'og:locale',
     ];
+    var ogNecessaryElem = [];
+    var ogNecessaryTag = [];
 
-    var ogNecessaryTag = [
-        '<meta property="og:title" content="" />',
-        '<meta property="og:type" content="" />',
-        '<meta property="og:site_name" content="" />',
-        '<meta property="og:url" content="" />',
-        '<meta property="og:description" content="" />',
-        '<meta property="og:locale" content="" />'
-    ];
+    ogNecessaryName.forEach(function (value,index) {
+        ogNecessaryElem.push(getElem(value));
+        ogNecessaryTag.push(getTag(value));
+    });
 
     var ogTypeElem      = 'meta[property="og:type"]';
     var ogTypeChoice    = ['website','article','video','music','books','profile'];
 
-    var articleNecessaryElem = [
-        'meta[property="article:author"]',
-        'meta[property="article:publisher"]',
-        'meta[property="article:tag"]',
-        'meta[property="article:published_time"]',
-        'meta[property="article:modified_time"]'
-    ];
 
     var articleNecessaryName = [
         'article:author',
@@ -51,31 +41,28 @@ module.exports = function (url) {
         'article:published_time',
         'article:modified_time',
     ];
+    var articleNecessaryElem = [];
+    var articleNecessaryTag = [];
 
-    var articleNecessaryTag = [
-        '<meta property="article:author" content="" />',
-        '<meta property="article:publisher" content="" />',
-        '<meta property="article:tag" content="" />',
-        '<meta property="article:published_time" content="" />',
-        '<meta property="article:modified_time" content="" />',
-    ];
+    articleNecessaryName.forEach(function (value,index) {
+        articleNecessaryElem.push(getElem(value));
+        articleNecessaryTag.push(getTag(value));
+    });
 
     var ogImgElem           = 'meta[property="og:image"]';
-    var ogImgNecessaryElem  = [
-        'meta[property="og:image:type"]',
-        'meta[property="og:image:width"]',
-        'meta[property="og:image:height"]'
-    ];
+
     var ogImgNecessaryName = [
         'og:image:type',
         'og:image:width',
         'og:image:height'
     ];
-    var ogImgNecessaryTag = [
-        '<meta property="og:image:type" content="" />',
-        '<meta property="og:image:width" content="" />',
-        '<meta property="og:image:height" content="" />',
-    ];
+    var ogImgNecessaryElem  = [];
+    var ogImgNecessaryTag = [];
+
+    ogImgNecessaryName.forEach(function (value,index) {
+        ogImgNecessaryElem.push(getElem(value));
+        ogImgNecessaryTag.push(getTag(value));
+    });
 
     var resultOpengraph = {
         socmedName  : 'Open Graph',
@@ -84,15 +71,13 @@ module.exports = function (url) {
 
     var openPage = horseman.open( url );
 
-    isOpengraph = horseman.exists( ogElem );
-
     ogNecessaryElem.forEach(function (value, index) {
         var isExist = horseman.exists(value);
 
         if ( !isExist ) {
             // if does not exist,push to json
             ogDesc = 'Open Graph with property ' + ogNecessaryName[index] + ' is not found. Please add this meta tag ' + 
-                    ogNecessaryTag[index] + ' to kept the standarization';
+                    ogNecessaryTag[index] + ' to keep the standarization';
 
             resultOpengraph.message.push({
                 error      : 'Error',
@@ -123,7 +108,7 @@ module.exports = function (url) {
 
                 if ( !isExist ) {
                     ogDesc = 'Open Graph with property ' + articleNecessaryName[index] + ' is not found. Please add this meta tag ' + 
-                              articleNecessaryTag[index] + ' to kept the standarization';
+                              articleNecessaryTag[index] + ' to keep the standarization';
 
                     resultOpengraph.message.push({
                         error       : 'Error',
@@ -143,7 +128,7 @@ module.exports = function (url) {
 
             if ( !isExist ) {
                 ogDesc = 'Open Graph with property ' + ogImgNecessaryName[index] + ' is not found. Please add this meta tag ' + 
-                              ogImgNecessaryTag[index] + ' to kept the standarization';
+                              ogImgNecessaryTag[index] + ' to keep the standarization';
 
                 resultOpengraph.message.push({
                     error       : 'Error',
