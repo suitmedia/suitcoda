@@ -17,11 +17,11 @@ var url     = program.url;
 var dest    = '';
     dest    = program.destination;
 
-if ( ! dest ){
+if ( ! dest ) {
     dest = '';
 }
 
-if ( !isUrl(url) ){
+if ( !isUrl(url) ) {
     console.log('ERROR: this is not an url');
     horseman.close();
     process.exit(1);
@@ -213,7 +213,7 @@ if ( isMainHeading ) {
 // ------------------------ save to json file ------------------------
 var toJson = jsonPretty(resultSEO);
 
-function saveReport () {
+function saveReport() {
     fs.writeFile(dest + 'resultSEO.json', toJson, function (err) {
         if (err) throw err;
         console.log("resultSEO.json has saved!");
@@ -223,14 +223,14 @@ function saveReport () {
 saveReport();
 
 // ---------------------------- function ----------------------------
-function pushErrMsg (message) {
+function pushErrMsg(message) {
     resultSEO.checking.push({
         error   : error,
         desc    : message
     });
 }
 
-function pushWarnMsg (message) {
+function pushWarnMsg(message) {
     resultSEO.checking.push({
         error   : warning,
         desc    : message

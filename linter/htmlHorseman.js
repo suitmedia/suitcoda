@@ -17,11 +17,11 @@ var url     = program.url;
 var dest    = '';
     dest    = program.destination;
 
-if ( ! dest ){
+if ( !dest ) {
     dest = '';
 }
 
-if ( !isUrl(url) ){
+if ( !isUrl(url) ) {
     console.log('ERROR: this is not an url');
     horseman.close();
     process.exit(1);
@@ -44,7 +44,7 @@ var isHtml5 = horseman
 var isHtml4 = horseman
     .exists('.msg_err');
 
-if ( isHtml5 ){
+if ( isHtml5 ) {
     var w3ResultError = horseman
         .evaluate( function (selector) {
             
@@ -56,7 +56,7 @@ if ( isHtml5 ){
                 errors_line     = [],
                 errors_code     = [];
 
-            $.each($errors, function(index, elem) {
+            $.each($errors, function (index, elem) {
                 errors_msg.push( $(elem).find('p:first-child span').text() );
                 errors_line.push( $(elem).find('.location .first-line').text() );
                 errors_code.push( $(elem).find('.extract').text() );
@@ -125,7 +125,7 @@ if ( isHtml5 ){
                 errors_line      = [],
                 errors_code      = [];
 
-            $.each($errors, function(index, elem) {
+            $.each($errors, function (index, elem) {
                 errors_msg.push( $(elem).find('.msg').text() );
                 errors_line.push( $(elem).find('em').text() );
             });
@@ -148,7 +148,7 @@ if ( isHtml5 ){
                 warnings_line    = [],
                 warnings_code    = [];
 
-            $.each($warnings, function(index, elem) {
+            $.each($warnings, function (index, elem) {
                 warnings_msg.push( $(elem).find('.msg').text() );
                 warnings_line.push( $(elem).find('em').text() );
             });
@@ -180,7 +180,7 @@ if ( isHtml5 ){
 // ------------------------ save to json file ------------------------
 var toJson = jsonPretty(resultHTMLLinter);
 
-function saveReport () {
+function saveReport() {
     fs.writeFile(dest + 'resultHTML.json', toJson, function (err) {
         if (err) throw err;
     });	
