@@ -73,7 +73,7 @@ if ( countFooter === 0 ) {
 var countFavicon = horseman.count('link[rel*="icon"]');
 
 if ( countFavicon === 0 ) {
-    errDesc = "favicon harus ada";
+    errDesc = 'Favicon is not found. Please add <link rel="icon" type="image/png" href="path/to/your/file"></link> to keep the standarization.';
     pushErrMsg(errDesc);
 }
 
