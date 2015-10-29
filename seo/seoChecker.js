@@ -167,9 +167,7 @@ if ( getHttpEquiv === "Content-Type" && ( getCharset === "utf-8" || getCharset =
 }
 
 
-
 // ------------------------ meta tag checking ------------------------
-
 
 var metaDesc   = 'meta[name="description"]',
     metaVp     = 'meta[name="viewport"]';
@@ -194,6 +192,21 @@ if ( isMetaVp ) {
     }
 } else {
     errDesc = "Please add Meta Viewport tag to keep the standarization.";
+    pushErrMsg(errDesc);
+}
+
+// ----------------------------- heading -----------------------------
+var isMainHeading = horseman.exists('h1');
+
+if ( isMainHeading ) {
+    var countMainHeading = horseman.count('h1');
+
+    if ( countMainHeading > 1 ) {
+        errDesc = 'Tag <h1> should only be one.';
+        pushWarnMsg(errDesc);
+    }
+} else {
+    errDesc = 'Tag <h1> is not found. Please add tag <h1></hi> to keep the standarization.'
     pushErrMsg(errDesc);
 }
 
