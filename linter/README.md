@@ -4,18 +4,7 @@ Using [PhantomJS](http://phantomjs.org/), [node-horseman](http://www.horsemanjs.
 
 ### HTML Linter ###
 
-Includes : 
-
-* [W3 Validator](https://validator.w3.org/)
-* Title Tag Checking
-* Header Tag Checking
-* Footer Tag Checking
-* Script Tag Checking
-* Favicon
-* ARIA Landmark (banner, main, contentinfo, navigation, search)
-* Image with No Alt Text
-* Internationalization (i18n)
-* Meta Tag (desc, viewport)
+using [W3 Validator](https://validator.w3.org/)
 
 Usage :
 

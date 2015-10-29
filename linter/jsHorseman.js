@@ -19,11 +19,11 @@ program
 var url     = program.url,
     dest    = program.destination;
 
-if ( !dest ){
+if ( !dest ) {
     dest = '';
 }
 
-if ( !isUrl(url) ){
+if ( !isUrl(url) ) {
     console.log('ERROR: this is not an url');
     horseman.close();
     process.exit(1);
@@ -42,11 +42,11 @@ var filenameJS = url.substring( url.lastIndexOf('/') + 1 , url.length );
 fs.mkdirSync('js/');
 var file = fs.createWriteStream('js/' + filenameJS);
 
-var request = http.get(url , function(response) {
+var request = http.get(url , function (response) {
     response.pipe(file);
 
     // read the file
-    rte.readToEnd(response, function(err, body) {
+    rte.readToEnd(response, function (err, body) {
         var source = body;
         var options = { undef: true };
         var predef = { jQuery: false };
