@@ -18,7 +18,7 @@ module.exports = function (url) {
     var ogNecessaryName = [
         'og:title',
         'og:type',
-        'og:site name',
+        'og:site_name',
         'og:url',
         'og:description',
         'og:locale',
@@ -76,91 +76,80 @@ module.exports = function (url) {
         '<meta property="og:image:width" content="" />',
         '<meta property="og:image:height" content="" />',
     ];
-    
-    
-
 
     var resultOpengraph = {
         socmedName  : 'Open Graph',
         message     : []
     };
 
-
     var openPage = horseman.open( url );
 
     isOpengraph = horseman.exists( ogElem );
 
-    if ( isOpengraph ) {
-        ogNecessaryElem.forEach(function (value, index) {
-            var isExist = horseman.exists(value);
+    ogNecessaryElem.forEach(function (value, index) {
+        var isExist = horseman.exists(value);
 
-            if ( !isExist ) {
-                // if does not exist,push to json
-                ogDesc = 'Open Graph with property ' + ogNecessaryName[index] + ' is not found. Please add this meta tag ' + 
-                        ogNecessaryTag[index] + ' to kept the standarization';
+        if ( !isExist ) {
+            // if does not exist,push to json
+            ogDesc = 'Open Graph with property ' + ogNecessaryName[index] + ' is not found. Please add this meta tag ' + 
+                    ogNecessaryTag[index] + ' to kept the standarization';
 
-                resultOpengraph.message.push({
-                    error      : 'Error',
-                    desc       : ogDesc
-                });
-            }
-        });
+            resultOpengraph.message.push({
+                error      : 'Error',
+                desc       : ogDesc
+            });
+        }
+    });
 
-        // cek og:type
-        var isExistOgType   = horseman.exists( ogTypeElem );
-        if ( isExistOgType ) {
-            var getOgType = horseman.attribute('meta[property="og:type"]','content');
+    // cek og:type
+    var isExistOgType   = horseman.exists( ogTypeElem );
+    if ( isExistOgType ) {
+        var getOgType = horseman.attribute('meta[property="og:type"]','content');
 
-            // check if og:type is one of website,article,video,music,books,profile
-            if ( ogTypeChoice.indexOf(getOgType) < 0 ) {
-                ogDesc = 'Your Open Graph type [' + getOgType + '] not match with our standarization. [website, books, video, music, books, profile] Please use one of these type.';
-              
-                resultOpengraph.message.push({
-                    error      : 'Error',
-                    desc       : ogDesc
-                });
-            }
-
-            // if og:type = article
-            if ( getOgType === 'article' ) {
-                articleNecessaryElem.forEach(function (value, index) {
-                    var isExist = horseman.exists(value);
-
-                    if ( !isExist ) {
-                        ogDesc = 'Open Graph with property ' + articleNecessaryName[index] + ' is not found. Please add this meta tag ' + 
-                                  articleNecessaryTag[index] + ' to kept the standarization';
-
-                        resultOpengraph.message.push({
-                            error       : 'Error',
-                            desc        : ogDesc
-                        });
-                    }
-                });
-            }
+        // check if og:type is one of website,article,video,music,books,profile
+        if ( ogTypeChoice.indexOf(getOgType) < 0 ) {
+            ogDesc = 'Your Open Graph type [' + getOgType + '] not match with our standarization. [website, books, video, music, books, profile] Please use one of these type.';
+          
+            resultOpengraph.message.push({
+                error      : 'Error',
+                desc       : ogDesc
+            });
         }
 
-        // cek og image
-        var isExistOgImg    = horseman.exists( ogImgElem );
-
-        if ( isExistOgImg ) {
-            ogImgNecessaryElem.forEach(function (value, index) {
-                var isExist = horseman.exists( value );
+        // if og:type = article
+        if ( getOgType === 'article' ) {
+            articleNecessaryElem.forEach(function (value, index) {
+                var isExist = horseman.exists(value);
 
                 if ( !isExist ) {
-                    ogDesc = 'Open Graph with property ' + ogImgNecessaryName[index] + ' is not found. Please add this meta tag ' + 
-                                  ogImgNecessaryTag[index] + ' to kept the standarization';
+                    ogDesc = 'Open Graph with property ' + articleNecessaryName[index] + ' is not found. Please add this meta tag ' + 
+                              articleNecessaryTag[index] + ' to kept the standarization';
 
                     resultOpengraph.message.push({
                         error       : 'Error',
                         desc        : ogDesc
                     });
-                } 
+                }
             });
         }
-    } else {
-        resultOpengraph.message.push({
-            error       : 'Error',
-            desc        : 'Open Graph is not found'
+    }
+
+    // cek og image
+    var isExistOgImg    = horseman.exists( ogImgElem );
+
+    if ( isExistOgImg ) {
+        ogImgNecessaryElem.forEach(function (value, index) {
+            var isExist = horseman.exists( value );
+
+            if ( !isExist ) {
+                ogDesc = 'Open Graph with property ' + ogImgNecessaryName[index] + ' is not found. Please add this meta tag ' + 
+                              ogImgNecessaryTag[index] + ' to kept the standarization';
+
+                resultOpengraph.message.push({
+                    error       : 'Error',
+                    desc        : ogDesc
+                });
+            } 
         });
     }
 
