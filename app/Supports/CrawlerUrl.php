@@ -106,6 +106,7 @@ class CrawlerUrl
      */
     public function getSiteUrl()
     {
+        sort($this->siteUrl);
         return $this->siteUrl;
     }
 
@@ -318,20 +319,23 @@ class CrawlerUrl
             $effectiveUrl = $responseUrl->getHeaderLine('X-GUZZLE-EFFECTIVE-URL');
             if ($responseUrl->getStatusCode() === 200 &&
                 $this->checkNotInList($effectiveUrl, $this->siteUrl)) {
-                $this->crawler->addHtmlContent($responseUrl->getBody()->getContents());
+                $bodyContent = $responseUrl->getBody()->getContents();
+                $compressBodyContent = gzdeflate($bodyContent, 9);
+                $this->crawler->addHtmlContent($bodyContent);
+                unset($bodyContent);
                 if ($this->crawler->filterXPath('//head')->count() &&
                     !empty($this->crawler->filterXPath('//head')->html())) {
                     $headTag = $this->crawler->filterXPath('//head')->html();
                     
                     $titleTag = $this->getTitleTag($headTag);
                     $descTag = $this->getDescTag($headTag);
-
                     array_push($this->siteUrl, [
                         'url' => $effectiveUrl,
                         'title' => $titleTag[1],
                         'titleTag' => $titleTag[0],
                         'desc' => $descTag[1],
-                        'descTag' => $descTag[0]
+                        'descTag' => $descTag[0],
+                        'bodyContent' => $compressBodyContent
                     ]);
                 } else {
                     array_push($this->siteUrl, [
@@ -339,7 +343,8 @@ class CrawlerUrl
                         'title' => '',
                         'titleTag' => '',
                         'desc' => '',
-                        'descTag' => ''
+                        'descTag' => '',
+                        'bodyContent' => $compressBodyContent
                     ]);
                 }
                 return $responseUrl;
@@ -392,9 +397,12 @@ class CrawlerUrl
             $titleTagMatches
         );
         if (empty($titleTagMatches)) {
-            $titleTagMatches = ['', ''];
+            $finalTitleTagMatches = ['', ''];
+        } else {
+            $finalTitleTagMatches[] = $titleTagMatches[0];
+            $finalTitleTagMatches[] = trim($titleTagMatches[1]);
         }
-        return $titleTagMatches;
+        return $finalTitleTagMatches;
     }
 
     /**
@@ -414,7 +422,7 @@ class CrawlerUrl
             $finalDescTagMatches = ['', ''];
         } else {
             $finalDescTagMatches[] = $descTagMatches[0];
-            $finalDescTagMatches[] = $descTagMatches[2];
+            $finalDescTagMatches[] = trim($descTagMatches[2]);
         }
         return $finalDescTagMatches;
     }
