@@ -157,35 +157,37 @@ if ( program.i18n ) {
 
     var isHttpEquiv = horseman.exists('meta[http-equiv]');
     var isCharset = horseman.exists('meta[charset]');
-    var getHttpEquiv = horseman.attribute('meta[http-equiv]','http-equiv');
-    var getCharset = horseman.attribute('meta[charset]','charset');
+    var getHttpEquiv = getLowerCase( horseman.attribute('meta[http-equiv]','http-equiv') );
+    var getCharset = getLowerCase( horseman.attribute('meta[charset]','charset') );
 
-    if ( getHttpEquiv === "Content-Type" && ( getCharset === "utf-8" || getCharset === "UTF-8") ) {
-        errDesc = 'Please do not declare both of character encoding element (<meta charset="utf-8"/> and <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>).';
+    if ( !isHttpEquiv && !isCharset ) {
+        errDesc = 'Please add character encoding meta tag element (<meta charset="utf-8"/> or <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>)';
         pushErrMsg(errDesc);
     } else {
-        if ( isCharset ) {
-            if ( getCharset === "" ) {
-                errDesc = 'Please fill the charset attribute on meta tag.';
-                pushErrMsg(errDesc);
-            } else if ( getCharset !== "utf-8" && getCharset !== "UTF-8" ) {
-                errDesc = 'Please only use "utf-8" for charset attribute on meta tag.';
-                pushErrMsg(errDesc);
-            } 
+        if ( getHttpEquiv === "content-type" && getCharset === "utf-8" ) {
+            errDesc = 'Please do not declare both of character encoding element (<meta charset="utf-8"/> and <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>).';
+            pushErrMsg(errDesc);
         } else {
-            if ( getHttpEquiv === '' ) {
-                errDesc = 'Please fill the http-equiv attribute on meta tag.';
-                pushErrMsg(errDesc);
-            } else if ( getHttpEquiv !== 'Content-Type' ) {
-                errDesc = 'Http-equiv attribute on meta tag is wrong. Please change it to <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> to keep the standarization.';
-                pushErrMsg(errDesc);  
-            } else {
-                errDesc = 'Character encoding declaration is not found. Please add <meta charset="utf-8"/> or <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> to keep the standarization.';
-                pushErrMsg(errDesc);
-            }
-        } 
-
+            if ( isCharset ) {
+                if ( getCharset === "" || getCharset === null ) {
+                    errDesc = 'Please fill the charset attribute on meta tag.';
+                    pushErrMsg(errDesc);
+                } else if ( getCharset !== "utf-8" ) {
+                    errDesc = 'Please only use "utf-8" for charset attribute on meta tag.';
+                    pushErrMsg(errDesc);
+                } 
+            } else if ( isHttpEquiv ) {
+                if ( getHttpEquiv === '' || getHttpEquiv === null ) {
+                    errDesc = 'Please fill the http-equiv attribute on meta tag.';
+                    pushErrMsg(errDesc);
+                } else if ( getHttpEquiv !== 'content-type' ) {
+                    errDesc = 'Http-equiv attribute on meta tag is wrong. Please change it to <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> to keep the standarization.';
+                    pushErrMsg(errDesc);  
+                }
+            } 
+        }
     }
+
 }
 
 
@@ -261,6 +263,14 @@ function pushWarnMsg(message) {
         error   : warning,
         desc    : message
     });
+}
+
+function getLowerCase (message) {
+    if ( message === "" || message === null ) {
+        return message;
+    } else {
+        return message.toLowerCase();
+    }
 }
 
 horseman.close();
