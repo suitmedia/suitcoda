@@ -6,10 +6,13 @@ var isUrl       = require('is-url'),
 
 // ------------------------ get URL ------------------------
 program
-    .version('0.0.1')
-    .option('-url, --url [url]', 'input url')
-    .option('-d, --destination [path]', 'input path to store the output')
-    .parse(process.argv);
+.version('0.0.1')
+.option('-u, --url [url]', 'input url')
+.option('-d, --destination [path]', 'input path to store the output')
+.option('-o, --opengraph', 'Include Open Graph Validation')
+.option('-t, --twittercard', 'Include Twitter Card Validation')
+.option('-f, --facebookinsight', 'Include Facebook Insight Validation')
+.parse(process.argv);
 
 var url     = program.url;
 var dest    = program.destination;
@@ -32,16 +35,23 @@ var resultSocmed = {
 };
 
 // ----------------------- Open Graph -----------------------
-var opengraph = require('./opengraph.js');
-resultSocmed.checking.push(opengraph(url));
+if ( program.opengraph ) {
+    var opengraph = require('./opengraph.js');
+    resultSocmed.checking.push(opengraph(url));
+}
 
 // -------------------- Facebook Insight --------------------
-var fbinsight = require('./fbinsight.js');
-resultSocmed.checking.push(fbinsight(url));
+if ( program.facebookinsight ) {
+    var fbinsight = require('./fbinsight.js');
+    resultSocmed.checking.push(fbinsight(url));
+}
 
 // ----------------------- Open Graph -----------------------
-var twittercard = require('./twittercard.js');
-resultSocmed.checking.push(twittercard(url));
+if ( program.twittercard ) {
+    var twittercard = require('./twittercard.js');
+    resultSocmed.checking.push(twittercard(url));
+
+}
 
 
 // ------------------------ save to json file ------------------------
