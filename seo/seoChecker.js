@@ -9,7 +9,7 @@ var Horseman    = require('node-horseman'),
 // --------------------------- get url ---------------------------
 program
 .version('0.0.1')
-.option('-url, --url [url]', 'Input URL')
+.option('-u, --url [url]', 'Input URL')
 .option('-d, --destination [path]', 'Input Path to Store The Output')
 .option('--title',      'Include Title Tag Checker')
 .option('--header',     'Include Header Tag Checker')

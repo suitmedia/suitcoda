@@ -12,7 +12,7 @@ var Horseman    = require('node-horseman'),
 // --------------------------- get url ---------------------------
 program
     .version('0.0.1')
-    .option('-url, --url [url]', 'input url')
+    .option('-u, --url [url]', 'input url')
     .option('-d, --destination [path]', 'input path to store the output')
     .parse(process.argv);
 
