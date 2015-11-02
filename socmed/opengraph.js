@@ -85,10 +85,9 @@ function check(url) {
                 error      : 'Error',
                 desc       : ogDesc
             });
-            counter++;
-        } else {
-            counter++;
         }
+        
+        counter++;
     });
 
     // cek og:type
@@ -104,10 +103,8 @@ function check(url) {
                 error      : 'Error',
                 desc       : ogDesc
             });
-            counter++;
-        } else {
-            counter++;
         }
+        counter++;
 
         // if og:type = article
         if ( getOgType === 'article' ) {
@@ -122,10 +119,9 @@ function check(url) {
                         error       : 'Error',
                         desc        : ogDesc
                     });
-                    counter++;
-                } else {
-                    counter++;
                 }
+
+                counter++;
             });
         }
     }
@@ -145,10 +141,9 @@ function check(url) {
                     error       : 'Error',
                     desc        : ogDesc
                 });
-                counter++;
-            } else {
-                counter++;
             }
+
+            counter++;
         });
     }
 

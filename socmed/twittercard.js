@@ -73,10 +73,9 @@ function check(url) {
                 error      : 'Error',
                 desc       : tcDesc
             });
-            counter++;
-        } else {
-            counter++;
         }
+
+        counter++;
     });
 
     var getTc = horseman.attribute('meta[name="twitter:card"]','content');
@@ -92,10 +91,9 @@ function check(url) {
                     error      : 'Error',
                     desc       : tcDesc
                 });
-                counter++;
-            } else {
-                counter++;
             }
+
+            counter++;
         });
     }
 
@@ -110,10 +108,9 @@ function check(url) {
                     error      : 'Error',
                     desc       : tcDesc
                 });
-                counter++;
-            } else {
-                counter++;
             }
+            
+            counter++;
         });
     }
 

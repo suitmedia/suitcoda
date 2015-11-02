@@ -45,10 +45,9 @@ function check(url) {
                 error : 'Warning',
                 desc  : fbDesc
             });
-            counter++;
-        } else {
-            counter++;
         }
+
+        counter++;
     });
 
     horseman.close();
