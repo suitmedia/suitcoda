@@ -34,10 +34,16 @@ var resultSocmed = {
     checking: []
 };
 
+var counter = 0;
+
 // ----------------------- Open Graph -----------------------
 if ( program.opengraph ) {
-    var opengraph = require('./opengraph.js');
-    resultSocmed.checking.push(opengraph(url));
+    var opengraph   = require('./opengraph.js');
+    var ogCheck     = opengraph.check(url);
+    var ogCount     = opengraph.count();
+    
+    resultSocmed.checking.push(ogCheck);
+    counter = counter + ogCount;
 }
 
 // -------------------- Facebook Insight --------------------
@@ -50,11 +56,11 @@ if ( program.facebookinsight ) {
 if ( program.twittercard ) {
     var twittercard = require('./twittercard.js');
     resultSocmed.checking.push(twittercard(url));
-
 }
 
 
 // ------------------------ save to json file ------------------------
+resultSocmed.counter = counter;
 var toJson = jsonPretty(resultSocmed);
 
 function saveReport () {
