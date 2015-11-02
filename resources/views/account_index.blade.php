@@ -1,8 +1,6 @@
 @extends('_layouts.pages')
 
-@section('title')
-    @parent - Manage User
-@stop
+@section('title', 'Manage User')
 
 @section('main-content')
     @parent

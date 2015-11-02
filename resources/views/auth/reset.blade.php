@@ -1,8 +1,6 @@
 @extends('_layouts.base')
 
-@section('title')
-    @parent - Reset Password
-@stop
+@section('title', 'Reset Password')
 
 @section('main-content')
     <main class="main bg-grey site-content">
