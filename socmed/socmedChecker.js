@@ -41,15 +41,19 @@ if ( program.opengraph ) {
     var opengraph   = require('./opengraph.js');
     var ogCheck     = opengraph.check(url);
     var ogCount     = opengraph.count();
-    
+
     resultSocmed.checking.push(ogCheck);
     counter = counter + ogCount;
 }
 
 // -------------------- Facebook Insight --------------------
 if ( program.facebookinsight ) {
-    var fbinsight = require('./fbinsight.js');
-    resultSocmed.checking.push(fbinsight(url));
+    var fbinsight   = require('./fbinsight.js');
+    var fbCheck     = fbinsight.check(url);
+    var fbCount     = fbinsight.count();
+
+    resultSocmed.checking.push(fbCheck);
+    counter = counter + fbCount;
 }
 
 // ----------------------- Open Graph -----------------------

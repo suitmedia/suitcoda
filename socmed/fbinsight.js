@@ -1,4 +1,6 @@
-module.exports = function (url) {
+var counter = 0;
+
+function check(url) {
 
     var Horseman    = require('node-horseman'),
         horseman    = new Horseman();
@@ -43,9 +45,19 @@ module.exports = function (url) {
                 error : 'Warning',
                 desc  : fbDesc
             });
+            counter++;
+        } else {
+            counter++;
         }
     });
 
     horseman.close();
     return resultFbInsight;
+}
+
+module.exports = {
+    check : check,
+    count : function () {
+        return counter;
+    }
 };
