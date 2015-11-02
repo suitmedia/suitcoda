@@ -1,4 +1,6 @@
-module.exports = function (url) {
+var counter = 0;
+
+function check(url) {
 
     var Horseman    = require('node-horseman'),
         horseman    = new Horseman();
@@ -71,6 +73,9 @@ module.exports = function (url) {
                 error      : 'Error',
                 desc       : tcDesc
             });
+            counter++;
+        } else {
+            counter++;
         }
     });
 
@@ -87,6 +92,9 @@ module.exports = function (url) {
                     error      : 'Error',
                     desc       : tcDesc
                 });
+                counter++;
+            } else {
+                counter++;
             }
         });
     }
@@ -102,10 +110,21 @@ module.exports = function (url) {
                     error      : 'Error',
                     desc       : tcDesc
                 });
+                counter++;
+            } else {
+                counter++;
             }
         });
     }
 
     horseman.close();
     return resultTwitterCard;
+}
+
+
+module.exports = {
+    check : check,
+    count : function () {
+        return counter;
+    }
 };

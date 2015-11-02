@@ -58,8 +58,12 @@ if ( program.facebookinsight ) {
 
 // ----------------------- Open Graph -----------------------
 if ( program.twittercard ) {
-    var twittercard = require('./twittercard.js');
-    resultSocmed.checking.push(twittercard(url));
+    var twittercard     = require('./twittercard.js');
+    var tcCheck         = twittercard.check(url);
+    var tcCount         = twittercard.count();
+
+    resultSocmed.checking.push(tcCheck);
+    counter = counter + tcCount;
 }
 
 
