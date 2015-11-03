@@ -22,6 +22,8 @@
                                 <input id="forgot-email" class="form-input form-input--block" name="email" placeholder="Input your email here ...." type="text" required>
                                 @if (\Session::has('errors'))
                                     <span style="font-size:13px; color:red;">{{ \Session::get('errors')->first('email') }}</span>
+                                @elseif (\Session::has('status'))
+                                    <span style="font-size:13px; color:green;">{{ \Session::get('status') }}</span>
                                 @endif
                             </div>
                         </div>
