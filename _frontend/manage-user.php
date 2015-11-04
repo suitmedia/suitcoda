@@ -33,7 +33,7 @@
                                     </a>
                                 </div>
                                 <form action="">
-                                    <button class="btn box__close">
+                                    <button class="btn box__close" data-confirm="Do you want to delete this account?">
                                         <span class="fa fa-times"></span>
                                     </button>
                                 </form>

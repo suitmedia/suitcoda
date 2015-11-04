@@ -272,7 +272,8 @@
             var $trigger = $('.box__close');
 
             $trigger.on('click', function(e) {
-                var confirmDelete = window.confirm('Do you want to delete this account?');
+                var message = $(this).attr('data-confirm');
+                var confirmDelete = window.confirm(message);
 
                 if ( !confirmDelete ) {
                     e.preventDefault();

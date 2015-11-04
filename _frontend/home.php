@@ -39,7 +39,7 @@
                                     <span>Status : </span> <b class="text-green">Completed</b>
                                 </div>
                                 <form action="">
-                                    <button class="btn box__close">
+                                    <button class="btn box__close" data-confirm="Do you want to delete this project?">
                                         <span class="fa fa-times"></span>
                                     </button>
                                 </form>
@@ -59,7 +59,7 @@
                                     <span>Status : </span> <b class="text-orange">On Progress</b>
                                 </div>
                                 <form action="">
-                                    <button class="btn box__close">
+                                    <button class="btn box__close" data-confirm="Do you want to delete this project?">
                                         <span class="fa fa-times"></span>
                                     </button>
                                 </form>
@@ -79,7 +79,7 @@
                                     <span>Status : </span> <b class="text-red">Stopped</b>
                                 </div>
                                 <form action="">
-                                    <button class="btn box__close">
+                                    <button class="btn box__close" data-confirm="Do you want to delete this project?">
                                         <span class="fa fa-times"></span>
                                     </button>
                                 </form>
