@@ -1066,11 +1066,19 @@ a.box {
   right: 0;
   padding: 0 7px;
   color: white;
-  background: #949699; }
+  background: #949699;
+  display: none; }
   .box__close:hover,
   .box__close:focus {
     background: #7a7c80;
     color: white; }
+
+.touch .box__close {
+  display: block; }
+
+.box:hover .box__close,
+.box:focus .box__close {
+  display: block; }
 
 .box--block {
   width: 100%; }
