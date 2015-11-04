@@ -293,7 +293,7 @@ input[type="search"] {
   overflow: hidden; }
 
 .text-big {
-  font-size: 2.5em; }
+  font-size: 42px; }
 
 .text-orange {
   color: #f28900; }
@@ -1037,7 +1037,7 @@ a.box {
   padding: 5px;
   text-align: center;
   color: white;
-  font-size: 14px;
+  font-size: 13px;
   background: #f28900;
   float: left; }
   .box__thumbnail .text-big {
@@ -1052,7 +1052,7 @@ a.box {
     .box__thumbnail {
       width: 115px;
       height: 115px;
-      font-size: 16px; } }
+      font-size: 14px; } }
 
 .box__desc {
   width: auto;

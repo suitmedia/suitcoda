@@ -28,7 +28,7 @@
                         <div class="bzg_c block" data-col="s12,m6">
                             <a class="box box--block cf" href="project.php">
                                 <div class="box__thumbnail">
-                                    <span>Testing #12</span> <br>
+                                    <span>Inspection #000</span> <br>
                                     <b class="text-big">80%</b>
                                 </div>
                                 <div class="box__desc">
@@ -43,7 +43,7 @@
                         <div class="bzg_c block" data-col="s12,m6">
                             <a class="box box--block cf" href="project.php">
                                 <div class="box__thumbnail">
-                                    <span>Testing #12</span> <br>
+                                    <span>inspection #000</span> <br>
                                     <b class="text-big">80%</b>
                                 </div>
                                 <div class="box__desc">
@@ -58,7 +58,7 @@
                         <div class="bzg_c block" data-col="s12,m6">
                             <a class="box box--block cf" href="project.php">
                                 <div class="box__thumbnail">
-                                    <span>Testing #12</span> <br>
+                                    <span>inspection #000</span> <br>
                                     <b class="text-big">80%</b>
                                 </div>
                                 <div class="box__desc">
