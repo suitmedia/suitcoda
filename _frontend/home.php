@@ -38,6 +38,11 @@
                                     <span>Lastest update : </span> <time>23/09/2015 12.34</time> <br>
                                     <span>Status : </span> <b class="text-green">Completed</b>
                                 </div>
+                                <form action="">
+                                    <button class="btn box__close">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </form>
                             </a>
                         </div>
                         <div class="bzg_c block" data-col="s12,m6">
@@ -53,6 +58,11 @@
                                     <span>Lastest update : </span> <time>23/09/2015 12.34</time> <br>
                                     <span>Status : </span> <b class="text-orange">On Progress</b>
                                 </div>
+                                <form action="">
+                                    <button class="btn box__close">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </form>
                             </a>
                         </div>
                         <div class="bzg_c block" data-col="s12,m6">
@@ -68,6 +78,11 @@
                                     <span>Lastest update : </span> <time>23/09/2015 12.34</time> <br>
                                     <span>Status : </span> <b class="text-red">Stopped</b>
                                 </div>
+                                <form action="">
+                                    <button class="btn box__close">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </form>
                             </a>
                         </div>
                     <?php } ?>
