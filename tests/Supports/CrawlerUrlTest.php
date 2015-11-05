@@ -297,7 +297,7 @@ class CrawlerUrlTest extends TestCase
     {
         $client = $this->getMockClient()->makePartial();
 
-        $client->shouldReceive('get')->times(4)->andThrow(new \RuntimeException);
+        $client->shouldReceive('get')->times(1)->andThrow(new \Exception);
 
         return $client;
     }

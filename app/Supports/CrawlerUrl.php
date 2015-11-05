@@ -25,6 +25,13 @@ class CrawlerUrl
     protected $client;
 
     /**
+     * Flag of response content-type
+     *
+     * @var boolean
+     */
+    protected $contentType;
+
+    /**
      * Symfony DOM Crawler
      *
      * @var Object
@@ -320,7 +327,7 @@ class CrawlerUrl
             if ($responseUrl->getStatusCode() === 200 &&
                 $this->checkNotInList($effectiveUrl, $this->siteUrl)) {
                 $bodyContent = $responseUrl->getBody()->getContents();
-                $compressBodyContent = gzdeflate($bodyContent, 9);
+                $compressedBodyContent = gzdeflate($bodyContent, 9);
                 $this->crawler->addHtmlContent($bodyContent);
                 unset($bodyContent);
                 if ($this->crawler->filterXPath('//head')->count() &&
@@ -335,7 +342,7 @@ class CrawlerUrl
                         'titleTag' => $titleTag[0],
                         'desc' => $descTag[1],
                         'descTag' => $descTag[0],
-                        'bodyContent' => $compressBodyContent
+                        'bodyContent' => $compressedBodyContent
                     ]);
                 } else {
                     array_push($this->siteUrl, [
@@ -344,9 +351,11 @@ class CrawlerUrl
                         'titleTag' => '',
                         'desc' => '',
                         'descTag' => '',
-                        'bodyContent' => $compressBodyContent
+                        'bodyContent' => $compressedBodyContent
                     ]);
                 }
+                unset($compressedBodyContent);
+
                 return $responseUrl;
             }
             if ($responseUrl->getStatusCode() >= 400) {
@@ -356,8 +365,10 @@ class CrawlerUrl
             array_push($this->siteRedirectLink, $url);
             return null;
         } catch (\Exception $e) {
-            $try--;
-            return $this->doRequest($url, $try);
+            if ($this->contentType) {
+                $try--;
+                return $this->doRequest($url, $try);
+            }
         }
     }
     
@@ -376,7 +387,10 @@ class CrawlerUrl
             'http_errors' => false,
             'on_headers' => function (\Psr\Http\Message\ResponseInterface $response) {
                 if (strpos($response->getHeaderLine('Content-Type'), 'text/html') === false) {
+                    $this->contentType = false;
                     throw new \Exception;
+                } else {
+                    $this->contentType = true;
                 }
             }
         ]);
