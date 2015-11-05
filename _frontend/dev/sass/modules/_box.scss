@@ -135,9 +135,11 @@ a.box {
 
 .box__desc {
     width: auto;
-    padding: 5px;
+    padding: 5px 30px 5px 5px;
     font-size: 14px;
     overflow: hidden;
+
+
 }
 
 .box__close {
@@ -147,6 +149,7 @@ a.box {
     padding: 0 7px;
     color: white;
     background: $grey_dark;
+    display: none;
 
     &:hover,
     &:focus {
@@ -155,7 +158,18 @@ a.box {
     }
 }
 
+.touch {
+    .box__close {
+        display: block;
+    }
+}
 
+.box:hover ,
+.box:focus {
+    .box__close {
+        display: block;
+    }
+}
 
 // modifier
 .box--block {
