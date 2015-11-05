@@ -34,27 +34,41 @@ var resultSocmed = {
     checking: []
 };
 
+var counter = 0;
+
 // ----------------------- Open Graph -----------------------
 if ( program.opengraph ) {
-    var opengraph = require('./opengraph.js');
-    resultSocmed.checking.push(opengraph(url));
+    var opengraph   = require('./opengraph.js');
+    var ogCheck     = opengraph.check(url);
+    var ogCount     = opengraph.count();
+
+    resultSocmed.checking.push(ogCheck);
+    counter = counter + ogCount;
 }
 
 // -------------------- Facebook Insight --------------------
 if ( program.facebookinsight ) {
-    var fbinsight = require('./fbinsight.js');
-    resultSocmed.checking.push(fbinsight(url));
+    var fbinsight   = require('./fbinsight.js');
+    var fbCheck     = fbinsight.check(url);
+    var fbCount     = fbinsight.count();
+
+    resultSocmed.checking.push(fbCheck);
+    counter = counter + fbCount;
 }
 
 // ----------------------- Open Graph -----------------------
 if ( program.twittercard ) {
-    var twittercard = require('./twittercard.js');
-    resultSocmed.checking.push(twittercard(url));
+    var twittercard     = require('./twittercard.js');
+    var tcCheck         = twittercard.check(url);
+    var tcCount         = twittercard.count();
 
+    resultSocmed.checking.push(tcCheck);
+    counter = counter + tcCount;
 }
 
 
 // ------------------------ save to json file ------------------------
+resultSocmed.counter = counter;
 var toJson = jsonPretty(resultSocmed);
 
 function saveReport () {

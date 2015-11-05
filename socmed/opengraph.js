@@ -1,4 +1,6 @@
-module.exports = function (url) {
+var counter = 0;
+
+function check(url) {
 
     var Horseman    = require('node-horseman'),
         horseman    = new Horseman();
@@ -49,7 +51,7 @@ module.exports = function (url) {
         articleNecessaryTag.push(getTag(value));
     });
 
-    var ogImgElem           = 'meta[property="og:image"]';
+    var ogImgElem = 'meta[property="og:image"]';
 
     var ogImgNecessaryName = [
         'og:image:type',
@@ -84,6 +86,8 @@ module.exports = function (url) {
                 desc       : ogDesc
             });
         }
+        
+        counter++;
     });
 
     // cek og:type
@@ -100,6 +104,7 @@ module.exports = function (url) {
                 desc       : ogDesc
             });
         }
+        counter++;
 
         // if og:type = article
         if ( getOgType === 'article' ) {
@@ -115,6 +120,8 @@ module.exports = function (url) {
                         desc        : ogDesc
                     });
                 }
+
+                counter++;
             });
         }
     }
@@ -134,10 +141,19 @@ module.exports = function (url) {
                     error       : 'Error',
                     desc        : ogDesc
                 });
-            } 
+            }
+
+            counter++;
         });
     }
 
     horseman.close();
     return resultOpengraph;
+};
+
+module.exports = {
+    check : check,
+    count : function () {
+        return counter;
+    }
 };
