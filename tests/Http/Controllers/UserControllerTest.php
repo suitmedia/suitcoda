@@ -150,9 +150,9 @@ class UserControllerTest extends TestCase
         $request = Mockery::mock('Suitcoda\Http\Requests\UserEditRequest[all]');
         $request->shouldReceive('all')->once()->andReturn($input);
 
-        $model = Mockery::mock('Suitcoda\Model\User[update]');
+        $model = Mockery::mock('Suitcoda\Model\User[save]');
         $model->shouldReceive('findOrFailByUrlKey')->once()->andReturn($model);
-        $model->shouldReceive('update')->once();
+        $model->shouldReceive('save')->once();
 
         $user = new UserController($model);
 

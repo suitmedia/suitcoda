@@ -39,12 +39,12 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
         'save_to' => 'slug'
     ];
 
-    public function setPasswordAttribute($value)
-    {
-        if (!empty($value) || is_numeric($value)) {
-            $this->attributes[ 'password' ] = bcrypt($value);
-        }
-    }
+    // public function setPasswordAttribute($value)
+    // {
+    //     if (!empty($value) || is_numeric($value)) {
+    //         $this->attributes[ 'password' ] = bcrypt($value);
+    //     }
+    // }
 
     public function getNameAttribute($value)
     {
