@@ -1,8 +1,6 @@
 @extends('_layouts.pages')
 
-@section('title')
-    @parent - Create New Account
-@stop
+@section('title', 'Create New Account')
 
 @section('main-content')
     @parent

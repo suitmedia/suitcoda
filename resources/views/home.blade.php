@@ -1,8 +1,6 @@
 @extends('_layouts.pages')
 
-@section('title')
-    @parent - Home
-@stop
+@section('title', 'Home')
 
 @section('main-content')
     @parent

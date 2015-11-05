@@ -1,8 +1,6 @@
 @extends('_layouts.pages')
 
-@section('title')
-    @parent - Edit Account
-@stop
+@section('title', 'Edit Account')
 
 @section('main-content')
     @parent
