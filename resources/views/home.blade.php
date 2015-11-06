@@ -29,18 +29,22 @@
                     <div class="bzg_c block" data-col="s12,m6">
                         <a class="box box--block cf" href="project.php">
                             <div class="box__thumbnail">
-                                <span>Testing #12</span> <br>
+                                <span>Inspection #12</span> <br>
                                 <b class="text-big">80%</b>
                             </div>
                             <div class="box__desc">
                                 <div class="text-ellipsis">
                                     <b>{{ $model->name }}</b>
                                 </div>
-                                {{-- {{ dd($model) }} --}}
                                 <span>Url : </span> {{ $model->main_url }} <br>
                                 <span>Lastest update : </span> <time>{{ $model->updated_at }}</time> <br>
                                 <span>Status : </span> <b class="text-green">Completed</b>
                             </div>
+                            {!! Form::model($model, ['route' => ['project.destroy', $model], 'method' => 'DELETE']) !!}
+                                <button type="submit" class="btn box__close" data-confirm="Do you want to delete this project?">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                            {!! Form::close() !!}
                         </a>
                     </div>
                 @endforeach

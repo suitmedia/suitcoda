@@ -85,4 +85,27 @@ class ProjectControllerTest extends TestCase
         
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $user->store($request));
     }
+
+    public function testUnitDelete()
+    {
+        $model = Mockery::mock(Project::class);
+        $project = new ProjectController($model);
+        
+        $model->shouldReceive('findOrFailByUrlKey')->andReturn($model);
+        $model->shouldReceive('delete')->once()->andReturn(true);
+
+        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $project->destroy(1));
+    }
+
+    /**
+     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     */
+    public function testProjectNotFound()
+    {
+        $model = Mockery::mock(Project::class);
+        $group = new ProjectController($model);
+        $model->shouldReceive('findOrFailByUrlKey')->once()->andReturn(null);
+        $result =  $group->destroy(1);
+    }
 }

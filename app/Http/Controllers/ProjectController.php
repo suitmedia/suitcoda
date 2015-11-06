@@ -57,4 +57,35 @@ class ProjectController extends BaseController
 
         return redirect()->route('home');
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  string  $key
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($key)
+    {
+        $model = $this->find($key);
+        $model->delete();
+
+        return redirect()->route('home');
+    }
+
+    /**
+     * Find operation
+     * @param  string $key
+     * @return Suitcoda\Model\Project
+     *
+     * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    protected function find($key)
+    {
+        $result = $this->model->findOrFailByUrlKey($key);
+
+        if (empty($result)) {
+            return abort(404);
+        }
+        return $result;
+    }
 }

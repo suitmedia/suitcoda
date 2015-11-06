@@ -36,6 +36,10 @@ Route::group([ 'middleware' => 'auth' ], function () {
         'as' => 'project.store',
         'uses' => 'ProjectController@store'
     ]);
+    Route::delete('/project/{project}', [
+        'as' => 'project.destroy',
+        'uses' => 'ProjectController@destroy'
+    ]);
     Route::get('logout', 'Auth\AuthController@getLogout');
     Route::group([ 'middleware' => 'role' ], function () {
         Route::resource('user', 'UserController');

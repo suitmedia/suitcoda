@@ -34,7 +34,7 @@
                             </div>
                             @if (!$model->isAdmin())
                                 {!! Form::model($model, ['route' => ['user.destroy', $model], 'method' => 'DELETE']) !!}
-                                    <button class="btn box__close">
+                                    <button type="submit" class="btn box__close" data-confirm="Do you want to delete this account?">
                                         <span class="fa fa-times"></span>
                                     </button>
                                 {!! Form::close() !!}
