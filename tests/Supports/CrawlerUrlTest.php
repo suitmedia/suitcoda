@@ -7,6 +7,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Mockery;
 use SuitTests\TestCase;
+use SuitcodaStub\Supports\CrawlerUrlStub;
 use Suitcoda\Supports\CrawlerUrl;
 use Suitcoda\Supports\EffectiveUrlMiddleware;
 use Symfony\Component\DomCrawler\Crawler;
@@ -334,18 +335,5 @@ class CrawlerUrlTest extends TestCase
         $domCrawler->shouldReceive('extract')->andReturn($links);
 
         return $domCrawler;
-    }
-}
-
-class CrawlerUrlStub extends CrawlerUrl
-{
-    public function setContentTypeFlag($value)
-    {
-        $this->contentType = $value;
-    }
-
-    public function getContentType()
-    {
-        return $this->contentType;
     }
 }
