@@ -2,6 +2,8 @@
 
 namespace SuitcodaStub\Supports;
 
+use Suitcoda\Supports\CrawlerUrl;
+
 class CrawlerUrlStub extends CrawlerUrl
 {
     public function setContentTypeFlag($value)
