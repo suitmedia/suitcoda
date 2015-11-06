@@ -1,6 +1,5 @@
 var fs          = require('fs-extra'),
     sh          = require('shelljs'),
-    yslow       = require('yslow'),
     program     = require('commander'),
     jsonPretty  = require('json-pretty');
 
@@ -65,8 +64,7 @@ fs.readFile('./' + outputYSlow,'utf-8' , function (err, data) {
     if (err) throw err;
 
     var jsonYSlow           = JSON.parse( data ),
-        jsonYSlowChecking   = jsonYSlow.g,
-        keys                = Object.keys(jsonYSlowChecking);
+        jsonYSlowChecking   = jsonYSlow.g;
 
     resultYSlow.overallScore = jsonYSlow.o;
 
