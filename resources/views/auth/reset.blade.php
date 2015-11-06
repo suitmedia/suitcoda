@@ -15,12 +15,23 @@
                         <input type="hidden" name="token" value="{{ $token }}">
                         <div class="bzg block-half">
                             <div class="bzg_c" data-col="s12,m5">
+                                <label for="email" class="form-label">Email :</label>
+                            </div>
+                            <div class="bzg_c" data-col="s12,m7">
+                                <input id="email" class="form-input form-input--block" name="email" type="text" required>
+                                @if (\Session::has('errors'))
+                                    <span style="font-size:13px; color:red;">{{ \Session::get('errors')->first('email') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="bzg block-half">
+                            <div class="bzg_c" data-col="s12,m5">
                                 <label for="new-pass" class="form-label">New Password :</label>
                             </div>
                             <div class="bzg_c" data-col="s12,m7">
-                                <input id="forgot-email" class="form-input form-input--block" name="email" type="text" required>
+                                <input id="new-pass" class="form-input form-input--block" name="password" type="password" required>
                                 @if (\Session::has('errors'))
-                                    <span style="font-size:13px; color:red;">{{ \Session::get('errors')->first('email') }}</span>
+                                    <span style="font-size:13px; color:red;">{{ \Session::get('errors')->first('password') }}</span>
                                 @endif
                             </div>
                         </div>
@@ -29,7 +40,7 @@
                                 <label for="new-pass-conf" class="form-label">Confirm New Password :</label>
                             </div>
                             <div class="bzg_c" data-col="s12,m7">
-                                <input id="password_confirmation" class="form-input form-input--block" name="password_confirmation" type="password" required>
+                                <input id="new-pass-conf" class="form-input form-input--block" name="password_confirmation" type="password" required>
                                 @if (\Session::has('errors'))
                                     <span style="font-size:13px; color:red;">{{ \Session::get('errors')->first('password_confirmation') }}</span>
                                 @endif

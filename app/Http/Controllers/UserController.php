@@ -50,7 +50,8 @@ class UserController extends BaseController
     public function store(UserCreateRequest $request)
     {
         $model = $this->models->newInstance();
-        $model->fill($request->all());
+        $model->fill($request->except('password'));
+        $model->password = bcrypt($request->input('password'));
         $model->save();
 
         return redirect()->route('user.index');
@@ -79,7 +80,9 @@ class UserController extends BaseController
     public function update(UserEditRequest $request, $key)
     {
         $model = $this->find($key);
-        $model->update($request->all());
+        $model->fill($request->except('password'));
+        $model->password = bcrypt($request->input('password'));
+        $model->save();
 
         return redirect()->route('user.index');
     }
