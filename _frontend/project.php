@@ -47,7 +47,7 @@
                     <div class="flex-project">
                         <div class="flex-project__item flex-project__item-main block cf">
                             <h2 class="subtitle float-left fix-margin">Testing List</h2>
-                            <button class="btn-new-testing btn btn--grey btn--regular float-right">New Testing</button> <br>
+                            <button class="btn-new-testing btn btn--grey btn--regular float-right text-small">New Inspection</button> <br>
                             
                             <!-- if no testing yet -->
                             <span class="empty-state">There is no testing yet.</span>
