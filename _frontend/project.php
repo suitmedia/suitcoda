@@ -173,7 +173,7 @@
                 <!-- create new testing -->
                 <section id="newtesting" class="project-content">
                     <h2 class="subtitle">Create New Testing</h2>
-                    <form action="">                    
+                    <form id="form-inspection-options" action="">                    
                         <div class="bzg">
                             <div class="bzg_c" data-col="s12,m6">
                                 <fieldset class="box box-fieldset box--block block">
@@ -275,6 +275,13 @@
                                     </label> <br>
                                 </fieldset>
                             </div>
+                        </div>
+                        
+                        <div class="block-half">
+                            <label class="block">
+                                <input type="checkbox" class="check-all" data-target="form-inspection-options">
+                                Check All
+                            </label>
                         </div>
 
                         <button class="btn btn--primary btn--regular">

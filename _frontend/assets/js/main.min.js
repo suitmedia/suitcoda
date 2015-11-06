@@ -35,6 +35,7 @@
             Site.showIssueCode();
             Site.validateForm();
             Site.deleteWarn();
+            Site.checkAllCheckbox();
 
             window.Site = Site;
         },
@@ -277,6 +278,23 @@
 
                 if ( !confirmDelete ) {
                     e.preventDefault();
+                }
+            });
+        },
+
+        checkAllCheckbox: function () {
+            var $trigger = $('.check-all');
+
+            $trigger.on('click', function(event) {
+                var getTarget   = $(this).attr("data-target");
+                var $getForm    = $('#' + getForm);
+
+                var $allCheckbox = $getForm.find(':checkbox');
+
+                if ( $(this).prop('checked') ) {
+                    $allCheckbox.prop('checked', true);
+                } else {
+                    $allCheckbox.prop('checked', false);
                 }
             });
         }
