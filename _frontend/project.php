@@ -47,7 +47,9 @@
                     <div class="flex-project">
                         <div class="flex-project__item flex-project__item-main block cf">
                             <h2 class="subtitle float-left fix-margin">Testing List</h2>
-                            <button class="btn-new-testing btn btn--grey btn--regular float-right">New Testing</button> <br>
+                            <button class="btn-new-testing btn btn--grey btn--regular float-right">
+                                <small>New Inspection</small>
+                            </button> <br>
                             
                             <!-- if no testing yet -->
                             <span class="empty-state">There is no testing yet.</span>
@@ -173,7 +175,7 @@
                 <!-- create new testing -->
                 <section id="newtesting" class="project-content">
                     <h2 class="subtitle">Create New Testing</h2>
-                    <form action="">                    
+                    <form id="form-inspection-options" action="">                    
                         <div class="bzg">
                             <div class="bzg_c" data-col="s12,m6">
                                 <fieldset class="box box-fieldset box--block block">
@@ -275,6 +277,13 @@
                                     </label> <br>
                                 </fieldset>
                             </div>
+                        </div>
+                        
+                        <div class="block-half">
+                            <label class="block">
+                                <input type="checkbox" class="check-all" data-target="form-inspection-options">
+                                Check All
+                            </label>
                         </div>
 
                         <button class="btn btn--primary btn--regular">
