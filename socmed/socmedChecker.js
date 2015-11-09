@@ -15,11 +15,7 @@ program
 .parse(process.argv);
 
 var url     = program.url;
-var dest    = program.destination;
-
-if ( !dest ){
-    dest = '';
-}
+var dest    = program.destination || '';
 
 // validation url
 if ( !isUrl(url) ){

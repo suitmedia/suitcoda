@@ -11,16 +11,8 @@ program
 .parse(process.argv);
 
 var url         = program.url;
-var dest        = program.destination;
-var strategy    = program.strategy;
-
-if ( !strategy ) {
-    strategy = 'desktop';
-}
-
-if ( !dest ){
-    dest = '';
-}
+var dest        = program.destination || '';
+var strategy    = program.strategy || 'desktop';
  
 var option = {
     strategy : strategy

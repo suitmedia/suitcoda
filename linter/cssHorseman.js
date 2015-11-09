@@ -18,11 +18,7 @@ program
     .parse(process.argv);
 
 var url     = program.url,
-    dest    = program.destination;
-
-if ( !dest ) {
-    dest = '';
-}
+    dest    = program.destination || '';
 
 if ( !isUrl(url) ) {
     console.log('ERROR: this is not an url');

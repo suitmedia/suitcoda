@@ -14,12 +14,7 @@ program
 .parse(process.argv);
 
 var url     = program.url;
-var dest    = '';
-    dest    = program.destination;
-
-if ( !dest ) {
-    dest = '';
-}
+var dest    = program.destination || '';
 
 if ( !isUrl(url) ) {
     console.log('ERROR: this is not an url');
