@@ -287,7 +287,7 @@
 
             $trigger.on('click', function(event) {
                 var getTarget   = $(this).attr("data-target");
-                var $getForm    = $('#' + getForm);
+                var $getForm    = $('#' + getTarget);
 
                 var $allCheckbox = $getForm.find(':checkbox');
 
