@@ -5,6 +5,7 @@ namespace Suitcoda\Supports;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Sabre\Uri;
+use Suitcoda\Exceptions\HtmlContentTypeException;
 use Suitcoda\Supports\EffectiveUrlMiddleware;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -23,13 +24,6 @@ class CrawlerUrl
      * @var Object
      */
     protected $client;
-
-    /**
-     * Flag of response content-type
-     *
-     * @var boolean
-     */
-    protected $contentType;
 
     /**
      * Symfony DOM Crawler
@@ -365,7 +359,7 @@ class CrawlerUrl
             array_push($this->siteRedirectLink, $url);
             return null;
         } catch (\Exception $e) {
-            if ($this->contentType) {
+            if (!($e->getPrevious() instanceof HtmlContentTypeException)) {
                 $try--;
                 return $this->doRequest($url, $try);
             }
@@ -387,10 +381,7 @@ class CrawlerUrl
             'http_errors' => false,
             'on_headers' => function (\Psr\Http\Message\ResponseInterface $response) {
                 if (strpos($response->getHeaderLine('Content-Type'), 'text/html') === false) {
-                    $this->contentType = false;
-                    throw new \Exception;
-                } else {
-                    $this->contentType = true;
+                    throw new HtmlContentTypeException;
                 }
             }
         ]);

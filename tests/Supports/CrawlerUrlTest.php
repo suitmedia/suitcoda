@@ -7,7 +7,6 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Mockery;
 use SuitTests\TestCase;
-use SuitcodaStub\Supports\CrawlerUrlStub;
 use Suitcoda\Supports\CrawlerUrl;
 use Suitcoda\Supports\EffectiveUrlMiddleware;
 use Symfony\Component\DomCrawler\Crawler;
@@ -184,8 +183,7 @@ class CrawlerUrlTest extends TestCase
         $client = $this->getMockClientException();
         $domCrawler = $this->getMockDomCrawler()->makePartial();
 
-        $crawl = new CrawlerUrlStub($client, $domCrawler);
-        $crawl->setContentTypeFlag(true);
+        $crawl = new CrawlerUrl($client, $domCrawler);
         $result = $crawl->doRequest('http://example.com/unknown');
 
         $this->assertEquals(null, $result);
