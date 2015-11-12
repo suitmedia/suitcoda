@@ -1,6 +1,6 @@
 // ---------------------- dependency ----------------------
 var isUrl       = require('is-url'),
-    fs          = require('fs'),
+    fs          = require('fs-extra'),
     jsonPretty  = require('json-pretty'),
     program     = require('commander');
 
@@ -30,7 +30,7 @@ var dest;
 
 fs.exists(program.destination, function (exists) {
     if ( !exists ) {
-        fs.mkdirSync( program.destination );
+        fs.mkdirsSync( program.destination );
     }
     dest = './' + program.destination;
 

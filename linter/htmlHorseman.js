@@ -1,7 +1,7 @@
 // ------------------------- dependency -------------------------
 var Horseman    = require('node-horseman'),
     horseman    = new Horseman(),
-    fs          = require('fs'),
+    fs          = require('fs-extra'),
     isUrl       = require('is-url'),
     jsonPretty  = require('json-pretty'),
     program     = require('commander');
@@ -44,7 +44,7 @@ var w3ResultError,
 
 fs.exists(program.destination, function (exists) {
     if ( !exists ) {
-        fs.mkdirSync( program.destination );
+        fs.mkdirsSync( program.destination );
     }
     dest = './' + program.destination;
 
