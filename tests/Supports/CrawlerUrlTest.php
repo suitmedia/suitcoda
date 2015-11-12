@@ -2,13 +2,14 @@
 
 namespace SuitTests\Supports;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 use Mockery;
 use SuitTests\TestCase;
 use Suitcoda\Supports\CrawlerUrl;
-use GuzzleHttp\Client;
-use Symfony\Component\DomCrawler\Crawler;
-use GuzzleHttp\HandlerStack;
 use Suitcoda\Supports\EffectiveUrlMiddleware;
+use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlerUrlTest extends TestCase
 {
@@ -293,11 +294,20 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals([], $crawl->getSiteRedirectUrl());
     }
 
+    public function testDoRequestWithImgContentType()
+    {
+        $client = new Client();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+
+        $crawl = new CrawlerUrl($client, $domCrawler);
+        $result = $crawl->doRequest('https://www.google.co.id/images/branding/product/ico/googleg_lodp.ico');
+    }
+
     protected function getMockClientException()
     {
         $client = $this->getMockClient()->makePartial();
 
-        $client->shouldReceive('get')->times(4)->andThrow(new \RuntimeException);
+        $client->shouldReceive('get')->times(4)->andThrow(new \Exception);
 
         return $client;
     }
@@ -307,22 +317,6 @@ class CrawlerUrlTest extends TestCase
         $client = Mockery::mock(Client::class);
 
         return $client;
-    }
-
-    protected function getMockStatusCodeSuccess()
-    {
-        $response = Mockery::mock(Response::class);
-        $response->shouldReceive('getStatus')->andReturn(200);
-
-        return $response;
-    }
-
-    protected function getMockStatusCodeFailed()
-    {
-        $response = Mockery::mock(Response::class);
-        $response->shouldReceive('getStatus')->andReturn(404);
-
-        return $response;
     }
 
     protected function getMockDomCrawler()

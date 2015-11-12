@@ -27,7 +27,8 @@
         ],
         "psr-4": {
             "Suitcoda\\": "app/",
-            "SuitTests\\": "tests/"
+            "SuitTests\\": "tests/",
+            "SuitcodaStub\\": "stub/"
         }
     },
     "scripts": {
