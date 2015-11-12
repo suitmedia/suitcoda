@@ -39,6 +39,9 @@ var isHtml5 = horseman
 var isHtml4 = horseman
     .exists('.msg_err');
 
+var w3ResultError,
+    w3ResultWarning;
+
 fs.exists(program.destination, function (exists) {
     if ( !exists ) {
         fs.mkdirSync( program.destination );
@@ -46,8 +49,7 @@ fs.exists(program.destination, function (exists) {
     dest = './' + program.destination;
 
     if ( isHtml5 ) {
-        var w3ResultError = horseman
-            .evaluate( function (selector) {
+        w3ResultError = horseman.evaluate( function (selector) {
                 
                 var $results    = $(selector);
                 var $errors     = $results.find('.error');
@@ -71,8 +73,7 @@ fs.exists(program.destination, function (exists) {
 
             } , '#results' );
 
-        var w3ResultWarning = horseman
-            .evaluate( function (selector) {
+        w3ResultWarning = horseman.evaluate( function (selector) {
                 
                 var $results    = $(selector);
                 var $errors     = $results.find('.error');
@@ -105,18 +106,17 @@ fs.exists(program.destination, function (exists) {
             });
         }
 
-        for ( var i = 0; i < w3ResultWarning.warningMsg.length; i++ ) {
+        for ( var j = 0; j < w3ResultWarning.warningMsg.length; j++ ) {
             resultHTMLLinter.checking.push({
                 type    : 'Warning',
-                desc    : w3ResultWarning.warningMsg[i],
-                line    : w3ResultWarning.warningLine[i],
-                code    : w3ResultWarning.warningCode[i]
+                desc    : w3ResultWarning.warningMsg[j],
+                line    : w3ResultWarning.warningLine[j],
+                code    : w3ResultWarning.warningCode[j]
             });
         }
 
     } else if ( isHtml4 ) {
-        var w3ResultError = horseman
-            .evaluate( function (selector) {
+        w3ResultError = horseman.evaluate( function (selector) {
                 
                 var $results    = $(selector);
                 var $errors     = $results.find('.msg_err');
@@ -138,8 +138,7 @@ fs.exists(program.destination, function (exists) {
 
             } , '#result' );
 
-        var w3ResultWarning = horseman
-            .evaluate( function (selector) {
+        w3ResultWarning = horseman.evaluate( function (selector) {
                 
                 var $results    = $(selector);
                 var $errors     = $results.find('.msg_err');
@@ -161,19 +160,19 @@ fs.exists(program.destination, function (exists) {
 
             } , '#result' );
 
-        for ( var i = 0; i < w3ResultError.errorMsg.length; i++ ) {
+        for ( var l = 0; l < w3ResultError.errorMsg.length; l++ ) {
             resultHTMLLinter.checking.push({
                 type    : 'Error',
-                desc    : w3ResultError.errorMsg[i],
-                line    : w3ResultError.errorLine[i]
+                desc    : w3ResultError.errorMsg[l],
+                line    : w3ResultError.errorLine[l]
             });
         }
 
-        for ( var i = 0; i < w3ResultWarning.warningMsg.length; i++ ) {
+        for ( var k = 0; k < w3ResultWarning.warningMsg.length; k++ ) {
             resultHTMLLinter.checking.push({
                 type    : 'Warning',
-                desc    : w3ResultWarning.warningMsg[i],
-                line    : w3ResultWarning.warningLine[i]
+                desc    : w3ResultWarning.warningMsg[k],
+                line    : w3ResultWarning.warningLine[k]
             });
         }
     } 
@@ -189,5 +188,5 @@ function saveReport(path, content) {
     fs.writeFile(path + 'resultHTML.json', content, function (err) {
         if (err) throw err;
     }); 
-};
+}
     
