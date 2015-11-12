@@ -39,148 +39,154 @@ var isHtml5 = horseman
 var isHtml4 = horseman
     .exists('.msg_err');
 
-if ( isHtml5 ) {
-    var w3ResultError = horseman
-        .evaluate( function (selector) {
-            
-            var $results    = $(selector);
-            var $errors     = $results.find('.error');
-            var $warnings   = $results.find('.info.warning');
+var w3ResultError,
+    w3ResultWarning;
 
-            var errors_msg      = [],
-                errors_line     = [],
-                errors_code     = [];
-
-            $.each($errors, function (index, elem) {
-                errors_msg.push( $(elem).find('p:first-child span').text() );
-                errors_line.push( $(elem).find('.location .first-line').text() );
-                errors_code.push( $(elem).find('.extract').text() );
-            });
-
-            return {
-                errorMsg  : errors_msg,
-                errorLine : errors_line,
-                errorCode : errors_code
-            };
-
-        } , '#results' );
-
-    var w3ResultWarning = horseman
-        .evaluate( function (selector) {
-            
-            var $results    = $(selector);
-            var $errors     = $results.find('.error');
-            var $warnings   = $results.find('.info.warning');
-
-            var warnings_msg    = [],
-                warnings_line   = [],
-                warnings_code   = [];
-
-            $.each($warnings, function(index, elem) {
-                warnings_msg.push( $(elem).find('p:first-child span').text() );
-                warnings_line.push( $(elem).find('.location .first-line').text() );
-                warnings_code.push( $(elem).find('.extract').text() );
-            });
-
-            return {
-                warningMsg  : warnings_msg,
-                warningLine : warnings_line,
-                warningCode : warnings_code
-            };
-
-        } , '#results' );
-
-    for ( var i = 0; i < w3ResultError.errorMsg.length; i++ ) {
-        resultHTMLLinter.checking.push({
-            type    : 'Error',
-            desc    : w3ResultError.errorMsg[i],
-            line    : w3ResultError.errorLine[i],
-            code    : w3ResultError.errorCode[i]
-        });
+fs.exists(program.destination, function (exists) {
+    if ( !exists ) {
+        fs.mkdirSync( program.destination );
     }
+    dest = './' + program.destination;
 
-    for ( var i = 0; i < w3ResultWarning.warningMsg.length; i++ ) {
-        resultHTMLLinter.checking.push({
-            type    : 'Warning',
-            desc    : w3ResultWarning.warningMsg[i],
-            line    : w3ResultWarning.warningLine[i],
-            code    : w3ResultWarning.warningCode[i]
-        });
-    }
+    if ( isHtml5 ) {
+        w3ResultError = horseman.evaluate( function (selector) {
+                
+                var $results    = $(selector);
+                var $errors     = $results.find('.error');
+                var $warnings   = $results.find('.info.warning');
 
-} else if ( isHtml4 ) {
-    var w3ResultError = horseman
-        .evaluate( function (selector) {
-            
-            var $results    = $(selector);
-            var $errors     = $results.find('.msg_err');
-            var $warnings   = $results.find('.msg_warn');
+                var errors_msg      = [],
+                    errors_line     = [],
+                    errors_code     = [];
 
-            var errors_msg       = [],
-                errors_line      = [],
-                errors_code      = [];
+                $.each($errors, function (index, elem) {
+                    errors_msg.push( $(elem).find('p:first-child span').text() );
+                    errors_line.push( $(elem).find('.location .first-line').text() );
+                    errors_code.push( $(elem).find('.extract').text() );
+                });
 
-            $.each($errors, function (index, elem) {
-                errors_msg.push( $(elem).find('.msg').text() );
-                errors_line.push( $(elem).find('em').text() );
+                return {
+                    errorMsg  : errors_msg,
+                    errorLine : errors_line,
+                    errorCode : errors_code
+                };
+
+            } , '#results' );
+
+        w3ResultWarning = horseman.evaluate( function (selector) {
+                
+                var $results    = $(selector);
+                var $errors     = $results.find('.error');
+                var $warnings   = $results.find('.info.warning');
+
+                var warnings_msg    = [],
+                    warnings_line   = [],
+                    warnings_code   = [];
+
+                $.each($warnings, function(index, elem) {
+                    warnings_msg.push( $(elem).find('p:first-child span').text() );
+                    warnings_line.push( $(elem).find('.location .first-line').text() );
+                    warnings_code.push( $(elem).find('.extract').text() );
+                });
+
+                return {
+                    warningMsg  : warnings_msg,
+                    warningLine : warnings_line,
+                    warningCode : warnings_code
+                };
+
+            } , '#results' );
+
+        for ( var i = 0; i < w3ResultError.errorMsg.length; i++ ) {
+            resultHTMLLinter.checking.push({
+                type    : 'Error',
+                desc    : w3ResultError.errorMsg[i],
+                line    : w3ResultError.errorLine[i],
+                code    : w3ResultError.errorCode[i]
             });
+        }
 
-            return {
-                errorMsg  : errors_msg,
-                errorLine : errors_line
-            };
-
-        } , '#result' );
-
-    var w3ResultWarning = horseman
-        .evaluate( function (selector) {
-            
-            var $results    = $(selector);
-            var $errors     = $results.find('.msg_err');
-            var $warnings   = $results.find('.msg_warn');
-
-            var warnings_msg     = [],
-                warnings_line    = [],
-                warnings_code    = [];
-
-            $.each($warnings, function (index, elem) {
-                warnings_msg.push( $(elem).find('.msg').text() );
-                warnings_line.push( $(elem).find('em').text() );
+        for ( var j = 0; j < w3ResultWarning.warningMsg.length; j++ ) {
+            resultHTMLLinter.checking.push({
+                type    : 'Warning',
+                desc    : w3ResultWarning.warningMsg[j],
+                line    : w3ResultWarning.warningLine[j],
+                code    : w3ResultWarning.warningCode[j]
             });
+        }
 
-            return {
-                warningMsg  : warnings_msg,
-                warningLine : warnings_line
-            };
+    } else if ( isHtml4 ) {
+        w3ResultError = horseman.evaluate( function (selector) {
+                
+                var $results    = $(selector);
+                var $errors     = $results.find('.msg_err');
+                var $warnings   = $results.find('.msg_warn');
 
-        } , '#result' );
+                var errors_msg       = [],
+                    errors_line      = [],
+                    errors_code      = [];
 
-    for ( var i = 0; i < w3ResultError.errorMsg.length; i++ ) {
-        resultHTMLLinter.checking.push({
-            type    : 'Error',
-            desc    : w3ResultError.errorMsg[i],
-            line    : w3ResultError.errorLine[i]
-        });
-    }
+                $.each($errors, function (index, elem) {
+                    errors_msg.push( $(elem).find('.msg').text() );
+                    errors_line.push( $(elem).find('em').text() );
+                });
 
-    for ( var i = 0; i < w3ResultWarning.warningMsg.length; i++ ) {
-        resultHTMLLinter.checking.push({
-            type    : 'Warning',
-            desc    : w3ResultWarning.warningMsg[i],
-            line    : w3ResultWarning.warningLine[i]
-        });
-    }
-} 
+                return {
+                    errorMsg  : errors_msg,
+                    errorLine : errors_line
+                };
 
-// ------------------------ save to json file ------------------------
-var toJson = jsonPretty(resultHTMLLinter);
+            } , '#result' );
 
-function saveReport() {
-    fs.writeFile(dest + 'resultHTML.json', toJson, function (err) {
+        w3ResultWarning = horseman.evaluate( function (selector) {
+                
+                var $results    = $(selector);
+                var $errors     = $results.find('.msg_err');
+                var $warnings   = $results.find('.msg_warn');
+
+                var warnings_msg     = [],
+                    warnings_line    = [],
+                    warnings_code    = [];
+
+                $.each($warnings, function (index, elem) {
+                    warnings_msg.push( $(elem).find('.msg').text() );
+                    warnings_line.push( $(elem).find('em').text() );
+                });
+
+                return {
+                    warningMsg  : warnings_msg,
+                    warningLine : warnings_line
+                };
+
+            } , '#result' );
+
+        for ( var l = 0; l < w3ResultError.errorMsg.length; l++ ) {
+            resultHTMLLinter.checking.push({
+                type    : 'Error',
+                desc    : w3ResultError.errorMsg[l],
+                line    : w3ResultError.errorLine[l]
+            });
+        }
+
+        for ( var k = 0; k < w3ResultWarning.warningMsg.length; k++ ) {
+            resultHTMLLinter.checking.push({
+                type    : 'Warning',
+                desc    : w3ResultWarning.warningMsg[k],
+                line    : w3ResultWarning.warningLine[k]
+            });
+        }
+    } 
+
+    // ------------------------ save to json file ------------------------
+    var toJson = jsonPretty(resultHTMLLinter);
+    saveReport(dest, toJson);
+
+    horseman.close();    
+});
+
+function saveReport(path, content) {
+    fs.writeFile(path + 'resultHTML.json', content, function (err) {
         if (err) throw err;
-    });	
-};
-
-saveReport();
-
-horseman.close();
+    }); 
+}
+    

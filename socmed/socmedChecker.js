@@ -14,47 +14,51 @@ program
 .option('-f, --facebookinsight', 'Include Facebook Insight Validation')
 .parse(process.argv);
 
-var url     = program.url;
-var dest    = program.destination || '';
-
+var url = program.url;
 // validation url
-if ( !isUrl(url) ){
+if ( !isUrl(url) ) {
     console.log('ERROR: this is not an url');
     process.exit(1);
 }
 
-// -------------------- initialization --------------------
 var resultSocmed = {
     name    : 'Social Media',
     url     : url,
     checking: []
 };
+var dest;
 
-// ----------------------- Open Graph -----------------------
-if ( program.opengraph ) {
-    var opengraph = require('./opengraph.js');
-    resultSocmed.checking.push(opengraph(url));
-}
+fs.exists(program.destination, function (exists) {
+    if ( !exists ) {
+        fs.mkdirSync( program.destination );
+    }
+    dest = './' + program.destination;
 
-// -------------------- Facebook Insight --------------------
-if ( program.facebookinsight ) {
-    var fbinsight = require('./fbinsight.js');
-    resultSocmed.checking.push(fbinsight(url));
-}
+    // ----------------------- Open Graph -----------------------
+    if ( program.opengraph ) {
+        var opengraph = require('./opengraph.js');
+        resultSocmed.checking.push(opengraph(url));
+    }
 
-// ----------------------- Open Graph -----------------------
-if ( program.twittercard ) {
-    var twittercard = require('./twittercard.js');
-    resultSocmed.checking.push(twittercard(url));
+    // -------------------- Facebook Insight --------------------
+    if ( program.facebookinsight ) {
+        var fbinsight = require('./fbinsight.js');
+        resultSocmed.checking.push(fbinsight(url));
+    }
 
-}
+    // ----------------------- Open Graph -----------------------
+    if ( program.twittercard ) {
+        var twittercard = require('./twittercard.js');
+        resultSocmed.checking.push(twittercard(url));
+    }
 
+    // ------------------------ save to json file ------------------------
+    var toJson = jsonPretty(resultSocmed);
+    saveReport(dest, toJson);
+});
 
-// ------------------------ save to json file ------------------------
-var toJson = jsonPretty(resultSocmed);
-
-function saveReport () {
-    fs.writeFile(dest + 'resultSocmed.json', toJson, function (err) {
+function saveReport (path, content) {
+    fs.writeFile(path + 'resultSocmed.json', content, function (err) {
         if (err) {
             throw err;
         } else {
@@ -62,5 +66,3 @@ function saveReport () {
         }
     }); 
 }
-
-saveReport();
