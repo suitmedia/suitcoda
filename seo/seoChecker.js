@@ -132,8 +132,8 @@ fs.exists(program.destination, function (exists) {
 
                 }, 'img');
             
-            for (var i = 0; i < noAltTextCode.length; i++) {
-                errDesc = 'This Image Tag ' + noAltTextCode[i] + ' has no Alternate Text. Please add the alternate text to keep the standarization.';
+            for (var j = 0; j < noAltTextCode.length; j++) {
+                errDesc = 'This Image Tag ' + noAltTextCode[j] + ' has no Alternate Text. Please add the alternate text to keep the standarization.';
                 pushErrMsg(errDesc);
             }
         }
@@ -232,7 +232,7 @@ fs.exists(program.destination, function (exists) {
                 pushWarnMsg(errDesc);
             }
         } else {
-            errDesc = 'Tag <h1> is not found. Please add tag <h1></hi> to keep the standarization.'
+            errDesc = 'Tag <h1> is not found. Please add tag <h1></hi> to keep the standarization.';
             pushErrMsg(errDesc);
         }
     }
