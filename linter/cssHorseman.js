@@ -35,7 +35,7 @@ var resultCSSLinter = {
 
 fs.exists(program.destination, function (exists) {
     if ( !exists ) {
-        fs.mkdir(program.destination , function () {});
+        fs.mkdirSync( program.destination );
     }
     dest = './' + program.destination;
 

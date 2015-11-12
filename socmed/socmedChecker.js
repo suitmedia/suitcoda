@@ -14,13 +14,13 @@ program
 .option('-f, --facebookinsight', 'Include Facebook Insight Validation')
 .parse(process.argv);
 
+var url = program.url;
 // validation url
-if ( !isUrl(url) ){
+if ( !isUrl(url) ) {
     console.log('ERROR: this is not an url');
     process.exit(1);
 }
 
-var url = program.url;
 var resultSocmed = {
     name    : 'Social Media',
     url     : url,
@@ -30,7 +30,7 @@ var dest;
 
 fs.exists(program.destination, function (exists) {
     if ( !exists ) {
-        fs.mkdir(program.destination , function () {});
+        fs.mkdirSync( program.destination );
     }
     dest = './' + program.destination;
 

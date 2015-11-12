@@ -41,7 +41,7 @@ var isHtml4 = horseman
 
 fs.exists(program.destination, function (exists) {
     if ( !exists ) {
-        fs.mkdir(program.destination , function () {});
+        fs.mkdirSync( program.destination );
     }
     dest = './' + program.destination;
 
@@ -181,7 +181,7 @@ fs.exists(program.destination, function (exists) {
     // ------------------------ save to json file ------------------------
     var toJson = jsonPretty(resultHTMLLinter);
     saveReport(dest, toJson);
-    
+
     horseman.close();    
 });
 
