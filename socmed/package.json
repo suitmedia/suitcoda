@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "commander": "^2.8.1",
+    "fs-extra": "^0.26.2",
     "is-url": "^1.2.1",
     "json-pretty": "0.0.1",
     "node-horseman": "^1.5.6"

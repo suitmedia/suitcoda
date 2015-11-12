@@ -57,7 +57,7 @@ var i = 0;
 
 fs.exists(program.destination, function (exists) {
     if ( !exists ) {
-        fs.mkdirSync( program.destination );
+        fs.mkdirsSync( program.destination );
     }
     dest = './' + program.destination;
 

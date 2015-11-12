@@ -1,5 +1,5 @@
 var psi         = require('psi'),
-    fs          = require('fs'),
+    fs          = require('fs-extra'),
     jsonPretty  = require('json-pretty'),
     program     = require('commander');
 
@@ -20,7 +20,7 @@ var option = {
 
 fs.exists(program.destination, function (exists) {
     if ( !exists ) {
-        fs.mkdirSync( program.destination );
+        fs.mkdirsSync( program.destination );
     }
     dest = './' + program.destination;
 

@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^2.9.0",
+    "fs-extra": "^0.26.2",
     "json-pretty": "0.0.1",
     "psi": "^1.0.6"
   }
