@@ -10,7 +10,7 @@ program
 .parse(process.argv);
 
 var url     = program.url;
-var dest    = program.destination || '';
+var dest;
 
 var outputYSlow = 'tempYSlow.json';
 
@@ -54,35 +54,45 @@ var checkingName = [
 ];
 
 var i = 0;
-// -------------------------- read yslow file output --------------------------
-fs.readFile('./' + outputYSlow,'utf-8' , function (err, data) {
-    if (err) throw err;
 
-    var jsonYSlow           = JSON.parse( data ),
-        jsonYSlowChecking   = jsonYSlow.g;
-
-    resultYSlow.overallScore = jsonYSlow.o;
-
-    for ( var key in jsonYSlowChecking ) {
-        if ( jsonYSlowChecking[key].score < 100 ) {
-            resultYSlow.checking.push({
-                error   : "Error",
-                name    : checkingName[i] + " (" + key + ")",
-                score   : jsonYSlowChecking[key].score,
-                desc    : jsonYSlowChecking[key].message,
-                code    : jsonYSlowChecking[key].components
-            });
-        }
-        i++;
+fs.exists(program.destination, function (exists) {
+    if ( !exists ) {
+        fs.mkdir(program.destination , function () {});
     }
+    dest = './' + program.destination;
 
-    var toJson = jsonPretty(resultYSlow);
+    // -------------------------- read yslow file output --------------------------
+    fs.readFile('./' + outputYSlow,'utf-8' , function (err, data) {
+        if (err) throw err;
 
-    saveReport(toJson);
-    deleteTempFile(outputYSlow);
+        var jsonYSlow           = JSON.parse( data ),
+            jsonYSlowChecking   = jsonYSlow.g;
+
+        resultYSlow.overallScore = jsonYSlow.o;
+
+        for ( var key in jsonYSlowChecking ) {
+            if ( jsonYSlowChecking[key].score < 100 ) {
+                resultYSlow.checking.push({
+                    error   : "Error",
+                    name    : checkingName[i] + " (" + key + ")",
+                    score   : jsonYSlowChecking[key].score,
+                    desc    : jsonYSlowChecking[key].message,
+                    code    : jsonYSlowChecking[key].components
+                });
+            }
+            i++;
+        }
+
+        var toJson = jsonPretty(resultYSlow);
+
+        saveReport(dest, toJson);
+        deleteTempFile(outputYSlow);
+    });
+
+
 });
 
-function saveReport(content) {
+function saveReport(path, content) {
     fs.writeFile(dest + 'resultYSlow.json', content, function (err) {
         if (err) throw err;
         console.log("resultYSlow.json has saved!");
@@ -95,3 +105,4 @@ function deleteTempFile(url) {
         console.log("Temporary file has been deleted.");
     });
 }
+    

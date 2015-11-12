@@ -18,11 +18,18 @@ var option = {
     strategy : strategy
 };
 
-psi(url , option , function (err, data) {
-    var toJson = jsonPretty(data);
+fs.exists(program.destination, function (exists) {
+    if ( !exists ) {
+        fs.mkdir(program.destination , function () {});
+    }
+    dest = './' + program.destination;
 
-    fs.writeFile('resultPagespeed.json', toJson, function (err) {
-        if (err) throw err;
-        console.log('It\'s saved!');
+    psi(url , option , function (err, data) {
+        var toJson = jsonPretty(data);
+
+        fs.writeFile(dest + 'resultPagespeed.json', toJson, function (err) {
+            if (err) throw err;
+            console.log('It\'s saved!');
+        });
     });
 });

@@ -18,7 +18,7 @@ program
     .parse(process.argv);
 
 var url     = program.url,
-    dest    = program.destination || '';
+    dest;
 
 if ( !isUrl(url) ) {
     console.log('ERROR: this is not an url');
@@ -33,53 +33,60 @@ var resultCSSLinter = {
     checking: []
 };
 
-// download css asset
-var filenameCSS = url.substring( url.lastIndexOf('/') + 1 , url.length );
+fs.exists(program.destination, function (exists) {
+    if ( !exists ) {
+        fs.mkdir(program.destination , function () {});
+    }
+    dest = './' + program.destination;
 
-fs.mkdirSync('css/');
-var file = fs.createWriteStream('css/' + filenameCSS);
+    // download css asset
+    var filenameCSS = url.substring( url.lastIndexOf('/') + 1 , url.length );
 
-var request = http.get(url , function (response) {
-    response.pipe(file);
+    fs.mkdirSync('css/');
+    var file = fs.createWriteStream('css/' + filenameCSS);
 
-    // read the file
-    rte.readToEnd(response, function (err, body) {
+    var request = http.get(url , function (response) {
+        response.pipe(file);
 
-        // beautify css
-        var parseSource = css.parse( body );
-        var beautified  = css.stringify( parseSource );
+        // read the file
+        rte.readToEnd(response, function (err, body) {
 
-        // css lint
-        var result = cssLint.verify( beautified );
+            // beautify css
+            var parseSource = css.parse( body );
+            var beautified  = css.stringify( parseSource );
 
-        if (result.messages.length === 0) {
-            // Success
-        } else {
-            // Errors or warnings
-            for ( i = 0 ; i < result.messages.length ; i++) {
-                var message = result.messages[i];
-                resultCSSLinter.checking.push(
-                    {
-                        messageType     : message.type,
-                        messageLine     : message.line,
-                        messageCol      : message.col,
-                        messageMsg      : message.message
-                    }
-                );
+            // css lint
+            var result = cssLint.verify( beautified );
+
+            if (result.messages.length === 0) {
+                // Success
+            } else {
+                // Errors or warnings
+                for ( i = 0 ; i < result.messages.length ; i++) {
+                    var message = result.messages[i];
+                    resultCSSLinter.checking.push(
+                        {
+                            messageType     : message.type,
+                            messageLine     : message.line,
+                            messageCol      : message.col,
+                            messageMsg      : message.message
+                        }
+                    );
+                }
             }
-        }
 
-        //beautify json
-        var toJson = jsonPretty(resultCSSLinter);
+            //beautify json
+            var toJson = jsonPretty(resultCSSLinter);
 
-        //save file
-        fs.writeFile(dest + 'resultCSS.json', toJson, function (err) {
-            if (err) throw err;
-        }); 
-        
-        // remove asset file
-        fs.remove('./css/', function (err) {
-            if (err) return console.log(err);
+            //save file
+            fs.writeFile(dest + 'resultCSS.json', toJson, function (err) {
+                if (err) throw err;
+            }); 
+            
+            // remove asset file
+            fs.remove('./css/', function (err) {
+                if (err) return console.log(err);
+            });
         });
     });
 });

@@ -17,7 +17,7 @@ program
     .parse(process.argv);
 
 var url     = program.url,
-    dest    = program.destination || '';
+    dest;
 
 if ( !isUrl(url) ) {
     console.log('ERROR: this is not an url');
@@ -32,40 +32,47 @@ var resultJSLinter = {
     checking: []
 };
 
-// download JS asset
-var filenameJS = url.substring( url.lastIndexOf('/') + 1 , url.length );
+fs.exists(program.destination, function (exists) {
+    if ( !exists ) {
+        fs.mkdir(program.destination , function () {});
+    }
+    dest = './' + program.destination;
 
-fs.mkdirSync('js/');
-var file = fs.createWriteStream('js/' + filenameJS);
+    // download JS asset
+    var filenameJS = url.substring( url.lastIndexOf('/') + 1 , url.length );
 
-var request = http.get(url , function (response) {
-    response.pipe(file);
+    fs.mkdirSync('js/');
+    var file = fs.createWriteStream('js/' + filenameJS);
 
-    // read the file
-    rte.readToEnd(response, function (err, body) {
-        var source = body;
-        var options = { undef: true };
-        var predef = { jQuery: false };
+    var request = http.get(url , function (response) {
+        response.pipe(file);
 
-        // js hint run
-        jshintt.JSHINT(source, options, predef);
+        // read the file
+        rte.readToEnd(response, function (err, body) {
+            var source = body;
+            var options = { undef: true };
+            var predef = { jQuery: false };
 
-        resultJSLinter.checking = jshintt.JSHINT.errors;
-        
-        // json prettify
-        var toJson = jsonPretty(resultJSLinter);
-        
-        // save result
-        fs.writeFile(dest + 'resultJS.json', toJson, function (err) {
-            if (err) throw err;
-        }); 
+            // js hint run
+            jshintt.JSHINT(source, options, predef);
 
-        // remove asset file
-        fs.remove('./js/', function (err) {
-            if (err) return console.log(err);
+            resultJSLinter.checking = jshintt.JSHINT.errors;
+            
+            // json prettify
+            var toJson = jsonPretty(resultJSLinter);
+            
+            // save result
+            fs.writeFile(dest + 'resultJS.json', toJson, function (err) {
+                if (err) throw err;
+            }); 
+
+            // remove asset file
+            fs.remove('./js/', function (err) {
+                if (err) return console.log(err);
+            });
         });
     });
 });
-
+    
 // end of horseman
 horseman.close();
