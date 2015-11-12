@@ -45,7 +45,7 @@ class NewUserCommand extends Command
         $admin->username = $username;
         $admin->name = $name;
         $admin->email = $email;
-        $admin->password = $password;
+        $admin->password = bcrypt($password);
         $admin->is_admin = true;
         $admin->is_active = true;
 
