@@ -294,7 +294,7 @@ class CrawlerUrl
                 continue;
             }
             if (!$recursive) {
-                array_push($siteLink, ['url' => $list]);
+                array_push($siteLink, ['type' => $this->getExtension($list), 'url' => $list]);
             } elseif (!in_array($list, $this->unvisitedUrl)) {
                 $this->unvisitedUrl[] = $list;
             }
@@ -331,6 +331,7 @@ class CrawlerUrl
                     $titleTag = $this->getTitleTag($headTag);
                     $descTag = $this->getDescTag($headTag);
                     array_push($this->siteUrl, [
+                        'type' => 'url',
                         'url' => $effectiveUrl,
                         'title' => $titleTag[1],
                         'titleTag' => $titleTag[0],
@@ -340,6 +341,7 @@ class CrawlerUrl
                     ]);
                 } else {
                     array_push($this->siteUrl, [
+                        'type' => 'url',
                         'url' => $effectiveUrl,
                         'title' => '',
                         'titleTag' => '',
@@ -430,5 +432,20 @@ class CrawlerUrl
             $finalDescTagMatches[] = trim($descTagMatches[2]);
         }
         return $finalDescTagMatches;
+    }
+
+    public function getExtension($url)
+    {
+        $extensions = [
+            'css',
+            'js'
+        ];
+
+        foreach ($extensions as $ext) {
+            if (str_contains(pathinfo($url, PATHINFO_EXTENSION), $ext)) {
+                return $ext;
+            }
+        }
+        return null;
     }
 }
