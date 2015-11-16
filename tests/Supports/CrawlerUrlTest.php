@@ -111,6 +111,7 @@ class CrawlerUrlTest extends TestCase
         $crawl = new CrawlerUrl($client, $domCrawler);
         $crawl->doRequest('http://example.com');
         $this->assertEquals([[
+            'type' => 'url',
             'url' => 'http://example.com',
             'title' => '',
             'titleTag' => '',
@@ -152,6 +153,7 @@ class CrawlerUrlTest extends TestCase
         $crawl = new CrawlerUrl($client, $domCrawler);
         $crawl->doRequest('http://example.com');
         $this->assertEquals([[
+            'type' => 'url',
             'url' => 'http://example.com',
             'title' => 'Example Domain',
             'titleTag' => '<title>Example Domain</title>',
@@ -207,6 +209,7 @@ class CrawlerUrlTest extends TestCase
 
         $expectedResult = [
             [
+                'type' => 'url',
                 'url' => 'http://example.com',
                 'title' => '',
                 'titleTag' => '',
@@ -215,6 +218,7 @@ class CrawlerUrlTest extends TestCase
                 'bodyContent' => gzdeflate('', 9)
             ],
             [
+                'type' => 'url',
                 'url' => 'http://example.com/baz',
                 'title' => '',
                 'titleTag' => '',
@@ -223,6 +227,7 @@ class CrawlerUrlTest extends TestCase
                 'bodyContent' => gzdeflate('', 9)
             ],
             [
+                'type' => 'url',
                 'url' => 'http://example.com/test',
                 'title' => '',
                 'titleTag' => '',
@@ -279,6 +284,23 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals([
             '<meta name="description" content="example description" />',
             'example description'], $crawl->getDescTag($html));
+    }
+
+    public function testGetExtension()
+    {
+        $client = $this->getMockClient();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+
+        $crawl = new CrawlerUrl($client, $domCrawler);
+        $this->assertEquals('css', $crawl->getExtension('http://example.com/main.min.css'));
+        $this->assertEquals('css', $crawl->getExtension('http://example.com/main.min.css?dt=21312435646'));
+        $this->assertEquals('css', $crawl->getExtension('http://example.com/main.min.css?123456789'));
+
+        $this->assertEquals('js', $crawl->getExtension('http://example.com/main.min.js'));
+        $this->assertEquals('js', $crawl->getExtension('http://example.com/main.min.js?dt=21312435646'));
+        $this->assertEquals('js', $crawl->getExtension('http://example.com/main.min.js?123456789'));
+
+        $this->assertEquals(null, $crawl->getExtension('http://example.com'));
     }
 
     public function testDumpGet()

@@ -294,7 +294,7 @@ class CrawlerUrl
                 continue;
             }
             if (!$recursive) {
-                array_push($siteLink, ['url' => $list]);
+                array_push($siteLink, ['type' => $this->getExtension($list), 'url' => $list]);
             } elseif (!in_array($list, $this->unvisitedUrl)) {
                 $this->unvisitedUrl[] = $list;
             }
@@ -323,33 +323,28 @@ class CrawlerUrl
                 $bodyContent = $responseUrl->getBody()->getContents();
                 $compressedBodyContent = gzdeflate($bodyContent, 9);
                 $this->crawler->addHtmlContent($bodyContent);
-                unset($bodyContent);
+                $urlInfo = [
+                    'type' => 'url',
+                    'url' => $effectiveUrl,
+                    'title' => '',
+                    'titleTag' => '',
+                    'desc' => '',
+                    'descTag' => '',
+                    'bodyContent' => $compressedBodyContent
+                ];
                 if ($this->crawler->filterXPath('//head')->count() &&
                     !empty($this->crawler->filterXPath('//head')->html())) {
                     $headTag = $this->crawler->filterXPath('//head')->html();
                     
                     $titleTag = $this->getTitleTag($headTag);
                     $descTag = $this->getDescTag($headTag);
-                    array_push($this->siteUrl, [
-                        'url' => $effectiveUrl,
-                        'title' => $titleTag[1],
-                        'titleTag' => $titleTag[0],
-                        'desc' => $descTag[1],
-                        'descTag' => $descTag[0],
-                        'bodyContent' => $compressedBodyContent
-                    ]);
-                } else {
-                    array_push($this->siteUrl, [
-                        'url' => $effectiveUrl,
-                        'title' => '',
-                        'titleTag' => '',
-                        'desc' => '',
-                        'descTag' => '',
-                        'bodyContent' => $compressedBodyContent
-                    ]);
+                    $urlInfo['title'] = $titleTag[1];
+                    $urlInfo['titleTag'] = $titleTag[0];
+                    $urlInfo['desc'] = $descTag[1];
+                    $urlInfo['descTag'] = $descTag[0];
                 }
-                unset($compressedBodyContent);
-
+                array_push($this->siteUrl, $urlInfo);
+                unset($bodyContent, $compressedBodyContent, $urlInfo);
                 return $responseUrl;
             }
             if ($responseUrl->getStatusCode() >= 400) {
@@ -430,5 +425,20 @@ class CrawlerUrl
             $finalDescTagMatches[] = trim($descTagMatches[2]);
         }
         return $finalDescTagMatches;
+    }
+
+    public function getExtension($url)
+    {
+        $extensions = [
+            'css',
+            'js'
+        ];
+
+        foreach ($extensions as $ext) {
+            if (str_contains(pathinfo($url, PATHINFO_EXTENSION), $ext)) {
+                return $ext;
+            }
+        }
+        return null;
     }
 }
