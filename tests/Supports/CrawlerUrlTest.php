@@ -292,7 +292,14 @@ class CrawlerUrlTest extends TestCase
         $domCrawler = $this->getMockDomCrawler()->makePartial();
 
         $crawl = new CrawlerUrl($client, $domCrawler);
-        $this->assertEquals('css', $crawl->getExtension('http://example.com/main.css'));
+        $this->assertEquals('css', $crawl->getExtension('http://example.com/main.min.css'));
+        $this->assertEquals('css', $crawl->getExtension('http://example.com/main.min.css?dt=21312435646'));
+        $this->assertEquals('css', $crawl->getExtension('http://example.com/main.min.css?123456789'));
+
+        $this->assertEquals('js', $crawl->getExtension('http://example.com/main.min.js'));
+        $this->assertEquals('js', $crawl->getExtension('http://example.com/main.min.js?dt=21312435646'));
+        $this->assertEquals('js', $crawl->getExtension('http://example.com/main.min.js?123456789'));
+
         $this->assertEquals(null, $crawl->getExtension('http://example.com'));
     }
 
