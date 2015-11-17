@@ -85,7 +85,7 @@
 
                                             <div class="box-testing__percent">
                                                 <span>
-                                                    <b>Overall : </b> 80%
+                                                    <b>Error Rate : </b> 80%
                                                 </span>
                                                 <span>
                                                     <b>Performance : </b> 80%
@@ -107,11 +107,11 @@
                         </div>
 
                         <div class="flex-project__item flex-project__item-side block">
-                            <h3>Lastest Testing Status</h3>
+                            <h3>Lastest Inspection Status</h3>
                             <div class="block cf">
                                 <div class="progress-title">
                                     <b>
-                                        Overall 
+                                        Error Rate : 
                                         <span class="text-red">(10)</span> 
                                     </b> 
                                 </div>

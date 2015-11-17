@@ -28,15 +28,16 @@
                         <div class="bzg_c block" data-col="s12,m6">
                             <a class="box box--block cf" href="project.php">
                                 <div class="box__thumbnail">
-                                    <span>Inspection #000</span> <br>
+                                    <span>Error Rate :</span> <br>
                                     <b class="text-big">80%</b>
                                 </div>
                                 <div class="box__desc">
                                     <div class="text-ellipsis">
                                         <b>Project Name</b>
                                     </div>
+                                    <span>Inspection : #000</span> <br>
                                     <span>Lastest update : </span> <time>23/09/2015 12.34</time> <br>
-                                    <span>Status : </span> <b class="text-green">Completed</b>
+                                    <span>Status : </span> <b class="text-green">Completed</b> 
                                 </div>
                                 <form action="">
                                     <button class="btn box__close" data-confirm="Do you want to delete this project?">
@@ -48,15 +49,16 @@
                         <div class="bzg_c block" data-col="s12,m6">
                             <a class="box box--block cf" href="project.php">
                                 <div class="box__thumbnail">
-                                    <span>inspection #000</span> <br>
+                                    <span>Error Rate :</span> <br>
                                     <b class="text-big">80%</b>
                                 </div>
                                 <div class="box__desc">
                                     <div class="text-ellipsis">
                                         <b>Project Name Lorem ipsum dolor sit amet.</b>
                                     </div>
+                                    <span>Inspection : #000</span> <br>
                                     <span>Lastest update : </span> <time>23/09/2015 12.34</time> <br>
-                                    <span>Status : </span> <b class="text-orange">On Progress</b>
+                                    <span>Status : </span> <b class="text-orange">On Progress</b> 
                                 </div>
                                 <form action="">
                                     <button class="btn box__close" data-confirm="Do you want to delete this project?">
@@ -68,15 +70,16 @@
                         <div class="bzg_c block" data-col="s12,m6">
                             <a class="box box--block cf" href="project.php">
                                 <div class="box__thumbnail">
-                                    <span>inspection #000</span> <br>
+                                    <span>Error Rate :</span> <br>
                                     <b class="text-big">80%</b>
                                 </div>
                                 <div class="box__desc">
                                     <div class="text-ellipsis">
                                         <b>Project Name</b>
                                     </div>
+                                    <span>Inspection : #000</span> <br>
                                     <span>Lastest update : </span> <time>23/09/2015 12.34</time> <br>
-                                    <span>Status : </span> <b class="text-red">Stopped</b>
+                                    <span>Status : </span> <b class="text-red">Stopped</b> 
                                 </div>
                                 <form action="">
                                     <button class="btn box__close" data-confirm="Do you want to delete this project?">
