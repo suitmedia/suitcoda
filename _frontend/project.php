@@ -202,15 +202,15 @@
                                         <b>Code Quality</b>
                                     </legend>
                                     <label>
-                                        <input type="checkbox" name="codequality" value="html">
+                                        <input type="checkbox" name="codequality" value="html" checked disabled>
                                         HTML Validation
                                     </label> <br>
                                     <label>
-                                        <input type="checkbox" name="codequality" value="css">
+                                        <input type="checkbox" name="codequality" value="css" checked disabled>
                                         CSS Validation
                                     </label> <br>
                                     <label>
-                                        <input type="checkbox" name="codequality" value="js">
+                                        <input type="checkbox" name="codequality" value="js" checked disabled>
                                         JS Validation
                                     </label> <br>
                                 </fieldset>
