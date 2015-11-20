@@ -6,6 +6,8 @@ use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 use Carbon\Carbon;
 use Suitcoda\Model\User;
+use Suitcoda\Model\Inspection;
+use Suitcoda\Model\Url;
 
 class Project extends BaseModel implements SluggableInterface
 {
@@ -19,6 +21,7 @@ class Project extends BaseModel implements SluggableInterface
         'name',
         'slug',
         'main_url',
+        'is_crawlable'
     ];
 
     protected $sluggable = [
@@ -44,5 +47,20 @@ class Project extends BaseModel implements SluggableInterface
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function inspections()
+    {
+        return $this->hasMany(Inspection::class);
+    }
+
+    public function urls()
+    {
+        return $this->hasMany(Url::class);
+    }
+
+    public function scopeFindBySlug($query, $slug)
+    {
+        return $query->where('slug', $slug)->get();
     }
 }
