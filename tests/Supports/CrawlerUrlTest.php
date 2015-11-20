@@ -159,7 +159,8 @@ class CrawlerUrlTest extends TestCase
             'titleTag' => '<title>Example Domain</title>',
             'desc' => 'example description',
             'descTag' => '<meta name="description" content="example description" />',
-            'bodyContent' => gzdeflate($html, 9)
+            'bodyContent' => gzdeflate($html, 9),
+            'depth' => 0
         ]], $crawl->getSiteUrl());
     }
 
@@ -301,6 +302,17 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals('js', $crawl->getExtension('http://example.com/main.min.js?123456789'));
 
         $this->assertEquals(null, $crawl->getExtension('http://example.com'));
+    }
+
+    public function testGetUrlDepth()
+    {
+        $client = $this->getMockClient();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+
+        $crawl = new CrawlerUrl($client, $domCrawler);
+
+        $this->assertEquals(0, $crawl->getUrlDepth('http://example.com'));
+        $this->assertEquals(3, $crawl->getUrlDepth('http://example.com/test/foo/bar/'));
     }
 
     public function testDumpGet()
