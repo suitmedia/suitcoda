@@ -25,22 +25,26 @@
                         </div>
                     </a>
                 </div>
-                @foreach ($models as $model)
+                @foreach ($projects as $project)
                     <div class="bzg_c block" data-col="s12,m6">
-                        <a class="box box--block cf" href="project.php">
+                        <a class="box box--block cf" href="{{ route('project.detail', $project->slug) }}">
                             <div class="box__thumbnail">
-                                <span>Inspection #12</span> <br>
+                            @if (!$project->inspections()->getAllByProjectId($project->id)->isEmpty())
+                                <span>Inspection #{{ $project->inspections()->getLatestByProjectId($project->id)->sequence_number }}</span> <br>
+                            @else
+                                <span>Inspection -</span> <br>
+                            @endif
                                 <b class="text-big">80%</b>
                             </div>
                             <div class="box__desc">
                                 <div class="text-ellipsis">
-                                    <b>{{ $model->name }}</b>
+                                    <b>{{ $project->name }}</b>
                                 </div>
-                                <span>Url : </span> {{ $model->main_url }} <br>
-                                <span>Lastest update : </span> <time>{{ $model->updated_at }}</time> <br>
+                                <span>Url : </span> {{ $project->main_url }} <br>
+                                <span>Lastest update : </span> <time>{{ $project->updated_at }}</time> <br>
                                 <span>Status : </span> <b class="text-green">Completed</b>
                             </div>
-                            {!! Form::model($model, ['route' => ['project.destroy', $model], 'method' => 'DELETE']) !!}
+                            {!! Form::model($project, ['route' => ['project.destroy', $project], 'method' => 'DELETE']) !!}
                                 <button type="submit" class="btn box__close" data-confirm="Do you want to delete this project?">
                                     <span class="fa fa-times"></span>
                                 </button>

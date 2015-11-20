@@ -2,22 +2,26 @@
 
 namespace Suitcoda\Http\Controllers;
 
-use Suitcoda\Model\Project as Model;
 use Suitcoda\Http\Requests\ProjectRequest;
+use Suitcoda\Model\Project;
+use Suitcoda\Model\Scope;
 
 class ProjectController extends BaseController
 {
-    protected $model;
+    protected $project;
+
+    protected $scope;
 
     /**
      * Class constructor
      *
-     * @param Model  $model
+     * @param Project  $project
      */
-    public function __construct(Model $model)
+    public function __construct(Project $project, Scope $scope)
     {
         parent::__construct();
-        $this->model = $model;
+        $this->project = $project;
+        $this->scope = $scope;
     }
 
     /**
@@ -27,9 +31,9 @@ class ProjectController extends BaseController
      */
     public function index()
     {
-        $models = \Auth::user()->projects;
+        $projects = \Auth::user()->projects;
 
-        return view('home', compact('models'));
+        return view('home', compact('projects'));
     }
 
     /**
@@ -39,7 +43,7 @@ class ProjectController extends BaseController
      */
     public function create()
     {
-        return view('project_create', [ 'model' => $this->model ]);
+        return view('project_create', [ 'project' => $this->project ]);
     }
 
     /**
@@ -50,12 +54,20 @@ class ProjectController extends BaseController
      */
     public function store(ProjectRequest $request)
     {
-        $model = $this->model->newInstance();
-        $model->fill($request->all());
-        $model->user()->associate(\Auth::user());
-        $model->save();
+        $project = $this->project->newInstance();
+        $project->fill($request->all());
+        $project->user()->associate(\Auth::user());
+        $project->save();
 
         return redirect()->route('home');
+    }
+
+    public function detail($key)
+    {
+        $project = $this->find($key);
+        $scopes = $this->scope->all()->groupBy('category');
+
+        return view('project_detail', compact('project', 'scopes'));
     }
 
     /**
@@ -68,24 +80,55 @@ class ProjectController extends BaseController
     {
         $model = $this->find($key);
         $model->delete();
-
         return redirect()->route('home');
     }
 
     /**
      * Find operation
      * @param  string $key
-     * @return Suitcoda\Model\Project
+     * @return Suitcoda\Model\User
      *
      * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     protected function find($key)
     {
-        $result = $this->model->findOrFailByUrlKey($key);
+        $result = \Auth::user()->projects()->findOrFailByUrlKey($key);
 
         if (empty($result)) {
             return abort(404);
         }
         return $result;
+    }
+
+    public function graph($key)
+    {
+        $project = $this->find($key);
+        return response()->json($this->generateJson($project));
+    }
+
+    protected function generateJson($project)
+    {
+        $graphData = [];
+        $count = 0;
+        $listGraph = [
+            'Overall',
+            'Performance',
+            'Code Quality',
+            'Social Media'
+        ];
+        $graphData = array_add($graphData, 'title', $project->name);
+        $graphData = array_add($graphData, 'series', []);
+        $graphData = array_add($graphData, 'xAxis', []);
+
+        foreach ($listGraph as $graph) {
+            array_set($series, $count . '.name', $graph);
+            array_set($series, $count . '.data', [1000, 40]);
+            $count++;
+        }
+        array_set($graphData, 'series', $series);
+        foreach ($project->inspections as $inspection) {
+            array_push($graphData['xAxis'], '#' . $inspection->sequence_number);
+        }
+        return $graphData;
     }
 }

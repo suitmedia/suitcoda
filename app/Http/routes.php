@@ -36,9 +36,21 @@ Route::group([ 'middleware' => 'auth' ], function () {
         'as' => 'project.store',
         'uses' => 'ProjectController@store'
     ]);
+    Route::get('/project/{project}/graph', [
+        'as' => 'project.graph',
+        'uses' => 'ProjectController@graph'
+    ]);
+    Route::get('/project/{project}', [
+        'as' => 'project.detail',
+        'uses' => 'ProjectController@detail'
+    ]);
     Route::delete('/project/{project}', [
         'as' => 'project.destroy',
         'uses' => 'ProjectController@destroy'
+    ]);
+    Route::post('/project/{project}', [
+        'as' => 'inspection.store',
+        'uses' => 'InspectionController@store'
     ]);
     Route::get('logout', 'Auth\AuthController@getLogout');
     Route::group([ 'middleware' => 'role' ], function () {
