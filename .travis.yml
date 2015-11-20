@@ -76,6 +76,7 @@ before_script:
   - if [[ $COVERALLS = '1' ]]; then mkdir -p build/logs; fi
 
   - php artisan migrate
+  - php artisan db:seed
 
   - phpenv rehash
   - set +H

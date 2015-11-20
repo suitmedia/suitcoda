@@ -70,7 +70,7 @@ Homestead.yaml
 # suitcoda Additional files
 # ----------------------------------------------------------------------- #
 
-# No files yet
+/public/files
 
 
 # Composer & Vendor Files
