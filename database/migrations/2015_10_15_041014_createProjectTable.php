@@ -13,11 +13,12 @@ class CreateProjectTable extends Migration
     public function up()
     {
         Schema::create('projects', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned()->index();
+            $table->bigIncrements('id');
+            $table->bigInteger('user_id')->unsigned()->index();
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('main_url');
+            $table->boolean('is_crawlable')->default(false);
 
             $table->foreign('user_id')
                   ->references('id')->on('users')
