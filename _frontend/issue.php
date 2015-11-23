@@ -12,6 +12,12 @@
                 <section class="project-content">
                     <h2 class="sr-only">Testing Issues</h2>
 
+                    <div class="block-half">
+                        <a class="text-orange" href="activity.php">
+                            <span class="fa fa-angle-left"></span> Back to Inspection List
+                        </a>
+                    </div>
+
                     <!-- if there's no testing yet -->
                     <span class="empty-state">There is no testing yet.</span>
 
