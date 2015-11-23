@@ -446,7 +446,8 @@ class CrawlerUrl
     public function getUrlDepth($url)
     {
         $urlPath = parse_url($url, PHP_URL_PATH);
-        if (is_null($urlPath)) {
+
+        if (is_null($urlPath) || strcmp($urlPath, '/') == 0) {
             return 0;
         }
         $splitSegment = explode('/', trim($urlPath, '/'));

@@ -312,7 +312,14 @@ class CrawlerUrlTest extends TestCase
         $crawl = new CrawlerUrl($client, $domCrawler);
 
         $this->assertEquals(0, $crawl->getUrlDepth('http://example.com'));
+        $this->assertEquals(0, $crawl->getUrlDepth('http://example.com/'));
+        $this->assertEquals(0, $crawl->getUrlDepth('http://example.com?q=user-1&s=user_2'));
+        $this->assertEquals(0, $crawl->getUrlDepth('http://example.com/?q=user-1&s=user_2'));
+        $this->assertEquals(0, $crawl->getUrlDepth('http://example.com/#about-us'));
         $this->assertEquals(3, $crawl->getUrlDepth('http://example.com/test/foo/bar/'));
+        $this->assertEquals(3, $crawl->getUrlDepth('http://example.com/test/foo/bar?q=user-1&s=user_2'));
+        $this->assertEquals(3, $crawl->getUrlDepth('http://example.com/test/foo/bar/?q=user-1&s=user_2'));
+        $this->assertEquals(3, $crawl->getUrlDepth('http://example.com/test/foo/bar/#about-us'));
     }
 
     public function testDumpGet()
