@@ -10,7 +10,7 @@
                 <?php include '_include/projectNav.php'; ?>
                 
                 <!-- activity, testing list, status -->
-                <section id="activity" class="project-content">
+                <section class="project-content">
                     <h2 class="sr-only">Project Activity</h2>
                     <div class="flex-project">
                         <div class="flex-project__item flex-project__item-main block cf">

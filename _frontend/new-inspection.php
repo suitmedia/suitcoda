@@ -9,7 +9,7 @@
                 <?php include '_include/projectNav.php'; ?>
                 
                 <!-- create new testing -->
-                <section id="newtesting" class="project-content">
+                <section class="project-content">
                     <h2 class="subtitle">Create New Testing</h2>
                     <form id="form-inspection-options" action="">                    
                         <div class="bzg">

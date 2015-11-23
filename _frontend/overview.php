@@ -9,7 +9,7 @@
                 <?php include '_include/projectNav.php'; ?>
                 
                 <!-- overview project, chart -->
-                <section id="overview" class="project-content project-content--show">
+                <section class="project-content">
                     <h2 class="sr-only">Project Overview</h2>
                     <div class="project-chart" data-graph="graph-data.json"></div>
                 </section>

@@ -9,7 +9,7 @@
                 <?php include '_include/projectNav.php'; ?>
                 
                 <!-- issues details -->
-                <section id="issues" class="project-content">
+                <section class="project-content">
                     <h2 class="sr-only">Testing Issues</h2>
 
                     <!-- if there's no testing yet -->
