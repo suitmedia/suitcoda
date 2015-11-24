@@ -20,14 +20,20 @@
 
                     <!-- if there's no testing yet -->
                     <span class="empty-state">There is no testing yet.</span>
-
-                    <h3 class="subtitle">Testing #20</h3>
-                    <select name="" id="" class="form-input block">
-                        <option value="performance">Performance</option>
-                        <option value="codequality">Code Quality</option>
-                        <option value="seo">SEO</option>
-                        <option value="socialmedia">Social Media</option>
-                    </select>
+                    
+                    <div class="bzg">
+                        <div class="bzg_c" data-col="s6">
+                            <h3 class="subtitle">Testing #20</h3>
+                        </div>
+                        <div class="bzg_c" data-col="s6">
+                            <select name="" id="" class="form-input block float-right">
+                                <option value="performance">Performance</option>
+                                <option value="codequality">Code Quality</option>
+                                <option value="seo">SEO</option>
+                                <option value="socialmedia">Social Media</option>
+                            </select>
+                        </div>
+                    </div>
 
                     <!-- if there's no issue -->
                     <span class="empty-state">There is no issue found.</span>
