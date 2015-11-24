@@ -7,7 +7,7 @@ var Horseman   = require('node-horseman'),
     program    = require('commander'),
     http       = require('http'),
     cssLint    = require('csslint').CSSLint,
-    css        = require('css'),
+    // css        = require('css'),
     rte        = require('readtoend');
 
 // --------------------------- get url ---------------------------
@@ -52,11 +52,11 @@ fs.exists(program.destination, function (exists) {
         rte.readToEnd(response, function (err, body) {
 
             // beautify css
-            var parseSource = css.parse( body );
-            var beautified  = css.stringify( parseSource );
+            // var parseSource = css.parse( body );
+            // var beautified  = css.stringify( parseSource );
 
-            // css lint
-            var result = cssLint.verify( beautified );
+            // css lint, if use beautified css, change 'body' into 'beautified'
+            var result = cssLint.verify( body );
 
             if (result.messages.length === 0) {
                 // Success
