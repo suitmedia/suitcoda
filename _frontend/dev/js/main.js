@@ -28,7 +28,6 @@
             Site.enableActiveStateMobile();
             Site.WPViewportFix();
             Site.dropdownMenu();
-            Site.projectTabNav();
             Site.projectChart();
             Site.progressBar();
             Site.syntaxHighlighter();
@@ -62,38 +61,6 @@
 
                 style.appendChild(fix);
                 document.getElementsByTagName('head')[0].appendChild(style);
-            }
-        },
-
-        projectTabNav: function () {
-            var $tab = $('.project-nav__tab a');
-
-            if ( !$tab.length ) return;
-
-            var $btnNewTesting  = $('.btn-new-testing'),
-                $contentTab     = $('.project-content');
-
-            $btnNewTesting.on('click', function() {
-                closeAllTab();
-                $('#newtesting').addClass('project-content--show');
-            });
-
-            $tab.on('click',function () {
-                var target = $(this).attr('href');
-                var $target = $(target);
-
-                removeAllActive();
-                closeAllTab();
-                $(this).addClass('active');
-                $target.addClass('project-content--show');
-            });
-
-            function closeAllTab () {
-                $contentTab.removeClass('project-content--show');  
-            }
-
-            function removeAllActive () {
-                $tab.removeClass('active');
             }
         },
 

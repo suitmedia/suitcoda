@@ -342,6 +342,7 @@ class CrawlerUrl
                     $urlInfo['titleTag'] = $titleTag[0];
                     $urlInfo['desc'] = $descTag[1];
                     $urlInfo['descTag'] = $descTag[0];
+                    $urlInfo['depth'] = $this->getUrlDepth($effectiveUrl);
                 }
                 array_push($this->siteUrl, $urlInfo);
                 unset($bodyContent, $compressedBodyContent, $urlInfo);
@@ -440,5 +441,16 @@ class CrawlerUrl
             }
         }
         return null;
+    }
+
+    public function getUrlDepth($url)
+    {
+        $urlPath = parse_url($url, PHP_URL_PATH);
+
+        if (is_null($urlPath) || strcmp($urlPath, '/') == 0) {
+            return 0;
+        }
+        $splitSegment = explode('/', trim($urlPath, '/'));
+        return count($splitSegment);
     }
 }
