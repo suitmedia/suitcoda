@@ -261,7 +261,12 @@
                 if ( $(this).prop('checked') ) {
                     $allCheckbox.prop('checked', true);
                 } else {
-                    $allCheckbox.prop('checked', false);
+                    $allCheckbox.each(function(index, elem) {
+                        var $elem = $(elem);
+                        if ( !$elem.prop('disabled') ) {
+                            $elem.prop('checked', false);
+                        }
+                    });
                 }
             });
         }
