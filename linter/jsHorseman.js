@@ -5,7 +5,7 @@ var Horseman    = require('node-horseman'),
     isUrl       = require('is-url'),
     jsonPretty  = require('json-pretty'),
     program     = require('commander'),
-    http        = require('http'),
+    http        = require('http-https'),
     jshintt     = require('jshint'),
     rte         = require('readtoend');
 
