@@ -75,7 +75,7 @@ class CrawlerTheWebsite implements ShouldQueue
         $model->type = $url['type'];
         $model->url = $url['url'];
         if (strcmp($url['type'], 'url') == 0) {
-            $model->depth = 2; //temp
+            $model->depth = $url['depth'];
             $model->title = $url['title'];
             $model->title_tag = $url['titleTag'];
             $model->desc = $url['desc'];
