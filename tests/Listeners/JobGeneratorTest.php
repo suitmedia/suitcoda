@@ -5,7 +5,6 @@ namespace SuitTests\Listeners;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
-use SuitTests\TestCase;
 use Suitcoda\Events\ProjectWatcher;
 use Suitcoda\Listeners\JobGenerator;
 use Suitcoda\Model\Builder;
@@ -16,27 +15,43 @@ use Suitcoda\Model\Scope;
 use Suitcoda\Model\Url;
 use Suitcoda\Model\User;
 use Suitcoda\Supports\ScopesCheckerGenerator;
+use SuitTests\TestCase;
 
 class JobGeneratorTest extends TestCase
 {
     use DatabaseTransactions;
 
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();
     }
 
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     */
     public function tearDown()
     {
         parent::tearDown();
     }
 
+    /**
+     * Test handle
+     *
+     * @return void
+     */
     public function testHandle()
     {
         $userFaker = factory(User::class)->create(['name' => 'test']);
         $projectFaker = factory(Project::class)->make();
         $userFaker->projects()->save($projectFaker);
-        for ($i=0; $i < 2; $i++) {
+        for ($i = 0; $i < 2; $i++) {
             $urlFaker = factory(Url::class)->make();
             $projectFaker->urls()->save($urlFaker);
             $inspectionFaker = factory(Inspection::class)->make();
@@ -44,7 +59,6 @@ class JobGeneratorTest extends TestCase
         }
 
         $project = Mockery::mock(Project::class);
-        $inspection = Mockery::mock(Inspection::class)->makePartial();
         $generator = Mockery::mock(ScopesCheckerGenerator::class);
         $job = Mockery::mock(JobInspect::class)->makePartial();
         $url = Mockery::mock(Url::class);

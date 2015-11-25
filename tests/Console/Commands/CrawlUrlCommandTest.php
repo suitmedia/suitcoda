@@ -19,7 +19,7 @@ class CrawlUrlCommandTest extends TestCase
     /**
      * test continue if user success save to database
      *
-     * return void;
+     * @return void
      */
     public function testCommand()
     {

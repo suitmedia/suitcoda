@@ -8,17 +8,22 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Validation\Factory;
 use Mockery;
-use SuitTests\TestCase;
 use Suitcoda\Events\ProjectWatcher;
 use Suitcoda\Http\Controllers\InspectionController;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\Project;
 use Suitcoda\Model\User;
+use SuitTests\TestCase;
 
 class InspectionControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
+    /**
+     * Test continue if success submit inspection
+     *
+     * @return void
+     */
     public function testIntegrationStore()
     {
         $userFaker = factory(User::class)->create();
@@ -34,6 +39,11 @@ class InspectionControllerTest extends TestCase
         $this->assertViewHas('project');
     }
     
+    /**
+     * Test continue if success store inspection
+     *
+     * @return void
+     */
     public function testUnitStoreInspectionNumberMoreThanOne()
     {
         $this->expectsEvents(ProjectWatcher::class);
@@ -61,6 +71,11 @@ class InspectionControllerTest extends TestCase
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $controller->store($request));
     }
 
+    /**
+     * Test continue if success store inspection for first time
+     *
+     * @return void
+     */
     public function testUnitStoreInspectionNumberEmpty()
     {
         $this->expectsEvents(ProjectWatcher::class);

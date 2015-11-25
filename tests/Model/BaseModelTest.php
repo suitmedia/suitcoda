@@ -2,16 +2,21 @@
 
 namespace SuitTests\Model;
 
+use Suitcoda\Model\User;
 use SuitTests\TestCase;
-use Suitcoda\Model\User as Model;
 
 class BaseModelTest extends TestCase
 {
+    /**
+     * Test get key of slug
+     *
+     * @return void
+     */
     public function testGetKeyReturnsValueOfSlug()
     {
-        $model = new Model;
-        $model->slug = 'test';
-        $this->assertEquals('test', $model->getUrlKey());
-        $this->assertEquals('slug', $model->getUrlKeyName());
+        $user = new User;
+        $user->slug = 'test';
+        $this->assertEquals('test', $user->getUrlKey());
+        $this->assertEquals('slug', $user->getUrlKeyName());
     }
 }

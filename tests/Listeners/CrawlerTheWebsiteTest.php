@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
-use SuitTests\TestCase;
 use Suitcoda\Events\ProjectWatcher;
 use Suitcoda\Listeners\CrawlerTheWebsite;
 use Suitcoda\Model\Inspection;
@@ -14,27 +13,43 @@ use Suitcoda\Model\Project;
 use Suitcoda\Model\Url;
 use Suitcoda\Model\User;
 use Suitcoda\Supports\CrawlerUrl;
+use SuitTests\TestCase;
 
 class CrawlerTheWebsiteTest extends TestCase
 {
     use DatabaseTransactions;
 
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();
     }
 
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     */
     public function tearDown()
     {
         parent::tearDown();
     }
 
+    /**
+     * Test handle with active url
+     *
+     * @return void
+     */
     public function testHandleWithDatabaseActiveUrl()
     {
         $userFaker = factory(User::class)->create(['name' => 'test']);
         $projectFaker = factory(Project::class)->make();
         $userFaker->projects()->save($projectFaker);
-        for ($i=0; $i < 2; $i++) {
+        for ($i = 0; $i < 2; $i++) {
             $urlFaker = factory(Url::class)->make();
             $projectFaker->urls()->save($urlFaker);
         }
@@ -56,7 +71,8 @@ class CrawlerTheWebsiteTest extends TestCase
                 'titleTag' => '<title>Example Domain</title>',
                 'desc' => 'example description',
                 'descTag' => '<meta name="description" content="example description" />',
-                'bodyContent' => ''
+                'bodyContent' => '',
+                'url' => 0
             ],
             [
                 'type' => 'url',
@@ -65,7 +81,8 @@ class CrawlerTheWebsiteTest extends TestCase
                 'titleTag' => '<title>Example Domain</title>',
                 'desc' => 'example description',
                 'descTag' => '<meta name="description" content="example description" />',
-                'bodyContent' => ''
+                'bodyContent' => '',
+                'depth' => 1
             ]
         ]);
         $crawler->shouldReceive('getSiteCss')->andReturn([
@@ -85,12 +102,17 @@ class CrawlerTheWebsiteTest extends TestCase
         $listener->handle(new ProjectWatcher($project, $inspection));
     }
 
+    /**
+     * Test handle with deactive url
+     *
+     * @return void
+     */
     public function testHandleWithDatabaseNotActiveUrl()
     {
         $userFaker = factory(User::class)->create(['name' => 'test']);
         $projectFaker = factory(Project::class)->make();
         $userFaker->projects()->save($projectFaker);
-        for ($i=0; $i < 2; $i++) {
+        for ($i = 0; $i < 2; $i++) {
             $urlFaker = factory(Url::class)->make(['is_active' => false]);
             $projectFaker->urls()->save($urlFaker);
         }
@@ -112,7 +134,8 @@ class CrawlerTheWebsiteTest extends TestCase
                 'titleTag' => '<title>Example Domain</title>',
                 'desc' => 'example description',
                 'descTag' => '<meta name="description" content="example description" />',
-                'bodyContent' => ''
+                'bodyContent' => '',
+                'depth' => 0
             ],
             [
                 'type' => 'url',
@@ -121,7 +144,8 @@ class CrawlerTheWebsiteTest extends TestCase
                 'titleTag' => '<title>Example Domain</title>',
                 'desc' => 'example description',
                 'descTag' => '<meta name="description" content="example description" />',
-                'bodyContent' => ''
+                'bodyContent' => '',
+                'depth' => 1
             ]
         ]);
         $crawler->shouldReceive('getSiteCss')->andReturn([
@@ -141,6 +165,11 @@ class CrawlerTheWebsiteTest extends TestCase
         $listener->handle(new ProjectWatcher($project, $inspection));
     }
 
+    /**
+     * Test handle with empty database
+     *
+     * @return void
+     */
     public function testHandleWithEmptyDatabase()
     {
         $userFaker = factory(User::class)->create(['name' => 'test']);
@@ -164,7 +193,8 @@ class CrawlerTheWebsiteTest extends TestCase
                 'titleTag' => '<title>Example Domain</title>',
                 'desc' => 'example description',
                 'descTag' => '<meta name="description" content="example description" />',
-                'bodyContent' => ''
+                'bodyContent' => '',
+                'depth' => 0
             ],
             [
                 'type' => 'url',
@@ -173,7 +203,8 @@ class CrawlerTheWebsiteTest extends TestCase
                 'titleTag' => '<title>Example Domain</title>',
                 'desc' => 'example description',
                 'descTag' => '<meta name="description" content="example description" />',
-                'bodyContent' => ''
+                'bodyContent' => '',
+                'depth' => 1
             ]
         ]);
         $crawler->shouldReceive('getSiteCss')->andReturn([

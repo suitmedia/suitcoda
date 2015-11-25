@@ -5,19 +5,24 @@ namespace SuitTests\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use SuitTests\TestCase;
 use Suitcoda\Model\Inspection;
+use SuitTests\TestCase;
 
 class InspectionTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testGetStatusAttribute()
+    /**
+     * Test get string status attribute
+     *
+     * @return void
+     */
+    public function testGetStatAttribute()
     {
         $inspection = new Inspection;
 
         $listStat = [
-            -1 => 'Unknown',
+            (-1) => 'Unknown',
             0 => 'Queue',
             1 => 'Process',
             2 => 'Completed'
@@ -29,6 +34,11 @@ class InspectionTest extends TestCase
         }
     }
 
+    /**
+     * Test Relationship Inspection with Project
+     *
+     * @return void
+     */
     public function testRelationshipWithProject()
     {
         $inspection = new Inspection;
@@ -36,6 +46,11 @@ class InspectionTest extends TestCase
         $this->assertInstanceOf(BelongsTo::class, $inspection->project());
     }
 
+    /**
+     * Test get query scope of getById method
+     *
+     * @return void
+     */
     public function testScopeGetById()
     {
         $inspection = new Inspection;
