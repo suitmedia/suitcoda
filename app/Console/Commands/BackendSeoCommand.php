@@ -27,6 +27,7 @@ class BackendSeoCommand extends Command
     /**
      * Create a new command instance.
      *
+     * @param Suitcoda\Supports\BackendSeoChecker $checker []
      * @return void
      */
     public function __construct(BackendSeoChecker $checker)

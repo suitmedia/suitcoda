@@ -5,10 +5,10 @@ namespace SuitTests\Console\Commands;
 use Illuminate\Console\Application;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
-use SuitTests\TestCase;
 use Suitcoda\Console\Commands\BackendSeoCommand;
 use Suitcoda\Model\Url;
 use Suitcoda\Supports\BackendSeoChecker;
+use SuitTests\TestCase;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -22,6 +22,8 @@ class BackendSeoCommandTest extends TestCase
 
     /**
      * test continue if user success save to database
+     *
+     * @return void
      */
     public function testHandle()
     {
