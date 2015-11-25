@@ -2,11 +2,11 @@
 
 namespace Suitcoda\Listeners;
 
-use Suitcoda\Events\ProjectWatcher;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Suitcoda\Supports\CrawlerUrl;
+use Illuminate\Queue\InteractsWithQueue;
+use Suitcoda\Events\ProjectWatcher;
 use Suitcoda\Model\Url;
+use Suitcoda\Supports\CrawlerUrl;
 
 class CrawlerTheWebsite implements ShouldQueue
 {
@@ -17,6 +17,8 @@ class CrawlerTheWebsite implements ShouldQueue
     /**
      * Create the event listener.
      *
+     * @param Suitcoda\Supports\CrawlerUrl $crawler []
+     * @param Suitcoda\Model\Url $url []
      * @return void
      */
     public function __construct(CrawlerUrl $crawler, Url $url)
@@ -28,7 +30,7 @@ class CrawlerTheWebsite implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  ProjectWatcher  $event
+     * @param  ProjectWatcher  $event []
      * @return void
      */
     public function handle(ProjectWatcher $event)
@@ -69,6 +71,13 @@ class CrawlerTheWebsite implements ShouldQueue
         $event->project->update(['is_crawlable' => false]);
     }
 
+    /**
+     * Create new url
+     *
+     * @param ProjectWatcher $event []
+     * @param Suitcoda\Model\Url $url []
+     * @return void
+     */
     protected function addNewUrl($event, $url)
     {
         $model = $this->url->newInstance();

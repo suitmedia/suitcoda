@@ -15,7 +15,8 @@ class ProjectController extends BaseController
     /**
      * Class constructor
      *
-     * @param Project  $project
+     * @param Suitcoda\Model\Project  $project []
+     * @param Suitcoda\Model\Scope $scope []
      */
     public function __construct(Project $project, Scope $scope)
     {
@@ -49,7 +50,7 @@ class ProjectController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  Suitcoda\Http\Requests\ProjectRequest  $request []
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(ProjectRequest $request)
@@ -62,6 +63,12 @@ class ProjectController extends BaseController
         return redirect()->route('home');
     }
 
+    /**
+     * Show detail information for project
+     *
+     * @param  string $key []
+     * @return \Illuminate\Http\Response
+     */
     public function detail($key)
     {
         $project = $this->find($key);
@@ -73,7 +80,7 @@ class ProjectController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  string  $key
+     * @param  string  $key []
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($key)
@@ -85,7 +92,8 @@ class ProjectController extends BaseController
 
     /**
      * Find operation
-     * @param  string $key
+     *
+     * @param  string $key []
      * @return Suitcoda\Model\User
      *
      * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -100,12 +108,24 @@ class ProjectController extends BaseController
         return $result;
     }
 
+    /**
+     * Show json data for chart
+     *
+     * @param  string $key []
+     * @return \Illuminate\Http\Response
+     */
     public function graph($key)
     {
         $project = $this->find($key);
         return response()->json($this->generateJson($project));
     }
 
+    /**
+     * Generate json data for graph
+     *
+     * @param  Suitcoda\Model\Project $project []
+     * @return array
+     */
     protected function generateJson($project)
     {
         $graphData = [];

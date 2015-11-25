@@ -2,8 +2,8 @@
 
 namespace Suitcoda\Http\Controllers\Auth;
 
-use Suitcoda\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Suitcoda\Http\Controllers\Controller;
 
 class PasswordController extends Controller
 {

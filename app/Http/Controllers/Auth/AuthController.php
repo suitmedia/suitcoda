@@ -2,9 +2,9 @@
 
 namespace Suitcoda\Http\Controllers\Auth;
 
-use Suitcoda\Model\User;
 use Suitcoda\Http\Controllers\Controller;
 use Suitcoda\Http\Requests\AuthRequest;
+use Suitcoda\Model\User;
 
 class AuthController extends Controller
 {
@@ -27,7 +27,7 @@ class AuthController extends Controller
     /**
      * Handle a login request to the application.
      *
-     * @param  AuthRequest  $request
+     * @param  Suitcoda\Http\Requests\AuthRequest  $request []
      * @return \Illuminate\Http\RedirectResponse
      */
     public function postLogin(AuthRequest $request)
@@ -58,7 +58,7 @@ class AuthController extends Controller
     /**
      * Get the needed authorization credentials from the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Suitcoda\Http\Requests\AuthRequest  $request []
      * @return array
      */
     protected function getCredentials(AuthRequest $request)

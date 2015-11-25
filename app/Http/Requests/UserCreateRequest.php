@@ -38,20 +38,21 @@ class UserCreateRequest extends Request
 
     /**
      * Get input that has been sanitize
-     * @return array
+     *
+     * @return void
      */
     protected function sanitize()
     {
         $input = $this->all();
 
-        if (!empty($input[ 'name' ]) &&
-            !empty($input[ 'username' ]) &&
-            !empty($input[ 'email' ]) &&
-            !empty($input[ 'password' ])) {
-            $input[ 'name' ] = filter_var($input[ 'name' ], FILTER_SANITIZE_STRING);
-            $input[ 'username' ] = filter_var($input[ 'username' ], FILTER_SANITIZE_STRING);
-            $input[ 'email' ] = filter_var($input[ 'email' ], FILTER_SANITIZE_EMAIL);
-            $input[ 'password' ] = filter_var($input[ 'password' ], FILTER_SANITIZE_STRING);
+        if (!empty($input['name']) &&
+            !empty($input['username']) &&
+            !empty($input['email']) &&
+            !empty($input['password'])) {
+            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
+            $input['username'] = filter_var($input['username'], FILTER_SANITIZE_STRING);
+            $input['email'] = filter_var($input['email'], FILTER_SANITIZE_EMAIL);
+            $input['password'] = filter_var($input['password'], FILTER_SANITIZE_STRING);
         }
 
         $this->replace($input);

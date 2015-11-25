@@ -12,26 +12,54 @@ class BackendSeoChecker
 
     protected $option;
 
+    /**
+     * Class constructor
+     *
+     * @param Url $url []
+     */
     public function __construct(Url $url)
     {
         $this->url = $url;
     }
 
+    /**
+     * Set url for checker
+     *
+     * @param string $url []
+     * @return void
+     */
     public function setUrl($url)
     {
         $this->url = $this->url->ByUrl($url)->first();
     }
 
+    /**
+     * Set destination folder for result checker
+     *
+     * @param string $destination []
+     * @return void
+     */
     public function setDestination($destination)
     {
         $this->destination = $destination;
     }
 
+    /**
+     * Set option for checker
+     *
+     * @param string $option []
+     * @return void
+     */
     public function setOption($option)
     {
         $this->option = $option;
     }
 
+    /**
+     * Run checker
+     *
+     * @return void
+     */
     public function run()
     {
         $json = [];
@@ -43,16 +71,7 @@ class BackendSeoChecker
         $projectUrls = $project->urls()->where('id', '>', $this->url->id)->get();
         if ($this->option['title-similar'] || $this->option['desc-similar']) {
             foreach ($projectUrls as $url) {
-                if ($this->option['title-similar'] && strcmp($this->url->title, $url->title) == 0) {
-                    $desc = 'The title tag in this url exactly same with the title tag in url : ' . $url->url .
-                        '. Please change so there are no same title tag.';
-                    array_push($json['checking'], ['error' => 'error', 'desc' => $desc]);
-                }
-                if ($this->option['desc-similar'] && strcmp($this->url->desc, $url->desc) == 0) {
-                    $desc = 'The description tag in this url exactly same with the description tag in url : ' .
-                        $url->url . '. Please change so there are no same description tag.';
-                    array_push($json['checking'], ['error' => 'error', 'desc' => $desc]);
-                }
+                $this->getErrorDescription($json, $url);
             }
         }
 
@@ -67,5 +86,26 @@ class BackendSeoChecker
         $result = fopen(base_path($this->destination) . "resultBackendSEO.json", "w");
         fwrite($result, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         fclose($result);
+    }
+
+    /**
+     * Check if url get error or not
+     *
+     * @param array $json []
+     * @param object $url []
+     * @return void
+     */
+    protected function getErrorDescription($json, $url)
+    {
+        if ($this->option['title-similar'] && strcmp($this->url->title, $url->title) == 0) {
+            $desc = 'The title tag in this url exactly same with the title tag in url : ' . $url->url .
+                '. Please change so there are no same title tag.';
+            array_push($json['checking'], ['error' => 'error', 'desc' => $desc]);
+        }
+        if ($this->option['desc-similar'] && strcmp($this->url->desc, $url->desc) == 0) {
+            $desc = 'The description tag in this url exactly same with the description tag in url : ' .
+                $url->url . '. Please change so there are no same description tag.';
+            array_push($json['checking'], ['error' => 'error', 'desc' => $desc]);
+        }
     }
 }

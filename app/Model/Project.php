@@ -2,12 +2,12 @@
 
 namespace Suitcoda\Model;
 
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
-use Carbon\Carbon;
-use Suitcoda\Model\User;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\Url;
+use Suitcoda\Model\User;
 
 class Project extends BaseModel implements SluggableInterface
 {
@@ -15,7 +15,7 @@ class Project extends BaseModel implements SluggableInterface
 
     protected $table = 'projects';
 
-    protected $url_key = 'slug';
+    protected $urlKey = 'slug';
 
     protected $fillable = [
         'name',
@@ -29,36 +29,70 @@ class Project extends BaseModel implements SluggableInterface
         'save_to' => 'slug'
     ];
 
+    /**
+     * Get main url with http prefix
+     *
+     * @param  string $value []
+     * @return string
+     */
     public function getMainUrlAttribute($value)
     {
         if (!isset($value)) {
-            $url_prefix = 'http://';
-            return url(sprintf('%s', $url_prefix));
+            $urlPrefix = 'http://';
+            return url(sprintf('%s', $urlPrefix));
         }
         return $value;
     }
 
+    /**
+     * Get updated_at variable with the given format
+     *
+     * @param  string $value []
+     * @return string
+     */
     public function getUpdatedAtAttribute($value)
     {
         $time = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('H:i M j, Y');
         return $time;
     }
 
+    /**
+     * Get the user for the current project.
+     *
+     * @return object
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Get the inspections for the current project.
+     *
+     * @return object
+     */
     public function inspections()
     {
         return $this->hasMany(Inspection::class);
     }
 
+    /**
+     * Get the urls for the current project.
+     *
+     * @return object
+     */
     public function urls()
     {
         return $this->hasMany(Url::class);
     }
 
+    /**
+     * Scope a query to get project with the given slug.
+     *
+     * @param string $query []
+     * @param string $slug []
+     * @return object
+     */
     public function scopeFindBySlug($query, $slug)
     {
         return $query->where('slug', $slug)->get();

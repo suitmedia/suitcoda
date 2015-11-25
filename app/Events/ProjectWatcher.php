@@ -19,6 +19,8 @@ class ProjectWatcher extends Event
     /**
      * Create a new event instance.
      *
+     * @param Suitcoda\Model\Project $project []
+     * @param Suitcoda\Model\Inspection $inspection []
      * @return void
      */
     public function __construct(Project $project, Inspection $inspection)

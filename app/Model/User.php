@@ -2,9 +2,9 @@
 
 namespace Suitcoda\Model;
 
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
-use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -13,11 +13,13 @@ use Suitcoda\Model\Project;
 
 class User extends BaseModel implements SluggableInterface, AuthenticatableContract, CanResetPasswordContract
 {
-    use SluggableTrait, Authenticatable, CanResetPassword;
+    use Authenticatable;
+    use CanResetPassword;
+    use SluggableTrait;
 
     protected $table = 'users';
 
-    protected $url_key = 'slug';
+    protected $urlKey = 'slug';
 
     protected $fillable = [
         'username',
@@ -46,11 +48,22 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
     //     }
     // }
 
+    /**
+     * Get sentence case for name atrribute
+     * @param  string $value []
+     * @return string
+     */
     public function getNameAttribute($value)
     {
         return ucwords($value);
     }
 
+    /**
+     * Get last_login_at attribute with the custom format
+     *
+     * @param  string $value []
+     * @return string
+     */
     public function getLastLoginAtAttribute($value)
     {
         if ($value) {
@@ -60,6 +73,11 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
         return '-';
     }
 
+    /**
+     * Get is_admin attribute boolean value
+     *
+     * @return bool
+     */
     public function isAdmin()
     {
         if ($this->is_admin) {
@@ -68,6 +86,11 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
         return false;
     }
 
+    /**
+     * Get is_admin attribute string value
+     *
+     * @return string
+     */
     public function getAdminName()
     {
         if ($this->is_admin) {
@@ -76,6 +99,11 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
         return 'User';
     }
 
+    /**
+     * Get initial of name attribute
+     *
+     * @return string
+     */
     public function getInitials()
     {
         $words = explode(' ', $this->name);
@@ -90,17 +118,31 @@ class User extends BaseModel implements SluggableInterface, AuthenticatableContr
         return strtoupper($initial);
     }
 
+    /**
+     * Save user login's time
+     * @return void
+     */
     public function login()
     {
         $this->last_login_at = Carbon::now();
         $this->save();
     }
-
+    /**
+     * Get the project for the current user.
+     *
+     * @return object
+     */
     public function projects()
     {
         return $this->hasMany(Project::class);
     }
     
+    /**
+     * Scope a query to get all user with ascending order by name.
+     *
+     * @param string $query []
+     * @return object
+     */
     public function scopeAllAccount($query)
     {
         return $query->orderBy('name')->get();

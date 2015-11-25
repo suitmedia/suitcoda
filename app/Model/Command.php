@@ -14,6 +14,11 @@ class Command extends BaseModel
         'is_active'
     ];
 
+    /**
+     * Get the scope for the command.
+     *
+     * @return object
+     */
     public function scope()
     {
         return $this->belongsTo(Scope::class);

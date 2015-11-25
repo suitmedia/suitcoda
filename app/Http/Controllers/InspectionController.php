@@ -3,9 +3,9 @@
 namespace Suitcoda\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Suitcoda\Events\ProjectWatcher;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\Project;
-use Suitcoda\Events\ProjectWatcher;
 
 class InspectionController extends BaseController
 {
@@ -16,7 +16,8 @@ class InspectionController extends BaseController
     /**
      * Class constructor
      *
-     * @param Inspection  $inspection
+     * @param Suitcoda\Model\Inspection  $inspection []
+     * @param Suitcoda\Model\Project $project []
      */
     public function __construct(Inspection $inspection, Project $project)
     {
@@ -28,7 +29,7 @@ class InspectionController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $request []
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)

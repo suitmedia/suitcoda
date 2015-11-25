@@ -23,6 +23,8 @@ class JobGenerator implements ShouldQueue
     /**
      * Create the event listener.
      *
+     * @param Suitcoda\Supports\ScopesCheckerGenerator $generator []
+     * @param Suitcoda\Model\JobInspect $job []
      * @return void
      */
     public function __construct(ScopesCheckerGenerator $generator, JobInspect $job)
@@ -34,7 +36,7 @@ class JobGenerator implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  ProjectWatcher  $event
+     * @param  ProjectWatcher  $event []
      * @return void
      */
     public function handle(ProjectWatcher $event)
@@ -44,6 +46,15 @@ class JobGenerator implements ShouldQueue
         }
     }
 
+    /**
+     * Create new jobInspect
+     *
+     * @param ProjectWatcher $event []
+     * @param Suitcoda\Model\Url $url []
+     * @param Suitcoda\Model\Scope $scope []
+     * @param string $commandLine []
+     * @return void
+     */
     protected function addNewJob($event, $url, $scope, $commandLine)
     {
         $model = $this->job->newInstance();
@@ -57,6 +68,13 @@ class JobGenerator implements ShouldQueue
         $model->save();
     }
 
+    /**
+     * Generate job by type of scope
+     *
+     * @param  ProjectWatcher $event []
+     * @param  string $type  []
+     * @return void
+     */
     protected function generateJobByType($event, $type)
     {
         $urls = $event->project->urls()->active()->byType($type)->get();

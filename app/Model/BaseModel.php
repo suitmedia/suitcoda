@@ -10,7 +10,7 @@ abstract class BaseModel extends Model
      * Key used for SEO in url. This attribute must be unique.
      * @var string
      */
-    protected $url_key = 'id';
+    protected $urlKey = 'id';
 
 
     /**
@@ -38,7 +38,7 @@ abstract class BaseModel extends Model
      */
     public function getUrlKeyName()
     {
-        return $this->url_key;
+        return $this->urlKey;
     }
 
     /**

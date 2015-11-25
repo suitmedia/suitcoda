@@ -15,26 +15,57 @@ class Inspection extends BaseModel
         'score',
     ];
 
-    public function scopeGetLatestByProjectId($query, $id)
+    /**
+     * Scope a query to only include inspections of a given projectId.
+     *
+     * @param  string $query []
+     * @param  string $projectId []
+     * @return object
+     */
+    public function scopeGetLatestByProjectId($query, $projectId)
     {
-        return $query->where('project_id', $id)->latest()->first();
+        return $query->where('project_id', $projectId)->latest()->first();
     }
 
-    public function scopeGetAllByProjectId($query, $id)
+    /**
+     * Scope a query to get all inspections of a given projectId.
+     *
+     * @param  string $query []
+     * @param  string $projectId []
+     * @return object
+     */
+    public function scopeGetAllByProjectId($query, $projectId)
     {
-        return $query->where('project_id', $id)->get();
+        return $query->where('project_id', $projectId)->get();
     }
 
-    public function scopeGetById($query, $id)
+    /**
+     * Scope a query to get inspections of a given id.
+     *
+     * @param  string $query []
+     * @param  string $keyId []
+     * @return object
+     */
+    public function scopeGetById($query, $keyId)
     {
-        return $query->where('id', $id)->get();
+        return $query->where('id', $keyId)->get();
     }
 
+    /**
+     * Get the project for the current inspection.
+     *
+     * @return object
+     */
     public function project()
     {
         return $this->belongsTo(Project::class);
     }
 
+    /**
+     * Get status attribute in string
+     *
+     * @return string
+     */
     public function getStatAttribute()
     {
         if ($this->attributes['status'] == 0) {

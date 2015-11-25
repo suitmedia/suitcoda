@@ -15,6 +15,11 @@ class SubScope extends BaseModel
         'is_active'
     ];
 
+    /**
+     * Get the scope for the current subscope.
+     *
+     * @return object
+     */
     public function scope()
     {
         return $this->belongsTo(Scope::class);

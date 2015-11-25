@@ -35,16 +35,17 @@ class ProjectRequest extends Request
 
     /**
      * Get input that has been sanitize
-     * @return array
+     *
+     * @return void
      */
     protected function sanitize()
     {
         $input = $this->all();
 
-        if (!empty($input[ 'name' ]) &&
-            !empty($input[ 'main_url' ])) {
-            $input[ 'name' ] = filter_var($input[ 'name' ], FILTER_SANITIZE_STRING);
-            $input[ 'main_url' ] = filter_var($input[ 'main_url' ], FILTER_SANITIZE_URL);
+        if (!empty($input['name']) &&
+            !empty($input['main_url'])) {
+            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
+            $input['main_url'] = filter_var($input['main_url'], FILTER_SANITIZE_URL);
         }
 
         $this->replace($input);
