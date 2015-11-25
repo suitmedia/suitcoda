@@ -18,8 +18,9 @@ class ScopeTableSeeder extends Seeder
             'html' => 'Code Quality',
             'css' => 'Code Quality',
             'js' => 'Code Quality',
-            'socialMedia' => 'Sosial Media',
-            'gPagespeed' => 'Performance',
+            'socialMedia' => 'Social Media',
+            'gPagespeedDesktop' => 'Performance',
+            'gPagespeedMobile' => 'Performance',
             'ySlow' => 'Performance',
         ];
 

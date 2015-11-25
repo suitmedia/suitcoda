@@ -39,15 +39,13 @@ class SubScopeTableSeeder extends Seeder
             'Facebook Insights' => '--facebookinsight'
         ];
 
-        $codeQuality = [
+        $standAloneChecker = [
             'HTML Validation by W3 Validator' => 'html',
             'CSS Validation by CSSLint' => 'css',
-            'JS Validation by JSHint' => 'js'
-        ];
-
-        $gPagespeed = [
-            'Google Page Speed - Mobile' => '--stategy mobile',
-            'Google Page Speed - Desktop' => '--stategy desktop'
+            'JS Validation by JSHint' => 'js',
+            'Google Page Speed - Mobile' => 'gPagespeedMobile',
+            'Google Page Speed - Desktop' => 'gPagespeedDesktop',
+            'Yahoo YSlow' => 'ySlow'
         ];
 
         $scope = Scope::getByName('seo');
@@ -60,7 +58,7 @@ class SubScopeTableSeeder extends Seeder
             $this->addNewSubSopes($scope, $name, $parameter);
         }
 
-        foreach ($codeQuality as $name => $parameter) {
+        foreach ($standAloneChecker as $name => $parameter) {
             $scope = Scope::getByName($parameter);
 
             $this->addNewSubSopes($scope, $name, '');
@@ -70,14 +68,6 @@ class SubScopeTableSeeder extends Seeder
         foreach ($socialMediaCheckingList as $name => $parameter) {
             $this->addNewSubSopes($scope, $name, $parameter);
         }
-
-        $scope = Scope::getByName('gPagespeed');
-        foreach ($gPagespeed as $name => $parameter) {
-            $this->addNewSubSopes($scope, $name, $parameter);
-        }
-
-        $scope = Scope::getByName('ySlow');
-        $this->addNewSubSopes($scope, 'Yahoo YSlow', '');
     }
 
     protected function addNewSubSopes($scope, $name, $parameter)

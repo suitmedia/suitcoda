@@ -20,7 +20,8 @@ class CommandsTableSeeder extends Seeder
             'css' => 'cssHorseman.js',
             'js' => 'jsHorseman.js',
             'socialMedia' => 'socmedChecker.js',
-            'gPagespeed' => 'pagespeed.js',
+            'gPagespeedDesktop' => 'pagespeedDesktop.js',
+            'gPagespeedMobile' => 'pagespeedMobile.js',
             'ySlow' => 'yslowHorseman.js'
         ];
 
