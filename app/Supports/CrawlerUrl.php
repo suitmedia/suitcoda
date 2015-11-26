@@ -153,6 +153,7 @@ class CrawlerUrl
 
     /**
      * Get list of unvisited url
+     *
      * @return array
      */
     public function getUnvisitedUrl()
@@ -163,7 +164,9 @@ class CrawlerUrl
     /**
      * Set website url for crawling
      *
-     * @param string $baseUrl
+     * @param string $baseUrl []
+     *
+     * @return  void
      */
     public function setBaseUrl($baseUrl)
     {
@@ -187,19 +190,20 @@ class CrawlerUrl
     /**
      * Check url is crawlable or not
      *
-     * @param  string $url
-     * @return boolean
+     * @param  string $url []
+     *
+     * @return bool
      */
     public function checkIfCrawlable($url)
     {
         if (empty($url)) {
             return false;
         }
-        $patterns = array(
+        $patterns = [
             '@^javascript\:@',
             '@^#.*@',
             '@^void\(0\);$@'
-        );
+        ];
         foreach ($patterns as $pattern) {
             if (preg_match($pattern, $url)) {
                 return false;
@@ -211,12 +215,13 @@ class CrawlerUrl
     /**
      * Check url is external url or not
      *
-     * @param  string $url
-     * @return boolean
+     * @param  string $url []
+     *
+     * @return bool
      */
     public function checkIfExternal($url)
     {
-        $baseUrlTrimmed = str_replace(array('http://', 'https://'), '', $this->baseUrl);
+        $baseUrlTrimmed = str_replace(['http://', 'https://'], '', $this->baseUrl);
         if (preg_match("@http(s)?\://$baseUrlTrimmed@", $url)) {
             return false;
         } else {
@@ -227,9 +232,10 @@ class CrawlerUrl
     /**
      * Checking a url in the array of site that crawl or not
      *
-     * @param  string $url
-     * @param  array &$siteLink
-     * @return boolean
+     * @param  string $url []
+     * @param  array $siteLink []
+     *
+     * @return bool
      */
     public function checkNotInList($url, &$siteLink)
     {
@@ -249,15 +255,21 @@ class CrawlerUrl
     public function start()
     {
         $this->unvisitedUrl[] = $this->baseUrl;
-        while ((count($this->unvisitedUrl) > 0) && ($url = array_shift($this->unvisitedUrl))) {
+        $counter = count($this->unvisitedUrl);
+
+        while (($counter > 0) && ($url = array_shift($this->unvisitedUrl))) {
             $this->crawl($url);
+
+            $counter = count($this->unvisitedUrl);
         }
     }
 
     /**
      * Function to filter a url base on html tag
      *
-     * @param  string $url
+     * @param  string $url []
+     *
+     * @return  void
      */
     protected function crawl($url)
     {
@@ -277,9 +289,12 @@ class CrawlerUrl
     /**
      * Function to get all link url, css and js from a url
      *
-     * @param  array  $lists
-     * @param  array  &$siteLink
-     * @param  integer $recursive
+     * @param  array  $currentUrl []
+     * @param  array  $lists []
+     * @param  array  $siteLink []
+     * @param  int    $recursive []
+     *
+     * @return void
      */
     protected function getAllLink($currentUrl, $lists, &$siteLink, $recursive = 0)
     {
@@ -304,8 +319,10 @@ class CrawlerUrl
     /**
      * Function to checking and retrying a url
      *
-     * @param  string $url
-     * @param  int $try
+     * @param  string $url []
+     * @param  int    $try []
+     *
+     * @return ResponseInterface [It could be null]
      */
     public function doRequest($url, $try = null)
     {
@@ -321,7 +338,7 @@ class CrawlerUrl
             if ($responseUrl->getStatusCode() === 200 &&
                 $this->checkNotInList($effectiveUrl, $this->siteUrl)) {
                 $bodyContent = $responseUrl->getBody()->getContents();
-                $compressedBodyContent = gzdeflate($bodyContent, 9);
+                $compressedContent = gzdeflate($bodyContent, 9);
                 $this->crawler->addHtmlContent($bodyContent);
                 $urlInfo = [
                     'type' => 'url',
@@ -330,7 +347,8 @@ class CrawlerUrl
                     'titleTag' => '',
                     'desc' => '',
                     'descTag' => '',
-                    'bodyContent' => $compressedBodyContent
+                    'bodyContent' => $compressedContent,
+                    'depth' => $this->getUrlDepth($effectiveUrl)
                 ];
                 if ($this->crawler->filterXPath('//head')->count() &&
                     !empty($this->crawler->filterXPath('//head')->html())) {
@@ -342,10 +360,9 @@ class CrawlerUrl
                     $urlInfo['titleTag'] = $titleTag[0];
                     $urlInfo['desc'] = $descTag[1];
                     $urlInfo['descTag'] = $descTag[0];
-                    $urlInfo['depth'] = $this->getUrlDepth($effectiveUrl);
                 }
                 array_push($this->siteUrl, $urlInfo);
-                unset($bodyContent, $compressedBodyContent, $urlInfo);
+                unset($bodyContent, $compressedContent, $urlInfo);
                 return $responseUrl;
             }
             if ($responseUrl->getStatusCode() >= 400) {
@@ -365,8 +382,9 @@ class CrawlerUrl
     /**
      * Get the last redirect from a url
      *
-     * @param  string $url
-     * @return string
+     * @param  string $url []
+     *
+     * @return Response object
      */
     public function getEffectiveUrl($url)
     {
@@ -387,12 +405,13 @@ class CrawlerUrl
     /**
      * Get the title tag and content of tag
      *
-     * @param  string $html
+     * @param  string $html []
+     *
      * @return array
      */
     public function getTitleTag($html)
     {
-        $titleTag = preg_match(
+        preg_match(
             '/<title[^>]*>([\s\S]*?)<\/title>/',
             $html,
             $titleTagMatches
@@ -409,12 +428,13 @@ class CrawlerUrl
     /**
      * Get the meta tag description and content of tag
      *
-     * @param  string $html
+     * @param  string $html []
+     *
      * @return array
      */
     public function getDescTag($html)
     {
-        $descTag = preg_match(
+        preg_match(
             '/<meta name="description"(.*?)content="(.*?)"(.*?\/*)>/',
             $html,
             $descTagMatches
@@ -428,6 +448,13 @@ class CrawlerUrl
         return $finalDescTagMatches;
     }
 
+    /**
+     * Get extension of the given url
+     *
+     * @param  string $url [A valid URL address]
+     *
+     * @return string      [Extenstion]
+     */
     public function getExtension($url)
     {
         $extensions = [
@@ -443,6 +470,12 @@ class CrawlerUrl
         return null;
     }
 
+    /**
+     * Get depth of given url
+     *
+     * @param  string $url []
+     * @return int
+     */
     public function getUrlDepth($url)
     {
         $urlPath = parse_url($url, PHP_URL_PATH);

@@ -24,12 +24,21 @@ class CrawlUrlCommand extends Command
      */
     protected $description = 'Crawling urls a website.';
 
+    protected $client;
+
+    protected $crawler;
+
     /**
      * Create a new command instance.
+     *
+     * @param GuzzleHttp\Client $client []
+     * @param Symfony\Component\DomCrawler\Crawler $crawler []
      */
-    public function __construct()
+    public function __construct(Client $client, Crawler $crawler)
     {
         parent::__construct();
+        $this->client = $client;
+        $this->crawler = $crawler;
     }
 
     /**
@@ -37,11 +46,11 @@ class CrawlUrlCommand extends Command
      *
      * @return mixed
      */
-    public function handle(Client $client, Crawler $crawler)
+    public function handle()
     {
         if (is_string($this->argument('url'))) {
             $url = $this->argument('url');
-            $crawlCommand = new CrawlerUrl($client, $crawler);
+            $crawlCommand = new CrawlerUrl($this->client, $this->crawler);
             $crawlCommand->setBaseUrl($url);
             $crawlCommand->start();
         }

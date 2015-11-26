@@ -32,7 +32,7 @@
                                 <label for="project-url" class="form-label">Project URL :</label>
                             </div>
                             <div class="bzg_c" data-col="s12,m8">
-                                <input id="project-url" class="form-input form-input--block" name="main_url" value="{{ (empty(Request::old('main_url')) ? $model->main_url : Request::old('main_url')) }}" type="text" required>
+                                <input id="project-url" class="form-input form-input--block" name="main_url" value="{{ (empty(Request::old('main_url')) ? $project->main_url : Request::old('main_url')) }}" type="text" required>
                                 @if (\Session::has('errors'))
                                     <span style="font-size:13px; color:red;">{{ \Session::get('errors')->first('main_url') }}</span>
                                 @endif

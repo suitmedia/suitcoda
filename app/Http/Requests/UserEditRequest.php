@@ -38,18 +38,19 @@ class UserEditRequest extends Request
 
     /**
      * Get input that has been sanitize
-     * @return array
+     *
+     * @return void
      */
     protected function sanitize()
     {
         $input = $this->all();
 
-        if (!empty($input[ 'name' ]) &&
-            !empty($input[ 'username' ]) &&
-            !empty($input[ 'email' ])) {
-            $input[ 'name' ] = filter_var($input[ 'name' ], FILTER_SANITIZE_STRING);
-            $input[ 'username' ] = filter_var($input[ 'username' ], FILTER_SANITIZE_STRING);
-            $input[ 'email' ] = filter_var($input[ 'email' ], FILTER_SANITIZE_EMAIL);
+        if (!empty($input['name']) &&
+            !empty($input['username']) &&
+            !empty($input['email'])) {
+            $input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
+            $input['username'] = filter_var($input['username'], FILTER_SANITIZE_STRING);
+            $input['email'] = filter_var($input['email'], FILTER_SANITIZE_EMAIL);
         }
 
         $this->replace($input);

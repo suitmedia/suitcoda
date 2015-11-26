@@ -6,23 +6,38 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Mockery;
-use SuitTests\TestCase;
 use Suitcoda\Supports\CrawlerUrl;
 use Suitcoda\Supports\EffectiveUrlMiddleware;
+use SuitTests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlerUrlTest extends TestCase
 {
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();
     }
 
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     */
     public function tearDown()
     {
         parent::tearDown();
     }
 
+    /**
+     * Test continue if url can be crawl
+     *
+     * @return void
+     */
     public function testUrlCrawlable()
     {
         $client = $this->getMockClient()->makePartial();
@@ -33,6 +48,11 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals(true, $crawl->checkIfCrawlable('example.com'));
     }
 
+    /**
+     * Test continue if url not crawlable
+     *
+     * @return void
+     */
     public function testUrlNotCrawlable()
     {
         $client = $this->getMockClient()->makePartial();
@@ -47,6 +67,11 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals(false, $crawl->checkIfCrawlable(''));
     }
 
+    /**
+     * Test continue if external url
+     *
+     * @return void
+     */
     public function testUrlIsExternalUrl()
     {
         $client = $this->getMockClient()->makePartial();
@@ -60,6 +85,11 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals(true, $crawl->checkIfExternal('https://test.com'));
     }
 
+    /**
+     * Test continue if internal url
+     *
+     * @return void
+     */
     public function testUrlIsNotExternalUrl()
     {
         $client = $this->getMockClient()->makePartial();
@@ -72,6 +102,11 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals(false, $crawl->checkIfExternal('https://example.com/test'));
     }
 
+    /**
+     * Test continue if return Guzzle\Psr7\Response object
+     *
+     * @return void
+     */
     public function testGetEffectiveUrl()
     {
         $client = $this->getMockClient()->makePartial();
@@ -82,9 +117,16 @@ class CrawlerUrlTest extends TestCase
         
         $crawl = new CrawlerUrl($client, $domCrawler);
 
-        $crawl->getEffectiveUrl('http://example.com');
+        $result = $crawl->getEffectiveUrl('http://example.com');
+
+        $this->assertInstanceOf(Response::class, $result);
     }
 
+    /**
+     * Test continue if return url array of empty tag
+     *
+     * @return void
+     */
     public function testDoRequestHtmlWithoutTag()
     {
         $html = '<!DOCTYPE html>
@@ -117,10 +159,16 @@ class CrawlerUrlTest extends TestCase
             'titleTag' => '',
             'desc' => '',
             'descTag' => '',
-            'bodyContent' => gzdeflate($html, 9)
+            'bodyContent' => gzdeflate($html, 9),
+            'depth' => 0
         ]], $crawl->getSiteUrl());
     }
 
+    /**
+     * Test continue if return array of url full info
+     *
+     * @return void
+     */
     public function testDoRequestHtmlWithTag()
     {
         $html = '<!DOCTYPE html>
@@ -164,6 +212,11 @@ class CrawlerUrlTest extends TestCase
         ]], $crawl->getSiteUrl());
     }
 
+    /**
+     * Test continue if return array of broken link
+     *
+     * @return void
+     */
     public function testDoRequestBrokenLink()
     {
         $client = $this->getMockClient();
@@ -181,6 +234,11 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals(['http://example.com/test'], $crawl->getSiteBrokenLink());
     }
 
+    /**
+     * Test continue if return null on doRequest
+     *
+     * @return void
+     */
     public function testDoRequestCatchException()
     {
         $client = $this->getMockClientException();
@@ -192,6 +250,11 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals(null, $result);
     }
 
+    /**
+     * Test continue if url still not in array
+     *
+     * @return void
+     */
     public function testCheckNotInList()
     {
         $client = $this->getMockClient();
@@ -204,6 +267,11 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals(true, $result);
     }
 
+    /**
+     * Test continue if expected url
+     *
+     * @return void
+     */
     public function testCrawler()
     {
         $html = '<a href="http:example.com"></a>';
@@ -216,7 +284,8 @@ class CrawlerUrlTest extends TestCase
                 'titleTag' => '',
                 'desc' => '',
                 'descTag' => '',
-                'bodyContent' => gzdeflate('', 9)
+                'bodyContent' => gzdeflate('', 9),
+                'depth' => 0
             ],
             [
                 'type' => 'url',
@@ -225,7 +294,8 @@ class CrawlerUrlTest extends TestCase
                 'titleTag' => '',
                 'desc' => '',
                 'descTag' => '',
-                'bodyContent' => gzdeflate('', 9)
+                'bodyContent' => gzdeflate('', 9),
+                'depth' => 1
             ],
             [
                 'type' => 'url',
@@ -234,7 +304,8 @@ class CrawlerUrlTest extends TestCase
                 'titleTag' => '',
                 'desc' => '',
                 'descTag' => '',
-                'bodyContent' => gzdeflate('', 9)
+                'bodyContent' => gzdeflate('', 9),
+                'depth' => 1
             ],
         ];
 
@@ -260,6 +331,11 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals([], $crawling->getUnvisitedUrl());
     }
 
+    /**
+     * Test continue if return expected tag
+     *
+     * @return void
+     */
     public function testGetTitleAndDescTag()
     {
         $html = '<!DOCTYPE html>
@@ -287,6 +363,11 @@ class CrawlerUrlTest extends TestCase
             'example description'], $crawl->getDescTag($html));
     }
 
+    /**
+     * Test continue if return js or css extension
+     *
+     * @return void
+     */
     public function testGetExtension()
     {
         $client = $this->getMockClient();
@@ -304,6 +385,11 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals(null, $crawl->getExtension('http://example.com'));
     }
 
+    /**
+     * Test continue if return expected url depth
+     *
+     * @return void
+     */
     public function testGetUrlDepth()
     {
         $client = $this->getMockClient();
@@ -322,6 +408,11 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals(3, $crawl->getUrlDepth('http://example.com/test/foo/bar/#about-us'));
     }
 
+    /**
+     * Test continue if return empty array
+     *
+     * @return void
+     */
     public function testDumpGet()
     {
         $client = $this->getMockClient();
@@ -335,6 +426,11 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals([], $crawl->getSiteRedirectUrl());
     }
 
+    /**
+     * Test continue if return null
+     *
+     * @return void
+     */
     public function testDoRequestWithImgContentType()
     {
         $client = new Client();
@@ -342,17 +438,29 @@ class CrawlerUrlTest extends TestCase
 
         $crawl = new CrawlerUrl($client, $domCrawler);
         $result = $crawl->doRequest('https://www.google.co.id/images/branding/product/ico/googleg_lodp.ico');
+
+        $this->assertNull($result);
     }
 
+    /**
+     * Get Mock Guzzle Client for Throwing Exception
+     *
+     * @return GuzzleHttp\Client
+     */
     protected function getMockClientException()
     {
         $client = $this->getMockClient()->makePartial();
 
         $client->shouldReceive('get')->times(4)->andThrow(new \Exception);
-
+        
         return $client;
     }
 
+    /**
+     * Get Mock Guzzle Client
+     *
+     * @return GuzzleHttp\Client
+     */
     protected function getMockClient()
     {
         $client = Mockery::mock(Client::class);
@@ -360,6 +468,11 @@ class CrawlerUrlTest extends TestCase
         return $client;
     }
 
+    /**
+     * Get Mock Symfony Dom Crawler
+     *
+     * @return Symfony\Component\DomCrawler\Crawler
+     */
     protected function getMockDomCrawler()
     {
         $links = [

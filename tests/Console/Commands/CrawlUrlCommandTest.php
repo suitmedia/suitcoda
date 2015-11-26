@@ -2,11 +2,11 @@
 
 namespace SuitTests\Console\Commands;
 
+use Illuminate\Console\Command;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
 use Suitcoda\Console\Commands\CrawlUrlCommand;
-use Illuminate\Console\Command;
 use SuitTests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Test Suitcoda\Console\Commands\CrawlUrlCommand
@@ -18,6 +18,8 @@ class CrawlUrlCommandTest extends TestCase
 
     /**
      * test continue if user success save to database
+     *
+     * @return void
      */
     public function testCommand()
     {

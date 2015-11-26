@@ -1,0 +1,60 @@
+<?php
+
+namespace Suitcoda\Model;
+
+use Suitcoda\Model\Inspection;
+use Suitcoda\Model\Scope;
+use Suitcoda\Model\Url;
+
+class JobInspect extends BaseModel
+{
+    protected $table = 'job_inspects';
+
+    protected $fillable = [
+        'command_line',
+        'status',
+        'check_count',
+        'issue_count'
+    ];
+
+    /**
+     * Get the inspection for the current jobInspect.
+     *
+     * @return object
+     */
+    public function inspection()
+    {
+        return $this->belongsTo(Inspection::class);
+    }
+
+    /**
+     * Get the scope for the current jobInspect.
+     *
+     * @return object
+     */
+    public function scope()
+    {
+        return $this->belongsTo(Scope::class);
+    }
+
+    /**
+     * Get the url for the current jobInspect.
+     *
+     * @return object
+     */
+    public function url()
+    {
+        return $this->belongsTo(Url::class);
+    }
+
+    /**
+     * Scope a query to get unhandled job.
+     *
+     * @param  string $query []
+     * @return object
+     */
+    public function scopeGetUnhandledJob($query)
+    {
+        return $query->where('status', 0)->get();
+    }
+}

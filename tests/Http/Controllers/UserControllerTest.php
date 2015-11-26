@@ -2,28 +2,43 @@
 
 namespace SuitTests\Http\Controllers;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Mockery;
-use SuitTests\TestCase;
 use Suitcoda\Http\Controllers\UserController;
 use Suitcoda\Model\User as Model;
-
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use SuitTests\TestCase;
 
 class UserControllerTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware;
+    use DatabaseTransactions;
+    use WithoutMiddleware;
 
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();
     }
 
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     */
     public function tearDown()
     {
         parent::tearDown();
     }
 
+    /**
+     * Test continue if success visiting manage user
+     *
+     * @return void
+     */
     public function testIntegrationIndex()
     {
         $userFaker = factory(Model::class)->create([
@@ -39,6 +54,11 @@ class UserControllerTest extends TestCase
         $this->assertViewHas('models');
     }
 
+    /**
+     * Test continue if success call index method
+     *
+     * @return void
+     */
     public function testUnitIndex()
     {
         $model = Mockery::mock('Suitcoda\Model\User[all]');
@@ -48,6 +68,11 @@ class UserControllerTest extends TestCase
         $this->assertInstanceOf('Illuminate\View\View', $user->index());
     }
 
+    /**
+     * Test continue if success visiting create user page
+     *
+     * @return void
+     */
     public function testIntegrationCreate()
     {
         $this->visit('user/create')
@@ -56,6 +81,11 @@ class UserControllerTest extends TestCase
         $this->assertViewHas('model');
     }
 
+    /**
+     * Test continue if success call create method
+     *
+     * @return void
+     */
     public function testUnitCreate()
     {
         $model = Mockery::mock('Suitcoda\Model\User');
@@ -64,6 +94,11 @@ class UserControllerTest extends TestCase
         $this->assertInstanceOf('Illuminate\View\View', $user->create());
     }
 
+    /**
+     * Test continue if success submit new user
+     *
+     * @return void
+     */
     public function testIntegrationStore()
     {
         $this->visit('user/create')
@@ -82,6 +117,11 @@ class UserControllerTest extends TestCase
         $this->assertViewHas('models');
     }
 
+    /**
+     * Test continue if success call store method
+     *
+     * @return void
+     */
     public function testUnitStore()
     {
         $input = ['username' => 'foo.bar', 'email' => 'foo@bar.com', 'password' => 'asdfg', 'name' => 'foo bar'];
@@ -98,10 +138,15 @@ class UserControllerTest extends TestCase
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $user->store($request));
     }
 
+    /**
+     * Test continue if success visiting edit user page
+     *
+     * @return void
+     */
     public function testIntegrationEdit()
     {
         $userFaker = factory(Model::class)->create();
-        $this->visit('user/'. $userFaker->slug . '/edit')
+        $this->visit('user/' . $userFaker->slug . '/edit')
              ->see('Edit Account');
         $this->assertResponseOk();
         $this->seeInDatabase('users', [
@@ -111,6 +156,11 @@ class UserControllerTest extends TestCase
         $this->assertViewHas('model');
     }
 
+    /**
+     * Test continue if success call edit method
+     *
+     * @return void
+     */
     public function testUnitEdit()
     {
         $model = Mockery::mock('Suitcoda\Model\User');
@@ -119,10 +169,15 @@ class UserControllerTest extends TestCase
         $this->assertInstanceOf('Illuminate\View\View', $user->edit(1));
     }
 
+    /**
+     * Test continue if success submit update user
+     *
+     * @return void
+     */
     public function testIntegrationUpdate()
     {
         $userFaker = factory(Model::class)->create();
-        $this->visit('user/'. $userFaker->slug . '/edit')
+        $this->visit('user/' . $userFaker->slug . '/edit')
              ->type('Foo bar', 'name')
              ->type('Foobar', 'username')
              ->type('foo@bar.com', 'email')
@@ -138,6 +193,11 @@ class UserControllerTest extends TestCase
         $this->assertViewHas('models');
     }
 
+    /**
+     * Test continue if success call update method
+     *
+     * @return void
+     */
     public function testUnitUpdate()
     {
         $input = [
@@ -159,6 +219,11 @@ class UserControllerTest extends TestCase
         $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $user->update($request, 1));
     }
 
+    /**
+     * Test continue if success call delete method
+     *
+     * @return void
+     */
     public function testUnitDelete()
     {
         $model = Mockery::mock('Suitcoda\Model\User');
@@ -171,14 +236,16 @@ class UserControllerTest extends TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * Test continue if get expected exception
      *
+     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return void
      */
     public function testUserNotFound()
     {
         $model = Mockery::mock('Suitcoda\Model\user');
         $group = new UserController($model);
         $model->shouldReceive('findOrFailByUrlKey')->once()->andReturn(null);
-        $result =  $group->destroy(1);
+        $group->destroy(1);
     }
 }

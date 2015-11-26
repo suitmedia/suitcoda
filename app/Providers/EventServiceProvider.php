@@ -13,6 +13,10 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        'Suitcoda\Events\ProjectWatcher' => [
+            'Suitcoda\Listeners\CrawlerTheWebsite',
+            'Suitcoda\Listeners\JobGenerator',
+        ]
     ];
 
     /**

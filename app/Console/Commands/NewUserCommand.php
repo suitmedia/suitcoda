@@ -3,6 +3,7 @@
 namespace Suitcoda\Console\Commands;
 
 use Illuminate\Console\Command;
+use Suitcoda\Model\User;
 
 class NewUserCommand extends Command
 {
@@ -20,12 +21,17 @@ class NewUserCommand extends Command
      */
     protected $description = 'Create New User.';
 
+    protected $user;
+
     /**
      * Create a new command instance.
+     *
+     * @param Suitcoda\Model\User $user []
      */
-    public function __construct()
+    public function __construct(User $user)
     {
         parent::__construct();
+        $this->user = $user;
     }
 
     /**
@@ -40,8 +46,7 @@ class NewUserCommand extends Command
         $email = $this->argument('email');
         $password = $this->argument('password');
 
-        $adminClass = \Config::get('auth.model');
-        $admin = new $adminClass();
+        $admin = $this->user->newInstance();
         $admin->username = $username;
         $admin->name = $name;
         $admin->email = $email;

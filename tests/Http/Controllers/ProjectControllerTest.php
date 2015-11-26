@@ -2,19 +2,46 @@
 
 namespace SuitTests\Http\Controllers;
 
-use SuitTests\TestCase;
-use Mockery;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Suitcoda\Model\Project;
-use Suitcoda\Model\User;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Mockery;
 use Suitcoda\Http\Controllers\ProjectController;
 use Suitcoda\Http\Requests\ProjectRequest;
+use Suitcoda\Model\Inspection;
+use Suitcoda\Model\Project;
+use Suitcoda\Model\Scope;
+use Suitcoda\Model\User;
+use SuitTests\TestCase;
 
 class ProjectControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+    }
+
+    /**
+     * Clean up the testing environment before the next test.
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+    }
+
+    /**
+     * Test continue if success visiting home page
+     *
+     * @return void
+     */
     public function testHomeView()
     {
         $userFaker = factory(User::class)->create();
@@ -23,16 +50,27 @@ class ProjectControllerTest extends TestCase
              ->see('Project List');
     }
 
+    /**
+     * Test continue if success call index method
+     *
+     * @return void
+     */
     public function testUnitIndex()
     {
         $userFaker = factory(User::class)->create();
         \Auth::shouldReceive('user')->andReturn($userFaker);
-        $model = Mockery::mock(Project::class)->makePartial();
-        $user = new ProjectController($model);
+        $project = Mockery::mock(Project::class)->makePartial();
+        $scope = Mockery::mock(Scope::class)->makePartial();
+        $controller = new ProjectController($project, $scope);
 
-        $this->assertInstanceOf('Illuminate\View\View', $user->index());
+        $this->assertInstanceOf('Illuminate\View\View', $controller->index());
     }
 
+    /**
+     * Test continue if success visiting create project page
+     *
+     * @return void
+     */
     public function testIntegrationCreate()
     {
         $userFaker = factory(User::class)->create();
@@ -41,17 +79,28 @@ class ProjectControllerTest extends TestCase
              ->visit('project/create')
              ->see('Create New Project');
         $this->assertResponseOk();
-        $this->assertViewHas('model');
+        $this->assertViewHas('project');
     }
 
+    /**
+     * Test continue if success call create method
+     *
+     * @return void
+     */
     public function testUnitCreate()
     {
-        $model = Mockery::mock(Project::class);
-        $user = new ProjectController($model);
+        $project = Mockery::mock(Project::class);
+        $scope = Mockery::mock(Scope::class)->makePartial();
+        $controller = new ProjectController($project, $scope);
 
-        $this->assertInstanceOf('Illuminate\View\View', $user->create());
+        $this->assertInstanceOf('Illuminate\View\View', $controller->create());
     }
 
+    /**
+     * Test continue if success submit project
+     *
+     * @return void
+     */
     public function testIntegrationStore()
     {
         $userFaker = factory(User::class)->create();
@@ -67,9 +116,14 @@ class ProjectControllerTest extends TestCase
             'name' => 'Foo bar',
             'main_url' => 'http://foobar.com'
         ]);
-        $this->assertViewHas('models');
+        $this->assertViewHas('projects');
     }
 
+    /**
+     * Test continue if success call store method
+     *
+     * @return void
+     */
     public function testUnitStore()
     {
         $input = ['name' => 'Foo bar', 'main_url' => 'http://foobar.com'];
@@ -77,35 +131,71 @@ class ProjectControllerTest extends TestCase
         $request = Mockery::mock(ProjectRequest::class)->makePartial();
         $request->shouldReceive('all')->once()->andReturn($input);
 
-        $model = Mockery::mock(Project::class)->makePartial();
-        $model->shouldReceive('newInstance')->once()->andReturn($model);
-        $model->shouldReceive('save')->once();
+        $project = Mockery::mock(Project::class)->makePartial();
+        $scope = Mockery::mock(Scope::class)->makePartial();
+        $project->shouldReceive('newInstance')->once()->andReturn($project);
+        $project->shouldReceive('save')->once();
 
-        $user = new ProjectController($model);
+        $controller = new ProjectController($project, $scope);
         
-        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $user->store($request));
-    }
-
-    public function testUnitDelete()
-    {
-        $model = Mockery::mock(Project::class);
-        $project = new ProjectController($model);
-        
-        $model->shouldReceive('findOrFailByUrlKey')->andReturn($model);
-        $model->shouldReceive('delete')->once()->andReturn(true);
-
-        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $project->destroy(1));
+        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $controller->store($request));
     }
 
     /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * Test continue if success call delete method
      *
+     * @return void
+     */
+    public function testUnitDelete()
+    {
+        $project = Mockery::mock(Project::class);
+        $scope = Mockery::mock(Scope::class)->makePartial();
+        $user = Mockery::mock(User::class);
+        $controller = new ProjectController($project, $scope);
+        
+        \Auth::shouldReceive('user')->andReturn($user);
+        $user->shouldReceive('projects')->andReturn($project);
+        $project->shouldReceive('findOrFailByUrlKey')->andReturn($project);
+        $project->shouldReceive('delete')->once()->andReturn(true);
+
+        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $controller->destroy(1));
+    }
+
+    /**
+     * Test continue if sucess get json data
+     *
+     * @return void
+     */
+    public function testIntegrationGraph()
+    {
+        $userFaker = factory(User::class)->create();
+        $projectFaker = factory(Project::class)->make();
+        $userFaker->projects()->save($projectFaker);
+        $inspectionFaker = factory(Inspection::class)->make();
+        $projectFaker->inspections()->save($inspectionFaker);
+
+        $this->actingAs($userFaker)
+             ->visit('project/' . $projectFaker->slug . '/graph')
+             ->seeJson(['title' => 'Example']);
+        $this->assertResponseOk();
+    }
+
+    /**
+     * Test continue if get expected exception
+     *
+     * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return void
      */
     public function testProjectNotFound()
     {
-        $model = Mockery::mock(Project::class);
-        $group = new ProjectController($model);
-        $model->shouldReceive('findOrFailByUrlKey')->once()->andReturn(null);
-        $result =  $group->destroy(1);
+        $project = Mockery::mock(Project::class);
+        $scope = Mockery::mock(Scope::class)->makePartial();
+        $user = Mockery::mock(User::class);
+        $controller = new ProjectController($project, $scope);
+        
+        \Auth::shouldReceive('user')->andReturn($user);
+        $user->shouldReceive('projects')->andReturn($project);
+        $project->shouldReceive('findOrFailByUrlKey')->andReturn(null);
+        $controller->destroy(1);
     }
 }
