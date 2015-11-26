@@ -93,7 +93,7 @@ fs.exists(program.destination, function (exists) {
 });
 
 function saveReport(path, content) {
-    fs.writeFile(dest + 'resultYSlow.json', content, function (err) {
+    fs.writeFile(path + 'resultYSlow.json', content, function (err) {
         if (err) throw err;
         console.log("resultYSlow.json has saved!");
     }); 
