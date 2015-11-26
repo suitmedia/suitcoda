@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'Suitcoda\Console\Commands\NewUserCommand',
         'Suitcoda\Console\Commands\CrawlUrlCommand',
-        'Suitcoda\Console\Commands\BackendSeoCommand',
+        'Suitcoda\Console\Commands\CreateSeoJsonCommand',
     ];
 
     /**

@@ -3,9 +3,9 @@
 namespace Suitcoda\Console\Commands;
 
 use Illuminate\Console\Command;
-use Suitcoda\Supports\BackendSeoChecker;
+use Suitcoda\Supports\SeoBackProcess;
 
-class BackendSeoCommand extends Command
+class CreateSeoJsonCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -22,18 +22,18 @@ class BackendSeoCommand extends Command
      */
     protected $description = 'Command to check run seo title, description and url depth.';
 
-    protected $checker;
+    protected $seo;
 
     /**
      * Create a new command instance.
      *
-     * @param Suitcoda\Supports\BackendSeoChecker $checker []
+     * @param Suitcoda\Supports\SeoBackProcess $seo []
      * @return void
      */
-    public function __construct(BackendSeoChecker $checker)
+    public function __construct(SeoBackProcess $seo)
     {
         parent::__construct();
-        $this->checker = $checker;
+        $this->seo = $seo;
     }
 
     /**
@@ -46,9 +46,9 @@ class BackendSeoCommand extends Command
         $option = $this->option();
         $url = $this->argument('url');
         $destination = $this->argument('destination');
-        $this->checker->setUrl($url);
-        $this->checker->setDestination($destination);
-        $this->checker->setOption($option);
-        $this->checker->run();
+        $this->seo->setUrl($url);
+        $this->seo->setDestination($destination);
+        $this->seo->setOption($option);
+        $this->seo->run();
     }
 }
