@@ -4,7 +4,7 @@ namespace Suitcoda\Supports;
 
 use Suitcoda\Model\Url;
 
-class BackendSeoChecker
+class SeoBackProcess
 {
     protected $url;
 

@@ -7,10 +7,10 @@ use Mockery;
 use Suitcoda\Model\Project;
 use Suitcoda\Model\Url;
 use Suitcoda\Model\User;
-use Suitcoda\Supports\BackendSeoChecker;
+use Suitcoda\Supports\SeoBackProcess;
 use SuitTests\TestCase;
 
-class BackendSeoCheckerTest extends TestCase
+class SeoBackProcessTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -50,7 +50,7 @@ class BackendSeoCheckerTest extends TestCase
         ];
 
         $url = new Url;
-        $checker = new BackendSeoChecker($url);
+        $checker = new SeoBackProcess($url);
         
         $checker->setUrl('http://example.com/test');
         $checker->setDestination($destination);
