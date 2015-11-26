@@ -14,7 +14,7 @@ use Suitcoda\Model\Project;
 use Suitcoda\Model\Scope;
 use Suitcoda\Model\Url;
 use Suitcoda\Model\User;
-use Suitcoda\Supports\ScopesCheckerGenerator;
+use Suitcoda\Supports\CommandLineGenerator;
 use SuitTests\TestCase;
 
 class JobGeneratorTest extends TestCase
@@ -59,7 +59,7 @@ class JobGeneratorTest extends TestCase
         }
 
         $project = Mockery::mock(Project::class);
-        $generator = Mockery::mock(ScopesCheckerGenerator::class);
+        $generator = Mockery::mock(CommandLineGenerator::class);
         $job = Mockery::mock(JobInspect::class)->makePartial();
         $url = Mockery::mock(Url::class);
         $builder = Mockery::mock(Builder::class);

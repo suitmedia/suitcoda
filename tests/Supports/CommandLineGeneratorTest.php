@@ -8,10 +8,10 @@ use Suitcoda\Model\Inspection;
 use Suitcoda\Model\Project;
 use Suitcoda\Model\Scope;
 use Suitcoda\Model\Url;
-use Suitcoda\Supports\ScopesCheckerGenerator;
+use Suitcoda\Supports\CommandLineGenerator;
 use SuitTests\TestCase;
 
-class ScopesCheckerGeneratorTest extends TestCase
+class CommandLineGeneratorTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -46,7 +46,7 @@ class ScopesCheckerGeneratorTest extends TestCase
 
         $scope = Mockery::mock(Scope::class)->makePartial();
 
-        $checker = new ScopesCheckerGenerator($scope);
+        $checker = new CommandLineGenerator($scope);
 
         $result = $checker->generateUrl($urlFaker);
         $this->assertEquals(' --url ' . $urlFaker->url, $result);
@@ -64,7 +64,7 @@ class ScopesCheckerGeneratorTest extends TestCase
 
         $scope = Mockery::mock(Scope::class)->makePartial();
 
-        $checker = new ScopesCheckerGenerator($scope);
+        $checker = new CommandLineGenerator($scope);
 
         $result = $checker->generateDestination($projectFaker, $inspectionFaker);
         $this->assertEquals(
@@ -84,7 +84,7 @@ class ScopesCheckerGeneratorTest extends TestCase
     {
         $scope = Mockery::mock(Scope::class)->makePartial();
 
-        $checker = new ScopesCheckerGenerator($scope);
+        $checker = new CommandLineGenerator($scope);
 
         $result = $checker->getSubDirCommand('SEO');
         $this->assertEquals('seo/', $result);
@@ -98,7 +98,7 @@ class ScopesCheckerGeneratorTest extends TestCase
     public function testGenerateParameters()
     {
         $scope = new Scope;
-        $checker = new ScopesCheckerGenerator($scope);
+        $checker = new CommandLineGenerator($scope);
 
         $result = $checker->generateParameters('256', 'seo');
         $this->assertEquals('--heading', $result);
@@ -112,7 +112,7 @@ class ScopesCheckerGeneratorTest extends TestCase
     public function testGenerateCommand()
     {
         $scope = new Scope;
-        $checker = new ScopesCheckerGenerator($scope);
+        $checker = new CommandLineGenerator($scope);
 
         $result = $checker->generateCommand('2097151', 'seo');
         $this->assertEquals('nodejs seo/seoChecker.js', $result);
@@ -126,7 +126,7 @@ class ScopesCheckerGeneratorTest extends TestCase
     public function testGenerateCommandBackendSeo()
     {
         $scope = new Scope;
-        $checker = new ScopesCheckerGenerator($scope);
+        $checker = new CommandLineGenerator($scope);
 
         $result = $checker->generateCommand('2097151', 'backendSeo');
         $this->assertEquals('php artisan checker:backend-seo', $result);
@@ -140,7 +140,7 @@ class ScopesCheckerGeneratorTest extends TestCase
     public function testGenerateCommandNull()
     {
         $scope = new Scope;
-        $checker = new ScopesCheckerGenerator($scope);
+        $checker = new CommandLineGenerator($scope);
 
         $result = $checker->generateCommand('0', 'seo');
         $this->assertNull($result);
@@ -154,7 +154,7 @@ class ScopesCheckerGeneratorTest extends TestCase
     public function testGetByType()
     {
         $scope = new Scope;
-        $checker = new ScopesCheckerGenerator($scope);
+        $checker = new CommandLineGenerator($scope);
 
         $result = $checker->getByType('css');
         $this->assertInstanceOf(Scope::class, $result->first());

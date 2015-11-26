@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Suitcoda\Events\ProjectWatcher;
 use Suitcoda\Model\JobInspect;
-use Suitcoda\Supports\ScopesCheckerGenerator;
+use Suitcoda\Supports\CommandLineGenerator;
 
 class JobGenerator implements ShouldQueue
 {
@@ -23,11 +23,11 @@ class JobGenerator implements ShouldQueue
     /**
      * Create the event listener.
      *
-     * @param Suitcoda\Supports\ScopesCheckerGenerator $generator []
+     * @param Suitcoda\Supports\CommandLineGenerator $generator []
      * @param Suitcoda\Model\JobInspect $job []
      * @return void
      */
-    public function __construct(ScopesCheckerGenerator $generator, JobInspect $job)
+    public function __construct(CommandLineGenerator $generator, JobInspect $job)
     {
         $this->generator = $generator;
         $this->job = $job;

@@ -4,7 +4,7 @@ namespace Suitcoda\Supports;
 
 use Suitcoda\Model\Scope;
 
-class ScopesCheckerGenerator
+class CommandLineGenerator
 {
     protected $scope;
 
