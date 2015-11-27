@@ -26,6 +26,18 @@ class ScopeTest extends TestCase
     }
 
     /**
+     * Test Relationship Scope with Issues
+     *
+     * @return void
+     */
+    public function testRelationshipWithIssues()
+    {
+        $scope = new Scope;
+
+        $this->assertInstanceOf(HasMany::class, $scope->issues());
+    }
+
+    /**
      * Test Relationship Scope with Command
      *
      * @return void

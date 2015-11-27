@@ -3,9 +3,10 @@
 namespace SuitTests\Model;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Suitcoda\Model\JobInspect;
 use SuitTests\TestCase;
+use Suitcoda\Model\JobInspect;
 
 class JobInspectTest extends TestCase
 {
@@ -45,6 +46,18 @@ class JobInspectTest extends TestCase
         $job = new JobInspect;
 
         $this->assertInstanceOf(BelongsTo::class, $job->url());
+    }
+
+    /**
+     * Test Relationship JobInspect with Issues
+     *
+     * @return void
+     */
+    public function testRelationshipWithIssues()
+    {
+        $job = new JobInspect;
+
+        $this->assertInstanceOf(HasMany::class, $job->issues());
     }
 
     /**
