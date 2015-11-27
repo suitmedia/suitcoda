@@ -45,6 +45,7 @@ class ProjectControllerTest extends TestCase
     public function testHomeView()
     {
         $userFaker = factory(User::class)->create();
+
         $this->actingAs($userFaker)
              ->visit('/')
              ->see('Project List');
@@ -58,6 +59,7 @@ class ProjectControllerTest extends TestCase
     public function testUnitIndex()
     {
         $userFaker = factory(User::class)->create();
+
         \Auth::shouldReceive('user')->andReturn($userFaker);
         $project = Mockery::mock(Project::class)->makePartial();
         $scope = Mockery::mock(Scope::class)->makePartial();
@@ -168,15 +170,11 @@ class ProjectControllerTest extends TestCase
      */
     public function testIntegrationGraph()
     {
-        $userFaker = factory(User::class)->create();
-        $projectFaker = factory(Project::class)->make();
-        $userFaker->projects()->save($projectFaker);
-        $inspectionFaker = factory(Inspection::class)->make();
-        $projectFaker->inspections()->save($inspectionFaker);
+        $inspectionFaker = factory(Inspection::class)->create();
 
-        $this->actingAs($userFaker)
-             ->visit('project/' . $projectFaker->slug . '/graph')
-             ->seeJson(['title' => 'Example']);
+        $this->actingAs($inspectionFaker->project->user)
+             ->visit('project/' . $inspectionFaker->project->slug . '/graph')
+             ->seeJson(['name' => 'Overall']);
         $this->assertResponseOk();
     }
 

@@ -48,15 +48,7 @@ class JobGeneratorTest extends TestCase
      */
     public function testHandle()
     {
-        $userFaker = factory(User::class)->create(['name' => 'test']);
-        $projectFaker = factory(Project::class)->make();
-        $userFaker->projects()->save($projectFaker);
-        for ($i = 0; $i < 2; $i++) {
-            $urlFaker = factory(Url::class)->make();
-            $projectFaker->urls()->save($urlFaker);
-            $inspectionFaker = factory(Inspection::class)->make();
-            $projectFaker->inspections()->save($inspectionFaker);
-        }
+        $inspectionFaker = factory(Inspection::class)->create();
 
         $project = Mockery::mock(Project::class);
         $generator = Mockery::mock(CommandLineGenerator::class);
@@ -77,6 +69,6 @@ class JobGeneratorTest extends TestCase
         $job->shouldReceive('save')->andReturn(true);
 
         $listener = new JobGenerator($generator, $job);
-        $listener->handle(new ProjectWatcher($projectFaker, $inspectionFaker));
+        $listener->handle(new ProjectWatcher($inspectionFaker->project, $inspectionFaker));
     }
 }

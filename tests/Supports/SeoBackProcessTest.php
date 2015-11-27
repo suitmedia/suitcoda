@@ -41,7 +41,8 @@ class SeoBackProcessTest extends TestCase
      */
     public function testRun()
     {
-        $this->addUrlFaker();
+        factory(Url::class, 5)->create();
+
         $destination = 'public/test/project/example/1/';
         $option = [
             'title-similar' => true,
@@ -63,22 +64,6 @@ class SeoBackProcessTest extends TestCase
             rmdir(base_path('public/test/project/example'));
             rmdir(base_path('public/test/project'));
             rmdir(base_path('public/test'));
-        }
-    }
-
-    /**
-     * Make faker for url
-     *
-     * @return void
-     */
-    protected function addUrlFaker()
-    {
-        $userFaker = factory(User::class)->create(['name' => 'test']);
-        $projectFaker = factory(Project::class)->make();
-        $userFaker->projects()->save($projectFaker);
-        for ($i = 0; $i < 2; $i++) {
-            $urlFaker = factory(Url::class)->make();
-            $projectFaker->urls()->save($urlFaker);
         }
     }
 }

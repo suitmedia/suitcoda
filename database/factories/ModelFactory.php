@@ -2,10 +2,12 @@
 
 use Suitcoda\Model\Command;
 use Suitcoda\Model\Inspection;
+use Suitcoda\Model\JobInspect;
 use Suitcoda\Model\Project;
 use Suitcoda\Model\Scope;
 use Suitcoda\Model\SubScope;
 use Suitcoda\Model\Url;
+use Suitcoda\Model\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +20,9 @@ use Suitcoda\Model\Url;
 |
 */
 
-$factory->define(Suitcoda\Model\User::class, function ($faker) {
+$factory->define(User::class, function ($faker) {
     return [
-        'username' => $faker->word,
+        'username' => $faker->sentence($nbWords = 3),
         'email' => $faker->email,
         'password' => bcrypt($faker->word),
         'name' => $faker->name,
@@ -28,6 +30,26 @@ $factory->define(Suitcoda\Model\User::class, function ($faker) {
         'is_admin' => $faker->boolean,
         'is_active' => true,
         'last_login_at' => \Carbon\Carbon::now()
+    ];
+});
+
+$factory->define(Project::class, function ($faker) {
+    $sentence = $faker->sentence($nbWords = 6);
+    return [
+        'name' => $sentence,
+        'slug' => $sentence,
+        'main_url' => 'http://' . $sentence . '.com',
+        'is_crawlable' => true,
+        'user_id' => factory(User::class)->create()->id
+    ];
+});
+
+$factory->define(Inspection::class, function ($faker) {
+    return [
+        'sequence_number' => 1,
+        'scopes' => 256,
+        'status' => 0,
+        'project_id' => factory(Project::class)->create()->id
     ];
 });
 
@@ -44,7 +66,8 @@ $factory->define(SubScope::class, function ($faker) {
         'name' => 'test',
         'code' => 1,
         'parameter' => '--test',
-        'is_active' => true
+        'is_active' => true,
+        'scope_id' => factory(Scope::class)->create()->id,
     ];
 });
 
@@ -52,7 +75,8 @@ $factory->define(Command::class, function ($faker) {
     return [
         'name' => 'test',
         'command_line' => 'test',
-        'is_active' => true
+        'is_active' => true,
+        'scope_id' => factory(Scope::class)->create()->id,
     ];
 });
 
@@ -67,22 +91,15 @@ $factory->define(Url::class, function ($faker) {
         'desc_tag' => '<meta name="description" content"this is testing"/>',
         'body_content' => '',
         'is_active' => true,
+        'project_id' => factory(Project::class)->create()->id
     ];
 });
 
-$factory->define(Project::class, function ($faker) {
+$factory->define(JobInspect::class, function ($faker) {
     return [
-        'name' => 'Example',
-        'slug' => 'example',
-        'main_url' => 'http://example.com',
-        'is_crawlable' => true
-    ];
-});
-
-$factory->define(Inspection::class, function ($faker) {
-    return [
-        'sequence_number' => 1,
-        'scopes' => 256,
-        'status' => 0
+        'command_line' => 'test',
+        'inspection_id' => factory(Inspection::class)->create()->id,
+        'url_id' => factory(Url::class)->create()->id,
+        'scope_id' => factory(Scope::class)->create()->id,
     ];
 });
