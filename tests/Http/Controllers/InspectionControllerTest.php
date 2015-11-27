@@ -75,6 +75,7 @@ class InspectionControllerTest extends TestCase
         $this->expectsEvents(ProjectWatcher::class);
 
         $inspectionFaker = factory(Inspection::class)->create();
+        $projectFaker = factory(Project::class)->create();
 
         $inspection = Mockery::mock(Inspection::class)->makePartial();
         $project = Mockery::mock(Project::class)->makePartial();
@@ -82,7 +83,7 @@ class InspectionControllerTest extends TestCase
         $route = Mockery::mock(Route::class)->makePartial();
 
         $inspection->shouldReceive('newInstance')->once()->andReturn($inspectionFaker);
-        $project->shouldReceive('findBySlug')->andReturn($inspectionFaker->project);
+        $project->shouldReceive('findBySlug')->andReturn($projectFaker);
         $request->shouldReceive('all')->andReturn(['scopes' => 'required']);
         $request->shouldReceive('route')->andReturn($route);
         $request->shouldReceive('input')->andReturn([1, 2, 4]);

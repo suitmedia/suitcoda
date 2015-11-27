@@ -66,7 +66,6 @@ class SeoBackProcess
         $json = array_add($json, 'name', 'BackendSeo Checker');
         $json = array_add($json, 'url', $this->url->url);
         $json = array_add($json, 'checking', []);
-
         $project = $this->url->project;
         $projectUrls = $project->urls()->where('id', '>', $this->url->id)->get();
         if ($this->option['title-similar'] || $this->option['desc-similar']) {

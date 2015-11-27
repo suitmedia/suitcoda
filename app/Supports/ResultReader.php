@@ -3,6 +3,7 @@
 namespace Suitcoda\Supports;
 
 use Suitcoda\Model\Issue;
+use Webmozart\Json\FileNotFoundException;
 use Webmozart\Json\JsonDecoder;
 
 class ResultReader
@@ -86,7 +87,7 @@ class ResultReader
     {
         try {
             $jsonData = $this->decoder->decodeFile($path);
-            
+
             foreach ($jsonData->checking as $checking) {
                 $issue = $this->issue->newInstance();
                 $issue->type = $checking->error;
@@ -97,7 +98,7 @@ class ResultReader
                 $issue->save();
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
-        } catch (Exception $e) {
+        } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
         }
     }
@@ -124,7 +125,7 @@ class ResultReader
                 $issue->save();
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
-        } catch (Exception $e) {
+        } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
         }
     }
@@ -153,7 +154,7 @@ class ResultReader
                 $issue->save();
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
-        } catch (Exception $e) {
+        } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
         }
     }
@@ -180,7 +181,7 @@ class ResultReader
                 $issue->save();
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
-        } catch (Exception $e) {
+        } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
         }
     }
@@ -210,7 +211,7 @@ class ResultReader
                 }
             }
             $this->job->update(['issue_count' => $counter, 'status' => 2]);
-        } catch (Exception $e) {
+        } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
         }
     }
@@ -241,7 +242,7 @@ class ResultReader
                 }
             }
             $this->job->update(['issue_count' => $counter, 'status' => 2]);
-        } catch (Exception $e) {
+        } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
         }
     }
@@ -260,14 +261,14 @@ class ResultReader
             foreach ($jsonData->checking as $checking) {
                 $issue = $this->issue->newInstance();
                 $issue->type = $checking->error;
-                $issue->description = $checking->desc;
+                $issue->description = $this->getYslowErrorDesc($checking);
                 $issue->url = $jsonData->url;
                 $issue->jobInspect()->associate($this->job);
                 $issue->scope()->associate($this->job->scope);
                 $issue->save();
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
-        } catch (Exception $e) {
+        } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
         }
     }
@@ -296,12 +297,12 @@ class ResultReader
      * @param  int $ruleImpact []
      * @return string
      */
-    protected function getPsiErrorType($ruleImpact)
+    public function getPsiErrorType($ruleImpact)
     {
         if ($ruleImpact == 10) {
-            return 'error';
+            return 'Error';
         }
-        return 'warning';
+        return 'Warning';
     }
 
     /**
@@ -310,7 +311,7 @@ class ResultReader
      * @param  object $urlBlocks []
      * @return string
      */
-    protected function getPsiErrorDescription($urlBlocks)
+    public function getPsiErrorDescription($urlBlocks)
     {
         $result = '';
         foreach ($urlBlocks as $block) {

@@ -41,7 +41,9 @@ class SeoBackProcessTest extends TestCase
      */
     public function testRun()
     {
-        factory(Url::class, 5)->create();
+        factory(Url::class, 5)->create([
+            'project_id' => factory(Project::class)->create()->id
+        ]);
 
         $destination = 'public/test/project/example/1/';
         $option = [
