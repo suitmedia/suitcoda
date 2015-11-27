@@ -57,6 +57,7 @@ $factory->define(Scope::class, function ($faker) {
     return [
         'name' => 'test',
         'type' => 't1',
+        'category' => 'foo',
         'is_active' => true
     ];
 });
