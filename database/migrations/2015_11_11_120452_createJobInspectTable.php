@@ -17,7 +17,7 @@ class CreateJobInspectTable extends Migration
             $table->bigInteger('inspection_id')->unsigned()->index();
             $table->bigInteger('url_id')->unsigned()->index();
             $table->bigInteger('scope_id')->unsigned()->index();
-            $table->string('command_line');
+            $table->string('command_line', 512);
             $table->tinyInteger('status')->default(0);
             $table->bigInteger('issue_count')->nullable();
 
