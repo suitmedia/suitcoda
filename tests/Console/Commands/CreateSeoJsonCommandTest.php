@@ -2,15 +2,11 @@
 
 namespace SuitTests\Console\Commands;
 
-use Illuminate\Console\Application;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
 use Suitcoda\Console\Commands\CreateSeoJsonCommand;
-use Suitcoda\Model\Url;
 use Suitcoda\Supports\SeoBackProcess;
 use SuitTests\TestCase;
-use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * Test Suitcoda\Console\Commands\CreateSeoJsonCommand
