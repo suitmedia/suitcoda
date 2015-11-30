@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         'Suitcoda\Console\Commands\NewUserCommand',
         'Suitcoda\Console\Commands\CrawlUrlCommand',
         'Suitcoda\Console\Commands\CreateSeoJsonCommand',
+        'Suitcoda\Console\Commands\WorkerCommand',
     ];
 
     /**
