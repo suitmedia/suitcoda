@@ -3,6 +3,7 @@
 namespace Suitcoda\Model;
 
 use Suitcoda\Model\Inspection;
+use Suitcoda\Model\Issue;
 use Suitcoda\Model\Scope;
 use Suitcoda\Model\Url;
 
@@ -13,7 +14,6 @@ class JobInspect extends BaseModel
     protected $fillable = [
         'command_line',
         'status',
-        'check_count',
         'issue_count'
     ];
 
@@ -45,6 +45,16 @@ class JobInspect extends BaseModel
     public function url()
     {
         return $this->belongsTo(Url::class);
+    }
+
+    /**
+     * Get the issues for the current jobInspect.
+     *
+     * @return object
+     */
+    public function issues()
+    {
+        return $this->hasMany(Issue::class);
     }
 
     /**

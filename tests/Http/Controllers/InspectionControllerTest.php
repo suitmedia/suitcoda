@@ -26,11 +26,9 @@ class InspectionControllerTest extends TestCase
      */
     public function testIntegrationStore()
     {
-        $userFaker = factory(User::class)->create();
-        $projectFaker = factory(Project::class)->make();
-        $userFaker->projects()->save($projectFaker);
+        $projectFaker = factory(Project::class)->create();
 
-        $this->actingAs($userFaker)
+        $this->actingAs($projectFaker->user)
              ->visit('project/' . $projectFaker->slug)
              ->check('check-all')
              ->press('Inspect')
@@ -48,11 +46,7 @@ class InspectionControllerTest extends TestCase
     {
         $this->expectsEvents(ProjectWatcher::class);
 
-        $userFaker = factory(User::class)->create();
-        $projectFaker = factory(Project::class)->make();
-        $userFaker->projects()->save($projectFaker);
-        $inspectionFaker = factory(Inspection::class)->make();
-        $projectFaker->inspections()->save($inspectionFaker);
+        $inspectionFaker = factory(Inspection::class)->create();
 
         $inspection = Mockery::mock(Inspection::class)->makePartial();
         $project = Mockery::mock(Project::class)->makePartial();
@@ -60,7 +54,7 @@ class InspectionControllerTest extends TestCase
         $route = Mockery::mock(Route::class)->makePartial();
 
         $inspection->shouldReceive('newInstance')->once()->andReturn($inspectionFaker);
-        $project->shouldReceive('findBySlug')->andReturn($projectFaker);
+        $project->shouldReceive('findBySlug')->andReturn($inspectionFaker->project);
         $request->shouldReceive('all')->andReturn(['scopes' => 'required']);
         $request->shouldReceive('route')->andReturn($route);
         $request->shouldReceive('input')->andReturn([1, 2, 4]);
@@ -80,10 +74,8 @@ class InspectionControllerTest extends TestCase
     {
         $this->expectsEvents(ProjectWatcher::class);
 
-        $userFaker = factory(User::class)->create();
-        $projectFaker = factory(Project::class)->make();
-        $userFaker->projects()->save($projectFaker);
-        $inspectionFaker = factory(Inspection::class)->make();
+        $inspectionFaker = factory(Inspection::class)->create();
+        $projectFaker = factory(Project::class)->create();
 
         $inspection = Mockery::mock(Inspection::class)->makePartial();
         $project = Mockery::mock(Project::class)->makePartial();

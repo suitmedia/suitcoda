@@ -3,6 +3,7 @@
 namespace Suitcoda\Model;
 
 use Suitcoda\Model\Command;
+use Suitcoda\Model\Issue;
 use Suitcoda\Model\SubScope;
 
 class Scope extends BaseModel
@@ -17,16 +18,6 @@ class Scope extends BaseModel
     ];
 
     /**
-     * Get the subscopes for the current scope.
-     *
-     * @return object
-     */
-    public function subScopes()
-    {
-        return $this->hasMany(SubScope::class);
-    }
-
-    /**
      * Get the command for the current scope.
      *
      * @return object
@@ -34,6 +25,26 @@ class Scope extends BaseModel
     public function command()
     {
         return $this->hasOne(Command::class);
+    }
+
+    /**
+     * Get the issues for the current scope.
+     *
+     * @return object
+     */
+    public function issues()
+    {
+        return $this->hasMany(Issue::class);
+    }
+
+    /**
+     * Get the subscopes for the current scope.
+     *
+     * @return object
+     */
+    public function subScopes()
+    {
+        return $this->hasMany(SubScope::class);
     }
 
     /**

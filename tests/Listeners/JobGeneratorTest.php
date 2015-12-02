@@ -48,35 +48,22 @@ class JobGeneratorTest extends TestCase
      */
     public function testHandle()
     {
-        $userFaker = factory(User::class)->create(['name' => 'test']);
-        $projectFaker = factory(Project::class)->make();
-        $userFaker->projects()->save($projectFaker);
-        for ($i = 0; $i < 2; $i++) {
-            $urlFaker = factory(Url::class)->make();
-            $projectFaker->urls()->save($urlFaker);
-            $inspectionFaker = factory(Inspection::class)->make();
-            $projectFaker->inspections()->save($inspectionFaker);
-        }
+        $inspectionFaker = factory(Inspection::class)->create();
+        factory(Url::class, 5)->create([
+            'project_id' => $inspectionFaker->project->id
+        ]);
 
         $project = Mockery::mock(Project::class);
-        $generator = Mockery::mock(CommandLineGenerator::class);
-        $job = Mockery::mock(JobInspect::class)->makePartial();
-        $url = Mockery::mock(Url::class);
-        $builder = Mockery::mock(Builder::class);
+        $generator = Mockery::mock(CommandLineGenerator::class . '[generateCommand]', [new Scope]);
+        $job = Mockery::mock(JobInspect::class . '[newInstance, save]')->makePartial();
 
-        $project->shouldReceive('urls')->andReturn($url);
-        $url->shouldReceive('active')->andReturn($url);
-        $url->shouldReceive('byType')->andReturn($builder);
-        $builder->shouldReceive('get')->andReturn(new Collection(['a', 'b']));
+        $project->shouldReceive('urls->active->byType->get')->andReturn(2);
         $generator->shouldReceive('getByType')->andReturn(new Collection([Scope::find(1)]));
         $generator->shouldReceive('generateCommand')->andReturn(1);
-        $generator->shouldReceive('generateUrl')->andReturn(1);
-        $generator->shouldReceive('generateParameters')->andReturn(1);
-        $generator->shouldReceive('generateDestination')->andReturn(1);
         $job->shouldReceive('newInstance')->andReturn($job);
         $job->shouldReceive('save')->andReturn(true);
 
         $listener = new JobGenerator($generator, $job);
-        $listener->handle(new ProjectWatcher($projectFaker, $inspectionFaker));
+        $listener->handle(new ProjectWatcher($inspectionFaker->project, $inspectionFaker));
     }
 }

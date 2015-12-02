@@ -46,13 +46,7 @@ class CrawlerTheWebsiteTest extends TestCase
      */
     public function testHandleWithDatabaseActiveUrl()
     {
-        $userFaker = factory(User::class)->create(['name' => 'test']);
-        $projectFaker = factory(Project::class)->make();
-        $userFaker->projects()->save($projectFaker);
-        for ($i = 0; $i < 2; $i++) {
-            $urlFaker = factory(Url::class)->make();
-            $projectFaker->urls()->save($urlFaker);
-        }
+        $urlFaker = factory(Url::class, 5)->create();
 
         $project = Mockery::mock(Project::class)->makePartial();
         $inspection = Mockery::mock(Inspection::class)->makePartial();
@@ -109,13 +103,7 @@ class CrawlerTheWebsiteTest extends TestCase
      */
     public function testHandleWithDatabaseNotActiveUrl()
     {
-        $userFaker = factory(User::class)->create(['name' => 'test']);
-        $projectFaker = factory(Project::class)->make();
-        $userFaker->projects()->save($projectFaker);
-        for ($i = 0; $i < 2; $i++) {
-            $urlFaker = factory(Url::class)->make(['is_active' => false]);
-            $projectFaker->urls()->save($urlFaker);
-        }
+        $urlFaker = factory(Url::class, 5)->create();
 
         $project = Mockery::mock(Project::class)->makePartial();
         $inspection = Mockery::mock(Inspection::class)->makePartial();
@@ -172,10 +160,6 @@ class CrawlerTheWebsiteTest extends TestCase
      */
     public function testHandleWithEmptyDatabase()
     {
-        $userFaker = factory(User::class)->create(['name' => 'test']);
-        $projectFaker = factory(Project::class)->make();
-        $userFaker->projects()->save($projectFaker);
-
         $project = Mockery::mock(Project::class)->makePartial();
         $inspection = Mockery::mock(Inspection::class)->makePartial();
         $crawler = Mockery::mock(CrawlerUrl::class)->shouldIgnoreMissing();

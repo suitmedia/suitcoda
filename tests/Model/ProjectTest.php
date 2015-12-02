@@ -66,12 +66,10 @@ class ProjectTest extends TestCase
      */
     public function testScopeFindBySlug()
     {
-        $userFaker = factory(User::class)->create(['name' => 'test']);
-        $projectFaker = factory(Project::class)->make();
-        $userFaker->projects()->save($projectFaker);
+        $projectFaker = factory(Project::class)->create();
 
         $project = new Project;
 
-        $this->assertInstanceOf(Project::class, $project->findBySlug('example'));
+        $this->assertInstanceOf(Project::class, $project->findBySlug($projectFaker->slug));
     }
 }
