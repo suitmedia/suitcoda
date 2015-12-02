@@ -4,6 +4,7 @@ namespace SuitTests\Model;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Suitcoda\Model\Inspection;
 use SuitTests\TestCase;
@@ -44,6 +45,30 @@ class InspectionTest extends TestCase
         $inspection = new Inspection;
 
         $this->assertInstanceOf(BelongsTo::class, $inspection->project());
+    }
+
+    /**
+     * Test Relationship Inspection with JobInspects
+     *
+     * @return void
+     */
+    public function testRelationshipWithJobInspects()
+    {
+        $inspection = new Inspection;
+
+        $this->assertInstanceOf(HasMany::class, $inspection->jobInspects());
+    }
+
+    /**
+     * Test Relationship Inspection with Score
+     *
+     * @return void
+     */
+    public function testRelationshipWithScore()
+    {
+        $inspection = new Inspection;
+
+        $this->assertInstanceOf(HasMany::class, $inspection->scores());
     }
 
     /**

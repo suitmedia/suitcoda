@@ -15,6 +15,7 @@ class CreateScoreTable extends Migration
         Schema::create('scores', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('inspection_id')->unsigned()->index();
+            $table->string('category');
             $table->double('score')->unsigned();
 
             $table->foreign('inspection_id')
