@@ -24,16 +24,16 @@ class CommandsTableSeeder extends Seeder
             'gPagespeedMobile' => 'pagespeedMobile.js',
             'ySlow' => 'yslowHorseman.js'
         ];
+        $scope = new Scope;
 
         foreach ($list as $name => $commandLine) {
-            $scope = Scope::getByName($name);
+            $scope = $scope::getByName($name);
 
-            $model = factory(Command::class)->make([
+            factory(Command::class, 'seeder')->create([
                 'name' => $name,
-                'command_line' => $commandLine
+                'command_line' => $commandLine,
+                'scope_id' => $scope->id
             ]);
-            $model->scope()->associate($scope);
-            $model->save();
         }
     }
 }

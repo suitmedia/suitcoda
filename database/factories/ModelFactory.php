@@ -20,6 +20,23 @@ use Suitcoda\Model\User;
 |
 */
 
+$factory->defineAs(Scope::class, 'seeder', function ($faker) {
+    return [
+    ];
+});
+
+$factory->defineAs(SubScope::class, 'seeder', function ($faker) {
+    return [
+        'is_active' => true
+    ];
+});
+
+$factory->defineAs(Command::class, 'seeder', function ($faker) {
+    return [
+        'is_active' => true
+    ];
+});
+
 $factory->define(User::class, function ($faker) {
     return [
         'username' => $faker->sentence($nbWords = 3),
