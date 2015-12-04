@@ -1,5 +1,6 @@
 <?php
 
+use Suitcoda\Model\Category;
 use Suitcoda\Model\Command;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\JobInspect;
@@ -19,6 +20,10 @@ use Suitcoda\Model\User;
 | database. Just tell the factory how a default model should look.
 |
 */
+
+$factory->defineAs(Category::class, 'seeder', function ($faker) {
+    return [];
+});
 
 $factory->define(User::class, function ($faker) {
     return [
