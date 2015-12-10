@@ -1,5 +1,6 @@
 <?php
 
+use Suitcoda\Model\Category;
 use Suitcoda\Model\Command;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\JobInspect;
@@ -34,6 +35,11 @@ $factory->defineAs(SubScope::class, 'seeder', function ($faker) {
 $factory->defineAs(Command::class, 'seeder', function ($faker) {
     return [
         'is_active' => true
+    ];
+});
+
+$factory->defineAs(Category::class, 'seeder', function ($faker) {
+    return [
     ];
 });
 
