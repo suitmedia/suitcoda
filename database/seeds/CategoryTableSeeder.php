@@ -14,22 +14,22 @@ class CategoryTableSeeder extends Seeder
     {
         factory(Category::class, 'seeder')->create([
             'name' => 'SEO',
-            'label' => 'blue',
+            'label_color' => 'blue',
             'directory' => 'seo/'
         ]);
         factory(Category::class, 'seeder')->create([
             'name' => 'Performance',
-            'label' => 'orange',
+            'label_color' => 'orange',
             'directory' => 'performance/'
         ]);
         factory(Category::class, 'seeder')->create([
             'name' => 'Code Quality',
-            'label' => 'red',
+            'label_color' => 'red',
             'directory' => 'linter/'
         ]);
         factory(Category::class, 'seeder')->create([
             'name' => 'Social Media',
-            'label' => 'green',
+            'label_color' => 'green',
             'directory' => 'socmed/'
         ]);
     }

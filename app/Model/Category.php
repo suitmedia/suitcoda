@@ -11,7 +11,7 @@ class Category extends BaseModel
 
     protected $fillable = [
         'name',
-        'label',
+        'label_color',
         'directory'
     ];
 
