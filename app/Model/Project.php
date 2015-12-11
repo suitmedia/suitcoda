@@ -108,10 +108,17 @@ class Project extends BaseModel implements SluggableInterface
     public function scopeSearch($query, $keyword)
     {
         $keywords = explode(' ', $keyword);
+        $regex = '';
 
-        $result = $query->where(function ($q) use ($keywords) {
+        if (\DB::connection()->getName() == 'mysql') {
+            $regex = 'REGEXP';
+        } elseif (\DB::connection()->getName() == 'pgsql') {
+            $regex = '~';
+        }
+
+        $result = $query->where(function ($q) use ($keywords, $regex) {
             foreach ($keywords as $key) {
-                $q->orWhere('name', 'REGEXP', "[[:<:]]{$key}[[:>:]]");
+                $q->orWhere('name', $regex, "[[:<:]]{$key}[[:>:]]");
             }
         });
 
