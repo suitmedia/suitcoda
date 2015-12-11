@@ -97,4 +97,24 @@ class Project extends BaseModel implements SluggableInterface
     {
         return $query->where('slug', $slug)->get();
     }
+
+    /**
+     * Scope to search project by name
+     *
+     * @param  string $query   []
+     * @param  string $keyword []
+     * @return object
+     */
+    public function scopeSearch($query, $keyword)
+    {
+        $keywords = explode(' ', $keyword);
+
+        $result = $query->where(function ($q) use ($keywords) {
+            foreach ($keywords as $key) {
+                $q->orWhere('name', 'REGEXP', "[[:<:]]{$key}[[:>:]]");
+            }
+        });
+
+        return $result;
+    }
 }

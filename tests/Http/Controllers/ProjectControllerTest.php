@@ -4,14 +4,15 @@ namespace SuitTests\Http\Controllers;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Http\Request;
 use Mockery;
+use SuitTests\TestCase;
 use Suitcoda\Http\Controllers\ProjectController;
 use Suitcoda\Http\Requests\ProjectRequest;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\Project;
 use Suitcoda\Model\Scope;
 use Suitcoda\Model\User;
-use SuitTests\TestCase;
 
 class ProjectControllerTest extends TestCase
 {
@@ -195,5 +196,24 @@ class ProjectControllerTest extends TestCase
         $user->shouldReceive('projects')->andReturn($project);
         $project->shouldReceive('findOrFailByUrlKey')->andReturn(null);
         $controller->destroy(1);
+    }
+
+    /**
+     * Test continue if success call search method
+     *
+     * @return void
+     */
+    public function testSearchProject()
+    {
+        $request = Mockery::mock(Request::class);
+        $project = Mockery::mock(Project::class);
+        $scope = Mockery::mock(Scope::class);
+
+        $request->shouldReceive('input');
+        $project->shouldReceive('search->get');
+
+        $controller = new ProjectController($project, $scope);
+        
+        $this->assertInstanceOf('Illuminate\View\View', $controller->search($request));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Suitcoda\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Suitcoda\Http\Requests\ProjectRequest;
 use Suitcoda\Model\Project;
 use Suitcoda\Model\Scope;
@@ -150,5 +151,18 @@ class ProjectController extends BaseController
             array_push($graphData['xAxis'], '#' . $inspection->sequence_number);
         }
         return $graphData;
+    }
+
+    /**
+     * Search project by name
+     * @param  Request $request []
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $key = $request->input('key');
+        $projects = $this->project->search($key)->get();
+
+        return view('project_search', compact('projects'));
     }
 }
