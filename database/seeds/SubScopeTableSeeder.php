@@ -72,12 +72,12 @@ class SubScopeTableSeeder extends Seeder
 
     protected function addNewSubSopes($scope, $name, $parameter)
     {
-        $model = factory(SubScope::class)->make([
+        factory(SubScope::class, 'seeder')->create([
             'name' => $name,
             'code' => $this->code,
-            'parameter' => $parameter
+            'parameter' => $parameter,
+            'scope_id' => $scope->id
         ]);
-        $scope->subScopes()->save($model);
         $this->code *= 2;
     }
 }

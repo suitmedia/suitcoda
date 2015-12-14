@@ -21,8 +21,26 @@ use Suitcoda\Model\User;
 |
 */
 
+$factory->defineAs(Scope::class, 'seeder', function ($faker) {
+    return [
+    ];
+});
+
+$factory->defineAs(SubScope::class, 'seeder', function ($faker) {
+    return [
+        'is_active' => true
+    ];
+});
+
+$factory->defineAs(Command::class, 'seeder', function ($faker) {
+    return [
+        'is_active' => true
+    ];
+});
+
 $factory->defineAs(Category::class, 'seeder', function ($faker) {
-    return [];
+    return [
+    ];
 });
 
 $factory->define(User::class, function ($faker) {

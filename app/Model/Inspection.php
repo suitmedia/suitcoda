@@ -2,7 +2,9 @@
 
 namespace Suitcoda\Model;
 
+use Suitcoda\Model\JobInspect;
 use Suitcoda\Model\Project;
+use Suitcoda\Model\Score;
 
 class Inspection extends BaseModel
 {
@@ -59,6 +61,26 @@ class Inspection extends BaseModel
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * Get the jobInspects for the current inspection.
+     *
+     * @return object
+     */
+    public function jobInspects()
+    {
+        return $this->hasMany(JobInspect::class);
+    }
+
+    /**
+     * Get the scores for the current inspection.
+     *
+     * @return object
+     */
+    public function scores()
+    {
+        return $this->hasMany(Score::class);
     }
 
     /**
