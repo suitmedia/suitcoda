@@ -36,6 +36,10 @@ Route::group([ 'middleware' => 'auth' ], function () {
         'as' => 'project.store',
         'uses' => 'ProjectController@store'
     ]);
+    Route::post('/project/search', [
+        'as' => 'project.search',
+        'uses' => 'ProjectController@search'
+    ]);
     Route::get('/project/{project}/graph', [
         'as' => 'project.graph',
         'uses' => 'ProjectController@graph'

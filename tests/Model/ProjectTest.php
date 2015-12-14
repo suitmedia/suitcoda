@@ -72,4 +72,20 @@ class ProjectTest extends TestCase
 
         $this->assertInstanceOf(Project::class, $project->findBySlug($projectFaker->slug));
     }
+
+    /**
+     * Test get query scope of search method
+     *
+     * @return void
+     */
+    public function testScopeSearch()
+    {
+        factory(Project::class)->create([
+            'name' => 'test project'
+        ]);
+
+        $project = new Project;
+
+        $this->assertEquals('test project', $project->search('test')->first()->name);
+    }
 }

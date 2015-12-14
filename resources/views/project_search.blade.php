@@ -16,16 +16,11 @@
         </div>
 
         <div class="container block-up">
-            <h1>Project List</h1>
+            <h1>Search</h1>
             <div class="bzg">
-                <div class="bzg_c" data-col="s12,m6">
-                    <a href="{{ route('project.create') }}">
-                        <div class="box-dashed block">
-                            <span class="fa fa-plus"></span>
-                            <span>Create New Project</span>
-                        </div>
-                    </a>
-                </div>
+            @if ($projects->isEmpty())
+                <span class="empty-state">There are no project with the given name.</span>
+            @endif
                 @foreach ($projects as $project)
                     <div class="bzg_c block" data-col="s12,m6">
                         <a class="box box--block cf" href="{{ route('project.detail', $project->slug) }}">
