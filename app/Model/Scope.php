@@ -5,6 +5,7 @@ namespace Suitcoda\Model;
 use Suitcoda\Model\Category;
 use Suitcoda\Model\Command;
 use Suitcoda\Model\Issue;
+use Suitcoda\Model\JobInspect;
 use Suitcoda\Model\SubScope;
 
 class Scope extends BaseModel
@@ -35,6 +36,16 @@ class Scope extends BaseModel
     public function issues()
     {
         return $this->hasMany(Issue::class);
+    }
+
+    /**
+     * Get the jobInspects for the current scope.
+     *
+     * @return object
+     */
+    public function jobInspects()
+    {
+        return $this->hasMany(JobInspect::class);
     }
 
     /**
