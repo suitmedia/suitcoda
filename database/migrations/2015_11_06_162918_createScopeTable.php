@@ -17,7 +17,7 @@ class CreateScopeTable extends Migration
             $table->BigInteger('category_id')->unsigned()->index();
             $table->string('type');
             $table->string('name');
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(true);
 
             $table->foreign('category_id')
                   ->references('id')->on('categories')

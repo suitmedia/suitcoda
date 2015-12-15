@@ -21,9 +21,9 @@ class CreateScoreTable extends Migration
             $table->foreign('inspection_id')
                   ->references('id')->on('inspections')
                   ->onDelete('cascade');
-            // $table->foreign('category_id')
-            //       ->references('id')->on('categories')
-            //       ->onDelete('cascade');
+            $table->foreign('category_id')
+                  ->references('id')->on('categories')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }
