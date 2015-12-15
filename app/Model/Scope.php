@@ -2,6 +2,7 @@
 
 namespace Suitcoda\Model;
 
+use Suitcoda\Model\Category;
 use Suitcoda\Model\Command;
 use Suitcoda\Model\Issue;
 use Suitcoda\Model\SubScope;
@@ -12,7 +13,6 @@ class Scope extends BaseModel
 
     protected $fillable = [
         'type',
-        'category',
         'name',
         'is_active'
     ];
@@ -48,6 +48,16 @@ class Scope extends BaseModel
     }
 
     /**
+     * Get the category for the current scope.
+     *
+     * @return object
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
      * Scope a query to get scope with the given name.
      *
      * @param string $query []
@@ -75,11 +85,11 @@ class Scope extends BaseModel
      * Scope a query to get project with the given category.
      *
      * @param string $query []
-     * @param string $category []
+     * @param string $categoryId []
      * @return object
      */
-    public function scopeByCategory($query, $category)
+    public function scopeByCategoryId($query, $categoryId)
     {
-        return $query->where('category', $category);
+        return $query->where('category_id', $categoryId);
     }
 }

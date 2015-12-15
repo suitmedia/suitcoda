@@ -13,7 +13,7 @@ class CreateCategoryTable extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name', 64);
             $table->string('label_color', 64);
             $table->string('directory', 128);

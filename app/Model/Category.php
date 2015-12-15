@@ -34,4 +34,16 @@ class Category extends BaseModel
     {
         return $this->hasMany(Scope::class);
     }
+
+    /**
+     * Scope a query to get category with the given name.
+     *
+     * @param string $query []
+     * @param string $name []
+     * @return object
+     */
+    public function scopeByName($query, $name)
+    {
+        return $query->where('name', $name);
+    }
 }

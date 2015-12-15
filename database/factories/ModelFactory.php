@@ -76,11 +76,19 @@ $factory->define(Inspection::class, function ($faker) {
     ];
 });
 
+$factory->define(Category::class, function ($faker) {
+    return [
+        'name' => 'category1',
+        'label_color' => 'red',
+        'directory' => 'category1/'
+    ];
+});
+
 $factory->define(Scope::class, function ($faker) {
     return [
         'name' => 'test',
         'type' => 't1',
-        'category' => 'foo',
+        'category_id' => factory(Category::class)->create()->id,
         'is_active' => true
     ];
 });
