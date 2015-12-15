@@ -2,6 +2,7 @@
 
 namespace Suitcoda\Supports;
 
+use Suitcoda\Model\Category;
 use Suitcoda\Model\Scope;
 use Suitcoda\Model\Score;
 
@@ -9,46 +10,18 @@ class CalculateScore
 {
     protected $score;
 
-    protected $scope;
-
     protected $category;
 
     /**
      * Class constructor
      *
      * @param Score $score []
-     * @param Scope $scope []
+     * @param Scope $category []
      */
-    public function __construct(Score $score, Scope $scope)
+    public function __construct(Score $score, Category $category)
     {
         $this->score = $score;
-        $this->scope = $scope;
-    }
-
-    /**
-     * Add score to database
-     *
-     * @param Inspection $inspection []
-     * @param string $category []
-     * @return void
-     */
-    public function addScore($inspection, $category)
-    {
         $this->category = $category;
-        $jobs = $inspection->jobInspects->filter(function ($item) {
-            return $item->scope->category == $this->category;
-        });
-        if (!$jobs->isEmpty()) {
-            $counter = 0;
-            foreach ($jobs as $job) {
-                $counter += $job->issue_count;
-            }
-            $score = $this->score->newInstance();
-            $score->category = $jobs->first()->scope->category;
-            $score->score = $counter / $jobs->count();
-            $score->inspection()->associate($inspection);
-            $score->save();
-        }
     }
 
     /**
@@ -65,10 +38,22 @@ class CalculateScore
             }
         }
 
-        $scopeCategory = $this->scope->all()->pluck('category');
+        foreach ($this->category->all() as $category) {
+            $jobs = $inspection->jobInspects->filter(function ($item) use ($category) {
+                return $item->scope->category_id == $category->id;
+            });
 
-        foreach ($scopeCategory as $category) {
-            $this->addScore($inspection, $category);
+            if (!$jobs->isEmpty()) {
+                $counter = 0;
+                foreach ($jobs as $job) {
+                    $counter += $job->issue_count;
+                }
+                $score = $this->score->newInstance();
+                $score->score = $counter / $jobs->count();
+                $score->inspection()->associate($inspection);
+                $score->category()->associate($category);
+                $score->save();
+            }
         }
     }
 }

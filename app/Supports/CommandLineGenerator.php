@@ -8,13 +8,6 @@ class CommandLineGenerator
 {
     protected $scope;
 
-    protected $subDir = [
-        'SEO' => 'seo/',
-        'Performance' => 'performance/',
-        'Code Quality' => 'linter/',
-        'Social Media' => 'socmed/'
-    ];
-
     /**
      * Class constructor
      *
@@ -43,7 +36,7 @@ class CommandLineGenerator
                     return $scopeByName->command->command_line;
                 }
                 return 'nodejs ' .
-                    $this->getSubDirCommand($scopeByName->category) .
+                    $scopeByName->category->directory .
                     $scopeByName->command->command_line;
             }
         }
@@ -93,17 +86,6 @@ class CommandLineGenerator
     public function generateDestination($project, $inspection)
     {
         return ' --destination public/files/' . $project->name . '/' . $inspection->sequence_number . '/ ';
-    }
-
-    /**
-     * Get sub directory for command with the given category
-     *
-     * @param  string $category []
-     * @return string
-     */
-    public function getSubDirCommand($category)
-    {
-        return array_get($this->subDir, $category, '');
     }
 
     /**

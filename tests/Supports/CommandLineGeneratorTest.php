@@ -75,21 +75,6 @@ class CommandLineGeneratorTest extends TestCase
     }
 
     /**
-     * Test to generate sub directory folder path
-     *
-     * @return void
-     */
-    public function testGetSubDirCommand()
-    {
-        $scope = Mockery::mock(Scope::class)->makePartial();
-
-        $checker = new CommandLineGenerator($scope);
-
-        $result = $checker->getSubDirCommand('SEO');
-        $this->assertEquals('seo/', $result);
-    }
-
-    /**
      * Test to generate parameters
      *
      * @return void
