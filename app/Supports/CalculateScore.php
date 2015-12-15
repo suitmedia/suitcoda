@@ -49,7 +49,7 @@ class CalculateScore
                     $counter += $job->issue_count;
                 }
                 $score = $this->score->newInstance();
-                $score->score = $counter / $jobs->count();
+                $score->score = $counter / $inspection->project->urls->count();
                 $score->inspection()->associate($inspection);
                 $score->category()->associate($category);
                 $score->save();

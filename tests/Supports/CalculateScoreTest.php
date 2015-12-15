@@ -9,7 +9,9 @@ use SuitTests\TestCase;
 use Suitcoda\Model\Category;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\JobInspect;
+use Suitcoda\Model\Project;
 use Suitcoda\Model\Score;
+use Suitcoda\Model\Url;
 use Suitcoda\Supports\CalculateScore;
 
 class CalculateScoreTest extends TestCase
@@ -43,12 +45,18 @@ class CalculateScoreTest extends TestCase
      */
     public function testAddScore()
     {
-        $inspectionFaker = factory(Inspection::class)->create();
+        $projectFaker = factory(Project::class)->create();
+        $inspectionFaker = factory(Inspection::class)->create([
+            'project_id' => $projectFaker->id
+        ]);
         factory(JobInspect::class, 5)->create([
             'inspection_id' => $inspectionFaker->id,
             'scope_id' => 1,
             'issue_count' => 7,
             'status' => 2
+        ]);
+        factory(Url::class, 2)->create([
+            'project_id' => $projectFaker->id
         ]);
         $score = Mockery::mock(Score::class);
         $category = Mockery::mock(Category::class);
@@ -63,7 +71,7 @@ class CalculateScoreTest extends TestCase
         $calculateScore->calculate($inspectionFaker);
         $this->seeInDatabase('scores', [
             'category_id' => '1',
-            'score' => 7
+            'score' => 17.5
         ]);
     }
 
