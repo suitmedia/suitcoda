@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Suitcoda\Model\Category;
 use Suitcoda\Model\Scope;
 
 class ScopeTableSeeder extends Seeder
@@ -32,9 +33,9 @@ class ScopeTableSeeder extends Seeder
             } else {
                 $type = 'url';
             }
-            factory(Scope::class)->create([
+            factory(Scope::class, 'seeder')->create([
                 'name' => $name,
-                'category' => $category,
+                'category_id' => Category::byName($category)->first()->id,
                 'type' => $type
             ]);
         }

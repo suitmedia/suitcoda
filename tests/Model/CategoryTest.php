@@ -2,10 +2,11 @@
 
 namespace SuitTests\Model;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Suitcoda\Model\Category;
 use SuitTests\TestCase;
+use Suitcoda\Model\Category;
 
 class CategoryTest extends TestCase
 {
@@ -33,5 +34,17 @@ class CategoryTest extends TestCase
         $category = new Category;
 
         $this->assertInstanceOf(HasMany::class, $category->scores());
+    }
+
+    /**
+     * Test get query scope of byName method
+     *
+     * @return void
+     */
+    public function testScopeGetByName()
+    {
+        $category = new Category;
+
+        $this->assertEquals(new Collection, $category->byName('test')->get());
     }
 }

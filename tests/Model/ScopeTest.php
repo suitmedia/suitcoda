@@ -82,6 +82,6 @@ class ScopeTest extends TestCase
     {
         $scope = new Scope;
 
-        $this->assertInstanceOf(Collection::class, $scope->byCategory('SEO')->get());
+        $this->assertInstanceOf(Collection::class, $scope->byCategoryId(1)->get());
     }
 }

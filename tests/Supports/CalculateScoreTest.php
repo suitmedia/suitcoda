@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
 use SuitTests\TestCase;
+use Suitcoda\Model\Category;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\JobInspect;
-use Suitcoda\Model\Scope;
+use Suitcoda\Model\Project;
 use Suitcoda\Model\Score;
+use Suitcoda\Model\Url;
 use Suitcoda\Supports\CalculateScore;
 
 class CalculateScoreTest extends TestCase
@@ -43,27 +45,33 @@ class CalculateScoreTest extends TestCase
      */
     public function testAddScore()
     {
-        $inspectionFaker = factory(Inspection::class)->create();
+        $projectFaker = factory(Project::class)->create();
+        $inspectionFaker = factory(Inspection::class)->create([
+            'project_id' => $projectFaker->id
+        ]);
         factory(JobInspect::class, 5)->create([
             'inspection_id' => $inspectionFaker->id,
             'scope_id' => 1,
             'issue_count' => 7,
             'status' => 2
         ]);
+        factory(Url::class, 2)->create([
+            'project_id' => $projectFaker->id
+        ]);
         $score = Mockery::mock(Score::class);
-        $scope = Mockery::mock(Scope::class);
+        $category = Mockery::mock(Category::class);
 
         $score->shouldReceive('newInstance')->andReturn(new Score);
         $score->shouldReceive('inspection->associate');
         $score->shouldReceive('save')->andReturn(true);
-        $scope->shouldReceive('all->pluck')->andReturn(new Collection(['SEO', 'Code Quality']));
+        $category->shouldReceive('all')->andReturn(Category::all());
 
-        $calculateScore = new CalculateScore($score, $scope);
+        $calculateScore = new CalculateScore($score, $category);
 
         $calculateScore->calculate($inspectionFaker);
         $this->seeInDatabase('scores', [
-            'category' => 'SEO',
-            'score' => 7
+            'category_id' => '1',
+            'score' => 17.5
         ]);
     }
 
@@ -82,7 +90,7 @@ class CalculateScoreTest extends TestCase
             'status' => 1
         ]);
         $score = Mockery::mock(Score::class);
-        $calculateScore = new CalculateScore($score, new Scope);
+        $calculateScore = new CalculateScore($score, new Category);
 
         $calculateScore->calculate($inspectionFaker);
     }
