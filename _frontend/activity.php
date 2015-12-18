@@ -82,11 +82,11 @@
                                         Error Rate
                                         <span class="text-red">(10)</span> 
                                     </b> 
+                                    <span class="float-right">80%</span>
                                 </div>
                                 <div class="progress" data-percent="80">
                                     <div class="progress__bar"></div>
                                 </div>
-                                <span class="float-right">80%</span>
                             </div>
                             <div class="block cf">
                                 <div class="progress-title">
@@ -94,11 +94,11 @@
                                         Performance 
                                         <span class="text-red">(4)</span> 
                                     </b> 
+                                    <span class="float-right">70%</span>
                                 </div>
                                 <div class="progress" data-percent="70">
                                     <div class="progress__bar"></div>
                                 </div>
-                                <span class="float-right">70%</span>
                             </div>
                             <div class="block cf">
                                 <div class="progress-title">
@@ -106,11 +106,11 @@
                                         Code Quality 
                                         <span class="text-red">(2)</span> 
                                     </b> 
+                                    <span class="float-right">15%</span>
                                 </div>
                                 <div class="progress" data-percent="15">
                                     <div class="progress__bar"></div>
                                 </div>
-                                <span class="float-right">15%</span>
                             </div>
                             <div class="block cf">
                                 <div class="progress-title">
@@ -118,11 +118,11 @@
                                         SEO 
                                         <span class="text-red">(3)</span> 
                                     </b> 
+                                    <span class="float-right">63%</span>
                                 </div>
                                 <div class="progress" data-percent="63">
                                     <div class="progress__bar"></div>
                                 </div>
-                                <span class="float-right">63%</span>
                             </div>
                             <div class="block cf">
                                 <div class="progress-title">
@@ -130,11 +130,11 @@
                                         Social Media 
                                         <span class="text-red">(1)</span> 
                                     </b> 
+                                    <span class="float-right">30%</span>
                                 </div>
                                 <div class="progress" data-percent="30">
                                     <div class="progress__bar"></div>
                                 </div>
-                                <span class="float-right">30%</span>
                             </div>
                         </div>
                     </div>
