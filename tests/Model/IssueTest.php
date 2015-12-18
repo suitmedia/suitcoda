@@ -34,4 +34,16 @@ class IssueTest extends TestCase
 
         $this->assertInstanceOf(BelongsTo::class, $issue->scope());
     }
+
+    /**
+     * Test Relationship Issue with Inspection
+     *
+     * @return void
+     */
+    public function testRelationshipWithInspection()
+    {
+        $issue = new Issue;
+
+        $this->assertInstanceOf(BelongsTo::class, $issue->inspection());
+    }
 }

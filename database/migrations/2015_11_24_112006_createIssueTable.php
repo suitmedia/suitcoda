@@ -14,6 +14,7 @@ class CreateIssueTable extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('inspection_id')->unsigned()->index();
             $table->bigInteger('job_inspect_id')->unsigned()->index();
             $table->bigInteger('scope_id')->unsigned()->index();
             $table->string('type', 32);
@@ -21,6 +22,10 @@ class CreateIssueTable extends Migration
             $table->text('description');
             $table->string('issue_line')->nullable();
 
+            $table->foreign('inspection_id')
+                  ->references('id')
+                  ->on('inspections')
+                  ->onDelete('cascade');
             $table->foreign('job_inspect_id')
                   ->references('id')
                   ->on('job_inspects')
