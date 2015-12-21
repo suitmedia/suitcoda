@@ -165,21 +165,6 @@ class ProjectControllerTest extends TestCase
     }
 
     /**
-     * Test continue if sucess get json data
-     *
-     * @return void
-     */
-    public function testIntegrationGraph()
-    {
-        $inspectionFaker = factory(Inspection::class)->create();
-
-        $this->actingAs($inspectionFaker->project->user)
-             ->visit('project/' . $inspectionFaker->project->slug . '/graph')
-             ->seeJson(['name' => 'Overall']);
-        $this->assertResponseOk();
-    }
-
-    /**
      * Test continue if get expected exception
      *
      * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException

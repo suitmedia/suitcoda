@@ -41,20 +41,36 @@ Route::group([ 'middleware' => 'auth' ], function () {
         'uses' => 'ProjectController@search'
     ]);
     Route::get('/project/{project}/graph', [
-        'as' => 'project.graph',
-        'uses' => 'ProjectController@graph'
+        'as' => 'detail.graph',
+        'uses' => 'ProjectDetailController@graph'
     ]);
-    Route::get('/project/{project}', [
-        'as' => 'project.detail',
-        'uses' => 'ProjectController@detail'
+    Route::get('/project/{project}/overview', [
+        'as' => 'detail.overview',
+        'uses' => 'ProjectDetailController@overview'
+    ]);
+    Route::get('/project/{project}/activity', [
+        'as' => 'detail.activity',
+        'uses' => 'ProjectDetailController@activity'
+    ]);
+    Route::get('/project/{project}/inspection-{issue}/{category}', [
+        'as' => 'detail.issue',
+        'uses' => 'ProjectDetailController@issue'
+    ]);
+    Route::post('/project/{project}/inspection-{issue}/', [
+        'as' => 'detail.issue.category',
+        'uses' => 'ProjectDetailController@issueByCategory'
     ]);
     Route::delete('/project/{project}', [
         'as' => 'project.destroy',
         'uses' => 'ProjectController@destroy'
     ]);
-    Route::post('/project/{project}', [
+    Route::get('/project/{project}/inspect', [
+        'as' => 'inspection.create',
+        'uses' => 'ProjectDetailController@create'
+    ]);
+    Route::post('/project/{project}/inspect', [
         'as' => 'inspection.store',
-        'uses' => 'InspectionController@store'
+        'uses' => 'ProjectDetailController@store'
     ]);
     Route::get('logout', 'Auth\AuthController@getLogout');
     Route::group([ 'middleware' => 'role' ], function () {
