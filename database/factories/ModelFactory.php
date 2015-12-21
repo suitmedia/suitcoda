@@ -3,9 +3,11 @@
 use Suitcoda\Model\Category;
 use Suitcoda\Model\Command;
 use Suitcoda\Model\Inspection;
+use Suitcoda\Model\Issue;
 use Suitcoda\Model\JobInspect;
 use Suitcoda\Model\Project;
 use Suitcoda\Model\Scope;
+use Suitcoda\Model\Score;
 use Suitcoda\Model\SubScope;
 use Suitcoda\Model\Url;
 use Suitcoda\Model\User;
@@ -133,5 +135,32 @@ $factory->define(JobInspect::class, function ($faker) {
         'inspection_id' => factory(Inspection::class)->create()->id,
         'url_id' => factory(Url::class)->create()->id,
         'scope_id' => factory(Scope::class)->create()->id,
+    ];
+});
+
+$factory->define(Category::class, function ($faker) {
+    return [
+        'name' => 'test',
+        'label_color' => 'red',
+        'directory' => 'test/'
+    ];
+});
+
+$factory->define(Score::class, function ($faker) {
+    return [
+        'inspection_id' => factory(Inspection::class)->create()->id,
+        'category_id' => factory(Category::class)->create()->id,
+        'score' => 7,
+    ];
+});
+
+$factory->define(Issue::class, function ($faker) {
+    return [
+        'inspection_id' => factory(Inspection::class)->create()->id,
+        'job_inspect_id' => factory(JobInspect::class)->create()->id,
+        'scope_id' => factory(Scope::class)->create()->id,
+        'type' => 'Error',
+        'url' => 'test.com',
+        'description' => 'test description'
     ];
 });
