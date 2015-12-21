@@ -338,7 +338,7 @@ class CrawlerUrl
             if ($responseUrl->getStatusCode() === 200 &&
                 $this->checkNotInList($effectiveUrl, $this->siteUrl)) {
                 $bodyContent = $responseUrl->getBody()->getContents();
-                $compressedContent = gzdeflate($bodyContent, 9);
+                $compressedContent = gzdeflate($bodyContent);
                 $this->crawler->addHtmlContent($bodyContent);
                 $urlInfo = [
                     'type' => 'url',

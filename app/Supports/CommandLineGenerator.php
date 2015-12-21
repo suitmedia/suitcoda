@@ -83,9 +83,10 @@ class CommandLineGenerator
      * @param  Suitcoda\Model\Inspection $inspection []
      * @return string
      */
-    public function generateDestination($project, $inspection)
+    public function generateDestination($project, $inspection, $url)
     {
-        return ' --destination public/files/' . $project->name . '/' . $inspection->sequence_number . '/ ';
+        return ' --destination public/files/' . $project->slug . '/' . $inspection->sequence_number .
+            '/url-' . $url->id . '/ ';
     }
 
     /**
