@@ -2,6 +2,7 @@
 
 namespace Suitcoda\Model;
 
+use Suitcoda\Model\Inspection;
 use Suitcoda\Model\JobInspect;
 use Suitcoda\Model\Scope;
 
@@ -27,12 +28,22 @@ class Issue extends BaseModel
     }
 
     /**
-     * Get the scope for the current scope.
+     * Get the scope for the current issue.
      *
      * @return object
      */
     public function scope()
     {
         return $this->belongsTo(Scope::class);
+    }
+
+    /**
+     * Get the inspection for the current issue.
+     *
+     * @return object
+     */
+    public function inspection()
+    {
+        return $this->belongsTo(Inspection::class);
     }
 }

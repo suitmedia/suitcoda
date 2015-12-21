@@ -72,6 +72,18 @@ class InspectionTest extends TestCase
     }
 
     /**
+     * Test Relationship Inspection with Issue
+     *
+     * @return void
+     */
+    public function testRelationshipWithIssue()
+    {
+        $inspection = new Inspection;
+
+        $this->assertInstanceOf(HasMany::class, $inspection->issues());
+    }
+
+    /**
      * Test get query scope of getById method
      *
      * @return void
