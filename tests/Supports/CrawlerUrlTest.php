@@ -159,7 +159,7 @@ class CrawlerUrlTest extends TestCase
             'titleTag' => '',
             'desc' => '',
             'descTag' => '',
-            'bodyContent' => gzdeflate($h, 9),
+            'bodyContent' => gzdeflate($html),
             'depth' => 0
         ]], $crawl->getSiteUrl());
     }
@@ -207,7 +207,7 @@ class CrawlerUrlTest extends TestCase
             'titleTag' => '<title>Example Domain</title>',
             'desc' => 'example description',
             'descTag' => '<meta name="description" content="example description" />',
-            'bodyContent' => gzdeflate($h, 9),
+            'bodyContent' => gzdeflate($html),
             'depth' => 0
         ]], $crawl->getSiteUrl());
     }
