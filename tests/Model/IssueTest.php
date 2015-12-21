@@ -46,4 +46,17 @@ class IssueTest extends TestCase
 
         $this->assertInstanceOf(BelongsTo::class, $issue->inspection());
     }
+
+    /**
+     * Test get updated_at attribute with custom format
+     *
+     * @return void
+     */
+    public function testCreatedAtFormat()
+    {
+        $issue = new Issue;
+        $time = \Carbon\Carbon::now();
+        $issue->updated_at = $time;
+        $this->assertEquals($time->diffForHumans(), $issue->created_at);
+    }
 }

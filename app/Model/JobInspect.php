@@ -67,4 +67,31 @@ class JobInspect extends BaseModel
     {
         return $query->where('status', 0)->get();
     }
+
+    /**
+     * Scope a query to get completed job.
+     *
+     * @param  string $query []
+     * @return object
+     */
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', '2');
+    }
+
+    /**
+     * Scope a query to get job by category name.
+     *
+     * @param  string $query []
+     * @param  string $name []
+     * @return object
+     */
+    public function scopeByCategoryName($query, $name)
+    {
+        return $query->where('status', '2')->wherehas('scope', function ($query) use ($name) {
+            $query->whereHas('category', function ($query) use ($name) {
+                $query->where('name', $name);
+            });
+        });
+    }
 }

@@ -3,9 +3,13 @@
 namespace SuitTests\Model;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Suitcoda\Model\Project;
-use Suitcoda\Model\User;
 use SuitTests\TestCase;
+use Suitcoda\Model\Inspection;
+use Suitcoda\Model\Issue;
+use Suitcoda\Model\JobInspect;
+use Suitcoda\Model\Project;
+use Suitcoda\Model\Score;
+use Suitcoda\Model\User;
 
 class ProjectTest extends TestCase
 {
@@ -56,21 +60,7 @@ class ProjectTest extends TestCase
         $project = new Project;
         $time = \Carbon\Carbon::now();
         $project->updated_at = $time;
-        $this->assertEquals($time->format('H:i M j, Y'), $project->updated_at);
-    }
-
-    /**
-     * Test get query scope of findBySlug method
-     *
-     * @return void
-     */
-    public function testScopeFindBySlug()
-    {
-        $projectFaker = factory(Project::class)->create();
-
-        $project = new Project;
-
-        $this->assertInstanceOf(Project::class, $project->findBySlug($projectFaker->slug));
+        $this->assertEquals($time->diffForHumans(), $project->updated_at);
     }
 
     /**
@@ -87,5 +77,159 @@ class ProjectTest extends TestCase
         $project = new Project;
 
         $this->assertEquals('test project', $project->search('test')->first()->name);
+    }
+
+    /**
+     * Test get last inspection status on empty inspection
+     *
+     * @return void
+     */
+    public function testGetLastInspectionNumber()
+    {
+        $projectFaker = factory(Project::class)->create();
+
+        $this->assertEquals('-', $projectFaker->lastInspectionNumber);
+
+        $inspectionFaker = factory(Inspection::class)->create([
+            'project_id' => $projectFaker->id,
+        ]);
+        $this->assertEquals('#' . $inspectionFaker->sequence_number, $projectFaker->lastInspectionNumber);
+    }
+
+    /**
+     * Test get last inspection status on empty inspection
+     *
+     * @return void
+     */
+    public function testGetLastInspectionStatusNull()
+    {
+        $projectFaker = factory(Project::class)->create();
+
+        $this->assertEquals('-', $projectFaker->lastInspectionStatus);
+    }
+
+    /**
+     * Test get last inspection status != [1,2,3]
+     *
+     * @return void
+     */
+    public function testGetLastInspectionStatusDefault()
+    {
+        $projectFaker = factory(Project::class)->create();
+        factory(Inspection::class)->create([
+            'project_id' => $projectFaker->id,
+            'status' => (-1)
+        ]);
+        $this->assertEquals('<b class="text-red">Stopped</b>', $projectFaker->lastInspectionStatus);
+    }
+
+    /**
+     * Test get last inspection status == 0
+     *
+     * @return void
+     */
+    public function testGetLastInspectionStatusWaiting()
+    {
+        $projectFaker = factory(Project::class)->create();
+        factory(Inspection::class)->create([
+            'project_id' => $projectFaker->id,
+            'status' => 0
+        ]);
+        $this->assertEquals('<b class="text-grey">Waiting</b>', $projectFaker->lastInspectionStatus);
+    }
+
+    /**
+     * Test get last inspection status == 1
+     *
+     * @return void
+     */
+    public function testGetLastInspectionStatusOnProgress()
+    {
+        $projectFaker = factory(Project::class)->create();
+        factory(Inspection::class)->create([
+            'project_id' => $projectFaker->id,
+            'status' => 1
+        ]);
+        $this->assertEquals(
+            '<b class="text-orange">On Progress</b>',
+            $projectFaker->lastInspectionStatus
+        );
+    }
+
+    /**
+     * Test get last inspection status == 2
+     *
+     * @return void
+     */
+    public function testGetLastInspectionStatusCompleted()
+    {
+        $projectFaker = factory(Project::class)->create();
+        factory(Inspection::class)->create([
+            'project_id' => $projectFaker->id,
+            'status' => 2
+        ]);
+        $this->assertEquals('<b class="text-green">Completed</b>', $projectFaker->lastInspectionStatus);
+    }
+
+    /**
+     * Test get last completed inspection score
+     *
+     * @return void
+     */
+    public function testGetLastCompletedInspectionScoreAttribute()
+    {
+        $projectFaker = factory(Project::class)->create();
+        
+        $this->assertEquals('-', $projectFaker->lastCompletedInspectionScore);
+
+        factory(Inspection::class)->create([
+            'project_id' => $projectFaker->id,
+            'status' => 2,
+            'score' => 77.77
+        ]);
+        $this->assertEquals(77.77, $projectFaker->lastCompletedInspectionScore);
+    }
+
+
+
+    /**
+     * Test get last completed inspection score by given category name
+     *
+     * @return void
+     */
+    public function testGetLastCompletedInspectionScoreByCategory()
+    {
+        $projectFaker = factory(Project::class)->create();
+        
+        factory(Score::class)->create([
+            'inspection_id' => factory(Inspection::class)->create([
+                'project_id' => $projectFaker->id,
+                'status' => 2
+            ])->id,
+            'category_id' => 1,
+            'score' => 77.77
+        ]);
+        $this->assertEquals(77.77, $projectFaker->getLastCompletedInspectionScoreByCategory('SEO'));
+        $this->assertEquals('-', $projectFaker->getLastCompletedInspectionScoreByCategory('Performance'));
+    }
+
+    /**
+     * Test get last completed inspection issue count by given category name
+     *
+     * @return void
+     */
+    public function testGetLastCompletedInspectionIssueByCategory()
+    {
+        $projectFaker = factory(Project::class)->create();
+        
+        factory(Issue::class)->create([
+            'inspection_id' => factory(Inspection::class)->create([
+                'project_id' => $projectFaker->id,
+                'status' => 2
+            ])->id,
+            'scope_id' => 1,
+        ]);
+        $this->assertEquals(1, $projectFaker->getLastCompletedInspectionIssueByCategory('SEO'));
+        $this->assertEquals('-', $projectFaker->getLastCompletedInspectionIssueByCategory('Performance'));
     }
 }

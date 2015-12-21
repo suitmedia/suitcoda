@@ -103,4 +103,28 @@ class Scope extends BaseModel
     {
         return $query->where('category_id', $categoryId);
     }
+
+    /**
+     * Get scope query by category name
+     *
+     * @param  string $query []
+     * @param  string $name  []
+     * @return object
+     */
+    public function scopeByCategoryName($query, $name)
+    {
+        return $query->whereHas('category', function ($query) use ($name) {
+            $query->where('name', $name);
+        });
+    }
+
+    /**
+     * Get shortcut to category name
+     *
+     * @return string
+     */
+    public function getCategoryNameAttribute()
+    {
+        return $this->category->name;
+    }
 }

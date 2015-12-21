@@ -2,6 +2,7 @@
 
 namespace Suitcoda\Model;
 
+use Carbon\Carbon;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\JobInspect;
 use Suitcoda\Model\Scope;
@@ -45,5 +46,31 @@ class Issue extends BaseModel
     public function inspection()
     {
         return $this->belongsTo(Inspection::class);
+    }
+
+    /**
+     * Get updated_at variable with the given format
+     *
+     * @param  string $value []
+     * @return string
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        $time = new Carbon($value);
+        return $time->diffForHumans();
+    }
+
+    /**
+     * Get scope query by category name
+     *
+     * @param  string $query []
+     * @param  string $name  []
+     * @return object
+     */
+    public function scopeByCategoryName($query, $name)
+    {
+        return $query->whereHas('scope', function ($query) use ($name) {
+            $query->byCategoryName($name);
+        });
     }
 }

@@ -62,6 +62,7 @@ class JobInspectTest extends TestCase
 
     /**
      * Test query scope of getUnhandledJob
+     *
      * @return void
      */
     public function testScopeGetUnhandledJob()
@@ -69,5 +70,31 @@ class JobInspectTest extends TestCase
         $job = new JobInspect;
 
         $this->assertNull($job->getUnhandledJob()->first());
+    }
+
+    /**
+     * Test query scope of completed job
+     *
+     * @return void
+     */
+    public function testScopeCompletedJob()
+    {
+        $jobFaker = factory(JobInspect::class)->create([
+            'status' => 2
+        ]);
+
+        $this->assertInstanceOf(JobInspect::class, $jobFaker->completed()->first());
+    }
+
+    /**
+     * Test scope a query to get job by category name.
+     *
+     * @return void
+     */
+    public function testScopeByCategoryName()
+    {
+        $jobFaker = factory(JobInspect::class)->create();
+
+        $this->assertNull($jobFaker->byCategoryName('SEO')->first());
     }
 }
