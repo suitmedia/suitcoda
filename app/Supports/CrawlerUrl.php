@@ -309,7 +309,12 @@ class CrawlerUrl
                 continue;
             }
             if (!$recursive) {
-                array_push($siteLink, ['type' => $this->getExtension($list), 'url' => $list]);
+                $responseUrl = $this->client->get($list);
+                array_push($siteLink, [
+                    'type' => $this->getExtension($list),
+                    'url' => $list,
+                    'bodyContent' => gzdeflate($responseUrl->getBody()->getContents())
+                ]);
             } elseif (!in_array($list, $this->unvisitedUrl)) {
                 $this->unvisitedUrl[] = $list;
             }
