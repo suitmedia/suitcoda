@@ -212,6 +212,17 @@ class Inspection extends BaseModel
      */
     public function scopeLatestCompleted($query)
     {
-        return $query->where('status', 2)->latest();
+        return $query->completed()->latest();
+    }
+
+    /**
+     * Scope a query to get completed inspections.
+     *
+     * @param  string $query []
+     * @return object
+     */
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', 2);
     }
 }
