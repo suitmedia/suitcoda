@@ -147,7 +147,7 @@ class ResultReader
                 $issue = $this->issue->newInstance();
                 $issue->type = $checking->messageType;
                 $issue->description = $checking->messageMsg;
-                if ($checking->messageLine) {
+                if (isset($checking->messageLine)) {
                     $issue->issue_line = $checking->messageLine;
                 }
                 $issue->url = $jsonData->url;
@@ -174,15 +174,17 @@ class ResultReader
             $jsonData = $this->decoder->decodeFile($path);
 
             foreach ($jsonData->checking as $checking) {
-                $issue = $this->issue->newInstance();
-                $issue->type = trim($checking->id, "()");
-                $issue->description = $checking->reason;
-                $issue->issue_line = $checking->line;
-                $issue->url = $jsonData->url;
-                $issue->inspection()->associate($this->job->inspection);
-                $issue->jobInspect()->associate($this->job);
-                $issue->scope()->associate($this->job->scope);
-                $issue->save();
+                if (isset($checking->id)) {
+                    $issue = $this->issue->newInstance();
+                    $issue->type = trim($checking->id, "()");
+                    $issue->description = $checking->reason;
+                    $issue->issue_line = $checking->line;
+                    $issue->url = $jsonData->url;
+                    $issue->inspection()->associate($this->job->inspection);
+                    $issue->jobInspect()->associate($this->job);
+                    $issue->scope()->associate($this->job->scope);
+                    $issue->save();
+                }
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
         } catch (FileNotFoundException $e) {
