@@ -124,39 +124,7 @@ class ProjectDetailController extends BaseController
     public function graph($key)
     {
         $project = $this->find($key);
-        return response()->json($this->generateJson($project));
-    }
-
-    /**
-     * Generate json data for graph
-     *
-     * @param  Suitcoda\Model\Project $project []
-     * @return array
-     */
-    protected function generateJson($project)
-    {
-        $graphData = [];
-        $count = 0;
-        $listGraph = [
-            'Overall',
-            'Performance',
-            'Code Quality',
-            'Social Media'
-        ];
-        $graphData = array_add($graphData, 'title', $project->name);
-        $graphData = array_add($graphData, 'series', []);
-        $graphData = array_add($graphData, 'xAxis', []);
-
-        foreach ($listGraph as $graph) {
-            array_set($series, $count . '.name', $graph);
-            array_set($series, $count . '.data', [1000, 40]);
-            $count++;
-        }
-        array_set($graphData, 'series', $series);
-        foreach ($project->inspections as $inspection) {
-            array_push($graphData['xAxis'], '#' . $inspection->sequence_number);
-        }
-        return $graphData;
+        return response()->json($project->getJsonData());
     }
 
     /**

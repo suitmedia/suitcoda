@@ -222,4 +222,53 @@ class Project extends BaseModel implements SluggableInterface
 
         return $result;
     }
+
+    /**
+     * Generate json data for graph
+     *
+     * @return array
+     */
+    public function getJsonData()
+    {
+        $graphData = [];
+        $count = 0;
+        $listGraph = [
+            'Overall',
+            'Performance',
+            'Code Quality',
+            'Social Media'
+        ];
+        $graphData = array_add($graphData, 'title', $this->name);
+        $graphData = array_add($graphData, 'series', []);
+        $graphData = array_add($graphData, 'xAxis', []);
+
+        foreach ($listGraph as $graph) {
+            array_set($series, $count . '.name', $graph);
+            if ($graph == 'Overall') {
+                array_set(
+                    $series,
+                    $count . '.data',
+                    array_map('doubleval', $this->inspections()->completed()->get()->pluck('score')->toArray())
+                );
+            } else {
+                foreach ($this->inspections as $inspection) {
+                    $scoreObj = $inspection->scores()->byCategoryName($graph)->first();
+                    if ($scoreObj) {
+                        $scoreValue = (double)$scoreObj->score;
+                    } else {
+                        $scoreValue = null;
+                    }
+                    $scores[] = $scoreValue;
+                }
+                array_set($series, $count . '.data', $scores);
+                unset($scores);
+            }
+            $count++;
+        }
+        array_set($graphData, 'series', $series);
+        foreach ($this->inspections as $inspection) {
+            array_push($graphData['xAxis'], '#' . $inspection->sequence_number);
+        }
+        return $graphData;
+    }
 }
