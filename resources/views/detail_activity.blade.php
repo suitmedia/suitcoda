@@ -57,7 +57,7 @@
                                         </div>
                                         <div class="box-testing__percent">
                                             <span>
-                                                <b>Error Rate : </b> {{ $inspection->score }}
+                                                <b>Error Rate : </b> {{ $inspection->score }}%
                                             </span>
                                             <span>
                                                 <b>Performance : </b> {{ $inspection->getScoreByCategory('Performance') }}
