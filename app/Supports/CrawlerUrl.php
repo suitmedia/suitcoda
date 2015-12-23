@@ -308,7 +308,7 @@ class CrawlerUrl
             if ($this->checkIfExternal($list) || !$this->checkNotInList($list, $siteLink)) {
                 continue;
             }
-            if (!$recursive) {
+            if (!$recursive && $this->getExtension($list)) {
                 $responseUrl = $this->client->get($list);
                 array_push($siteLink, [
                     'type' => $this->getExtension($list),
