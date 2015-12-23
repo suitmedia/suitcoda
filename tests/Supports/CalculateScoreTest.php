@@ -61,7 +61,7 @@ class CalculateScoreTest extends TestCase
         $score = Mockery::mock(Score::class);
         $category = Mockery::mock(Category::class);
 
-        $score->shouldReceive('findOrNewByInspectionId')->andReturn(new Score);
+        $score->shouldReceive('findOrNewByRelatedId')->andReturn(new Score);
         $score->shouldReceive('inspection->associate');
         $score->shouldReceive('save')->andReturn(true);
         $category->shouldReceive('all')->andReturn(Category::all());
