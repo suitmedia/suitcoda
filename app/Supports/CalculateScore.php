@@ -32,18 +32,6 @@ class CalculateScore
      */
     public function calculate($inspection)
     {
-        if ($inspection->jobInspects->isEmpty()) {
-            return;
-        }
-        foreach ($inspection->jobInspects as $job) {
-            if ($job->status < 0) {
-                $inspection->update(['status' => (-1)]);
-            }
-            if ($job->status < 2) {
-                return;
-            }
-        }
-
         foreach ($this->category->all() as $category) {
             $jobs = $inspection->jobInspects->filter(function ($item) use ($category) {
                 return $item->scope->category_id == $category->id;
@@ -54,13 +42,12 @@ class CalculateScore
                 foreach ($jobs as $job) {
                     $counter += $job->issue_count;
                 }
-                $score = $this->score->newInstance();
+                $score = $this->score->findOrNewByInspectionId($inspection->id);
                 $score->score = round($counter / $inspection->project->urls->count(), 2);
                 $score->inspection()->associate($inspection);
                 $score->category()->associate($category);
                 $score->save();
             }
         }
-        $inspection->update(['status' => 2, 'score' => round($inspection->scores->pluck('score')->sum(), 2)]);
     }
 }

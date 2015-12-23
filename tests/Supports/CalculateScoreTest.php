@@ -61,7 +61,7 @@ class CalculateScoreTest extends TestCase
         $score = Mockery::mock(Score::class);
         $category = Mockery::mock(Category::class);
 
-        $score->shouldReceive('newInstance')->andReturn(new Score);
+        $score->shouldReceive('findOrNewByInspectionId')->andReturn(new Score);
         $score->shouldReceive('inspection->associate');
         $score->shouldReceive('save')->andReturn(true);
         $category->shouldReceive('all')->andReturn(Category::all());
@@ -73,25 +73,5 @@ class CalculateScoreTest extends TestCase
             'category_id' => '1',
             'score' => 17.5
         ]);
-    }
-
-    /**
-     * Test call calculate method with empty job
-     *
-     * @return void
-     */
-    public function testCallCalculateForEmptyJob()
-    {
-        $inspectionFaker = factory(Inspection::class)->create();
-        factory(JobInspect::class, 2)->create([
-            'inspection_id' => $inspectionFaker->id,
-            'issue_count' => 7,
-            'scope_id' => 1,
-            'status' => 1
-        ]);
-        $score = Mockery::mock(Score::class);
-        $calculateScore = new CalculateScore($score, new Category);
-
-        $calculateScore->calculate($inspectionFaker);
     }
 }
