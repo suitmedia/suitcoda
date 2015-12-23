@@ -80,7 +80,10 @@ class ProjectDetailController extends BaseController
         } else {
             $active = 1;
         }
-        return view('detail_issue', compact('project', 'inspection', 'active', 'issues', 'pagination', 'selectedCategory'));
+        return view(
+            'detail_issue',
+            compact('project', 'inspection', 'active', 'issues', 'pagination', 'selectedCategory')
+        );
     }
 
     public function issueByCategory(Request $request, $project, $number)
