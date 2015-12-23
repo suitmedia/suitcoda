@@ -47,15 +47,29 @@ class Score extends BaseModel
         });
     }
 
-    public function scopeByInspectionId($query, $inspectionId)
+    /**
+     * Get scope query of score by related id
+     *
+     * @param  string $query        []
+     * @param  string $inspectionId []
+     * @param  string $categoryId   []
+     * @return object
+     */
+    public function scopeByRelatedId($query, $inspectionId, $categoryId)
     {
-        return $query->where('inspection_id', $inspectionId);
+        return $query->where('inspection_id', $inspectionId)->where('category_id', $categoryId);
     }
 
-    public function findOrNewByInspectionId($inspectionId)
+    /**
+     * Find or create model by related id
+     * @param  string $inspectionId []
+     * @param  string $categoryId   []
+     * @return object
+     */
+    public function findOrNewByRelatedId($inspectionId, $categoryId)
     {
-        if ($this->byInspectionId($inspectionId)->first()) {
-            return $this->byInspectionId($inspectionId)->first();
+        if ($this->byRelatedId($inspectionId, $categoryId)->first()) {
+            return $this->byRelatedId($inspectionId, $categoryId)->first();
         }
         return $this->newInstance();
     }
