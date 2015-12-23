@@ -341,6 +341,7 @@ class CrawlerUrl
             $responseUrl = $this->getEffectiveUrl($url);
             $effectiveUrl = $responseUrl->getHeaderLine('X-GUZZLE-EFFECTIVE-URL');
             if ($responseUrl->getStatusCode() === 200 &&
+                !$this->checkIfExternal($effectiveUrl) &&
                 $this->checkNotInList($effectiveUrl, $this->siteUrl)) {
                 $bodyContent = $responseUrl->getBody()->getContents();
                 $compressedContent = gzdeflate($bodyContent);
