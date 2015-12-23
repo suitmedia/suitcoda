@@ -34,7 +34,7 @@ class CalculateScore
     {
         foreach ($this->category->all() as $category) {
             $jobs = $inspection->jobInspects->filter(function ($item) use ($category) {
-                return $item->scope->category_id == $category->id;
+                return $item->scope->category_id == $category->getKey();
             });
 
             if (!$jobs->isEmpty()) {
@@ -42,7 +42,7 @@ class CalculateScore
                 foreach ($jobs as $job) {
                     $counter += $job->issue_count;
                 }
-                $score = $this->score->findOrNewByInspectionId($inspection->id);
+                $score = $this->score->findOrNewByRelatedId($inspection->getKey(), $category->getKey());
                 $score->score = round($counter / $inspection->project->urls->count(), 2);
                 $score->inspection()->associate($inspection);
                 $score->category()->associate($category);
