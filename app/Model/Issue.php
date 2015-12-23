@@ -73,4 +73,17 @@ class Issue extends BaseModel
             $query->byCategoryName($name);
         });
     }
+
+    public function isError()
+    {
+        if (strcasecmp($this->attributes['type'], 'error') == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getTypeAttribute()
+    {
+        return ucwords($this->attributes['type']);
+    }
 }

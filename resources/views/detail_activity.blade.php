@@ -26,25 +26,26 @@
                         <ul class="list-nostyle">
                             @foreach ($project->inspections->reverse() as $inspection)
                                 <li>
-                                    <a class="box box-testing block" href="{{ route('detail.issue', [$project->slug, $inspection->sequence_number, $inspection->scopeList->first()->name]) }}">
+                                    <a class="box box-testing block" href="{{ $inspection->isCompleted() ? route('detail.issue', [$project->slug, $inspection->sequence_number, $inspection->scopeList->first()->name]) : '#' }}">
                                         <div class="box-testing__detail">
                                             <div class="bzg">
                                                 <div class="bzg_c" data-col="s12,m4">
                                                     <b>Inspection #{{ $inspection->sequence_number }}</b>
                                                 </div>
-                                                <div class="bzg_c" data-col="s12,m4">
-                                                @if ($inspection->status != '2')
+                                                <div class="bzg_c" data-col="s12,m5">
+                                                @if ($inspection->isCompleted())
+                                                    <div class="text-red">
+                                                        <span class="fa fa-exclamation-triangle"></span>
+                                                        <span>{{ $inspection->issueError }} Errors</span>
+                                                        <span>{{ $inspection->issueWarning }} Warnings</span>
+                                                    </div>
+                                                @else
                                                     <div class="text-{{ $inspection->statusTextColor }}">
                                                         <span>{{ $inspection->statusName }}</span>
                                                     </div>
-                                                @else
-                                                    <div class="text-red">
-                                                        <span class="fa fa-exclamation-triangle"></span>
-                                                        <span>{{ $inspection->issues }} Issues</span>
-                                                    </div>
                                                 @endif
                                                 </div>
-                                                <div class="bzg_c" data-col="s12,m4">
+                                                <div class="bzg_c" data-col="s12,m3">
                                                     <div class="text-grey">
                                                         <span class="fa fa-clock-o"></span>
                                                         <span>{{ $inspection->updated_at }}</span>

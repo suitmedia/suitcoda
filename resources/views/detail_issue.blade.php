@@ -40,7 +40,7 @@
                     
                         <li class="block">
                             <div class="box issue cf">
-                                <span class="label label--orange block-half">{{ $issue->type }}</span>
+                                <span class="label label--{{ ($issue->isError()) ? 'red' : 'orange' }} block-half">{{ $issue->type }}</span>
                                 <div class="text-grey float-right">
                                     <span class="fa fa-clock-o"></span>                    
                                     <time>{{ $issue->created_at }}</time>
@@ -48,14 +48,14 @@
                                 <br>
                                 <a class="issue__url block-half" href="#">{{ $issue->url }}</a>
                                 <br>
-                                <span class="issue__message">{{ $issue->description }}</span>
+                                <span class="issue__message">{!! nl2br($issue->description) !!}</span>
                                 @if ($issue->issue_line)
                                 <button class="btn-show-code float-right">
                                     <span class="fa"></span>
                                 </button>
                                 <div class="issue__code">
 <pre class="line-numbers" data-line="{{ $issue->issue_line }}">
-<code class="language-{{ $issue->jobInspect->url->type }}">{{ gzinflate($issue->jobInspect->url->body_content) }}</code>
+<code class="language-{{ $issue->jobInspect->url->type }}">{{ @gzinflate($issue->jobInspect->url->body_content) }}</code>
 </pre>
                                 </div>
                                 @endif

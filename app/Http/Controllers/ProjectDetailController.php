@@ -56,14 +56,6 @@ class ProjectDetailController extends BaseController
         $project = $this->find($key);
         $active = 1;
 
-        if (!$project->inspections()->get()->isEmpty()) {
-            foreach ($project->inspections()->get() as $inspection) {
-                if ($inspection->status != 2) {
-                    $calc->calculate($inspection);
-                }
-            }
-        }
-
         return view('detail_activity', compact('project', 'active'));
     }
 
@@ -80,7 +72,7 @@ class ProjectDetailController extends BaseController
         $project = $this->find($key);
 
         $inspection = $project->inspections()->bySequenceNumber($inspectionNumber)->first();
-        $issues = $inspection->issues()->byCategoryName($category)->paginate(5);
+        $issues = $inspection->issues()->byCategoryName($category)->orderBy('type')->paginate(5);
         $pagination = new CustomPresenter($issues);
 
         if ($project->inspections()->latestCompleted()->first()->sequence_number == $inspectionNumber) {

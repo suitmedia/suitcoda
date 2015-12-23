@@ -46,4 +46,17 @@ class Score extends BaseModel
             $query->where('name', $name);
         });
     }
+
+    public function scopeByInspectionId($query, $inspectionId)
+    {
+        return $query->where('inspection_id', $inspectionId);
+    }
+
+    public function findOrNewByInspectionId($inspectionId)
+    {
+        if ($this->byInspectionId($inspectionId)->first()) {
+            return $this->byInspectionId($inspectionId)->first();
+        }
+        return $this->newInstance();
+    }
 }

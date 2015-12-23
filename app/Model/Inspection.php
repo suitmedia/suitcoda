@@ -161,7 +161,7 @@ class Inspection extends BaseModel
      */
     public function getIssuesAttribute()
     {
-        if ($this->attributes['status'] == 2) {
+        if ($this->isCompleted()) {
             return $this->issues()->get()->count();
         }
     }
@@ -186,7 +186,7 @@ class Inspection extends BaseModel
      */
     public function getIssueListByCategory($category)
     {
-        if ($this->attributes['status'] == 2) {
+        if ($this->isCompleted()) {
             return $this->issues()->byCategoryName($category)->get();
         }
         return null;
@@ -224,5 +224,79 @@ class Inspection extends BaseModel
     public function scopeCompleted($query)
     {
         return $query->where('status', 2);
+    }
+
+    /**
+     * Get inspection issue error count
+     *
+     * @return int
+     */
+    public function getIssueErrorAttribute()
+    {
+        if ($this->isCompleted()) {
+            return $this->issues()->where('type', 'error')->get()->count();
+        }
+    }
+
+    /**
+     * Get inspection issue warning count
+     *
+     * @return int
+     */
+    public function getIssueWarningAttribute()
+    {
+        if ($this->isCompleted()) {
+            return $this->issues()->where('type', 'warning')->get()->count();
+        }
+    }
+
+    /**
+     * Check if inspection status is completed
+     *
+     * @return bool
+     */
+    public function isCompleted()
+    {
+        if ($this->attributes['status'] == 2) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if inspection status is waiting
+     *
+     * @return bool
+     */
+    public function isWaiting()
+    {
+        if ($this->attributes['status'] == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if inspection status is on progress
+     *
+     * @return bool
+     */
+    public function isProgress()
+    {
+        if ($this->attributes['status'] == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get scope query of on progress inspection
+     *
+     * @param string $query []
+     * @return bool
+     */
+    public function scopeProgress($query)
+    {
+        return $query->where('status', 1);
     }
 }
