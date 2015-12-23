@@ -64,15 +64,15 @@ class ProjectDetailController extends BaseController
      *
      * @param  string $key []
      * @param  int $inspectionNumber []
-     * @param string $category []
+     * @param string $selectedCategory []
      * @return \Illuminate\Http\Response
      */
-    public function issue($key, $inspectionNumber, $category)
+    public function issue($key, $inspectionNumber, $selectedCategory)
     {
         $project = $this->find($key);
 
         $inspection = $project->inspections()->bySequenceNumber($inspectionNumber)->first();
-        $issues = $inspection->issues()->byCategoryName($category)->orderBy('type')->paginate(5);
+        $issues = $inspection->issues()->byCategoryName($selectedCategory)->orderBy('type')->paginate(5);
         $pagination = new CustomPresenter($issues);
 
         if ($project->inspections()->latestCompleted()->first()->sequence_number == $inspectionNumber) {
@@ -80,7 +80,7 @@ class ProjectDetailController extends BaseController
         } else {
             $active = 1;
         }
-        return view('detail_issue', compact('project', 'inspection', 'active', 'issues', 'pagination'));
+        return view('detail_issue', compact('project', 'inspection', 'active', 'issues', 'pagination', 'selectedCategory'));
     }
 
     public function issueByCategory(Request $request, $project, $number)

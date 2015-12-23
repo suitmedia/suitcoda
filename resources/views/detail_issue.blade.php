@@ -29,7 +29,7 @@
                     {{ csrf_field() }}
                         <select name="category" id="category" class="form-input block float-right" onchange="submit()">
                         @foreach ($inspection->scopeList as $category)
-                            <option value="{{ $category->name }}">{{ $category->name }}</option>
+                            <option value="{{ $category->name }}" {{ strcmp($selectedCategory, $category->name) == 0 ? 'selected' : '' }}>{{ $category->name }}</option>
                         @endforeach
                         </select>
                     </form>
