@@ -203,9 +203,15 @@
         },
 
         showIssueCode: function () {
-            var $trigger = $('.btn-show-code');
+            var $trigger    = $('.btn-show-code'),
+                $issueUrl   = $('.issue__url');
 
             if ( !$trigger.length ) return; 
+            
+            $issueUrl.on('click', function(e) {
+                e.preventDefault();
+                $(this).siblings('.btn-show-code').trigger('click')
+            });
 
             $trigger.on('click', function() {
                 var $issueCode = $(this).next();
