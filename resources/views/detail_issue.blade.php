@@ -46,7 +46,7 @@
                                     <time>{{ $issue->created_at }}</time>
                                 </div>
                                 <br>
-                                <a class="issue__url block-half" href="#">{{ $issue->url }}</a>
+                                <a class="issue__url block-half" href="#">{{ $issue->url }}</a>{{ $issue->issue_line ? ', Line : ' . $issue->issue_line : '' }}
                                 <br>
                                 <span class="issue__message">{!! nl2br($issue->description) !!}</span>
                                 @if ($issue->issue_line)
