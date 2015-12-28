@@ -44,35 +44,35 @@ class ResultReader
      */
     public function run()
     {
-        preg_match('/public\/files\/(.*)\//', $this->job->command_line, $match);
+        preg_match('/public\/files\/(.*)(url-)/', $this->job->command_line, $match);
         $scope = $this->job->scope->name;
         switch ($scope) {
             case 'seo':
-                $this->seoResultReader($match[0] . 'resultSEO.json');
+                $this->seoResultReader($match[0] . $this->job->url->id . '/resultSEO.json');
                 break;
             case 'backendSeo':
-                $this->seoResultReader($match[0] . 'resultBackendSEO.json');
+                $this->seoResultReader($match[0] . $this->job->url->id . '/resultBackendSEO.json');
                 break;
             case 'html':
-                $this->htmlResultReader($match[0] . 'resultHTML.json');
+                $this->htmlResultReader($match[0] . $this->job->url->id . '/resultHTML.json');
                 break;
             case 'css':
-                $this->cssResultReader($match[0] . 'resultCSS.json');
+                $this->cssResultReader($match[0] . $this->job->url->id . '/resultCSS.json');
                 break;
             case 'js':
-                $this->jsResultReader($match[0] . 'resultJS.json');
+                $this->jsResultReader($match[0] . $this->job->url->id . '/resultJS.json');
                 break;
             case 'socialMedia':
-                $this->socialMediaResultReader($match[0] . 'resultSocmed.json');
+                $this->socialMediaResultReader($match[0] . $this->job->url->id . '/resultSocmed.json');
                 break;
             case 'gPagespeedDesktop':
-                $this->gPagespeedResultReader($match[0] . 'resultPagespeedDesktop.json');
+                $this->gPagespeedResultReader($match[0] . $this->job->url->id . '/resultPagespeedDesktop.json');
                 break;
             case 'gPagespeedMobile':
-                $this->gPagespeedResultReader($match[0] . 'resultPagespeedMobile.json');
+                $this->gPagespeedResultReader($match[0] . $this->job->url->id . '/resultPagespeedMobile.json');
                 break;
             case 'ySlow':
-                $this->ySlowResultReader($match[0] . 'resultYSlow.json');
+                $this->ySlowResultReader($match[0] . $this->job->url->id . '/resultYSlow.json');
                 break;
         }
     }
@@ -93,6 +93,7 @@ class ResultReader
                 $issue->type = $checking->error;
                 $issue->description = $checking->desc;
                 $issue->url = $jsonData->url;
+                $issue->inspection()->associate($this->job->inspection);
                 $issue->jobInspect()->associate($this->job);
                 $issue->scope()->associate($this->job->scope);
                 $issue->save();
@@ -120,6 +121,7 @@ class ResultReader
                 $issue->description = $checking->desc;
                 $issue->issue_line = $checking->line;
                 $issue->url = $jsonData->url;
+                $issue->inspection()->associate($this->job->inspection);
                 $issue->jobInspect()->associate($this->job);
                 $issue->scope()->associate($this->job->scope);
                 $issue->save();
@@ -145,10 +147,11 @@ class ResultReader
                 $issue = $this->issue->newInstance();
                 $issue->type = $checking->messageType;
                 $issue->description = $checking->messageMsg;
-                if ($checking->messageLine) {
+                if (isset($checking->messageLine)) {
                     $issue->issue_line = $checking->messageLine;
                 }
                 $issue->url = $jsonData->url;
+                $issue->inspection()->associate($this->job->inspection);
                 $issue->jobInspect()->associate($this->job);
                 $issue->scope()->associate($this->job->scope);
                 $issue->save();
@@ -171,14 +174,17 @@ class ResultReader
             $jsonData = $this->decoder->decodeFile($path);
 
             foreach ($jsonData->checking as $checking) {
-                $issue = $this->issue->newInstance();
-                $issue->type = trim($checking->id, "()");
-                $issue->description = $checking->reason;
-                $issue->issue_line = $checking->line;
-                $issue->url = $jsonData->url;
-                $issue->jobInspect()->associate($this->job);
-                $issue->scope()->associate($this->job->scope);
-                $issue->save();
+                if (isset($checking->id)) {
+                    $issue = $this->issue->newInstance();
+                    $issue->type = trim($checking->id, "()");
+                    $issue->description = $checking->reason;
+                    $issue->issue_line = $checking->line;
+                    $issue->url = $jsonData->url;
+                    $issue->inspection()->associate($this->job->inspection);
+                    $issue->jobInspect()->associate($this->job);
+                    $issue->scope()->associate($this->job->scope);
+                    $issue->save();
+                }
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
         } catch (FileNotFoundException $e) {
@@ -204,6 +210,7 @@ class ResultReader
                     $issue->type = $message->error;
                     $issue->description = $message->desc;
                     $issue->url = $jsonData->url;
+                    $issue->inspection()->associate($this->job->inspection);
                     $issue->jobInspect()->associate($this->job);
                     $issue->scope()->associate($this->job->scope);
                     $issue->save();
@@ -235,6 +242,7 @@ class ResultReader
                     $issue->description = $checking->localizedRuleName . " :\n" .
                                           $this->getPSIErrorDescription($checking->urlBlocks);
                     $issue->url = $jsonData->id;
+                    $issue->inspection()->associate($this->job->inspection);
                     $issue->jobInspect()->associate($this->job);
                     $issue->scope()->associate($this->job->scope);
                     $issue->save();
@@ -263,6 +271,7 @@ class ResultReader
                 $issue->type = $checking->error;
                 $issue->description = $this->getYslowErrorDesc($checking);
                 $issue->url = $jsonData->url;
+                $issue->inspection()->associate($this->job->inspection);
                 $issue->jobInspect()->associate($this->job);
                 $issue->scope()->associate($this->job->scope);
                 $issue->save();

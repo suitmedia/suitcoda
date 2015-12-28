@@ -44,7 +44,7 @@ class ResultReaderTest extends TestCase
     public function testCallSeoResultReaderForSeo()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 1)->first()->id
         ]);
 
@@ -66,7 +66,7 @@ class ResultReaderTest extends TestCase
     public function testCallSeoResultReaderForBackendSeo()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 2)->first()->id
         ]);
 
@@ -88,7 +88,7 @@ class ResultReaderTest extends TestCase
     public function testCallHtmlResultReader()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 3)->first()->id
         ]);
 
@@ -110,7 +110,7 @@ class ResultReaderTest extends TestCase
     public function testCallCssResultReader()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 4)->first()->id
         ]);
 
@@ -132,7 +132,7 @@ class ResultReaderTest extends TestCase
     public function testCallJsResultReader()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 5)->first()->id
         ]);
 
@@ -154,7 +154,7 @@ class ResultReaderTest extends TestCase
     public function testCallSocialMediaResultReader()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 6)->first()->id
         ]);
 
@@ -176,7 +176,7 @@ class ResultReaderTest extends TestCase
     public function testCallPagespeedResultReaderForDesktop()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 7)->first()->id
         ]);
 
@@ -198,7 +198,7 @@ class ResultReaderTest extends TestCase
     public function testCallPagespeedResultReaderForMobile()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 8)->first()->id
         ]);
 
@@ -220,7 +220,7 @@ class ResultReaderTest extends TestCase
     public function testCallYslowResultReader()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 9)->first()->id
         ]);
 
@@ -252,7 +252,7 @@ class ResultReaderTest extends TestCase
             ]
         ]);
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 1)->first()->id
         ]);
 
@@ -280,7 +280,7 @@ class ResultReaderTest extends TestCase
     public function testRunSeoResultReaderCatchException()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 1)->first()->id
         ]);
 
@@ -317,7 +317,7 @@ class ResultReaderTest extends TestCase
             ]
         ]);
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 3)->first()->id
         ]);
 
@@ -345,7 +345,7 @@ class ResultReaderTest extends TestCase
     public function testRunHtmlResultReaderCatchException()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 3)->first()->id
         ]);
 
@@ -382,7 +382,7 @@ class ResultReaderTest extends TestCase
             ]
         ]);
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 4)->first()->id
         ]);
 
@@ -410,7 +410,7 @@ class ResultReaderTest extends TestCase
     public function testRunCssResultReaderCatchException()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 4)->first()->id
         ]);
 
@@ -447,7 +447,7 @@ class ResultReaderTest extends TestCase
             ]
         ]);
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 5)->first()->id
         ]);
 
@@ -475,7 +475,7 @@ class ResultReaderTest extends TestCase
     public function testRunJsResultReaderCatchException()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 5)->first()->id
         ]);
 
@@ -516,7 +516,7 @@ class ResultReaderTest extends TestCase
             ]
         ]);
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 6)->first()->id
         ]);
 
@@ -544,7 +544,7 @@ class ResultReaderTest extends TestCase
     public function testRunSoccialMediaResultReaderCatchException()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 6)->first()->id
         ]);
 
@@ -588,7 +588,7 @@ class ResultReaderTest extends TestCase
             ]
         ]);
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 8)->first()->id
         ]);
 
@@ -616,7 +616,7 @@ class ResultReaderTest extends TestCase
     public function testRunPageSpeedResultReaderCatchException()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 8)->first()->id
         ]);
 
@@ -657,7 +657,7 @@ class ResultReaderTest extends TestCase
             ]
         ]);
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 9)->first()->id
         ]);
 
@@ -685,7 +685,7 @@ class ResultReaderTest extends TestCase
     public function testRunYslowResultReaderCatchException()
     {
         $jobFaker = factory(JobInspect::class)->create([
-            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/',
+            'command_line' => 'nodejs --url http://example.com --destination /public/files/example/1/url-1/',
             'scope_id' => Scope::where('id', 9)->first()->id
         ]);
 

@@ -159,7 +159,7 @@ class CrawlerUrlTest extends TestCase
             'titleTag' => '',
             'desc' => '',
             'descTag' => '',
-            'bodyContent' => gzdeflate($html, 9),
+            'bodyContent' => gzdeflate($html),
             'depth' => 0
         ]], $crawl->getSiteUrl());
     }
@@ -207,7 +207,7 @@ class CrawlerUrlTest extends TestCase
             'titleTag' => '<title>Example Domain</title>',
             'desc' => 'example description',
             'descTag' => '<meta name="description" content="example description" />',
-            'bodyContent' => gzdeflate($html, 9),
+            'bodyContent' => gzdeflate($html),
             'depth' => 0
         ]], $crawl->getSiteUrl());
     }
@@ -276,39 +276,6 @@ class CrawlerUrlTest extends TestCase
     {
         $html = '<a href="http:example.com"></a>';
 
-        $expectedResult = [
-            [
-                'type' => 'url',
-                'url' => 'http://example.com',
-                'title' => '',
-                'titleTag' => '',
-                'desc' => '',
-                'descTag' => '',
-                'bodyContent' => gzdeflate('', 9),
-                'depth' => 0
-            ],
-            [
-                'type' => 'url',
-                'url' => 'http://example.com/baz',
-                'title' => '',
-                'titleTag' => '',
-                'desc' => '',
-                'descTag' => '',
-                'bodyContent' => gzdeflate('', 9),
-                'depth' => 1
-            ],
-            [
-                'type' => 'url',
-                'url' => 'http://example.com/test',
-                'title' => '',
-                'titleTag' => '',
-                'desc' => '',
-                'descTag' => '',
-                'bodyContent' => gzdeflate('', 9),
-                'depth' => 1
-            ],
-        ];
-
         $client = $this->getMockClient();
         $domCrawler = $this->getMockDomCrawler()->makePartial();
         $response = Mockery::mock('GuzzleHttp\Psr7\Response')->makePartial();
@@ -326,7 +293,7 @@ class CrawlerUrlTest extends TestCase
         $crawling->setBaseUrl('http://example.com');
         $crawling->start();
 
-        $this->assertEquals($expectedResult, $crawling->getSiteUrl());
+        $this->assertEquals([], $crawling->getSiteUrl());
 
         $this->assertEquals([], $crawling->getUnvisitedUrl());
     }

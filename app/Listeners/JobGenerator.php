@@ -41,6 +41,8 @@ class JobGenerator implements ShouldQueue
      */
     public function handle(ProjectWatcher $event)
     {
+        $event->inspection->update(['status' => 1]);
+        
         foreach ($this->typeList as $type) {
             $this->generateJobByType($event, $type);
         }
@@ -60,7 +62,7 @@ class JobGenerator implements ShouldQueue
         $model = $this->job->newInstance();
         $model->command_line = $commandLine .
                                $this->generator->generateUrl($url) .
-                               $this->generator->generateDestination($event->project, $event->inspection) .
+                               $this->generator->generateDestination($event->project, $event->inspection, $url) .
                                $this->generator->generateParameters($event->inspection->scopes, $scope->name);
         $model->inspection()->associate($event->inspection);
         $model->url()->associate($url);

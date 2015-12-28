@@ -30,33 +30,6 @@ class Project extends BaseModel implements SluggableInterface
     ];
 
     /**
-     * Get main url with http prefix
-     *
-     * @param  string $value []
-     * @return string
-     */
-    public function getMainUrlAttribute($value)
-    {
-        if (!isset($value)) {
-            $urlPrefix = 'http://';
-            return url(sprintf('%s', $urlPrefix));
-        }
-        return $value;
-    }
-
-    /**
-     * Get updated_at variable with the given format
-     *
-     * @param  string $value []
-     * @return string
-     */
-    public function getUpdatedAtAttribute($value)
-    {
-        $time = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('H:i M j, Y');
-        return $time;
-    }
-
-    /**
      * Get the user for the current project.
      *
      * @return object
@@ -87,15 +60,140 @@ class Project extends BaseModel implements SluggableInterface
     }
 
     /**
-     * Scope a query to get project with the given slug.
+     * Get main url with http prefix
      *
-     * @param string $query []
-     * @param string $slug []
+     * @param  string $value []
+     * @return string
+     */
+    public function getMainUrlAttribute($value)
+    {
+        if (!isset($value)) {
+            $urlPrefix = 'http://';
+            return url(sprintf('%s', $urlPrefix));
+        }
+        return $value;
+    }
+
+    /**
+     * Get updated_at variable with the given format
+     *
+     * @param  string $value []
+     * @return string
+     */
+    public function getUpdatedAtAttribute($value)
+    {
+        $time = new Carbon($value);
+        return $time->diffForHumans();
+    }
+
+    /**
+     * Get first inspection object in desc order
+     *
      * @return object
      */
-    public function scopeFindBySlug($query, $slug)
+    public function getLastInspection()
     {
-        return $query->where('slug', $slug)->get();
+        return $this->inspections()->latest()->first();
+    }
+
+    /**
+     * Get related last inspection score
+     *
+     * @return string
+     */
+    public function getLastInspectionScoreAttribute()
+    {
+        if ($this->getLastInspection()) {
+            return $this->getLastInspection()->score;
+        }
+        return '-';
+    }
+
+    /**
+     * Get related last inspection number
+     *
+     * @return string
+     */
+    public function getLastInspectionNumberAttribute()
+    {
+        if ($this->getLastInspection()) {
+            return '#' . $this->getLastInspection()->sequence_number;
+        }
+        return '-';
+    }
+
+    /**
+     * Get related last inspection status
+     *
+     * @return string
+     */
+    public function getLastInspectionStatusAttribute()
+    {
+        if ($this->getLastInspection()) {
+            return '<b class="text-' . $this->getLastInspection()->statusTextColor . '">' .
+                $this->getLastInspection()->statusName . '</b>';
+        }
+        return '-';
+    }
+
+    /**
+     * Get related last  completed inspection score
+     *
+     * @return string
+     */
+    public function getLastCompletedInspectionScoreAttribute()
+    {
+        if ($this->inspections()->latestCompleted()->first()) {
+            return $this->inspections()->latestCompleted()->first()->score;
+        }
+        return '-';
+    }
+
+    /**
+     * Get related last  completed inspection Issues
+     *
+     * @return string
+     */
+    public function getLastCompletedInspectionIssuesAttribute()
+    {
+        if ($this->inspections()->latestCompleted()->first()) {
+            return $this->inspections()->latestCompleted()->first()->issues;
+        }
+        return '-';
+    }
+
+    /**
+     * Get related last inspection score by category
+     *
+     * @param string $name []
+     * @return string
+     */
+    public function getLastCompletedInspectionScoreByCategory($name)
+    {
+        $inspection = $this->inspections()->latestCompleted()->first();
+        if ($inspection) {
+            if ($inspection->scores()->byCategoryName($name)->first()) {
+                return $inspection->scores()->byCategoryName($name)->first()->score;
+            }
+        }
+        return '-';
+    }
+
+    /**
+     * Get related last inspection issue by category
+     *
+     * @param string $name []
+     * @return string
+     */
+    public function getLastCompletedInspectionIssueByCategory($name)
+    {
+        $inspection = $this->inspections()->latestCompleted()->first();
+        if ($inspection) {
+            if (!$inspection->issues()->byCategoryName($name)->get()->isEmpty()) {
+                return $inspection->issues()->byCategoryName($name)->get()->count();
+            }
+        }
+        return '-';
     }
 
     /**
@@ -123,5 +221,54 @@ class Project extends BaseModel implements SluggableInterface
         });
 
         return $result;
+    }
+
+    /**
+     * Generate json data for graph
+     *
+     * @return array
+     */
+    public function getJsonData()
+    {
+        $graphData = [];
+        $count = 0;
+        $listGraph = [
+            'Overall',
+            'Performance',
+            'Code Quality',
+            'Social Media'
+        ];
+        $graphData = array_add($graphData, 'title', $this->name);
+        $graphData = array_add($graphData, 'series', []);
+        $graphData = array_add($graphData, 'xAxis', []);
+
+        foreach ($listGraph as $graph) {
+            array_set($series, $count . '.name', $graph);
+            if ($graph == 'Overall') {
+                array_set(
+                    $series,
+                    $count . '.data',
+                    array_map('doubleval', $this->inspections()->completed()->get()->pluck('score')->toArray())
+                );
+            } else {
+                foreach ($this->inspections as $inspection) {
+                    $scoreObj = $inspection->scores()->byCategoryName($graph)->first();
+                    if ($scoreObj) {
+                        $scoreValue = (double)$scoreObj->score;
+                    } else {
+                        $scoreValue = null;
+                    }
+                    $scores[] = $scoreValue;
+                }
+                array_set($series, $count . '.data', $scores);
+                unset($scores);
+            }
+            $count++;
+        }
+        array_set($graphData, 'series', $series);
+        foreach ($this->inspections as $inspection) {
+            array_push($graphData['xAxis'], '#' . $inspection->sequence_number);
+        }
+        return $graphData;
     }
 }

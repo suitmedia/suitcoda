@@ -32,4 +32,45 @@ class Score extends BaseModel
     {
         return $this->belongsTo(Category::class);
     }
+
+    /**
+     * Get scope query by category name
+     *
+     * @param  string $query []
+     * @param  string $name  []
+     * @return object
+     */
+    public function scopeByCategoryName($query, $name)
+    {
+        return $query->whereHas('category', function ($query) use ($name) {
+            $query->where('name', $name);
+        });
+    }
+
+    /**
+     * Get scope query of score by related id
+     *
+     * @param  string $query        []
+     * @param  string $inspectionId []
+     * @param  string $categoryId   []
+     * @return object
+     */
+    public function scopeByRelatedId($query, $inspectionId, $categoryId)
+    {
+        return $query->where('inspection_id', $inspectionId)->where('category_id', $categoryId);
+    }
+
+    /**
+     * Find or create model by related id
+     * @param  string $inspectionId []
+     * @param  string $categoryId   []
+     * @return object
+     */
+    public function findOrNewByRelatedId($inspectionId, $categoryId)
+    {
+        if ($this->byRelatedId($inspectionId, $categoryId)->first()) {
+            return $this->byRelatedId($inspectionId, $categoryId)->first();
+        }
+        return $this->newInstance();
+    }
 }

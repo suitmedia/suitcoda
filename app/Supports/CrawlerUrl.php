@@ -308,8 +308,13 @@ class CrawlerUrl
             if ($this->checkIfExternal($list) || !$this->checkNotInList($list, $siteLink)) {
                 continue;
             }
-            if (!$recursive) {
-                array_push($siteLink, ['type' => $this->getExtension($list), 'url' => $list]);
+            if (!$recursive && $this->getExtension($list)) {
+                $responseUrl = $this->client->get($list);
+                array_push($siteLink, [
+                    'type' => $this->getExtension($list),
+                    'url' => $list,
+                    'bodyContent' => gzdeflate($responseUrl->getBody()->getContents())
+                ]);
             } elseif (!in_array($list, $this->unvisitedUrl)) {
                 $this->unvisitedUrl[] = $list;
             }
@@ -336,9 +341,10 @@ class CrawlerUrl
             $responseUrl = $this->getEffectiveUrl($url);
             $effectiveUrl = $responseUrl->getHeaderLine('X-GUZZLE-EFFECTIVE-URL');
             if ($responseUrl->getStatusCode() === 200 &&
+                !$this->checkIfExternal($effectiveUrl) &&
                 $this->checkNotInList($effectiveUrl, $this->siteUrl)) {
                 $bodyContent = $responseUrl->getBody()->getContents();
-                $compressedContent = gzdeflate($bodyContent, 9);
+                $compressedContent = gzdeflate($bodyContent);
                 $this->crawler->addHtmlContent($bodyContent);
                 $urlInfo = [
                     'type' => 'url',

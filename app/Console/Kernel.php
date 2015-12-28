@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         'Suitcoda\Console\Commands\CrawlUrlCommand',
         'Suitcoda\Console\Commands\CreateSeoJsonCommand',
         'Suitcoda\Console\Commands\WorkerCommand',
+        'Suitcoda\Console\Commands\InspectionCheckerCommand'
     ];
 
     /**
@@ -27,6 +28,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // No schedule
+        $schedule->command('inspection:check')->everyFiveMinutes();
     }
 }

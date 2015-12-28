@@ -46,9 +46,13 @@ class WorkerCommand extends Command
     public function handle()
     {
         $unhandledJob = $this->job->getUnhandledJob()->first();
-        $unhandledJob->update(['status' => 1]);
-        `$unhandledJob->command_line`;
-        $this->resultReader->setJob($unhandledJob);
-        $this->resultReader->run();
+        if ($unhandledJob) {
+            $unhandledJob->update(['status' => 1]);
+            `$unhandledJob->command_line`;
+            $this->resultReader->setJob($unhandledJob);
+            $this->resultReader->run();
+        } else {
+            sleep(5);
+        }
     }
 }

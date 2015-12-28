@@ -83,12 +83,14 @@ class CrawlerTheWebsiteTest extends TestCase
             [
                 'type' => 'css',
                 'url' => 'http://example.com/main.css',
+                'bodyContent' => '',
             ]
         ]);
         $crawler->shouldReceive('getSiteJs')->andReturn([
             [
                 'type' => 'js',
                 'url' => 'http://example.com/main.js',
+                'bodyContent' => '',
             ]
         ]);
 
@@ -140,12 +142,14 @@ class CrawlerTheWebsiteTest extends TestCase
             [
                 'type' => 'css',
                 'url' => 'http://example.com/main.css',
+                'bodyContent' => '',
             ]
         ]);
         $crawler->shouldReceive('getSiteJs')->andReturn([
             [
                 'type' => 'js',
                 'url' => 'http://example.com/main.js',
+                'bodyContent' => '',
             ]
         ]);
 
@@ -195,12 +199,14 @@ class CrawlerTheWebsiteTest extends TestCase
             [
                 'type' => 'css',
                 'url' => 'http://example.com/main.css',
+                'bodyContent' => '',
             ]
         ]);
         $crawler->shouldReceive('getSiteJs')->andReturn([
             [
                 'type' => 'js',
                 'url' => 'http://example.com/main.js',
+                'bodyContent' => '',
             ]
         ]);
 

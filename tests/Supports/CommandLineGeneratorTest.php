@@ -60,16 +60,17 @@ class CommandLineGeneratorTest extends TestCase
     public function testGenerateDestination()
     {
         $inspectionFaker = factory(Inspection::class)->create();
+        $urlFaker = factory(Url::class)->create();
 
         $scope = Mockery::mock(Scope::class)->makePartial();
 
         $checker = new CommandLineGenerator($scope);
 
-        $result = $checker->generateDestination($inspectionFaker->project, $inspectionFaker);
+        $result = $checker->generateDestination($inspectionFaker->project, $inspectionFaker, $urlFaker);
         $this->assertEquals(
             ' --destination public/files/' .
-            $inspectionFaker->project->name . '/' .
-            $inspectionFaker->sequence_number . '/ ',
+            $inspectionFaker->project->slug . '/' .
+            $inspectionFaker->sequence_number . '/url-' . $urlFaker->id . '/ ',
             $result
         );
     }

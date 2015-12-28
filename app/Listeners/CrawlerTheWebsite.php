@@ -83,13 +83,13 @@ class CrawlerTheWebsite implements ShouldQueue
         $model = $this->url->newInstance();
         $model->type = $url['type'];
         $model->url = $url['url'];
+        $model->body_content = $url['bodyContent'];
         if (strcmp($url['type'], 'url') == 0) {
             $model->depth = $url['depth'];
             $model->title = $url['title'];
             $model->title_tag = $url['titleTag'];
             $model->desc = $url['desc'];
             $model->desc_tag = $url['descTag'];
-            $model->body_content = $url['bodyContent'];
         }
         $model->is_active = true;
         $event->project->urls()->save($model);
