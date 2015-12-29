@@ -210,7 +210,7 @@
             
             $issueUrl.on('click', function(e) {
                 e.preventDefault();
-                $(this).siblings('.btn-show-code').trigger('click')
+                $(this).parent().find('.btn-show-code').trigger('click')
             });
 
             $trigger.on('click', function() {
