@@ -119,6 +119,20 @@ class Scope extends BaseModel
     }
 
     /**
+     * Get scope query by category slug
+     *
+     * @param  string $query []
+     * @param  string $slug  []
+     * @return object
+     */
+    public function scopeByCategorySlug($query, $slug)
+    {
+        return $query->whereHas('category', function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        });
+    }
+
+    /**
      * Get shortcut to category name
      *
      * @return string

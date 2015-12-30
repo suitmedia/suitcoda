@@ -11,6 +11,7 @@ class Category extends BaseModel
 
     protected $fillable = [
         'name',
+        'slug',
         'label_color',
         'directory'
     ];
@@ -45,5 +46,17 @@ class Category extends BaseModel
     public function scopeByName($query, $name)
     {
         return $query->where('name', $name);
+    }
+
+    /**
+     * Scope a query to get category with the given slug.
+     *
+     * @param string $query []
+     * @param string $slug []
+     * @return object
+     */
+    public function scopeBySlug($query, $slug)
+    {
+        return $query->where('slug', $slug);
     }
 }

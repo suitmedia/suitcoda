@@ -74,6 +74,25 @@ class Issue extends BaseModel
         });
     }
 
+    /**
+     * Get scope query by category slug
+     *
+     * @param  string $query []
+     * @param  string $slug  []
+     * @return object
+     */
+    public function scopeByCategorySlug($query, $slug)
+    {
+        return $query->whereHas('scope', function ($query) use ($slug) {
+            $query->byCategorySlug($slug);
+        });
+    }
+
+    /**
+     * Check if type is error
+     *
+     * @return bool
+     */
     public function isError()
     {
         if (strcasecmp($this->attributes['type'], 'error') == 0) {
@@ -82,6 +101,11 @@ class Issue extends BaseModel
         return false;
     }
 
+    /**
+     * Make type attribute sentence case
+     *
+     * @return string
+     */
     public function getTypeAttribute()
     {
         return ucwords($this->attributes['type']);
