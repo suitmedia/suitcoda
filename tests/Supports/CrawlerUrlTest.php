@@ -50,8 +50,14 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals('http://example.com/test/', $crawl->encodeUrl('http://example.com/test/'));
         $this->assertEquals('http://example.com/test?q=123', $crawl->encodeUrl('http://example.com/test?q=123'));
         $this->assertEquals('http://example.com/test/page%3A1', $crawl->encodeUrl('http://example.com/test/page:1'));
-        $this->assertEquals('http://example.com/test/page%3A1?q=123', $crawl->encodeUrl('http://example.com/test/page:1?q=123'));
-        $this->assertEquals('http://example.com/test/page%3A1?q=123&s=456', $crawl->encodeUrl('http://example.com/test/page:1?q=123&s=456'));
+        $this->assertEquals(
+            'http://example.com/test/page%3A1?q=123',
+            $crawl->encodeUrl('http://example.com/test/page:1?q=123')
+        );
+        $this->assertEquals(
+            'http://example.com/test/page%3A1?q=123&s=456',
+            $crawl->encodeUrl('http://example.com/test/page:1?q=123&s=456')
+        );
         $this->assertEquals('/test', $crawl->encodeUrl('/test'));
         $this->assertEquals('/test?q=123', $crawl->encodeUrl('/test?q=123'));
         $this->assertEquals('/test?q=123/345', $crawl->encodeUrl('/test?q=123/345'));
