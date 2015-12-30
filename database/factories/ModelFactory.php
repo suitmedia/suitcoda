@@ -141,6 +141,7 @@ $factory->define(JobInspect::class, function ($faker) {
 $factory->define(Category::class, function ($faker) {
     return [
         'name' => 'test',
+        'slug' => 'test',
         'label_color' => 'red',
         'directory' => 'test/'
     ];
