@@ -303,7 +303,7 @@ class CrawlerUrl
                 continue;
             }
             
-            $list = preg_replace('/(\.\.\/)+/', '/', $list);
+            $list = $this->encodeUrl(preg_replace('/(\.\.\/)+/', '/', $list));
             $list = Uri\resolve($currentUrl, $list);
             if ($this->checkIfExternal($list) || !$this->checkNotInList($list, $siteLink)) {
                 continue;
@@ -491,5 +491,31 @@ class CrawlerUrl
         }
         $splitSegment = explode('/', trim($urlPath, '/'));
         return count($splitSegment);
+    }
+
+    /**
+     * Encode url except -_/? character
+     *
+     * @param  string $url []
+     * @return string
+     */
+    public function encodeUrl($url)
+    {
+        $urlTrimmed = str_replace(['http://', 'https://'], '', $url);
+        
+        $qMarkExplode = explode('?', $urlTrimmed);
+        $slashExplode = explode('/', $qMarkExplode[0]);
+        foreach ($slashExplode as $slash) {
+            $slashArray[] = urlencode($slash);
+        }
+        $qMarkExplode[0] = implode('/', $slashArray);
+        unset($slashArray);
+
+        $qMarkImplode = implode('?', $qMarkExplode);
+
+        if (strpos($url, 'http') === false) {
+            return $qMarkImplode;
+        }
+        return 'http://' . $qMarkImplode;
     }
 }
