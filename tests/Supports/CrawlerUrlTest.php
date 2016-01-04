@@ -65,6 +65,10 @@ class CrawlerUrlTest extends TestCase
         $this->assertEquals('test', $crawl->encodeUrl('test'));
         $this->assertEquals('test?q=123', $crawl->encodeUrl('test?q=123'));
         $this->assertEquals('test/page%3A1', $crawl->encodeUrl('test/page:1'));
+        $this->assertEquals(
+            'https://www.google.co.id/?q=https://suitmedia.com',
+            $crawl->encodeUrl('https://www.google.co.id/?q=https://suitmedia.com')
+        );
     }
 
     /**

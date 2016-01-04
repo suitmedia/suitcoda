@@ -502,6 +502,9 @@ class CrawlerUrl
     public function encodeUrl($url)
     {
         $urlTrimmed = str_replace(['http://', 'https://'], '', $url);
+        if (parse_url($url, PHP_URL_SCHEME)) {
+            $urlTrimmed = ltrim($url, parse_url($url, PHP_URL_SCHEME) . '://');
+        }
         
         $qMarkExplode = explode('?', $urlTrimmed);
         $slashExplode = explode('/', $qMarkExplode[0]);
@@ -513,9 +516,9 @@ class CrawlerUrl
 
         $qMarkImplode = implode('?', $qMarkExplode);
 
-        if (strpos($url, 'http') === false) {
-            return $qMarkImplode;
+        if (parse_url($url, PHP_URL_SCHEME)) {
+            return parse_url($url, PHP_URL_SCHEME) . '://' . $qMarkImplode;
         }
-        return 'http://' . $qMarkImplode;
+        return $qMarkImplode;
     }
 }
