@@ -72,7 +72,7 @@ class ProjectDetailController extends BaseController
         $project = $this->find($key);
 
         $inspection = $project->inspections()->bySequenceNumber($inspectionNumber)->first();
-        $issues = $inspection->issues()->byCategoryName($selectedCategory)->orderBy('type')->paginate(5);
+        $issues = $inspection->issues()->byCategorySlug($selectedCategory)->orderBy('type')->paginate(5);
         $pagination = new CustomPresenter($issues);
 
         if ($project->inspections()->latestCompleted()->first()->sequence_number == $inspectionNumber) {

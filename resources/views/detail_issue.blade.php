@@ -29,7 +29,7 @@
                     {{ csrf_field() }}
                         <select name="category" id="category" class="form-input block float-right" onchange="submit()">
                         @foreach ($inspection->scopeList as $category)
-                            <option value="{{ $category->name }}" {{ strcmp($selectedCategory, $category->name) == 0 ? 'selected' : '' }}>{{ $category->name }}</option>
+                            <option value="{{ $category->slug }}" {{ strcmp($selectedCategory, $category->slug) == 0 ? 'selected' : '' }}>{{ $category->name }}</option>
                         @endforeach
                         </select>
                     </form>
@@ -48,7 +48,7 @@
                                 <br>
                                 <a class="issue__url block-half" href="#">{{ $issue->url }}</a>{{ $issue->issue_line ? ', Line : ' . $issue->issue_line : '' }}
                                 <br>
-                                <span class="issue__message">{!! nl2br($issue->description) !!}</span>
+                                <span class="issue__message">{!! nl2br(htmlspecialchars($issue->description)) !!}</span>
                                 @if ($issue->issue_line)
                                 <button class="btn-show-code float-right">
                                     <span class="fa"></span>

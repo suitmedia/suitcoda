@@ -47,4 +47,16 @@ class CategoryTest extends TestCase
 
         $this->assertEquals(new Collection, $category->byName('test')->get());
     }
+
+    /**
+     * Test get query scope of bySlug method
+     *
+     * @return void
+     */
+    public function testScopeGetBySlug()
+    {
+        $category = new Category;
+
+        $this->assertEquals(new Collection, $category->bySlug('test')->get());
+    }
 }

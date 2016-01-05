@@ -17,7 +17,7 @@
             </a>
         </li>
         <li class="project-nav__tab active"> 
-            <a class="{{ $active == 2 ? 'active' : '' }}" href="{{ is_null($lastInspection) ? '#' : route('detail.issue', [$project->slug, $lastInspection->sequence_number, $project->inspections()->latestCompleted()->first()->scopeList->first()->name]) }}">
+            <a class="{{ $active == 2 ? 'active' : '' }}" href="{{ is_null($lastInspection) ? '#' : route('detail.issue', [$project->slug, $lastInspection->sequence_number, $project->inspections()->latestCompleted()->first()->scopeList->first()->slug]) }}">
                 <b>
                     <span class="fa fa-exclamation-triangle"></span>
                     <span class="hide-on-mobile">Latest Issue</span>

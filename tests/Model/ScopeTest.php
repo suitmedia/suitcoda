@@ -86,14 +86,38 @@ class ScopeTest extends TestCase
     }
 
     /**
-     * Test get query scope of byCategory method
+     * Test get query scope of byCategoryId method
      *
      * @return void
      */
-    public function testScopeByCategory()
+    public function testScopeByCategoryId()
     {
         $scope = new Scope;
 
         $this->assertInstanceOf(Collection::class, $scope->byCategoryId(1)->get());
+    }
+
+    /**
+     * Test get query scope of byCategoryName method
+     *
+     * @return void
+     */
+    public function testScopeByCategoryName()
+    {
+        $scope = new Scope;
+
+        $this->assertInstanceOf(Collection::class, $scope->byCategoryName(1)->get());
+    }
+
+    /**
+     * Test get query scope of byCategorySlug method
+     *
+     * @return void
+     */
+    public function testScopeByCategorySlug()
+    {
+        $scope = new Scope;
+
+        $this->assertInstanceOf(Collection::class, $scope->byCategorySlug(1)->get());
     }
 }
