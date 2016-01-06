@@ -244,11 +244,17 @@ class Project extends BaseModel implements SluggableInterface
 
         foreach ($listGraph as $graph) {
             array_set($series, $count . '.name', $graph);
+            $inspectionScore = $this->inspections()->get()->map(function ($item, $key) {
+                if ($item->status == '2') {
+                    return (double)$item->score;
+                }
+                return null;
+            })->toArray();
             if ($graph == 'Overall') {
                 array_set(
                     $series,
                     $count . '.data',
-                    array_map('doubleval', $this->inspections()->completed()->get()->pluck('score')->toArray())
+                    $inspectionScore
                 );
             } else {
                 foreach ($this->inspections as $inspection) {
