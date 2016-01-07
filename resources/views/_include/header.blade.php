@@ -36,7 +36,7 @@
                 </a>
                 <div class="dropdown-menu user-menu">
                 @if ($user->isAdmin())
-                    <a href="{{ route('user.index') }}">Manage User</a>
+                    <a href="{{ route('user.index') }}">Manage Account</a>
                 @endif
                     <a href="{{ action('Auth\AuthController@getLogout') }}">Logout</a>
                 </div>

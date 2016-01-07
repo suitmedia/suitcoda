@@ -1,12 +1,12 @@
 @extends('_layouts.pages')
 
-@section('title', 'Manage User')
+@section('title', 'Manage Account')
 
 @section('main-content')
     @parent
     <main class="main site-content block-up">
         <div class="container">
-            <h1 class="title">Manage User</h1>
+            <h1 class="title">Manage Account</h1>
             <div class="bzg">
                 <div class="bzg_c" data-col="s12,m6">
                     <a href="{{ route('user.create') }}">
