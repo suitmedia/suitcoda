@@ -5,6 +5,7 @@ namespace Suitcoda\Model;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
+use Suitcoda\Model\Category;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\Url;
 use Suitcoda\Model\User;
@@ -232,49 +233,59 @@ class Project extends BaseModel implements SluggableInterface
     {
         $graphData = [];
         $count = 0;
-        $listGraph = [
-            'Overall',
-            'Performance',
-            'Code Quality',
-            'Social Media'
-        ];
+        $listGraph = array_merge(['overall' => 'Overall'], Category::lists('name', 'slug')->toArray());
         $graphData = array_add($graphData, 'title', $this->name);
         $graphData = array_add($graphData, 'series', []);
         $graphData = array_add($graphData, 'xAxis', []);
 
-        foreach ($listGraph as $graph) {
-            array_set($series, $count . '.name', $graph);
-            $inspectionScore = $this->inspections()->get()->map(function ($item, $key) {
-                if ($item->status == '2') {
-                    return (double)$item->score;
-                }
-                return null;
-            })->toArray();
-            if ($graph == 'Overall') {
+        $inspections = $this->inspections()->limit(10)->get();
+        $inspectionsScore = $inspections->map(function ($item) {
+            if ($item->status == '2') {
+                return (double)$item->score;
+            }
+            return null;
+        })->toArray();
+
+        foreach ($this->inspections as $inspection) {
+            array_push($graphData['xAxis'], '#' . $inspection->sequence_number);
+        }
+
+        foreach ($listGraph as $slug => $name) {
+            array_set($series, $count . '.name', $name);
+
+            if ($slug == 'overall') {
                 array_set(
                     $series,
                     $count . '.data',
-                    $inspectionScore
+                    $inspectionsScore
                 );
             } else {
-                foreach ($this->inspections as $inspection) {
-                    $scoreObj = $inspection->scores()->byCategoryName($graph)->first();
-                    if ($scoreObj) {
-                        $scoreValue = (double)$scoreObj->score;
-                    } else {
-                        $scoreValue = null;
-                    }
-                    $scores[] = $scoreValue;
-                }
-                array_set($series, $count . '.data', $scores);
-                unset($scores);
+                array_set($series, $count . '.data', $this->getScoreByCategorySlug($inspections, $slug));
             }
             $count++;
         }
         array_set($graphData, 'series', $series);
-        foreach ($this->inspections as $inspection) {
-            array_push($graphData['xAxis'], '#' . $inspection->sequence_number);
-        }
         return $graphData;
+    }
+
+    /**
+     * Get scores for json by given category slug
+     * @param  array $inspections []
+     * @param  string $slug []
+     * @return array
+     */
+    protected function getScoreByCategorySlug($inspections, $slug)
+    {
+        $scores = [];
+        foreach ($inspections as $inspection) {
+            $scoreObj = $inspection->scores()->byCategorySlug($slug)->first();
+            if ($scoreObj) {
+                $scoreValue = (double)$scoreObj->score;
+            } else {
+                $scoreValue = null;
+            }
+            $scores[] = $scoreValue;
+        }
+        return $scores;
     }
 }
