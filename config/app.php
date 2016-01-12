@@ -140,6 +140,7 @@ return [
         Wicochandra\Captcha\CaptchaServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Illuminate\Html\HtmlServiceProvider::class,
+        Jenssegers\Rollbar\RollbarServiceProvider::class,
 
         /*
          * Application Service Providers...
