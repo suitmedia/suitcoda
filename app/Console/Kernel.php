@@ -28,6 +28,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('inspection:check')->everyFiveMinutes();
+        $schedule->command('inspection:check')->everyMinutes();
     }
 }
