@@ -1,0 +1,7 @@
+ #!/bin/bash
+
+TIME=`date "+%Y-%m-%d %X"`
+
+$@ &
+sleep 120
+kill -KILL $! 2>/dev/null && echo "["$TIME"] The command '"$@"' exceed execution time and become zombie process. Thus, the command has been terminated."
