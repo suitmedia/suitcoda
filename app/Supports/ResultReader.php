@@ -99,8 +99,10 @@ class ResultReader
                 $issue->save();
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
+            return false;
         } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
+            return true;
         }
     }
 
@@ -127,8 +129,10 @@ class ResultReader
                 $issue->save();
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
+            return false;
         } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
+            return true;
         }
     }
 
@@ -157,8 +161,10 @@ class ResultReader
                 $issue->save();
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
+            return false;
         } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
+            return true;
         }
     }
 
@@ -187,8 +193,10 @@ class ResultReader
                 }
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
+            return false;
         } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
+            return true;
         }
     }
 
@@ -218,8 +226,10 @@ class ResultReader
                 }
             }
             $this->job->update(['issue_count' => $counter, 'status' => 2]);
+            return false;
         } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
+            return true;
         }
     }
 
@@ -250,8 +260,10 @@ class ResultReader
                 }
             }
             $this->job->update(['issue_count' => $counter, 'status' => 2]);
+            return false;
         } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
+            return true;
         }
     }
 
@@ -277,8 +289,10 @@ class ResultReader
                 $issue->save();
             }
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
+            return false;
         } catch (FileNotFoundException $e) {
             $this->job->update(['status' => -1]);
+            return true;
         }
     }
 

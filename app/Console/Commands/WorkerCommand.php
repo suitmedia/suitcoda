@@ -48,9 +48,17 @@ class WorkerCommand extends Command
         $unhandledJob = $this->job->getUnhandledJob()->first();
         if ($unhandledJob) {
             $unhandledJob->update(['status' => 1]);
-            `$unhandledJob->command_line`;
-            $this->resultReader->setJob($unhandledJob);
-            $this->resultReader->run();
+            $result = true;
+            $count = 3;
+            while ($result && $count > 1) {
+                $output = `./worker_script $unhandledJob->command_line`;
+                if ($output) {
+                    \Log::error($output);
+                }
+                $this->resultReader->setJob($unhandledJob);
+                $result = $this->resultReader->run();
+                $count--;
+            }
         } else {
             sleep(5);
         }
