@@ -5,7 +5,7 @@
         </a>
         
         <ul class="header-list cf">
-            <li>
+            {{-- <li>
                 <a class="notif text-grey" href="#">
                     <div class="notif__icon">
                         <span class="fa fa-bell"></span>
@@ -28,7 +28,7 @@
                         <b>See More</b>
                     </a>
                 </div>
-            </li>
+            </li> --}}
             @if (!is_null($user))
             <li>
                 <a class="user-avatar" href="#">
