@@ -23,7 +23,7 @@
             @endif
                 @foreach ($projects as $project)
                     <div class="bzg_c block" data-col="s12,m6">
-                        <a class="box box--block cf" href="{{ route('project.detail', $project->slug) }}">
+                        <a class="box box--block cf" href="{{ route('project.overview', $project->slug) }}">
                             <div class="box__thumbnail">
                             @if (!$project->inspections()->getAllByProjectId($project->id)->isEmpty())
                                 <span>Inspection #{{ $project->inspections()->getLatestByProjectId($project->id)->sequence_number }}</span> <br>
