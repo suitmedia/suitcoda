@@ -40,7 +40,7 @@ class ResultReader
     /**
      * Run result reader
      *
-     * @return void
+     * @return bool
      */
     public function run()
     {
@@ -48,32 +48,23 @@ class ResultReader
         $scope = $this->job->scope->name;
         switch ($scope) {
             case 'seo':
-                $this->seoResultReader($match[0] . $this->job->url->id . '/resultSEO.json');
-                break;
+                return $this->seoResultReader($match[0] . $this->job->url->id . '/resultSEO.json');
             case 'backendSeo':
-                $this->seoResultReader($match[0] . $this->job->url->id . '/resultBackendSEO.json');
-                break;
+                return $this->seoResultReader($match[0] . $this->job->url->id . '/resultBackendSEO.json');
             case 'html':
-                $this->htmlResultReader($match[0] . $this->job->url->id . '/resultHTML.json');
-                break;
+                return $this->htmlResultReader($match[0] . $this->job->url->id . '/resultHTML.json');
             case 'css':
-                $this->cssResultReader($match[0] . $this->job->url->id . '/resultCSS.json');
-                break;
+                return $this->cssResultReader($match[0] . $this->job->url->id . '/resultCSS.json');
             case 'js':
-                $this->jsResultReader($match[0] . $this->job->url->id . '/resultJS.json');
-                break;
+                return $this->jsResultReader($match[0] . $this->job->url->id . '/resultJS.json');
             case 'socialMedia':
-                $this->socialMediaResultReader($match[0] . $this->job->url->id . '/resultSocmed.json');
-                break;
+                return $this->socialMediaResultReader($match[0] . $this->job->url->id . '/resultSocmed.json');
             case 'gPagespeedDesktop':
-                $this->gPagespeedResultReader($match[0] . $this->job->url->id . '/resultPagespeedDesktop.json');
-                break;
+                return $this->gPagespeedResultReader($match[0] . $this->job->url->id . '/resultPagespeedDesktop.json');
             case 'gPagespeedMobile':
-                $this->gPagespeedResultReader($match[0] . $this->job->url->id . '/resultPagespeedMobile.json');
-                break;
+                return $this->gPagespeedResultReader($match[0] . $this->job->url->id . '/resultPagespeedMobile.json');
             case 'ySlow':
-                $this->ySlowResultReader($match[0] . $this->job->url->id . '/resultYSlow.json');
-                break;
+                return $this->ySlowResultReader($match[0] . $this->job->url->id . '/resultYSlow.json');
         }
     }
 
@@ -81,7 +72,7 @@ class ResultReader
      * Result reader for seo
      *
      * @param  string $path []
-     * @return void
+     * @return bool
      */
     public function seoResultReader($path)
     {
@@ -101,7 +92,6 @@ class ResultReader
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
             return false;
         } catch (FileNotFoundException $e) {
-            $this->job->update(['status' => -1]);
             return true;
         }
     }
@@ -110,7 +100,7 @@ class ResultReader
      * Result reader for html
      *
      * @param  string $path []
-     * @return void
+     * @return bool
      */
     public function htmlResultReader($path)
     {
@@ -131,7 +121,6 @@ class ResultReader
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
             return false;
         } catch (FileNotFoundException $e) {
-            $this->job->update(['status' => -1]);
             return true;
         }
     }
@@ -140,7 +129,7 @@ class ResultReader
      * Result reader for css
      *
      * @param  string $path []
-     * @return void
+     * @return bool
      */
     public function cssResultReader($path)
     {
@@ -163,7 +152,6 @@ class ResultReader
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
             return false;
         } catch (FileNotFoundException $e) {
-            $this->job->update(['status' => -1]);
             return true;
         }
     }
@@ -172,7 +160,7 @@ class ResultReader
      * Result reader for js
      *
      * @param  string $path []
-     * @return void
+     * @return bool
      */
     public function jsResultReader($path)
     {
@@ -195,7 +183,6 @@ class ResultReader
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
             return false;
         } catch (FileNotFoundException $e) {
-            $this->job->update(['status' => -1]);
             return true;
         }
     }
@@ -204,7 +191,7 @@ class ResultReader
      * Result reader for social media
      *
      * @param  string $path []
-     * @return void
+     * @return bool
      */
     public function socialMediaResultReader($path)
     {
@@ -228,7 +215,6 @@ class ResultReader
             $this->job->update(['issue_count' => $counter, 'status' => 2]);
             return false;
         } catch (FileNotFoundException $e) {
-            $this->job->update(['status' => -1]);
             return true;
         }
     }
@@ -237,7 +223,7 @@ class ResultReader
      * Result reader for Google Pagespeed
      *
      * @param  string $path []
-     * @return void
+     * @return bool
      */
     public function gPagespeedResultReader($path)
     {
@@ -262,7 +248,6 @@ class ResultReader
             $this->job->update(['issue_count' => $counter, 'status' => 2]);
             return false;
         } catch (FileNotFoundException $e) {
-            $this->job->update(['status' => -1]);
             return true;
         }
     }
@@ -271,7 +256,7 @@ class ResultReader
      * Result reader for YSlow
      *
      * @param  string $path []
-     * @return void
+     * @return bool
      */
     public function ySlowResultReader($path)
     {
@@ -291,7 +276,6 @@ class ResultReader
             $this->job->update(['issue_count' => count($jsonData->checking), 'status' => 2]);
             return false;
         } catch (FileNotFoundException $e) {
-            $this->job->update(['status' => -1]);
             return true;
         }
     }

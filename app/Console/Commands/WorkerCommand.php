@@ -50,14 +50,17 @@ class WorkerCommand extends Command
             $unhandledJob->update(['status' => 1]);
             $result = true;
             $count = 3;
-            while ($result && $count > 1) {
+            while ($result && $count > 0) {
                 $output = `./worker_script $unhandledJob->command_line`;
-                if ($output) {
-                    \Log::error($output);
+                if (str_contains($output, 'terminated')) {
+                    \Log::error($output . "Retry : " . $count);
                 }
                 $this->resultReader->setJob($unhandledJob);
                 $result = $this->resultReader->run();
                 $count--;
+            }
+            if ($result) {
+                $unhandledJob->update(['status' => -1]);
             }
         } else {
             sleep(5);
