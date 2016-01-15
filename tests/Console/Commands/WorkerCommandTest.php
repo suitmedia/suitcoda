@@ -69,25 +69,4 @@ class WorkerCommandTest extends TestCase
 
         $worker->handle();
     }
-
-    public function testHandleResultTrue()
-    {
-        $jobFaker = factory(JobInspect::class)->create();
-
-        $job = Mockery::mock(JobInspect::class);
-        $reader = Mockery::mock(ResultReader::class);
-        $worker = new WorkerCommand($job, $reader);
-
-        $job->shouldReceive('getUnhandledJob->first')->andReturn($jobFaker);
-        $job->shouldReceive('update')->andReturn(true);
-        $reader->shouldReceive('setJob');
-        $reader->shouldReceive('run')->andReturn(true);
-
-        $worker->handle();
-
-        $this->seeInDatabase('job_inspects', [
-            'id' => $jobFaker->id,
-            'status' => -1
-        ]);
-    }
 }
