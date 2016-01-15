@@ -23,22 +23,18 @@
             @endif
                 @foreach ($projects as $project)
                     <div class="bzg_c block" data-col="s12,m6">
-                        <a class="box box--block cf" href="{{ route('project.detail', $project->slug) }}">
+                        <a class="box box--block cf" href="{{ route('detail.overview', $project->slug) }}">
                             <div class="box__thumbnail">
-                            @if (!$project->inspections()->getAllByProjectId($project->id)->isEmpty())
-                                <span>Inspection #{{ $project->inspections()->getLatestByProjectId($project->id)->sequence_number }}</span> <br>
-                            @else
-                                <span>Inspection -</span> <br>
-                            @endif
-                                <b class="text-big">80%</b>
+                                <span>Error Rate :</span> <br>
+                                <b class="text-big">{{ $project->lastInspectionScore }}</b>
                             </div>
                             <div class="box__desc">
                                 <div class="text-ellipsis">
                                     <b>{{ $project->name }}</b>
                                 </div>
-                                <span>Url : </span> {{ $project->main_url }} <br>
+                                <span>Inspection : {{ $project->lastInspectionNumber }}</span> <br>
                                 <span>Lastest update : </span> <time>{{ $project->updated_at }}</time> <br>
-                                <span>Status : </span> <b class="text-green">Completed</b>
+                                <span>Status : </span> {!! $project->lastInspectionStatus !!}
                             </div>
                             {!! Form::model($project, ['route' => ['project.destroy', $project], 'method' => 'DELETE']) !!}
                                 <button type="submit" class="btn box__close" data-confirm="Do you want to delete this project?">
