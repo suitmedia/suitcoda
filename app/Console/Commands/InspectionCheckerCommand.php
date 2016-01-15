@@ -47,7 +47,10 @@ class InspectionCheckerCommand extends Command
     public function handle()
     {
         $inspection = $this->inspection->progress()->get()->first();
-        if ($inspection->jobInspects->isEmpty()) {
+        if (is_null($inspection)) {
+            return;
+        }
+        if ($inspection->jobInspects()->get()->isEmpty()) {
             return;
         }
         foreach ($inspection->jobInspects as $job) {
