@@ -53,7 +53,7 @@ class InspectionCheckerCommand extends Command
         if ($inspection->jobInspects()->get()->isEmpty()) {
             return;
         }
-        foreach ($inspection->jobInspects as $job) {
+        foreach ($inspection->jobInspects()->get() as $job) {
             if ($job->status < 0) {
                 $inspection->update(['status' => (-1)]);
             }

@@ -54,4 +54,31 @@ class InspectionCheckerCommandTest extends TestCase
         
         $inspectionChecker->handle();
     }
+
+    public function testHandleNullObject()
+    {
+        $inspection = Mockery::mock(Inspection::class);
+        $calc = Mockery::mock(CalculateScore::class);
+        $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
+
+        $inspection->shouldReceive('progress->get->first')->andReturn(null);
+        
+        $inspectionChecker->handle();
+    }
+
+    public function testHandleUpdateJobToStopped()
+    {
+        $jobFaker = factory(JobInspect::class, 5)->create();
+
+        $inspection = Mockery::mock(Inspection::class);
+        $calc = Mockery::mock(CalculateScore::class);
+        $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
+
+        $inspection->shouldReceive('progress->get->first')->andReturn($inspection);
+        $inspection->shouldReceive('jobInspects->get')->andReturn($jobFaker);
+        $calc->shouldReceive('calculate');
+        $inspection->shouldReceive('update')->andReturn(true);
+        
+        $inspectionChecker->handle();
+    }
 }
