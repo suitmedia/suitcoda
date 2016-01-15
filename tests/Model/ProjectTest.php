@@ -232,4 +232,26 @@ class ProjectTest extends TestCase
         $this->assertEquals(1, $projectFaker->getLastCompletedInspectionIssueByCategory('SEO'));
         $this->assertEquals('-', $projectFaker->getLastCompletedInspectionIssueByCategory('Performance'));
     }
+
+    /**
+     * Test to generate array for json data high-chart
+     *
+     * @return void
+     */
+    public function testGetJsonData()
+    {
+        $projectFaker = factory(Project::class)->create();
+
+        $inspectionFaker = factory(Inspection::class)->create([
+            'project_id' => $projectFaker->id,
+            'status' => 2,
+            'score' => 7
+        ]);
+
+        factory(Score::class)->create([
+            'inspection_id' => $inspectionFaker->id,
+        ]);
+
+        $projectFaker->getJsonData();
+    }
 }
