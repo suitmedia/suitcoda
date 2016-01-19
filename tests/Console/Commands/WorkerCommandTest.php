@@ -44,18 +44,37 @@ class WorkerCommandTest extends TestCase
 
         $job = Mockery::mock(JobInspect::class);
         $reader = Mockery::mock(ResultReader::class);
-        $worker = new WorkerCommand($job, $reader);
+        $worker = Mockery::mock(WorkerCommand::class . '[updateJob, runCommand]', [$job, $reader]);
 
         $job->shouldReceive('getUnhandledJob->first')->andReturn($jobFaker);
-        $job->shouldReceive('update')->andReturn(true);
         $reader->shouldReceive('setJob');
-        $reader->shouldReceive('run');
+        $reader->shouldReceive('run')->andReturn(true);
+        $worker->shouldReceive('updateJob')->twice();
+        $worker->shouldReceive('runCommand')->andReturn('terminated');
+        \Log::shouldReceive('error');
 
         $worker->handle();
+    }
 
-        $this->seeInDatabase('job_inspects', [
-            'id' => $jobFaker->id,
-            'status' => 1
-        ]);
+    public function testHandleSleep()
+    {
+        $job = Mockery::mock(JobInspect::class);
+        $reader = Mockery::mock(ResultReader::class);
+        $worker = new WorkerCommand($job, $reader);
+
+        $job->shouldReceive('getUnhandledJob->first')->andReturn(null);
+
+        $worker->handle();
+    }
+
+    public function testUpdateJob()
+    {
+        $job = Mockery::mock(JobInspect::class);
+        $reader = Mockery::mock(ResultReader::class);
+        $worker = new WorkerCommand($job, $reader);
+
+        $job->shouldReceive('update')->andReturn(true);
+
+        $worker->updateJob($job, 1);
     }
 }

@@ -265,11 +265,8 @@ class ResultReaderTest extends TestCase
         $issue->shouldReceive('save')->once()->andReturn(true);
 
         $reader->setJob($jobFaker);
-        $reader->seoResultReader('example');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => 2
-        ]);
+        $this->assertFalse($reader->seoResultReader('example.json'));
     }
 
     /**
@@ -291,11 +288,8 @@ class ResultReaderTest extends TestCase
         $decoder->shouldReceive('decodeFile')->andThrow(new FileNotFoundException);
 
         $reader->setJob($jobFaker);
-        $reader->seoResultReader('example.json');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => -1
-        ]);
+        $this->assertTrue($reader->seoResultReader('example.json'));
     }
 
     /**
@@ -330,11 +324,8 @@ class ResultReaderTest extends TestCase
         $issue->shouldReceive('save')->once()->andReturn(true);
 
         $reader->setJob($jobFaker);
-        $reader->htmlResultReader('example');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => 2
-        ]);
+        $this->assertFalse($reader->htmlResultReader('example.json'));
     }
 
     /**
@@ -356,11 +347,8 @@ class ResultReaderTest extends TestCase
         $decoder->shouldReceive('decodeFile')->andThrow(new FileNotFoundException);
 
         $reader->setJob($jobFaker);
-        $reader->htmlResultReader('example.json');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => -1
-        ]);
+        $this->assertTrue($reader->htmlResultReader('example.json'));
     }
 
     /**
@@ -395,11 +383,8 @@ class ResultReaderTest extends TestCase
         $issue->shouldReceive('save')->once()->andReturn(true);
 
         $reader->setJob($jobFaker);
-        $reader->cssResultReader('example');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => 2
-        ]);
+        $this->assertFalse($reader->cssResultReader('example.json'));
     }
 
     /**
@@ -421,11 +406,8 @@ class ResultReaderTest extends TestCase
         $decoder->shouldReceive('decodeFile')->andThrow(new FileNotFoundException);
 
         $reader->setJob($jobFaker);
-        $reader->cssResultReader('example.json');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => -1
-        ]);
+        $this->assertTrue($reader->cssResultReader('example.json'));
     }
 
     /**
@@ -460,11 +442,8 @@ class ResultReaderTest extends TestCase
         $issue->shouldReceive('save')->once()->andReturn(true);
 
         $reader->setJob($jobFaker);
-        $reader->jsResultReader('example');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => 2
-        ]);
+        $this->assertFalse($reader->jsResultReader('example.json'));
     }
 
     /**
@@ -486,11 +465,8 @@ class ResultReaderTest extends TestCase
         $decoder->shouldReceive('decodeFile')->andThrow(new FileNotFoundException);
 
         $reader->setJob($jobFaker);
-        $reader->jsResultReader('example.json');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => -1
-        ]);
+        $this->assertTrue($reader->jsResultReader('example.json'));
     }
 
     /**
@@ -529,11 +505,8 @@ class ResultReaderTest extends TestCase
         $issue->shouldReceive('save')->once()->andReturn(true);
 
         $reader->setJob($jobFaker);
-        $reader->socialMediaResultReader('example');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => 2
-        ]);
+        $this->assertFalse($reader->socialMediaResultReader('example.json'));
     }
 
     /**
@@ -555,11 +528,8 @@ class ResultReaderTest extends TestCase
         $decoder->shouldReceive('decodeFile')->andThrow(new FileNotFoundException);
 
         $reader->setJob($jobFaker);
-        $reader->socialMediaResultReader('example.json');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => -1
-        ]);
+        $this->assertTrue($reader->socialMediaResultReader('example.json'));
     }
 
     /**
@@ -601,11 +571,8 @@ class ResultReaderTest extends TestCase
         $issue->shouldReceive('save')->once()->andReturn(true);
 
         $reader->setJob($jobFaker);
-        $reader->gPagespeedResultReader('example');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => 2
-        ]);
+        $this->assertFalse($reader->gPagespeedResultReader('example.json'));
     }
 
     /**
@@ -627,11 +594,8 @@ class ResultReaderTest extends TestCase
         $decoder->shouldReceive('decodeFile')->andThrow(new FileNotFoundException);
 
         $reader->setJob($jobFaker);
-        $reader->gPagespeedResultReader('example.json');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => -1
-        ]);
+        $this->assertTrue($reader->gPagespeedResultReader('example.json'));
     }
 
     /**
@@ -670,11 +634,8 @@ class ResultReaderTest extends TestCase
         $issue->shouldReceive('save')->once()->andReturn(true);
 
         $reader->setJob($jobFaker);
-        $reader->ySlowResultReader('example');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => 2
-        ]);
+        $this->assertFalse($reader->ySlowResultReader('example.json'));
     }
 
     /**
@@ -696,11 +657,8 @@ class ResultReaderTest extends TestCase
         $decoder->shouldReceive('decodeFile')->andThrow(new FileNotFoundException);
 
         $reader->setJob($jobFaker);
-        $reader->ySlowResultReader('example.json');
 
-        $this->seeInDatabase('job_inspects', [
-            'status' => -1
-        ]);
+        $this->assertTrue($reader->ySlowResultReader('example.json'));
     }
 
     /**

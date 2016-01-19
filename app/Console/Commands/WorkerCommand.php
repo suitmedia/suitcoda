@@ -47,20 +47,46 @@ class WorkerCommand extends Command
     {
         $unhandledJob = $this->job->getUnhandledJob()->first();
         if ($unhandledJob) {
-            $unhandledJob->update(['status' => 1]);
+            $this->updateJob($unhandledJob, 1);
             $result = true;
             $count = 3;
-            while ($result && $count > 1) {
-                $output = `./worker_script $unhandledJob->command_line`;
-                if ($output) {
-                    \Log::error($output);
+            while ($result && $count > 0) {
+                $output = $this->runCommand($unhandledJob->command_line);
+                if (str_contains($output, 'terminated')) {
+                    \Log::error($output . "Retry : " . $count);
                 }
                 $this->resultReader->setJob($unhandledJob);
                 $result = $this->resultReader->run();
                 $count--;
             }
+            if ($result) {
+                $this->updateJob($unhandledJob, -1);
+            }
         } else {
             sleep(5);
         }
+    }
+
+    /**
+     * Update jobInspect status
+     *
+     * @param  JobInspect $job    []
+     * @param  int     $status []
+     * @return void
+     */
+    public function updateJob(JobInspect $job, $status)
+    {
+        $job->update(['status' => $status]);
+    }
+
+    /**
+     * Run external program
+     *
+     * @param  string $command []
+     * @return string
+     */
+    public function runCommand($command)
+    {
+        return `./worker_script $command`;
     }
 }
