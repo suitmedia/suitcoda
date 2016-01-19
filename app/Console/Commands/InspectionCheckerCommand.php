@@ -62,7 +62,7 @@ class InspectionCheckerCommand extends Command
         if ($inspections->count() > 1) {
             $this->checkAll($inspections);
         } else {
-            $this->check($inspections);
+            $this->check($inspections->first());
         }
     }
 
