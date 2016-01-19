@@ -51,7 +51,7 @@ class WorkerCommand extends Command
             $result = true;
             $count = 3;
             while ($result && $count > 0) {
-                $output = `./worker_script $unhandledJob->command_line`;
+                $output = $this->runCommand($unhandledJob->command_line);
                 if (str_contains($output, 'terminated')) {
                     \Log::error($output . "Retry : " . $count);
                 }
@@ -77,5 +77,16 @@ class WorkerCommand extends Command
     public function updateJob(JobInspect $job, $status)
     {
         $job->update(['status' => $status]);
+    }
+
+    /**
+     * Run external program
+     *
+     * @param  string $command []
+     * @return string
+     */
+    public function runCommand($command)
+    {
+        return `./worker_script $command`;
     }
 }
