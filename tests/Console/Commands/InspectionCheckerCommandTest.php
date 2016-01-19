@@ -48,7 +48,7 @@ class InspectionCheckerCommandTest extends TestCase
         $calc = Mockery::mock(CalculateScore::class);
         $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
 
-        $inspection->shouldReceive('progress->get->first')->andReturn($inspectionFaker);
+        $inspection->shouldReceive('progress->chunk')->andReturn($inspectionFaker);
         $calc->shouldReceive('calculate');
         $inspection->shouldReceive('update')->andReturn(true);
         
@@ -61,7 +61,7 @@ class InspectionCheckerCommandTest extends TestCase
         $calc = Mockery::mock(CalculateScore::class);
         $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
 
-        $inspection->shouldReceive('progress->get->first')->andReturn(null);
+        $inspection->shouldReceive('progress->chunk')->andReturn(null);
         
         $inspectionChecker->handle();
     }
@@ -74,7 +74,7 @@ class InspectionCheckerCommandTest extends TestCase
         $calc = Mockery::mock(CalculateScore::class);
         $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
 
-        $inspection->shouldReceive('progress->get->first')->andReturn($inspection);
+        $inspection->shouldReceive('progress->chunk')->andReturn($inspection);
         $inspection->shouldReceive('jobInspects->get')->andReturn($jobFaker);
         $calc->shouldReceive('calculate');
         $inspection->shouldReceive('update')->andReturn(true);

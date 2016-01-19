@@ -46,24 +46,24 @@ class InspectionCheckerCommand extends Command
      */
     public function handle()
     {
-        $inspection = $this->inspection->progress()->get()->first();
-        if (is_null($inspection)) {
-            return;
-        }
-        if ($inspection->jobInspects()->get()->isEmpty()) {
-            return;
-        }
-        foreach ($inspection->jobInspects()->get() as $job) {
-            if ($job->status < 0) {
-                $inspection->update(['status' => (-1)]);
-            }
-            if ($job->status < 2) {
-                return;
-            }
-        }
+        $this->inspection->progress()->chunk(100, function ($inspections) {
+            foreach ($inspections as $inspection) {
+                if (is_null($inspection)) {
+                    continue;
+                }
+                if ($inspection->jobInspects()->get()->isEmpty()) {
+                    continue;
+                }
+                foreach ($inspection->jobInspects()->get() as $job) {
+                    if ($job->status == '1' || $job->status == '0') {
+                        continue 2;
+                    }
+                }
 
-        $this->calc->calculate($inspection);
+                $this->calc->calculate($inspection);
 
-        $inspection->update(['status' => 2, 'score' => round($inspection->scores()->sum('score'), 2)]);
+                $inspection->update(['status' => 2, 'score' => round($inspection->scores()->sum('score'), 2)]);
+            }
+        });
     }
 }
