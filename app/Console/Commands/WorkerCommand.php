@@ -47,7 +47,7 @@ class WorkerCommand extends Command
     {
         $unhandledJob = $this->job->getUnhandledJob()->first();
         if ($unhandledJob) {
-            $unhandledJob->update(['status' => 1]);
+            $this->updateJob($unhandledJob, 1);
             $result = true;
             $count = 3;
             while ($result && $count > 0) {
@@ -60,10 +60,22 @@ class WorkerCommand extends Command
                 $count--;
             }
             if ($result) {
-                $unhandledJob->update(['status' => -1]);
+                $this->updateJob($unhandledJob, -1);
             }
         } else {
             sleep(5);
         }
+    }
+
+    /**
+     * Update jobInspect status
+     *
+     * @param  JobInspect $job    []
+     * @param  int     $status []
+     * @return void
+     */
+    public function updateJob(JobInspect $job, $status)
+    {
+        $job->update(['status' => $status]);
     }
 }
