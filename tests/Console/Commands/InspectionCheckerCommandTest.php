@@ -80,6 +80,17 @@ class InspectionCheckerCommandTest extends TestCase
         $inspectionChecker->isMany($inspectionsFaker);
     }
 
+    public function testCheckAll()
+    {
+        $inspectionsFaker = factory(Inspection::class, 5)->create();
+
+        $inspection = Mockery::mock(Inspection::class);
+        $calc = Mockery::mock(CalculateScore::class);
+        $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
+
+        $inspectionChecker->checkAll($inspectionsFaker);
+    }
+
     public function testCheckNullObject()
     {
         $inspection = Mockery::mock(Inspection::class);
