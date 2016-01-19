@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'suitcoda@gmail.com' , 'name' => 'NoReply' ],
+    'from' => ['address' => env('EMAIL_ADDRESS', 'suitcoda@gmail.com'), 'name' => env('EMAIL_SUBJECT', 'NoReply') ],
 
     /*
     |--------------------------------------------------------------------------
