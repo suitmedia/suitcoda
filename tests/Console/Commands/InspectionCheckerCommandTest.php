@@ -2,6 +2,7 @@
 
 namespace SuitTests\Console\Commands;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
 use SuitTests\TestCase;
@@ -49,36 +50,84 @@ class InspectionCheckerCommandTest extends TestCase
         $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
 
         $inspection->shouldReceive('progress->chunk')->andReturn($inspectionFaker);
-        $calc->shouldReceive('calculate');
-        $inspection->shouldReceive('update')->andReturn(true);
         
         $inspectionChecker->handle();
     }
 
-    public function testHandleNullObject()
+    public function testIsManyGetCheck()
+    {
+        $inspectionFaker = factory(Inspection::class)->create();
+
+        $inspection = Mockery::mock(Inspection::class);
+        $calc = Mockery::mock(CalculateScore::class);
+        $inspectionChecker = Mockery::mock(InspectionCheckerCommand::class . '[check]', [$inspection, $calc]);
+
+        $inspectionChecker->shouldReceive('check')->once();
+
+        $inspectionChecker->isMany($inspectionFaker);
+    }
+
+    public function testIsManyGetCheckAll()
+    {
+        $inspectionsFaker = factory(Inspection::class, 5)->create();
+
+        $inspection = Mockery::mock(Inspection::class);
+        $calc = Mockery::mock(CalculateScore::class);
+        $inspectionChecker = Mockery::mock(InspectionCheckerCommand::class . '[checkAll]', [$inspection, $calc]);
+
+        $inspectionChecker->shouldReceive('checkAll')->once();
+
+        $inspectionChecker->isMany($inspectionsFaker);
+    }
+
+    public function testCheckNullObject()
     {
         $inspection = Mockery::mock(Inspection::class);
         $calc = Mockery::mock(CalculateScore::class);
         $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
 
-        $inspection->shouldReceive('progress->chunk')->andReturn(null);
-        
-        $inspectionChecker->handle();
+        $inspectionChecker->check(null);
     }
 
-    public function testHandleUpdateJobToStopped()
+    public function testCheckEmptyJobObject()
     {
-        $jobFaker = factory(JobInspect::class, 5)->create();
+        $inspectionFaker = factory(Inspection::class)->create();
 
         $inspection = Mockery::mock(Inspection::class);
         $calc = Mockery::mock(CalculateScore::class);
         $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
 
-        $inspection->shouldReceive('progress->chunk')->andReturn($inspection);
-        $inspection->shouldReceive('jobInspects->get')->andReturn($jobFaker);
+        $inspectionChecker->check($inspectionFaker);
+    }
+
+    public function testCheckWithJobObject()
+    {
+        $inspectionFaker = factory(Inspection::class)->create();
+        factory(JobInspect::class, 5)->create([
+            'inspection_id' => $inspectionFaker->id
+        ]);
+
+        $inspection = Mockery::mock(Inspection::class);
+        $calc = Mockery::mock(CalculateScore::class);
+        $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
+
+        $inspectionChecker->check($inspectionFaker);
+    }
+
+    public function testCheckWithJobFinishObject()
+    {
+        $inspectionFaker = factory(Inspection::class)->create();
+        factory(JobInspect::class, 5)->create([
+            'inspection_id' => $inspectionFaker->id,
+            'status' => 2
+        ]);
+
+        $inspection = Mockery::mock(Inspection::class);
+        $calc = Mockery::mock(CalculateScore::class);
+        $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
+
         $calc->shouldReceive('calculate');
-        $inspection->shouldReceive('update')->andReturn(true);
-        
-        $inspectionChecker->handle();
+
+        $inspectionChecker->check($inspectionFaker);
     }
 }
