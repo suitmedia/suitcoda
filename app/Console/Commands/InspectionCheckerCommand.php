@@ -46,15 +46,55 @@ class InspectionCheckerCommand extends Command
      */
     public function handle()
     {
-        $inspection = $this->inspection->progress()->get()->first();
-        if ($inspection->jobInspects->isEmpty()) {
+        $this->inspection->progress()->chunk(100, function ($inspections) {
+            $this->isMany($inspections);
+        });
+    }
+
+    /**
+     * Check inspections one or many
+     *
+     * @param  Collection $inspections []
+     * @return void
+     */
+    public function isMany($inspections)
+    {
+        if ($inspections->count() > 1) {
+            $this->checkAll($inspections);
+        } else {
+            $this->check($inspections);
+        }
+    }
+
+    /**
+     * Check Inspections
+     *
+     * @param  Collection $inspections []
+     * @return void
+     */
+    public function checkAll($inspections)
+    {
+        foreach ($inspections as $inspection) {
+            $this->check($inspection);
+        }
+    }
+
+    /**
+     * Check Inspections
+     *
+     * @param  Collection $inspection []
+     * @return void
+     */
+    public function check($inspection)
+    {
+        if (is_null($inspection)) {
             return;
         }
-        foreach ($inspection->jobInspects as $job) {
-            if ($job->status < 0) {
-                $inspection->update(['status' => (-1)]);
-            }
-            if ($job->status < 2) {
+        if ($inspection->jobInspects()->get()->isEmpty()) {
+            return;
+        }
+        foreach ($inspection->jobInspects()->get() as $job) {
+            if ($job->status == '1' || $job->status == '0') {
                 return;
             }
         }
