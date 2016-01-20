@@ -3,6 +3,7 @@
 namespace Suitcoda\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Collection;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Supports\CalculateScore;
 
@@ -29,7 +30,8 @@ class InspectionCheckerCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @param Inspection $inspection []
+     * @param \Suitcoda\Model\Inspection $inspection []
+     * @param \Suitcoda\Supports\CalculateScore $calc []
      * @return void
      */
     public function __construct(Inspection $inspection, CalculateScore $calc)
@@ -47,32 +49,17 @@ class InspectionCheckerCommand extends Command
     public function handle()
     {
         $this->inspection->progress()->chunk(100, function ($inspections) {
-            $this->isMany($inspections);
-        });
-    }
-
-    /**
-     * Check inspections one or many
-     *
-     * @param  Collection $inspections []
-     * @return void
-     */
-    public function isMany($inspections)
-    {
-        if ($inspections->count() > 1) {
             $this->checkAll($inspections);
-        } else {
-            $this->check($inspections->first());
-        }
+        });
     }
 
     /**
      * Check Inspections
      *
-     * @param  Collection $inspections []
+     * @param  \Illuminate\Database\Eloquent\Collection $inspections []
      * @return void
      */
-    public function checkAll($inspections)
+    public function checkAll(Collection $inspections)
     {
         foreach ($inspections as $inspection) {
             $this->check($inspection);
@@ -82,18 +69,17 @@ class InspectionCheckerCommand extends Command
     /**
      * Check Inspections
      *
-     * @param  Collection $inspection []
+     * @param  \Suitcoda\Model\Inspection $inspection []
      * @return void
      */
-    public function check($inspection)
+    public function check(Inspection $inspection)
     {
-        if (is_null($inspection)) {
+        $jobs = $inspection->jobInspects()->get();
+        if ($jobs->isEmpty()) {
             return;
         }
-        if ($inspection->jobInspects()->get()->isEmpty()) {
-            return;
-        }
-        foreach ($inspection->jobInspects()->get() as $job) {
+        
+        foreach ($jobs as $job) {
             if ($job->status == '1' || $job->status == '0') {
                 return;
             }
