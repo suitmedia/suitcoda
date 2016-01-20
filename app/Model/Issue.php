@@ -88,6 +88,11 @@ class Issue extends BaseModel
         });
     }
 
+    public function scopeError($query)
+    {
+        return $query->where('type', 'Error');
+    }
+
     /**
      * Check if type is error
      *

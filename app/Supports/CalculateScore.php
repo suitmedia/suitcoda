@@ -3,6 +3,7 @@
 namespace Suitcoda\Supports;
 
 use Suitcoda\Model\Category;
+use Suitcoda\Model\Inspection;
 use Suitcoda\Model\Scope;
 use Suitcoda\Model\Score;
 
@@ -30,24 +31,23 @@ class CalculateScore
      * @param  Inspection $inspection []
      * @return void
      */
-    public function calculate($inspection)
+    public function calculate(Inspection $inspection)
     {
-        foreach ($this->category->all() as $category) {
-            $jobs = $inspection->jobInspects->filter(function ($item) use ($category) {
-                return $item->scope->category_id == $category->getKey();
-            });
+        foreach ($inspection->scopeList as $category) {
+            $uniqueUrlInIssues = $inspection->issues()->byCategorySlug($category->slug)->error()->distinct()
+                                            ->count('url');
+            $uniqueUrlInJobs = $inspection->jobInspects()->byCategorySlug($category->slug)->distinct()
+                                          ->count(['url_id', 'scope_id']);
+            $errorRate = $uniqueUrlInIssues / $uniqueUrlInJobs;
 
-            if (!$jobs->isEmpty()) {
-                $counter = 0;
-                foreach ($jobs as $job) {
-                    $counter += $job->issue_count;
-                }
-                $score = $this->score->findOrNewByRelatedId($inspection->getKey(), $category->getKey());
-                $score->score = round($counter / $inspection->project->urls->count(), 2);
-                $score->inspection()->associate($inspection);
-                $score->category()->associate($category);
-                $score->save();
-            }
+            $score = $this->score->findOrNewByRelatedId($inspection->getKey(), $category->getKey());
+            $score->score = round($errorRate, 2);
+            $score->inspection()->associate($inspection);
+            $score->category()->associate($category);
+            $score->save();
         }
+
+        $overallErrorRate = $inspection->scores()->sum('score') / $inspection->scopeList->count();
+        $inspection->update(['status' => 2, 'score' => round($overallErrorRate, 2)]);
     }
 }
