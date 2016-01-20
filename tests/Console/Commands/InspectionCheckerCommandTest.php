@@ -54,32 +54,6 @@ class InspectionCheckerCommandTest extends TestCase
         $inspectionChecker->handle();
     }
 
-    public function testIsManyGetCheck()
-    {
-        $inspectionFaker = factory(Inspection::class)->create();
-
-        $inspection = Mockery::mock(Inspection::class);
-        $calc = Mockery::mock(CalculateScore::class);
-        $inspectionChecker = Mockery::mock(InspectionCheckerCommand::class . '[check]', [$inspection, $calc]);
-
-        $inspectionChecker->shouldReceive('check')->once();
-
-        $inspectionChecker->isMany($inspectionFaker);
-    }
-
-    public function testIsManyGetCheckAll()
-    {
-        $inspectionsFaker = factory(Inspection::class, 5)->create();
-
-        $inspection = Mockery::mock(Inspection::class);
-        $calc = Mockery::mock(CalculateScore::class);
-        $inspectionChecker = Mockery::mock(InspectionCheckerCommand::class . '[checkAll]', [$inspection, $calc]);
-
-        $inspectionChecker->shouldReceive('checkAll')->once();
-
-        $inspectionChecker->isMany($inspectionsFaker);
-    }
-
     public function testCheckAll()
     {
         $inspectionsFaker = factory(Inspection::class, 5)->create();
@@ -89,15 +63,6 @@ class InspectionCheckerCommandTest extends TestCase
         $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
 
         $inspectionChecker->checkAll($inspectionsFaker);
-    }
-
-    public function testCheckNullObject()
-    {
-        $inspection = Mockery::mock(Inspection::class);
-        $calc = Mockery::mock(CalculateScore::class);
-        $inspectionChecker = new InspectionCheckerCommand($inspection, $calc);
-
-        $inspectionChecker->check(null);
     }
 
     public function testCheckEmptyJobObject()
