@@ -41,8 +41,13 @@ fs.exists(program.destination, function (exists) {
     // download JS asset
     var filenameJS = url.substring( url.lastIndexOf('/') + 1 , url.length );
 
-    fs.mkdirSync('js/');
-    var file = fs.createWriteStream('js/' + filenameJS);
+    var date = new Date();
+    var time = date.getTime();
+    var folderTemp = 'js' + time + '/';
+
+    fs.mkdirSync(folderTemp);
+
+    var file = fs.createWriteStream(folderTemp + filenameJS);
 
     var request = http.get(url , function (response) {
         response.pipe(file);
@@ -67,7 +72,7 @@ fs.exists(program.destination, function (exists) {
             }); 
 
             // remove asset file
-            fs.remove('./js/', function (err) {
+            fs.remove('./'+folderTemp, function (err) {
                 if (err) return console.log(err);
             });
         });

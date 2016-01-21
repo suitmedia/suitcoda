@@ -42,8 +42,12 @@ fs.exists(program.destination, function (exists) {
     // download css asset
     var filenameCSS = url.substring( url.lastIndexOf('/') + 1 , url.length );
 
-    fs.mkdirSync('css/');
-    var file = fs.createWriteStream('css/' + filenameCSS);
+    var date = new Date();
+    var time = date.getTime();
+    var folderTemp = 'css' + time + '/';
+
+    fs.mkdirSync(folderTemp);
+    var file = fs.createWriteStream(folderTemp + filenameCSS);
 
     var request = http.get(url , function (response) {
         response.pipe(file);
@@ -84,7 +88,7 @@ fs.exists(program.destination, function (exists) {
             }); 
             
             // remove asset file
-            fs.remove('./css/', function (err) {
+            fs.remove('./' + folderTemp, function (err) {
                 if (err) return console.log(err);
             });
         });
