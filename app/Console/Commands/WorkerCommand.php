@@ -52,8 +52,11 @@ class WorkerCommand extends Command
             $count = 3;
             while ($result && $count > 0) {
                 $output = $this->runCommand($unhandledJob->command_line);
-                if (str_contains($output, 'terminated')) {
-                    \Log::error($output . "Retry : " . $count);
+                if (str_contains($output, 'process died')) {
+                    $errorLog = "[" . date('Y-m-d H:i:s') . "The command" . $unhandledJob->command_line .
+                        "exceed execution time and become zombie process. Thus, the command has been terminated." .
+                        "Retry : " . $count;
+                    \Log::error($errorLog);
                 }
                 $this->resultReader->setJob($unhandledJob);
                 $result = $this->resultReader->run();

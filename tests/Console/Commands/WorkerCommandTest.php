@@ -50,7 +50,7 @@ class WorkerCommandTest extends TestCase
         $reader->shouldReceive('setJob');
         $reader->shouldReceive('run')->andReturn(true);
         $worker->shouldReceive('updateJob')->twice();
-        $worker->shouldReceive('runCommand')->andReturn('terminated');
+        $worker->shouldReceive('runCommand')->andReturn('process died');
         \Log::shouldReceive('error');
 
         $worker->handle();
