@@ -88,10 +88,22 @@ class JobInspect extends BaseModel
      */
     public function scopeByCategoryName($query, $name)
     {
-        return $query->where('status', '2')->wherehas('scope', function ($query) use ($name) {
-            $query->whereHas('category', function ($query) use ($name) {
-                $query->where('name', $name);
-            });
+        return $query->whereHas('scope', function ($query) use ($name) {
+            $query->byCategoryName($name);
+        });
+    }
+
+    /**
+     * Scope a query to get job by category slug.
+     *
+     * @param  string $query []
+     * @param  string $slug []
+     * @return object
+     */
+    public function scopeByCategorySlug($query, $slug)
+    {
+        return $query->whereHas('scope', function ($query) use ($slug) {
+            $query->byCategorySlug($slug);
         });
     }
 }

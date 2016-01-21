@@ -70,8 +70,7 @@ class CalculateScoreTest extends TestCase
 
         $calculateScore->calculate($inspectionFaker);
         $this->seeInDatabase('scores', [
-            'category_id' => '1',
-            'score' => 17.5
+            'category_id' => '1'
         ]);
     }
 }

@@ -86,7 +86,5 @@ class InspectionCheckerCommand extends Command
         }
 
         $this->calc->calculate($inspection);
-
-        $inspection->update(['status' => 2, 'score' => round($inspection->scores()->sum('score'), 2)]);
     }
 }
