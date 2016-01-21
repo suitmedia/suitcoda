@@ -35,9 +35,11 @@ class CalculateScore
     {
         foreach ($inspection->scopeList as $category) {
             $uniqueUrlInIssues = $inspection->issues()->byCategorySlug($category->slug)->error()->distinct()
-                                            ->count('url');
+                                            ->select('url')->get()
+                                            ->count();
             $uniqueUrlInJobs = $inspection->jobInspects()->byCategorySlug($category->slug)->distinct()
-                                          ->count(['url_id', 'scope_id']);
+                                          ->select(['url_id', 'scope_id'])->get()
+                                          ->count();
             $errorRate = $uniqueUrlInIssues / $uniqueUrlInJobs;
 
             $score = $this->score->findOrNewByRelatedId($inspection->getKey(), $category->getKey());
