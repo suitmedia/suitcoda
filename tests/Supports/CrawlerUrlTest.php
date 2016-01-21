@@ -69,6 +69,21 @@ class CrawlerUrlTest extends TestCase
             'https://www.google.co.id/?q=https://suitmedia.com',
             $crawl->encodeUrl('https://www.google.co.id/?q=https://suitmedia.com')
         );
+        $this->assertEquals('https://suitmedia.com/', $crawl->encodeUrl('https://suitmedia.com/'));
+        $this->assertEquals('https://suitmedia.com/test', $crawl->encodeUrl('https://suitmedia.com/test'));
+        $this->assertEquals('https://suitmedia.com/test/', $crawl->encodeUrl('https://suitmedia.com/test/'));
+        $this->assertEquals(
+            'https://suitmedia.com/test?q=123',
+            $crawl->encodeUrl('https://suitmedia.com/test?q=123')
+        );
+        $this->assertEquals(
+            'https://suitmedia.com/test/page%3A1',
+            $crawl->encodeUrl('https://suitmedia.com/test/page:1')
+        );
+        $this->assertEquals(
+            'https://suitmedia.com/test?q=http://pigeonteens.suitmedia.com',
+            $crawl->encodeUrl('https://suitmedia.com/test?q=http://pigeonteens.suitmedia.com')
+        );
     }
 
     /**

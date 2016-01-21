@@ -502,8 +502,9 @@ class CrawlerUrl
     public function encodeUrl($url)
     {
         $urlTrimmed = str_replace(['http://', 'https://'], '', $url);
-        if (parse_url($url, PHP_URL_SCHEME)) {
-            $urlTrimmed = ltrim($url, parse_url($url, PHP_URL_SCHEME) . '://');
+        $scheme = parse_url($url, PHP_URL_SCHEME);
+        if ($scheme) {
+            $urlTrimmed = preg_replace('/^' . $scheme . '\:\/\//', '', $url);
         }
         
         $qMarkExplode = explode('?', $urlTrimmed);
