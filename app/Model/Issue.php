@@ -9,6 +9,8 @@ use Suitcoda\Model\Scope;
 
 class Issue extends BaseModel
 {
+    const ERROR = 'error';
+
     protected $table = 'issues';
 
     protected $fillable = [
@@ -90,7 +92,7 @@ class Issue extends BaseModel
 
     public function scopeError($query)
     {
-        return $query->where('type', 'Error');
+        return $query->where('type', self::ERROR);
     }
 
     /**
@@ -100,7 +102,7 @@ class Issue extends BaseModel
      */
     public function isError()
     {
-        if (strcasecmp($this->attributes['type'], 'error') == 0) {
+        if (strcasecmp($this->attributes['type'], self::ERROR) == 0) {
             return true;
         }
         return false;

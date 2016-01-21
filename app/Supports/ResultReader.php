@@ -81,7 +81,7 @@ class ResultReader
 
             foreach ($jsonData->checking as $checking) {
                 $issue = $this->issue->newInstance();
-                $issue->type = ucfirst($checking->error);
+                $issue->type = strtolower($checking->error);
                 $issue->description = $checking->desc;
                 $issue->url = $jsonData->url;
                 $issue->inspection()->associate($this->job->inspection);
@@ -109,7 +109,7 @@ class ResultReader
 
             foreach ($jsonData->checking as $checking) {
                 $issue = $this->issue->newInstance();
-                $issue->type = ucfirst($checking->type);
+                $issue->type = strtolower($checking->type);
                 $issue->description = $checking->desc;
                 $issue->issue_line = $checking->line;
                 $issue->url = $jsonData->url;
@@ -138,7 +138,7 @@ class ResultReader
 
             foreach ($jsonData->checking as $checking) {
                 $issue = $this->issue->newInstance();
-                $issue->type = ucfirst($checking->messageType);
+                $issue->type = strtolower($checking->messageType);
                 $issue->description = $checking->messageMsg;
                 if (isset($checking->messageLine)) {
                     $issue->issue_line = $checking->messageLine;
@@ -170,7 +170,7 @@ class ResultReader
             foreach ($jsonData->checking as $checking) {
                 if (isset($checking->id)) {
                     $issue = $this->issue->newInstance();
-                    $issue->type = ucfirst(trim($checking->id, "()"));
+                    $issue->type = strtolower(trim($checking->id, "()"));
                     $issue->description = $checking->reason;
                     $issue->issue_line = $checking->line;
                     $issue->url = $jsonData->url;
@@ -202,7 +202,7 @@ class ResultReader
             foreach ($jsonData->checking as $checking) {
                 foreach ($checking->message as $message) {
                     $issue = $this->issue->newInstance();
-                    $issue->type = ucfirst($message->error);
+                    $issue->type = strtolower($message->error);
                     $issue->description = $message->desc;
                     $issue->url = $jsonData->url;
                     $issue->inspection()->associate($this->job->inspection);
@@ -234,7 +234,7 @@ class ResultReader
             foreach ($jsonData->formattedResults->ruleResults as $checking) {
                 if ($checking->ruleImpact > 0) {
                     $issue = $this->issue->newInstance();
-                    $issue->type = ucfirst($this->getPSIErrorType($checking->ruleImpact));
+                    $issue->type = strtolower($this->getPSIErrorType($checking->ruleImpact));
                     $issue->description = $checking->localizedRuleName . " :\n" .
                                           $this->getPSIErrorDescription($checking->urlBlocks);
                     $issue->url = $jsonData->id;
@@ -265,7 +265,7 @@ class ResultReader
             
             foreach ($jsonData->checking as $checking) {
                 $issue = $this->issue->newInstance();
-                $issue->type = ucfirst($checking->error);
+                $issue->type = strtolower($checking->error);
                 $issue->description = $this->getYslowErrorDesc($checking);
                 $issue->url = $jsonData->url;
                 $issue->inspection()->associate($this->job->inspection);
