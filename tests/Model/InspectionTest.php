@@ -182,10 +182,11 @@ class InspectionTest extends TestCase
 
         $inspectionFaker = factory(Inspection::class)->create();
         factory(Score::class)->create([
-            'inspection_id' => $inspectionFaker->id
+            'inspection_id' => $inspectionFaker->id,
+            'score' => 0.7
         ]);
 
-        $this->assertEquals('7%', $inspectionFaker->getScoreByCategory('test'));
+        $this->assertEquals('70%', $inspectionFaker->getScoreByCategory('test'));
     }
 
     /**
@@ -251,7 +252,7 @@ class InspectionTest extends TestCase
     public function testGetScore()
     {
         $inspectionFaker = factory(Inspection::class)->create([
-            'score' => 100
+            'score' => 1
         ]);
         $this->assertEquals(100, $inspectionFaker->score);
     }
