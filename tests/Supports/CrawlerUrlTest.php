@@ -497,8 +497,8 @@ class CrawlerUrlTest extends TestCase
         );
 
         $crawl->shouldReceive('encodeUrl')->andReturn($url);
-        $crawl->shouldReceive('checkIfExternal')->andReturn(true);
-        $crawl->shouldReceive('checkNotInList')->andReturn(true);
+        $crawl->shouldReceive('checkIfExternal')->andReturn(false);
+        $crawl->shouldReceive('checkNotInList')->andReturn(false);
         $crawl->shouldReceive('checkExternalJs')->andReturn(true);
 
         $crawl->getAllLink($url, ['a', 'b'], $array);

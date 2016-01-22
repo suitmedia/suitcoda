@@ -304,8 +304,7 @@ class CrawlerUrl
             }
             $list = $this->encodeUrl(preg_replace('/(\.\.\/)+/', '/', $list));
             $list = Uri\resolve($currentUrl, $list);
-            if ($this->checkIfExternal($list) ||
-                !$this->checkNotInList($list, $siteLink) ||
+            if ($this->checkIfExternal($list) || !$this->checkNotInList($list, $siteLink) ||
                 $this->checkExternalJs($list)) {
                 continue;
             }
