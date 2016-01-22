@@ -289,20 +289,19 @@ class CrawlerUrl
     /**
      * Function to get all link url, css and js from a url
      *
-     * @param  array  $currentUrl []
+     * @param  string  $currentUrl []
      * @param  array  $lists []
      * @param  array  $siteLink []
      * @param  int    $recursive []
      *
      * @return void
      */
-    protected function getAllLink($currentUrl, $lists, &$siteLink, $recursive = 0)
+    public function getAllLink($currentUrl, $lists, &$siteLink, $recursive = 0)
     {
         foreach ($lists as $list) {
             if (!$list || !$this->checkIfCrawlable($list)) {
                 continue;
             }
-            
             $list = $this->encodeUrl(preg_replace('/(\.\.\/)+/', '/', $list));
             $list = Uri\resolve($currentUrl, $list);
             if ($this->checkIfExternal($list) ||
