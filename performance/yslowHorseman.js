@@ -17,8 +17,9 @@ var outputYSlow = 'tempYSlow' + time + '.json';
 
 // ---------------------- run the phantom command ----------------------
 var yslowDir = sh.pwd() + '/performance/';
+var command = 'phantomjs --config='+ yslowDir +'config.json ' + yslowDir + 'yslow.js --info grade ' + url + ' > ' + outputYSlow; 
 
-if ( sh.exec('phantomjs ' + yslowDir + 'yslow.js --info grade ' + url + ' > ' + outputYSlow).code !== 0 ) {
+if ( sh.exec( command ).code !== 0 ) {
     console.log('cannot generate YSlow result!');
     process.exit(1);
 }
