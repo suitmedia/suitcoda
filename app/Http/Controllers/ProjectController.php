@@ -28,7 +28,7 @@ class ProjectController extends BaseController
      */
     public function index()
     {
-        $projects = \Auth::user()->projects;
+        $projects = \Auth::user()->projects()->orderBy('updated_at', 'desc')->get();
 
         return view('home', compact('projects'));
     }

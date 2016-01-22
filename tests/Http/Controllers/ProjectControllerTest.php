@@ -201,4 +201,18 @@ class ProjectControllerTest extends TestCase
         
         $this->assertInstanceOf('Illuminate\View\View', $controller->search($request));
     }
+
+    public function testIndexProjectOrderByUpdatedAt()
+    {
+        $project = Mockery::mock(Project::class);
+        $scope = Mockery::mock(Scope::class);
+        $user = Mockery::mock(User::class);
+
+        $controller = new ProjectController($project, $scope);
+
+        \Auth::shouldReceive('user')->andReturn($user);
+        $user->shouldReceive('projects->orderBy->get');
+
+        $controller->index();
+    }
 }
