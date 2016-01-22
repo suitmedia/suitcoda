@@ -11,6 +11,10 @@ use Suitcoda\Model\SubScope;
 
 class Inspection extends BaseModel
 {
+    const STATUS_WAITING = 0;
+    const STATUS_ON_PROGRESS = 1;
+    const STATUS_COMPLETED = 2;
+
     protected $table = 'inspections';
 
     protected $fillable = [
@@ -68,7 +72,7 @@ class Inspection extends BaseModel
     public function getScoreAttribute()
     {
         if ($this->attributes['score']) {
-            return $this->attributes['score'];
+            return (float)$this->attributes['score'] * 100;
         }
         return '-';
     }
@@ -80,13 +84,13 @@ class Inspection extends BaseModel
      */
     public function getStatusNameAttribute()
     {
-        if ($this->attributes['status'] == 0) {
+        if ($this->attributes['status'] == self::STATUS_WAITING) {
             return 'Waiting';
         }
-        if ($this->attributes['status'] == 1) {
+        if ($this->attributes['status'] == self::STATUS_ON_PROGRESS) {
             return 'On Progress';
         }
-        if ($this->attributes['status'] == 2) {
+        if ($this->attributes['status'] == self::STATUS_COMPLETED) {
             return 'Completed';
         }
         return 'Stopped';
@@ -99,13 +103,13 @@ class Inspection extends BaseModel
      */
     public function getStatusTextColorAttribute()
     {
-        if ($this->attributes['status'] == 0) {
+        if ($this->attributes['status'] == self::STATUS_WAITING) {
             return 'grey';
         }
-        if ($this->attributes['status'] == 1) {
+        if ($this->attributes['status'] == self::STATUS_ON_PROGRESS) {
             return 'orange';
         }
-        if ($this->attributes['status'] == 2) {
+        if ($this->attributes['status'] == self::STATUS_COMPLETED) {
             return 'green';
         }
         return 'red';
@@ -223,7 +227,7 @@ class Inspection extends BaseModel
      */
     public function scopeCompleted($query)
     {
-        return $query->where('status', 2);
+        return $query->where('status', self::STATUS_COMPLETED);
     }
 
     /**
@@ -257,7 +261,7 @@ class Inspection extends BaseModel
      */
     public function isCompleted()
     {
-        if ($this->attributes['status'] == 2) {
+        if ($this->attributes['status'] == self::STATUS_COMPLETED) {
             return true;
         }
         return false;
@@ -270,7 +274,7 @@ class Inspection extends BaseModel
      */
     public function isWaiting()
     {
-        if ($this->attributes['status'] == 0) {
+        if ($this->attributes['status'] == self::STATUS_WAITING) {
             return true;
         }
         return false;
@@ -283,7 +287,7 @@ class Inspection extends BaseModel
      */
     public function isProgress()
     {
-        if ($this->attributes['status'] == 1) {
+        if ($this->attributes['status'] == self::STATUS_ON_PROGRESS) {
             return true;
         }
         return false;
@@ -297,6 +301,6 @@ class Inspection extends BaseModel
      */
     public function scopeProgress($query)
     {
-        return $query->where('status', 1);
+        return $query->where('status', self::STATUS_ON_PROGRESS);
     }
 }

@@ -35,7 +35,7 @@ class CalculateScore
     {
         foreach ($inspection->scopeList as $category) {
             $uniqueUrlInIssues = $inspection->issues()->byCategorySlug($category->slug)->error()->distinct()
-                                            ->select('url')->get()
+                                            ->select(['url', 'scope_id'])->get()
                                             ->count();
             $uniqueUrlInJobs = $inspection->jobInspects()->byCategorySlug($category->slug)->distinct()
                                           ->select(['url_id', 'scope_id'])->get()

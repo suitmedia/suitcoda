@@ -185,9 +185,9 @@ class ProjectTest extends TestCase
         factory(Inspection::class)->create([
             'project_id' => $projectFaker->id,
             'status' => 2,
-            'score' => 77.77
+            'score' => 0.7
         ]);
-        $this->assertEquals(77.77, $projectFaker->lastCompletedInspectionScore);
+        $this->assertEquals(70, $projectFaker->lastCompletedInspectionScore);
     }
 
 
@@ -207,9 +207,9 @@ class ProjectTest extends TestCase
                 'status' => 2
             ])->id,
             'category_id' => 1,
-            'score' => 77.77
+            'score' => 0.7
         ]);
-        $this->assertEquals(77.77, $projectFaker->getLastCompletedInspectionScoreByCategory('SEO'));
+        $this->assertEquals(70, $projectFaker->getLastCompletedInspectionScoreByCategory('SEO'));
         $this->assertEquals('-', $projectFaker->getLastCompletedInspectionScoreByCategory('Performance'));
     }
 

@@ -87,4 +87,9 @@ class Score extends BaseModel
         }
         return $this->newInstance();
     }
+
+    public function getScoreAttribute()
+    {
+        return (float)$this->attributes['score'] * 100;
+    }
 }
