@@ -256,4 +256,37 @@ class InspectionTest extends TestCase
         ]);
         $this->assertEquals(100, $inspectionFaker->score);
     }
+
+    public function testIsWaiting()
+    {
+        $inspectionFaker = factory(Inspection::class)->create([
+            'status' => 0
+        ]);
+
+        $this->assertTrue($inspectionFaker->isWaiting());
+        $this->assertFalse($inspectionFaker->isProgress());
+        $this->assertFalse($inspectionFaker->isCompleted());
+    }
+
+    public function testIsProgress()
+    {
+        $inspectionFaker = factory(Inspection::class)->create([
+            'status' => 1
+        ]);
+
+        $this->assertFalse($inspectionFaker->isWaiting());
+        $this->assertTrue($inspectionFaker->isProgress());
+        $this->assertFalse($inspectionFaker->isCompleted());
+    }
+
+    public function testIsCompleted()
+    {
+        $inspectionFaker = factory(Inspection::class)->create([
+            'status' => 2
+        ]);
+
+        $this->assertFalse($inspectionFaker->isWaiting());
+        $this->assertFalse($inspectionFaker->isProgress());
+        $this->assertTrue($inspectionFaker->isCompleted());
+    }
 }

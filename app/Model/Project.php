@@ -98,6 +98,16 @@ class Project extends BaseModel implements SluggableInterface
     }
 
     /**
+     * Get first completed inspection object in desc order
+     *
+     * @return object
+     */
+    public function getLastCompletedInspection()
+    {
+        return $this->inspections()->latestCompleted()->first();
+    }
+
+    /**
      * Get related last inspection score
      *
      * @return string
@@ -144,8 +154,8 @@ class Project extends BaseModel implements SluggableInterface
      */
     public function getLastCompletedInspectionScoreAttribute()
     {
-        if ($this->inspections()->latestCompleted()->first()) {
-            return $this->inspections()->latestCompleted()->first()->score;
+        if ($this->getLastCompletedInspection()) {
+            return $this->getLastCompletedInspection()->score;
         }
         return '-';
     }
@@ -157,8 +167,8 @@ class Project extends BaseModel implements SluggableInterface
      */
     public function getLastCompletedInspectionIssuesAttribute()
     {
-        if ($this->inspections()->latestCompleted()->first()) {
-            return $this->inspections()->latestCompleted()->first()->issues;
+        if ($this->getLastCompletedInspection()) {
+            return $this->getLastCompletedInspection()->issues;
         }
         return '-';
     }
@@ -171,7 +181,7 @@ class Project extends BaseModel implements SluggableInterface
      */
     public function getLastCompletedInspectionScoreByCategory($slug)
     {
-        $inspection = $this->inspections()->latestCompleted()->first();
+        $inspection = $this->getLastCompletedInspection();
         if ($inspection) {
             if ($inspection->scores()->byCategorySlug($slug)->first()) {
                 return $inspection->scores()->byCategorySlug($slug)->first()->score;
@@ -188,7 +198,7 @@ class Project extends BaseModel implements SluggableInterface
      */
     public function getLastCompletedInspectionIssueByCategory($slug)
     {
-        $inspection = $this->inspections()->latestCompleted()->first();
+        $inspection = $this->getLastCompletedInspection();
         if ($inspection) {
             if (!$inspection->issues()->byCategorySlug($slug)->get()->isEmpty()) {
                 return $inspection->issues()->byCategorySlug($slug)->get()->count();
@@ -295,12 +305,12 @@ class Project extends BaseModel implements SluggableInterface
      */
     public function getLastCompletedInspectionUrlPercentageAttribute()
     {
-        if ($this->inspections()->latestCompleted()->first()) {
-            return $this->inspections()->latestCompleted()->first()
+        if ($this->getLastCompletedInspection()) {
+            return $this->getLastCompletedInspection()
                                        ->issues()->error()->distinct()
                                        ->select('url')->get()
                                        ->count() . '/' .
-                   $this->inspections()->latestCompleted()->first()
+                   $this->getLastCompletedInspection()
                                        ->jobInspects()->distinct()
                                        ->select(['url_id', 'scope_id'])->get()
                                        ->count();
@@ -315,7 +325,7 @@ class Project extends BaseModel implements SluggableInterface
      */
     public function getLastCompletedInspectionUrlPercentageByCategory($slug)
     {
-        $inspection = $this->inspections()->latestCompleted()->first();
+        $inspection = $this->getLastCompletedInspection();
         if ($inspection) {
             if (!$inspection->issues()->byCategorySlug($slug)->get()->isEmpty()) {
                 return $inspection->issues()->byCategorySlug($slug)->error()->distinct()
