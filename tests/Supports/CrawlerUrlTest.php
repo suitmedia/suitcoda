@@ -87,6 +87,23 @@ class CrawlerUrlTest extends TestCase
     }
 
     /**
+     * Test continue if js is from external assets
+     *
+     * @return void
+     */
+    public function testCheckExternalJs()
+    {
+        $client = $this->getMockClient()->makePartial();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+        
+        $crawl = new CrawlerUrl($client, $domCrawler);
+
+        $this->assertTrue($crawl->checkExternalJs('http://example/assets/js/vendor/modernizer.js'));
+        $this->assertTrue($crawl->checkExternalJs('http://example/assets/js/vendor/test.js'));
+        $this->assertFalse($crawl->checkExternalJs('http://example/assets/js/main.js'));
+    }
+
+    /**
      * Test continue if url can be crawl
      *
      * @return void
