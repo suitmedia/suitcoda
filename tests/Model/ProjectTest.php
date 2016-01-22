@@ -209,8 +209,8 @@ class ProjectTest extends TestCase
             'category_id' => 1,
             'score' => 0.7
         ]);
-        $this->assertEquals(70, $projectFaker->getLastCompletedInspectionScoreByCategory('SEO'));
-        $this->assertEquals('-', $projectFaker->getLastCompletedInspectionScoreByCategory('Performance'));
+        $this->assertEquals(70, $projectFaker->getLastCompletedInspectionScoreByCategory('seo'));
+        $this->assertEquals('-', $projectFaker->getLastCompletedInspectionScoreByCategory('performance'));
     }
 
     /**
@@ -229,8 +229,8 @@ class ProjectTest extends TestCase
             ])->id,
             'scope_id' => 1,
         ]);
-        $this->assertEquals(1, $projectFaker->getLastCompletedInspectionIssueByCategory('SEO'));
-        $this->assertEquals('-', $projectFaker->getLastCompletedInspectionIssueByCategory('Performance'));
+        $this->assertEquals(1, $projectFaker->getLastCompletedInspectionIssueByCategory('seo'));
+        $this->assertEquals('-', $projectFaker->getLastCompletedInspectionIssueByCategory('performance'));
     }
 
     /**
