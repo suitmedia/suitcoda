@@ -49,7 +49,10 @@ class CalculateScore
             $score->save();
         }
 
-        $overallErrorRate = $inspection->scores()->sum('score') / $inspection->scopeList->count();
+        $alUniqueUrlInIssues = $inspection->issues()->error()->distinct()->select(['url', 'scope_id'])->get()->count();
+        $alUniqueUrlInJobs = $inspection->jobInspects()->distinct()->select(['url_id', 'scope_id'])->get()->count();
+        $overallErrorRate = $alUniqueUrlInIssues / $alUniqueUrlInJobs;
+        
         $inspection->update(['status' => 2, 'score' => round($overallErrorRate, 2)]);
     }
 }
