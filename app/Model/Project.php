@@ -308,7 +308,7 @@ class Project extends BaseModel implements SluggableInterface
         if ($this->getLastCompletedInspection()) {
             return $this->getLastCompletedInspection()
                                        ->issues()->error()->distinct()
-                                       ->select('url')->get()
+                                       ->select(['url', 'scope_id'])->get()
                                        ->count() . '/' .
                    $this->getLastCompletedInspection()
                                        ->jobInspects()->distinct()
@@ -329,7 +329,7 @@ class Project extends BaseModel implements SluggableInterface
         if ($inspection) {
             if (!$inspection->issues()->byCategorySlug($slug)->get()->isEmpty()) {
                 return $inspection->issues()->byCategorySlug($slug)->error()->distinct()
-                                            ->select('url')->get()
+                                            ->select(['url', 'scope_id'])->get()
                                             ->count() . '/' .
                        $inspection->jobInspects()->byCategorySlug($slug)->distinct()
                                           ->select(['url_id', 'scope_id'])->get()
