@@ -58,20 +58,13 @@
                                         </div>
                                         <div class="box-testing__percent">
                                             <span>
-                                                <b>Error Rate : </b> {{ $inspection->score }}%
+                                                <b>Error Rate : </b> {{ $inspection->score . ($inspection->score == '-' ? '' : '%') }}
                                             </span>
-                                            <span>
-                                                <b>Performance : </b> {{ $inspection->getScoreByCategory('Performance') }}
-                                            </span>
-                                            <span>
-                                                <b>Code Quality : </b> {{ $inspection->getScoreByCategory('Code Quality') }}
-                                            </span>
-                                            <span>
-                                                <b>SEO : </b> {{ $inspection->getScoreByCategory('SEO') }}
-                                            </span>
-                                            <span>
-                                                <b>Social Media : </b> {{ $inspection->getScoreByCategory('Social Media') }}
-                                            </span>
+                                            @foreach ($categories as $category)
+                                                <span>
+                                                    <b>{{ $category->name }} : </b> {{ $inspection->getScoreByCategory($category->slug) }}
+                                                </span>
+                                            @endforeach
                                         </div>
                                     </a>
                                 </li>
@@ -86,7 +79,7 @@
                             <div class="progress-title">
                                 <b>
                                     Error Rate 
-                                    <span class="text-red">({{ $project->lastCompletedInspectionIssues }})</span> 
+                                    <span class="text-red">({{ $project->lastCompletedInspectionUrlPercentage }})</span> 
                                 </b> 
                                 <span class="float-right">{{ $project->lastCompletedInspectionScore }}%</span>
                             </div>
@@ -94,54 +87,20 @@
                                 <div class="progress__bar"></div>
                             </div>
                         </div>
-                        <div class="block cf">
-                            <div class="progress-title">
-                                <b>
-                                    Performance 
-                                    <span class="text-red">({{ $project->getLastCompletedInspectionIssueByCategory('Performance') }})</span> 
-                                </b> 
-                                <span class="float-right">{{ $project->getLastCompletedInspectionScoreByCategory('Performance') }}%</span>
+                        @foreach ($categories as $category)
+                            <div class="block cf">
+                                <div class="progress-title">
+                                    <b>
+                                        {{ $category->name }}
+                                        <span class="text-red">({{ $project->getLastCompletedInspectionUrlPercentageByCategory($category->slug) }})</span> 
+                                    </b> 
+                                    <span class="float-right">{{ $project->getLastCompletedInspectionScoreByCategory($category->slug) }}%</span>
+                                </div>
+                                <div class="progress" data-percent="{{ $project->getLastCompletedInspectionScoreByCategory($category->slug) }}">
+                                    <div class="progress__bar"></div>
+                                </div>
                             </div>
-                            <div class="progress" data-percent="{{ $project->getLastCompletedInspectionScoreByCategory('Performance') }}">
-                                <div class="progress__bar"></div>
-                            </div>
-                        </div>
-                        <div class="block cf">
-                            <div class="progress-title">
-                                <b>
-                                    Code Quality 
-                                    <span class="text-red">({{ $project->getLastCompletedInspectionIssueByCategory('Code Quality') }})</span> 
-                                </b> 
-                                <span class="float-right">{{ $project->getLastCompletedInspectionScoreByCategory('Code Quality') }}%</span>
-                            </div>
-                            <div class="progress" data-percent="{{ $project->getLastCompletedInspectionScoreByCategory('Code Quality') }}">
-                                <div class="progress__bar"></div>
-                            </div>
-                        </div>
-                        <div class="block cf">
-                            <div class="progress-title">
-                                <b>
-                                    SEO 
-                                    <span class="text-red">({{ $project->getLastCompletedInspectionIssueByCategory('SEO') }})</span> 
-                                </b> 
-                                <span class="float-right">{{ $project->getLastCompletedInspectionScoreByCategory('SEO') }}%</span>
-                            </div>
-                            <div class="progress" data-percent="{{ $project->getLastCompletedInspectionScoreByCategory('SEO') }}">
-                                <div class="progress__bar"></div>
-                            </div>
-                        </div>
-                        <div class="block cf">
-                            <div class="progress-title">
-                                <b>
-                                    Social Media 
-                                    <span class="text-red">({{ $project->getLastCompletedInspectionIssueByCategory('Social Media') }})</span> 
-                                </b> 
-                                <span class="float-right">{{ $project->getLastCompletedInspectionScoreByCategory('Social Media') }}%</span>
-                            </div>
-                            <div class="progress" data-percent="{{ $project->getLastCompletedInspectionScoreByCategory('Social Media') }}">
-                                <div class="progress__bar"></div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </section>

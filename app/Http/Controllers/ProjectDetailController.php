@@ -4,11 +4,11 @@ namespace Suitcoda\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Suitcoda\Events\ProjectWatcher;
+use Suitcoda\Model\Category;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\Project;
 use Suitcoda\Model\Scope;
 use Suitcoda\Pagination\CustomPresenter;
-use Suitcoda\Supports\CalculateScore;
 
 class ProjectDetailController extends BaseController
 {
@@ -51,12 +51,13 @@ class ProjectDetailController extends BaseController
      * @param  string $key []
      * @return \Illuminate\Http\Response
      */
-    public function activity($key, CalculateScore $calc)
+    public function activity($key, Category $category)
     {
         $project = $this->find($key);
         $active = 1;
+        $categories = $category->get();
 
-        return view('detail_activity', compact('project', 'active'));
+        return view('detail_activity', compact('project', 'active', 'categories'));
     }
 
     /**

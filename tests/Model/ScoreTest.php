@@ -94,4 +94,12 @@ class ScoreTest extends TestCase
 
         $this->assertInstanceOf(Score::class, $score->findOrNewByRelatedId($inspectionFaker->id, $categoryFaker->id));
     }
+
+    public function testGetScoreAttribute()
+    {
+        $scoreFaker = factory(Score::class)->create([
+            'score' => 0.7
+        ]);
+        $this->assertEquals(70, $scoreFaker->score);
+    }
 }

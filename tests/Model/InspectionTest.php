@@ -182,10 +182,11 @@ class InspectionTest extends TestCase
 
         $inspectionFaker = factory(Inspection::class)->create();
         factory(Score::class)->create([
-            'inspection_id' => $inspectionFaker->id
+            'inspection_id' => $inspectionFaker->id,
+            'score' => 0.7
         ]);
 
-        $this->assertEquals('7%', $inspectionFaker->getScoreByCategory('test'));
+        $this->assertEquals('70%', $inspectionFaker->getScoreByCategory('test'));
     }
 
     /**
@@ -251,8 +252,41 @@ class InspectionTest extends TestCase
     public function testGetScore()
     {
         $inspectionFaker = factory(Inspection::class)->create([
-            'score' => 100
+            'score' => 1
         ]);
         $this->assertEquals(100, $inspectionFaker->score);
+    }
+
+    public function testIsWaiting()
+    {
+        $inspectionFaker = factory(Inspection::class)->create([
+            'status' => 0
+        ]);
+
+        $this->assertTrue($inspectionFaker->isWaiting());
+        $this->assertFalse($inspectionFaker->isProgress());
+        $this->assertFalse($inspectionFaker->isCompleted());
+    }
+
+    public function testIsProgress()
+    {
+        $inspectionFaker = factory(Inspection::class)->create([
+            'status' => 1
+        ]);
+
+        $this->assertFalse($inspectionFaker->isWaiting());
+        $this->assertTrue($inspectionFaker->isProgress());
+        $this->assertFalse($inspectionFaker->isCompleted());
+    }
+
+    public function testIsCompleted()
+    {
+        $inspectionFaker = factory(Inspection::class)->create([
+            'status' => 2
+        ]);
+
+        $this->assertFalse($inspectionFaker->isWaiting());
+        $this->assertFalse($inspectionFaker->isProgress());
+        $this->assertTrue($inspectionFaker->isCompleted());
     }
 }

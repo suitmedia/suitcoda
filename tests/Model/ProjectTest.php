@@ -3,10 +3,10 @@
 namespace SuitTests\Model;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Mockery;
 use SuitTests\TestCase;
 use Suitcoda\Model\Inspection;
 use Suitcoda\Model\Issue;
-use Suitcoda\Model\JobInspect;
 use Suitcoda\Model\Project;
 use Suitcoda\Model\Score;
 use Suitcoda\Model\User;
@@ -185,9 +185,9 @@ class ProjectTest extends TestCase
         factory(Inspection::class)->create([
             'project_id' => $projectFaker->id,
             'status' => 2,
-            'score' => 77.77
+            'score' => 0.7
         ]);
-        $this->assertEquals(77.77, $projectFaker->lastCompletedInspectionScore);
+        $this->assertEquals(70, $projectFaker->lastCompletedInspectionScore);
     }
 
 
@@ -207,10 +207,10 @@ class ProjectTest extends TestCase
                 'status' => 2
             ])->id,
             'category_id' => 1,
-            'score' => 77.77
+            'score' => 0.7
         ]);
-        $this->assertEquals(77.77, $projectFaker->getLastCompletedInspectionScoreByCategory('SEO'));
-        $this->assertEquals('-', $projectFaker->getLastCompletedInspectionScoreByCategory('Performance'));
+        $this->assertEquals(70, $projectFaker->getLastCompletedInspectionScoreByCategory('seo'));
+        $this->assertEquals('-', $projectFaker->getLastCompletedInspectionScoreByCategory('performance'));
     }
 
     /**
@@ -229,8 +229,8 @@ class ProjectTest extends TestCase
             ])->id,
             'scope_id' => 1,
         ]);
-        $this->assertEquals(1, $projectFaker->getLastCompletedInspectionIssueByCategory('SEO'));
-        $this->assertEquals('-', $projectFaker->getLastCompletedInspectionIssueByCategory('Performance'));
+        $this->assertEquals(1, $projectFaker->getLastCompletedInspectionIssueByCategory('seo'));
+        $this->assertEquals('-', $projectFaker->getLastCompletedInspectionIssueByCategory('performance'));
     }
 
     /**
@@ -253,5 +253,87 @@ class ProjectTest extends TestCase
         ]);
 
         $projectFaker->getJsonData();
+    }
+
+    public function testGetLastInspectionScoreWithScore()
+    {
+        $inspectionFaker = factory(Inspection::class)->create([
+            'score' => 0.7
+        ]);
+        $project = Mockery::mock(Project::class . '[getLastInspection]');
+
+        $project->shouldReceive('getLastInspection')->andReturn($inspectionFaker);
+
+        $this->assertEquals('70%', $project->getLastInspectionScoreAttribute());
+    }
+
+    public function testGetLastInspectionScoreWithoutScore()
+    {
+        $project = Mockery::mock(Project::class . '[getLastInspection]');
+
+        $project->shouldReceive('getLastInspection')->andReturn(null);
+
+        $this->assertEquals('-', $project->getLastInspectionScoreAttribute());
+    }
+
+    public function testGetLastInspection()
+    {
+        $project = Mockery::mock(Project::class . '[inspections]');
+
+        $project->shouldReceive('inspections->latest->first')->andReturn(true);
+
+        $this->assertTrue($project->getLastInspection());
+    }
+
+    public function testGetLastCompletedInspection()
+    {
+        $project = Mockery::mock(Project::class . '[inspections]');
+
+        $project->shouldReceive('inspections->latestCompleted->first')->andReturn(true);
+
+        $this->assertTrue($project->getLastCompletedInspection());
+    }
+
+    public function testGetLastCompletedInspectionUrlPercentage()
+    {
+        $project = Mockery::mock(Project::class . '[getLastCompletedInspection]');
+        $inspection = Mockery::mock(Inspection::class . '[uniqueUrlIssue, uniqueUrlJob]');
+
+        $project->shouldReceive('getLastCompletedInspection')->andReturn($inspection);
+        $inspection->shouldReceive('uniqueUrlIssue')->andReturn(5);
+        $inspection->shouldReceive('uniqueUrlJob')->andReturn(10);
+
+        $this->assertEquals('5/10', $project->getLastCompletedInspectionUrlPercentageAttribute());
+    }
+
+    public function testGetLastCompletedInspectionUrlPercentageWithNullObject()
+    {
+        $project = Mockery::mock(Project::class . '[getLastCompletedInspection]');
+
+        $project->shouldReceive('getLastCompletedInspection')->andReturn(null);
+
+        $this->assertEquals('-', $project->getLastCompletedInspectionUrlPercentageAttribute());
+    }
+
+    public function testGetLastCompletedInspectionUrlPercentageByCategory()
+    {
+        $project = Mockery::mock(Project::class . '[getLastCompletedInspection]');
+        $inspection = Mockery::mock(Inspection::class . '[issues, uniqueUrlIssueByCategory, uniqueUrlJobByCategory]');
+
+        $project->shouldReceive('getLastCompletedInspection')->andReturn($inspection);
+        $inspection->shouldReceive('issues->byCategorySlug->get->isEmpty')->andReturn(false);
+        $inspection->shouldReceive('uniqueUrlIssueByCategory')->andReturn(5);
+        $inspection->shouldReceive('uniqueUrlJobByCategory')->andReturn(10);
+
+        $this->assertEquals('5/10', $project->getLastCompletedInspectionUrlPercentageByCategory('seo'));
+    }
+
+    public function testGetLastCompletedInspectionUrlPercentageByCategoryWithNullObject()
+    {
+        $project = Mockery::mock(Project::class . '[getLastCompletedInspection]');
+
+        $project->shouldReceive('getLastCompletedInspection')->andReturn(null);
+
+        $this->assertEquals('-', $project->getLastCompletedInspectionUrlPercentageByCategory('seo'));
     }
 }

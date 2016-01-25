@@ -181,15 +181,13 @@ class ProjectDetailControllerTest extends TestCase
 
         $project = Mockery::mock(Project::class);
         $inspection = Mockery::mock(Inspection::class);
-        $score = Mockery::mock(Score::class);
         $category = Mockery::mock(Category::class);
-        $calc = Mockery::mock(CalculateScore::class . '[calculate]', [$score, $category]);
         $controller = Mockery::mock(ProjectDetailController::class . '[find]', [$project, $inspection, new Scope]);
 
         $project->shouldReceive('inspections->get')->andReturn(collect([$inspectionFaker]));
-        $calc->shouldReceive('calculate');
         $controller->shouldReceive('find')->andReturn($project);
+        $category->shouldReceive('get');
 
-        $controller->activity(1, $calc);
+        $controller->activity(1, $category);
     }
 }
