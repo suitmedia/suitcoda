@@ -304,23 +304,45 @@ class Inspection extends BaseModel
         return $query->where('status', self::STATUS_ON_PROGRESS);
     }
 
+    /**
+     * Get number of unique url in issues by category
+     *
+     * @param  string $slug []
+     * @return int
+     */
     public function uniqueUrlIssueByCategory($slug)
     {
         return $this->issues()->byCategorySlug($slug)->error()->distinct()->select(['url', 'scope_id'])
                     ->get()->count();
     }
 
+    /**
+     * Get number of unique url in jobInspects by category
+     *
+     * @param  string $slug []
+     * @return int
+     */
     public function uniqueUrlJobByCategory($slug)
     {
         return $this->jobInspects()->byCategorySlug($slug)->distinct()->select(['url_id', 'scope_id'])
                     ->get()->count();
     }
 
+    /**
+     * Get number of unique url in issues
+     *
+     * @return int
+     */
     public function uniqueUrlIssue()
     {
         return $this->issues()->error()->distinct()->select(['url', 'scope_id'])->get()->count();
     }
 
+    /**
+     * Get number of unique url in jobInspects
+     *
+     * @return int
+     */
     public function uniqueUrlJob()
     {
         return $this->jobInspects()->distinct()->select(['url_id', 'scope_id'])->get()->count();
