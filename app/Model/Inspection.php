@@ -146,12 +146,12 @@ class Inspection extends BaseModel
     /**
      * Get related last inspection score by category
      *
-     * @param string $name []
+     * @param string $slug []
      * @return string
      */
-    public function getScoreByCategory($name)
+    public function getScoreByCategory($slug)
     {
-        $scoreByCategory = $this->scores()->byCategoryName($name)->first();
+        $scoreByCategory = $this->scores()->byCategorySlug($slug)->first();
         if ($scoreByCategory) {
             return $scoreByCategory->score . '%';
         }
@@ -191,7 +191,7 @@ class Inspection extends BaseModel
     public function getIssueListByCategory($category)
     {
         if ($this->isCompleted()) {
-            return $this->issues()->byCategoryName($category)->get();
+            return $this->issues()->byCategorySlug($category)->get();
         }
         return null;
     }
@@ -302,5 +302,27 @@ class Inspection extends BaseModel
     public function scopeProgress($query)
     {
         return $query->where('status', self::STATUS_ON_PROGRESS);
+    }
+
+    public function uniqueUrlIssueByCategory($slug)
+    {
+        return $this->issues()->byCategorySlug($slug)->error()->distinct()->select(['url', 'scope_id'])
+                    ->get()->count();
+    }
+
+    public function uniqueUrlJobByCategory($slug)
+    {
+        return $this->jobInspects()->byCategorySlug($slug)->distinct()->select(['url_id', 'scope_id'])
+                    ->get()->count();
+    }
+
+    public function uniqueUrlIssue()
+    {
+        return $this->issues()->error()->distinct()->select(['url', 'scope_id'])->get()->count();
+    }
+
+    public function uniqueUrlJob()
+    {
+        return $this->jobInspects()->distinct()->select(['url_id', 'scope_id'])->get()->count();
     }
 }

@@ -34,12 +34,8 @@ class CalculateScore
     public function calculate(Inspection $inspection)
     {
         foreach ($inspection->scopeList as $category) {
-            $uniqueUrlInIssues = $inspection->issues()->byCategorySlug($category->slug)->error()->distinct()
-                                            ->select(['url', 'scope_id'])->get()
-                                            ->count();
-            $uniqueUrlInJobs = $inspection->jobInspects()->byCategorySlug($category->slug)->distinct()
-                                          ->select(['url_id', 'scope_id'])->get()
-                                          ->count();
+            $uniqueUrlInIssues = $inspection->uniqueUrlIssueByCategory($category->slug);
+            $uniqueUrlInJobs = $inspection->uniqueUrlJobByCategory($category->slug);
             $errorRate = $uniqueUrlInIssues / $uniqueUrlInJobs;
 
             $score = $this->score->findOrNewByRelatedId($inspection->getKey(), $category->getKey());
@@ -49,8 +45,8 @@ class CalculateScore
             $score->save();
         }
 
-        $alUniqueUrlInIssues = $inspection->issues()->error()->distinct()->select(['url', 'scope_id'])->get()->count();
-        $alUniqueUrlInJobs = $inspection->jobInspects()->distinct()->select(['url_id', 'scope_id'])->get()->count();
+        $alUniqueUrlInIssues = $inspection->uniqueUrlIssue();
+        $alUniqueUrlInJobs = $inspection->uniqueUrlJob();
         $overallErrorRate = $alUniqueUrlInIssues / $alUniqueUrlInJobs;
         
         $inspection->update(['status' => 2, 'score' => round($overallErrorRate, 2)]);

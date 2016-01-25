@@ -297,11 +297,11 @@ class ProjectTest extends TestCase
     public function testGetLastCompletedInspectionUrlPercentage()
     {
         $project = Mockery::mock(Project::class . '[getLastCompletedInspection]');
-        $inspection = Mockery::mock(Inspection::class . '[issues, jobInspects]');
+        $inspection = Mockery::mock(Inspection::class . '[uniqueUrlIssue, uniqueUrlJob]');
 
         $project->shouldReceive('getLastCompletedInspection')->andReturn($inspection);
-        $inspection->shouldReceive('issues->error->distinct->select->get->count')->andReturn(5);
-        $inspection->shouldReceive('jobInspects->distinct->select->get->count')->andReturn(10);
+        $inspection->shouldReceive('uniqueUrlIssue')->andReturn(5);
+        $inspection->shouldReceive('uniqueUrlJob')->andReturn(10);
 
         $this->assertEquals('5/10', $project->getLastCompletedInspectionUrlPercentageAttribute());
     }
@@ -318,12 +318,12 @@ class ProjectTest extends TestCase
     public function testGetLastCompletedInspectionUrlPercentageByCategory()
     {
         $project = Mockery::mock(Project::class . '[getLastCompletedInspection]');
-        $inspection = Mockery::mock(Inspection::class . '[issues, jobInspects]');
+        $inspection = Mockery::mock(Inspection::class . '[issues, uniqueUrlIssueByCategory, uniqueUrlJobByCategory]');
 
         $project->shouldReceive('getLastCompletedInspection')->andReturn($inspection);
         $inspection->shouldReceive('issues->byCategorySlug->get->isEmpty')->andReturn(false);
-        $inspection->shouldReceive('issues->byCategorySlug->error->distinct->select->get->count')->andReturn(5);
-        $inspection->shouldReceive('jobInspects->byCategorySlug->distinct->select->get->count')->andReturn(10);
+        $inspection->shouldReceive('uniqueUrlIssueByCategory')->andReturn(5);
+        $inspection->shouldReceive('uniqueUrlJobByCategory')->andReturn(10);
 
         $this->assertEquals('5/10', $project->getLastCompletedInspectionUrlPercentageByCategory('seo'));
     }

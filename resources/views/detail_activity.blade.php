@@ -58,20 +58,13 @@
                                         </div>
                                         <div class="box-testing__percent">
                                             <span>
-                                                <b>Error Rate : </b> {{ $inspection->score }}
+                                                <b>Error Rate : </b> {{ $inspection->score . ($inspection->score == '-' ? '' : '%') }}
                                             </span>
-                                            <span>
-                                                <b>Performance : </b> {{ $inspection->getScoreByCategory('Performance') }}
-                                            </span>
-                                            <span>
-                                                <b>Code Quality : </b> {{ $inspection->getScoreByCategory('Code Quality') }}
-                                            </span>
-                                            <span>
-                                                <b>SEO : </b> {{ $inspection->getScoreByCategory('SEO') }}
-                                            </span>
-                                            <span>
-                                                <b>Social Media : </b> {{ $inspection->getScoreByCategory('Social Media') }}
-                                            </span>
+                                            @foreach ($categories as $category)
+                                                <span>
+                                                    <b>{{ $category->name }} : </b> {{ $inspection->getScoreByCategory($category->slug) }}
+                                                </span>
+                                            @endforeach
                                         </div>
                                     </a>
                                 </li>
@@ -94,54 +87,20 @@
                                 <div class="progress__bar"></div>
                             </div>
                         </div>
-                        <div class="block cf">
-                            <div class="progress-title">
-                                <b>
-                                    Performance 
-                                    <span class="text-red">({{ $project->getLastCompletedInspectionUrlPercentageByCategory('performance') }})</span> 
-                                </b> 
-                                <span class="float-right">{{ $project->getLastCompletedInspectionScoreByCategory('performance') }}%</span>
+                        @foreach ($categories as $category)
+                            <div class="block cf">
+                                <div class="progress-title">
+                                    <b>
+                                        {{ $category->name }}
+                                        <span class="text-red">({{ $project->getLastCompletedInspectionUrlPercentageByCategory($category->slug) }})</span> 
+                                    </b> 
+                                    <span class="float-right">{{ $project->getLastCompletedInspectionScoreByCategory($category->slug) }}%</span>
+                                </div>
+                                <div class="progress" data-percent="{{ $project->getLastCompletedInspectionScoreByCategory($category->slug) }}">
+                                    <div class="progress__bar"></div>
+                                </div>
                             </div>
-                            <div class="progress" data-percent="{{ $project->getLastCompletedInspectionScoreByCategory('performance') }}">
-                                <div class="progress__bar"></div>
-                            </div>
-                        </div>
-                        <div class="block cf">
-                            <div class="progress-title">
-                                <b>
-                                    Code Quality 
-                                    <span class="text-red">({{ $project->getLastCompletedInspectionUrlPercentageByCategory('code-quality') }})</span> 
-                                </b> 
-                                <span class="float-right">{{ $project->getLastCompletedInspectionScoreByCategory('code-quality') }}%</span>
-                            </div>
-                            <div class="progress" data-percent="{{ $project->getLastCompletedInspectionScoreByCategory('code-quality') }}">
-                                <div class="progress__bar"></div>
-                            </div>
-                        </div>
-                        <div class="block cf">
-                            <div class="progress-title">
-                                <b>
-                                    SEO 
-                                    <span class="text-red">({{ $project->getLastCompletedInspectionUrlPercentageByCategory('seo') }})</span> 
-                                </b> 
-                                <span class="float-right">{{ $project->getLastCompletedInspectionScoreByCategory('seo') }}%</span>
-                            </div>
-                            <div class="progress" data-percent="{{ $project->getLastCompletedInspectionScoreByCategory('seo') }}">
-                                <div class="progress__bar"></div>
-                            </div>
-                        </div>
-                        <div class="block cf">
-                            <div class="progress-title">
-                                <b>
-                                    Social Media 
-                                    <span class="text-red">({{ $project->getLastCompletedInspectionUrlPercentageByCategory('social-media') }})</span> 
-                                </b> 
-                                <span class="float-right">{{ $project->getLastCompletedInspectionScoreByCategory('social-media') }}%</span>
-                            </div>
-                            <div class="progress" data-percent="{{ $project->getLastCompletedInspectionScoreByCategory('social-media') }}">
-                                <div class="progress__bar"></div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </section>
