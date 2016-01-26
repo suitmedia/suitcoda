@@ -11,6 +11,10 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlerUrl
 {
+    const HTML = 'html';
+    const JS = 'js';
+    const CSS = 'css';
+
     /**
      * Stores the base url of current crawling session
      *
@@ -239,7 +243,7 @@ class CrawlerUrl
      */
     public function checkNotInList($url, &$siteLink)
     {
-        if (!in_array($url, array_pluck($siteLink, 'url')) &&
+        if (!in_array($url, array_pluck($siteLink, self::HTML)) &&
             !in_array($url, $this->siteBrokenLink) &&
             !in_array($url, $this->siteRedirectLink)) {
             return true;
@@ -347,7 +351,7 @@ class CrawlerUrl
                 $compressedContent = gzdeflate($bodyContent);
                 $this->crawler->addHtmlContent($bodyContent);
                 $urlInfo = [
-                    'type' => 'url',
+                    'type' => self::HTML,
                     'url' => $effectiveUrl,
                     'title' => '',
                     'titleTag' => '',
@@ -463,15 +467,11 @@ class CrawlerUrl
      */
     public function getExtension($url)
     {
-        $extensions = [
-            'css',
-            'js'
-        ];
-
-        foreach ($extensions as $ext) {
-            if (str_contains(pathinfo($url, PATHINFO_EXTENSION), $ext)) {
-                return $ext;
-            }
+        if (str_contains(pathinfo($url, PATHINFO_EXTENSION), self::JS)) {
+            return self::JS;
+        }
+        if (str_contains(pathinfo($url, PATHINFO_EXTENSION), self::CSS)) {
+            return self::CSS;
         }
         return null;
     }

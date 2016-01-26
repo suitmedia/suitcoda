@@ -206,7 +206,7 @@ class CrawlerUrlTest extends TestCase
         $crawl = new CrawlerUrl($client, $domCrawler);
         $crawl->doRequest('http://example.com');
         $this->assertEquals([[
-            'type' => 'url',
+            'type' => 'html',
             'url' => 'http://example.com',
             'title' => '',
             'titleTag' => '',
@@ -254,7 +254,7 @@ class CrawlerUrlTest extends TestCase
         $crawl = new CrawlerUrl($client, $domCrawler);
         $crawl->doRequest('http://example.com');
         $this->assertEquals([[
-            'type' => 'url',
+            'type' => 'html',
             'url' => 'http://example.com',
             'title' => 'Example Domain',
             'titleTag' => '<title>Example Domain</title>',

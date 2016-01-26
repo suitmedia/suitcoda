@@ -7,6 +7,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Suitcoda\Events\ProjectWatcher;
 use Suitcoda\Model\JobInspect;
 use Suitcoda\Supports\CommandLineGenerator;
+use Suitcoda\Supports\CrawlerUrl;
 
 class JobGenerator implements ShouldQueue
 {
@@ -15,9 +16,9 @@ class JobGenerator implements ShouldQueue
     protected $job;
 
     protected $typeList = [
-        'url',
-        'css',
-        'js'
+        CrawlerUrl::HTML,
+        CrawlerUrl::CSS,
+        CrawlerUrl::JS
     ];
 
     /**
