@@ -55,7 +55,7 @@
                                         <span class="fa"></span>
                                     </button>
                                     <div class="issue__code">
-<pre class="line-numbers" data-line="30-35">
+<pre class="line-numbers" data-start="30" data-line="5">
 <code class="language-javascript">
 (function(){
 
