@@ -1305,6 +1305,9 @@ a.box {
   -webkit-transition: all 500ms ease;
           transition: all 500ms ease; }
 
+.issue__code .line-highlight {
+  border: 1px solid white; }
+
 .search {
   position: relative; }
 
