@@ -15,7 +15,8 @@
         "guzzlehttp/guzzle": "^6.1",
         "sabre/uri": "1.0.*",
         "webmozart/json": "1.0.*",
-        "jenssegers/rollbar": "^1.4.5"
+        "jenssegers/rollbar": "^1.4.5",
+        "sentry/sentry-laravel": "^0.3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
