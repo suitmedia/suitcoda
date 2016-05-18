@@ -141,6 +141,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Illuminate\Html\HtmlServiceProvider::class,
         Jenssegers\Rollbar\RollbarServiceProvider::class,
+        Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -200,6 +201,7 @@ return [
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Form'      => Illuminate\Html\FormFacade::class,
         'HTML'      => Illuminate\Html\HtmlFacade::class,
+        'Sentry'    => Sentry\SentryLaravel\SentryFacade::class,
 
     ],
 
