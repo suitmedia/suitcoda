@@ -69,4 +69,25 @@ class HandlerTest extends TestCase
 
         $this->assertEquals(null, $result);
     }
+
+    /**
+     * Report Exception
+     *
+     * Information:
+     * We can not provide better testing for Handler::report()
+     * because parent::report() do not return anything.
+     * Ref: Illuminate\Foundation\Exceptions\Handler
+     */
+    public function testReportWithException()
+    {
+        $log = Mockery::mock('Illuminate\Log\Writer');
+        $log->shouldReceive('error');
+        $handler = new Handler($log);
+
+        $exception = new Exception('My test exception');
+
+        $result = $handler->report($exception);
+
+        $this->assertEquals(null, $result);
+    }
 }
