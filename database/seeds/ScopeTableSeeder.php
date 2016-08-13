@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Suitcoda\Model\Category;
 use Suitcoda\Model\Scope;
+use Suitcoda\Supports\CrawlerUrl;
 
 class ScopeTableSeeder extends Seeder
 {
@@ -26,12 +27,12 @@ class ScopeTableSeeder extends Seeder
         ];
 
         foreach ($scopesList as $name => $category) {
-            if (strcmp($name, 'css') == 0) {
-                $type = 'css';
-            } elseif (strcmp($name, 'js') == 0) {
-                $type = 'js';
+            if (strcmp($name, CrawlerUrl::CSS) == 0) {
+                $type = CrawlerUrl::CSS;
+            } elseif (strcmp($name, CrawlerUrl::JS) == 0) {
+                $type = CrawlerUrl::JS;
             } else {
-                $type = 'url';
+                $type = CrawlerUrl::HTML;
             }
             factory(Scope::class, 'seeder')->create([
                 'name' => $name,
