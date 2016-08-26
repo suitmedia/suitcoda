@@ -289,23 +289,23 @@ class CrawlerUrl
     /**
      * Function to get all link url, css and js from a url
      *
-     * @param  array  $currentUrl []
+     * @param  string  $currentUrl []
      * @param  array  $lists []
      * @param  array  $siteLink []
      * @param  int    $recursive []
      *
      * @return void
      */
-    protected function getAllLink($currentUrl, $lists, &$siteLink, $recursive = 0)
+    public function getAllLink($currentUrl, $lists, &$siteLink, $recursive = 0)
     {
         foreach ($lists as $list) {
             if (!$list || !$this->checkIfCrawlable($list)) {
                 continue;
             }
-            
             $list = $this->encodeUrl(preg_replace('/(\.\.\/)+/', '/', $list));
             $list = Uri\resolve($currentUrl, $list);
-            if ($this->checkIfExternal($list) || !$this->checkNotInList($list, $siteLink)) {
+            if ($this->checkIfExternal($list) || !$this->checkNotInList($list, $siteLink) ||
+                $this->checkExternalJs($list)) {
                 continue;
             }
             if (!$recursive && $this->getExtension($list)) {
@@ -521,5 +521,20 @@ class CrawlerUrl
             return parse_url($url, PHP_URL_SCHEME) . '://' . $qMarkImplode;
         }
         return $qMarkImplode;
+    }
+
+    /**
+     * Check external js
+     * Ex : modernizer.js
+     *
+     * @param  string $path []
+     * @return bool
+     */
+    public function checkExternalJs($path)
+    {
+        if (str_contains($path, "js/vendor")) {
+            return true;
+        }
+        return false;
     }
 }

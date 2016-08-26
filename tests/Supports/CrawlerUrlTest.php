@@ -87,6 +87,23 @@ class CrawlerUrlTest extends TestCase
     }
 
     /**
+     * Test continue if js is from external assets
+     *
+     * @return void
+     */
+    public function testCheckExternalJs()
+    {
+        $client = $this->getMockClient()->makePartial();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+        
+        $crawl = new CrawlerUrl($client, $domCrawler);
+
+        $this->assertTrue($crawl->checkExternalJs('http://example/assets/js/vendor/modernizer.js'));
+        $this->assertTrue($crawl->checkExternalJs('http://example/assets/js/vendor/test.js'));
+        $this->assertFalse($crawl->checkExternalJs('http://example/assets/js/main.js'));
+    }
+
+    /**
      * Test continue if url can be crawl
      *
      * @return void
@@ -460,6 +477,31 @@ class CrawlerUrlTest extends TestCase
         $result = $crawl->doRequest('https://www.google.co.id/images/branding/product/ico/googleg_lodp.ico');
 
         $this->assertNull($result);
+    }
+
+    /**
+     * Test getAllLink with external url
+     *
+     * @return void
+     */
+    public function testGetAllLinkInExternalJs()
+    {
+        $array = [];
+        $url = 'http://example.com';
+        $client = $this->getMockClient()->makePartial();
+        $domCrawler = $this->getMockDomCrawler()->makePartial();
+        
+        $crawl = Mockery::mock(
+            CrawlerUrl::class . '[encodeUrl, checkIfExternal, checkNotInList, checkExternalJs]',
+            [$client, $domCrawler]
+        );
+
+        $crawl->shouldReceive('encodeUrl')->andReturn($url);
+        $crawl->shouldReceive('checkIfExternal')->andReturn(false);
+        $crawl->shouldReceive('checkNotInList')->andReturn(false);
+        $crawl->shouldReceive('checkExternalJs')->andReturn(true);
+
+        $crawl->getAllLink($url, ['a', 'b'], $array);
     }
 
     /**
