@@ -50,7 +50,7 @@ $factory->define(User::class, function ($faker) {
         'username' => $faker->sentence($nbWords = 3),
         'email' => $faker->email,
         'password' => bcrypt($faker->word),
-        'name' => $faker->name,
+        'name' => $faker->word,
         'slug' => $faker->slug,
         'is_admin' => $faker->boolean,
         'is_active' => true,
